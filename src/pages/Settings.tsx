@@ -1,5 +1,11 @@
+import Heading from "../ui/Heading";
+
 function Settings() {
-  return <div>Settings</div>;
+  return (
+    <div>
+      <Heading title="Einstellungen" />
+    </div>
+  );
 }
 
 export default Settings;

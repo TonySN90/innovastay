@@ -1,5 +1,11 @@
+import Heading from "../ui/Heading";
+
 function Cabins() {
-  return <div>Cabins</div>;
+  return (
+    <div>
+      <Heading title="Zimmer" />
+    </div>
+  );
 }
 
 export default Cabins;
