@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* color: #ffff; */
-}
-
 *,
 *::before,
 *::after {
@@ -20,4 +16,9 @@
 body {
   font-family: "Poppins", sans-serif;
   font-size: 1.1rem;
+}
+
+.active {
+  transition: all 0.2s;
+  color: #6366f1;
 }
