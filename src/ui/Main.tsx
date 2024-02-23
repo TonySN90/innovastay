@@ -3,7 +3,7 @@ import MainContent from "./MainContent";
 
 function Main({ children }) {
   return (
-    <main>
+    <main className="bg-gray-100 h-[100%]">
       <Heading />
       <MainContent content={children} />
     </main>

@@ -1,5 +1,5 @@
 function Header() {
-  return <div>Header</div>;
+  return <header className="h-[5rem] bg-stone-50 flex">Header</header>;
 }
 
 export default Header;

@@ -5,12 +5,14 @@ import Sidebar from "./Sidebar";
 
 function AppLayout() {
   return (
-    <div>
-      <Header />
+    <div className="flex">
       <Sidebar />
-      <Main>
-        <Outlet />
-      </Main>
+      <div className="flex flex-col w-full">
+        <Header />
+        <Main>
+          <Outlet />
+        </Main>
+      </div>
     </div>
   );
 }

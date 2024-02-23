@@ -1,6 +1,4 @@
 function MainContent({ content }) {
-  console.log(content);
-
   return <div>{content}</div>;
 }
 
