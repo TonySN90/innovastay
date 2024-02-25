@@ -1,10 +1,12 @@
 import Heading from "../ui/Heading";
+import Table from "../ui/Table";
 
 function Cabins() {
   return (
-    <div>
+    <>
       <Heading title="Zimmer" />
-    </div>
+      <Table />
+    </>
   );
 }
 
