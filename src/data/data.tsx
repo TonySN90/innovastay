@@ -1,4 +1,4 @@
-const data = [
+export const cabinsData = [
   {
     cabin: "01",
     capacity: 2,
@@ -36,4 +36,21 @@ const data = [
   },
 ];
 
-export default data;
+export const bookingsData = [
+  {
+    bookingId: "5546",
+    cabin: "01",
+    guest: "Olaf Scholz",
+    email: "olafscholz@bundeskanzler.de",
+    startDate: "27.02.2024",
+    endDate: "03.01.2024",
+    numNights: 6,
+    numGuests: 2,
+    cabinPrice: 1320,
+    extrasPrice: 300,
+    status: "unconfirmed",
+    hasBreakfast: true,
+    isPaid: false,
+    totalPrice: 2000,
+  },
+];

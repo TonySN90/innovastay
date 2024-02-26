@@ -1,6 +1,4 @@
-import data from "../data/data";
-
-function Table({ children, tableStyles }) {
+function Table({ children }) {
   return <table className="w-[100%] rounded mb-4">{children}</table>;
 }
 
@@ -23,7 +21,7 @@ function Header({ specialStyles, content }) {
   );
 }
 
-function Body({ render }) {
+function Body({ render, data }) {
   return <tbody>{data.map(render)}</tbody>;
 }
 
