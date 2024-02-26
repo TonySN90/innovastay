@@ -1,15 +1,27 @@
-function Table({ children }) {
-  return <table className="w-[100%] rounded mb-4">{children}</table>;
+import { createContext, useContext } from "react";
+
+const tableContext = createContext();
+
+function Table({ children, columns, columnSpace }) {
+  return (
+    <tableContext.Provider value={{ columns, columnSpace }}>
+      <table className="w-[100%] rounded mb-4 text-sm">{children}</table>
+    </tableContext.Provider>
+  );
 }
 
-function Header({ specialStyles, content }) {
+function Header({ content }) {
+  const { columns, columnSpace } = useContext(tableContext);
+  console.log(columnSpace);
   return (
     <thead>
-      <tr className="grid grid-cols-5 md:grid-cols-7 text-left hyphens-manual p-3 gap-4 bg-indigo-200">
+      <tr
+        className={`grid ${columns} text-left hyphens-manual p-3 gap-4 bg-indigo-200`}
+      >
         {content.map((el, i) => (
           <th
             className={`flex items-center font-semibold uppercase text-gray-700 ${
-              specialStyles[i] ? specialStyles[i] : ""
+              columnSpace[i] ? columnSpace[i] : ""
             }`}
             key={el}
           >

@@ -1,15 +1,39 @@
-import Button from "../../ui/Button";
 import Table from "../../ui/Table";
 import BookingsRow from "./BookingsRow";
 import { bookingsData } from "../../data/data";
+import { useEffect, useState } from "react";
 
 function BookingsTable() {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const updateWindowSize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", updateWindowSize);
+
+    return () => {
+      window.removeEventListener("resize", updateWindowSize);
+    };
+  }, []);
+
   return (
     <>
-      <Table>
+      <Table
+        columns="grid-cols-12 md:grid-cols-12"
+        columnSpace={{
+          1: "col-span-4 xl:col-span-3",
+          2: "col-span-2",
+          3: "col-span-2",
+        }}
+      >
         <Table.Header
-          content={["Zimmer", "Gast", "Datum", "Status", "Endbetrag"]}
-          specialStyles={{ 2: "col-span-2" }}
+          content={
+            windowWidth > 768
+              ? ["Zimmer", "Gast", "Datum", "Status", "Endbetrag"]
+              : ["Buchungsinformationen"]
+          }
         />
         <Table.Body
           data={bookingsData}
