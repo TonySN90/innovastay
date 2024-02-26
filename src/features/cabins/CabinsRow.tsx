@@ -1,5 +1,5 @@
 import { HiListBullet } from "react-icons/hi2";
-import ButtonIcon from "./ButtonIcon";
+import ButtonIcon from "../../ui/ButtonIcon";
 
 function TableRow({ cabin }) {
   const { cabin: cabinNumber, capacity, price, discount, img } = cabin;

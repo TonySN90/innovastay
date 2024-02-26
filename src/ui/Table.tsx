@@ -1,22 +1,38 @@
 import data from "../data/data";
-import TableRow from "./TableRow";
-import TableHeader from "./TableHeader";
-import Button from "./Button";
 
-function Table() {
+function Table({ children, tableStyles }) {
+  return <table className="w-[100%] rounded mb-4">{children}</table>;
+}
+
+function Header({ specialStyles, content }) {
   return (
-    <>
-      <table className=" w-[100%] rounded mb-4">
-        <TableHeader />
-        <tbody>
-          {data.map((cabin) => (
-            <TableRow cabin={cabin} key={cabin.cabin} />
-          ))}
-        </tbody>
-      </table>
-      <Button type="big" />
-    </>
+    <thead>
+      <tr className="grid grid-cols-5 md:grid-cols-7 text-left hyphens-manual p-3 gap-4 bg-indigo-200">
+        {content.map((el, i) => (
+          <th
+            className={`flex items-center font-semibold uppercase text-gray-700 ${
+              specialStyles[i] ? specialStyles[i] : ""
+            }`}
+            key={el}
+          >
+            {el}
+          </th>
+        ))}
+      </tr>
+    </thead>
   );
 }
+
+function Body({ render }) {
+  return <tbody>{data.map(render)}</tbody>;
+}
+
+function Footer() {
+  return;
+}
+
+Table.Header = Header;
+Table.Body = Body;
+Table.Footer = Footer;
 
 export default Table;

@@ -1,11 +1,11 @@
+import CabinsTable from "../features/cabins/CabinsTable";
 import Heading from "../ui/Heading";
-import Table from "../ui/Table";
 
 function Cabins() {
   return (
     <>
       <Heading title="Zimmer" />
-      <Table />
+      <CabinsTable />
     </>
   );
 }
