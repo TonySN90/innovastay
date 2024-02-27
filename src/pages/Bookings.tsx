@@ -3,10 +3,10 @@ import Heading from "../ui/Heading";
 
 function Bookings() {
   return (
-    <div>
+    <>
       <Heading title="Buchungen" />
       <BookingsTable />
-    </div>
+    </>
   );
 }
 

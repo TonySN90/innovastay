@@ -22,3 +22,12 @@ body {
   transition: all 0.2s;
   color: #6366f1;
 }
+
+#reactSchedulerOutsideWrapper {
+  height: 500px;
+  /* width: 100%; */
+  overflow: hidden;
+  border: 1px solid #6365f142;
+  border-radius: 10px;
+  background-color: transparent;
+}

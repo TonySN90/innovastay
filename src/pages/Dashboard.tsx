@@ -1,9 +1,11 @@
+import BookingTimeline from "../ui/BookingTimeline";
 import Heading from "../ui/Heading";
 
 function Dashboard() {
   return (
-    <div>
+    <div className="absolute w-[100%] md:w-[70%]">
       <Heading title="Dashboard" />
+      <BookingTimeline />
     </div>
   );
 }

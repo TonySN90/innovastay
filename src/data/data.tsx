@@ -1,3 +1,5 @@
+import { SchedulerData } from "@bitnoi.se/react-scheduler";
+
 export const cabinsData = [
   {
     cabin: "01",
@@ -84,5 +86,48 @@ export const bookingsData = [
     hasBreakfast: true,
     isPaid: false,
     totalPrice: 1800,
+  },
+];
+
+export const mockedSchedulerData: SchedulerData = [
+  {
+    id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+    label: {
+      icon: "https://picsum.photos/24",
+      title: "Zimmer 1",
+      subtitle: "Doppelzimmer",
+    },
+    data: [
+      {
+        id: "8b71a8a5-33dd-4fc8-9caa-b4a584ba3762",
+        startDate: new Date("2024-02-27T15:31:24.272Z"),
+        endDate: new Date("2024-03-01T10:28:22.649Z"),
+        occupancy: 3600,
+        title: "Olaf Scholz",
+        subtitle: "2 Gäste",
+        description: "olafscholz@bundeskanzler.de",
+        bgColor: "#6366f1",
+      },
+    ],
+  },
+  {
+    id: "070ac5b5-8369-4cd2-8ba2-0a2567570cc60",
+    label: {
+      icon: "https://picsum.photos/25",
+      title: "Zimmer 2",
+      subtitle: "Doppelzimmer",
+    },
+    data: [
+      {
+        id: "8b71a8a5-33dd-4fc8-9caa-b4a7567ba3762",
+        startDate: new Date("2024-02-28T15:31:24.272Z"),
+        endDate: new Date("2024-03-14T10:28:22.649Z"),
+        occupancy: 3600,
+        title: "Olaf Scholz",
+        subtitle: "2 Gäste",
+        description: "olafscholz@bundeskanzler.de",
+        bgColor: "#6366f1",
+      },
+    ],
   },
 ];
