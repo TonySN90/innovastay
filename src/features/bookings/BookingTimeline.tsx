@@ -1,12 +1,12 @@
 import { Scheduler } from "@bitnoi.se/react-scheduler";
 import { useState } from "react";
-import { mockedSchedulerData } from "../data/data";
+import { mockedSchedulerData } from "../../data/data";
 
 export default function Component() {
   const [filterButtonState, setFilterButtonState] = useState(0);
 
   return (
-    <section className="w-5">
+    <section>
       <Scheduler
         data={mockedSchedulerData}
         // isLoading={isLoading}
@@ -22,7 +22,7 @@ export default function Component() {
           setFilterButtonState(0);
         }}
         config={{
-          zoom: 15,
+          zoom: 1,
           filterButtonState,
         }}
       />

@@ -12,7 +12,6 @@ function Table({ children, columns, columnSpace }) {
 
 function Header({ content }) {
   const { columns, columnSpace } = useContext(tableContext);
-  console.log(columnSpace);
   return (
     <thead>
       <tr
