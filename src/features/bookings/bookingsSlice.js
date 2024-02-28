@@ -1,11 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
+const initialState = {
+  bookingsView: "schedule",
+};
 
 const bookingsSlice = createSlice({
   name: "bookings",
   initialState,
-  reducers: {},
+  reducers: {
+    updateBookingsView: (state, action) => {
+      state.bookingsView = action.payload;
+    },
+  },
 });
 
+export const { updateBookingsView } = bookingsSlice.actions;
 export default bookingsSlice.reducer;
