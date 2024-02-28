@@ -8,9 +8,7 @@ function HeaderAvatar() {
         src="avatar.jpeg"
         alt="Avatar des Nutzers"
       />
-      <span className="flex justify-center items-center">
-        Bronko Fladenbrot
-      </span>
+      <span className="flex justify-center items-center">Tony Heider</span>
     </div>
   );
 }

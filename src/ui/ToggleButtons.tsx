@@ -4,14 +4,14 @@ function ToggleButtons({ buttonLeft, buttonRight, onClick, bookingsView }) {
   }
 
   const activeClasses = "bg-indigo-600 text-stone-50";
-  const buttonClass = "px-4 py-1 w-[100px]";
+  const buttonClass = "px-4 py-1 w-[100px] border-2 border-indigo-600";
 
   return (
-    <div className="border-2 mb-4 border-indigo-600 w-[204px] rounded-md">
+    <div className="mb-4">
       <button
         data-type="schedule"
         onClick={() => handleClick("schedule")}
-        className={`${buttonClass} ${
+        className={`rounded-l-md ${buttonClass} ${
           bookingsView === "schedule" ? activeClasses : ""
         }`}
       >
@@ -20,7 +20,7 @@ function ToggleButtons({ buttonLeft, buttonRight, onClick, bookingsView }) {
       <button
         data-type="table"
         onClick={() => handleClick("table")}
-        className={`${buttonClass} ${
+        className={`rounded-r-md ${buttonClass} ${
           bookingsView === "table" ? activeClasses : ""
         }`}
       >

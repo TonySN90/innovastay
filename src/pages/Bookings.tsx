@@ -24,11 +24,16 @@ function Bookings() {
       </div>
 
       {bookingsView === "schedule" && (
-        <div className="hidden md:block h-[600px]">
-          <div className="relative ">
-            <BookingTimeline />
+        <>
+          <span className="md:hidden">
+            Die Zeitplanansicht steht der mobilen Ansicht nicht zu Verfügung.
+          </span>
+          <div className="hidden md:block h-[600px]">
+            <div className="relative ">
+              <BookingTimeline />
+            </div>
           </div>
-        </div>
+        </>
       )}
       {bookingsView === "table" && <BookingsTable />}
     </>
