@@ -83,7 +83,7 @@ export default CreateCabinForm;
 
 function FormRow({ label, id, register, error, type }) {
   return (
-    <div className="border-b-2 border-indigo-100 min-w-[300px] md:min-w-[650px] transition-all flex flex-col md:flex-row py-4 items-center">
+    <div className="border-b-2 border-indigo-100 min-w-[300px] md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 items-center">
       <Label label={label} />
       <Input id={id} type={type} reg={register} error={error} />
     </div>

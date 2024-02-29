@@ -1,3 +1,4 @@
+import "../../styles/timeline.css";
 import { Scheduler } from "@bitnoi.se/react-scheduler";
 import { useState } from "react";
 import { mockedSchedulerData } from "../../data/data";
