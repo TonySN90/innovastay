@@ -27,7 +27,8 @@ function Open({ opens: opensWindowName }) {
   return (
     <Button
       onClick={() => open(opensWindowName)}
-      type="big"
+      type="standard"
+      size="lg"
       content="Zimmer hinzufügen"
     />
   );
@@ -39,7 +40,6 @@ function Window({ children, name }) {
 
   if (openName !== name) return null;
   return createPortal(
-    // Overlay
     <Overlay>
       <ModalBox>
         <div className="absolute right-4 top-4">
