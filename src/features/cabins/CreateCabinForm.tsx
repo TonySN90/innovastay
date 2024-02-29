@@ -8,10 +8,12 @@ function CreateCabinForm() {
     formState: { errors },
   } = useForm();
 
-  function onSubmit(e) {
+  function onSubmit(data, e) {
     e.preventDefault();
-    console.log("submit");
+    console.log(data);
   }
+
+  interface IFormRegister {}
 
   return (
     <>
@@ -36,7 +38,7 @@ function CreateCabinForm() {
             required: "Dieses Feld ist erforderlich",
             min: {
               value: 1,
-              message: "Es sollte  1 betragen",
+              message: "Es sollte 1 betragen",
             },
           }}
           error={errors?.capacity?.message}
@@ -60,7 +62,7 @@ function CreateCabinForm() {
           type="textarea"
           id="description"
           register={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.description?.message}
+          error={errors?.description?.message?.toString() || ""}
         />
         {/* <FormRow
           type="fileinput"
@@ -81,7 +83,15 @@ function CreateCabinForm() {
 
 export default CreateCabinForm;
 
-function FormRow({ label, id, register, error, type }) {
+interface IFormRowProps {
+  label: string;
+  id: string;
+  register: object;
+  error: string;
+  type: string;
+}
+
+function FormRow({ label, id, register, error, type }: IFormRowProps) {
   return (
     <div className="border-b-2 border-indigo-100 min-w-[300px] md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 items-center">
       <Label label={label} />

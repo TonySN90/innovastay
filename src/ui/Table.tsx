@@ -20,7 +20,7 @@ function Header({ content }) {
         {content.map((el, i) => (
           <th
             className={`flex items-center font-semibold uppercase text-gray-700 ${
-              columnSpace[i] ? columnSpace[i] : ""
+              columnSpace[`col${i}`] ? columnSpace[`col${i}`] : ""
             }`}
             key={el}
           >

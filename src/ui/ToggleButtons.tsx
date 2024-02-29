@@ -1,5 +1,12 @@
-function ToggleButtons({ buttonLeft, buttonRight, onClick, bookingsView }) {
-  function handleClick(type) {
+import { BookingsViewType, IToggleButtonsTypes } from "../types/BookingTypes";
+
+function ToggleButtons({
+  buttonLeft,
+  buttonRight,
+  onClick,
+  bookingsView,
+}: IToggleButtonsTypes) {
+  function handleClick(type: BookingsViewType) {
     onClick(type);
   }
 
@@ -10,18 +17,18 @@ function ToggleButtons({ buttonLeft, buttonRight, onClick, bookingsView }) {
     <div className="mb-4">
       <button
         data-type="schedule"
-        onClick={() => handleClick("schedule")}
+        onClick={() => handleClick(BookingsViewType.schedule)}
         className={`rounded-l-md ${buttonClass} ${
-          bookingsView === "schedule" ? activeClasses : ""
+          bookingsView === BookingsViewType.schedule ? activeClasses : ""
         }`}
       >
         {buttonLeft}
       </button>
       <button
         data-type="table"
-        onClick={() => handleClick("table")}
+        onClick={() => handleClick(BookingsViewType.table)}
         className={`rounded-r-md ${buttonClass} ${
-          bookingsView === "table" ? activeClasses : ""
+          bookingsView === BookingsViewType.table ? activeClasses : ""
         }`}
       >
         {buttonRight}

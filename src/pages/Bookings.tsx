@@ -3,14 +3,21 @@ import BookingsTable from "../features/bookings/BookingsTable";
 import BookingTimeline from "../features/bookings/BookingTimeline";
 import Heading from "../ui/Heading";
 import ToggleButtons from "../ui/ToggleButtons";
-import { updateBookingsView } from "../features/bookings/bookingsSlice";
+import {
+  updateBookingsView,
+  BookingsState,
+} from "../features/bookings/bookingsSlice";
+import { BookingsViewType } from "../types/BookingTypes";
 
 function Bookings() {
-  const bookingsView = useSelector((state) => state.bookings.bookingsView);
+  const bookingsView: BookingsViewType = useSelector(
+    // @ts-expect-error redux special string convert
+    (state: BookingsState) => state.bookings.bookingsView
+  );
 
   const dispatch = useDispatch();
 
-  function handleClick(buttonType) {
+  function handleClick(buttonType: BookingsViewType) {
     dispatch(updateBookingsView(buttonType));
   }
 
@@ -26,7 +33,7 @@ function Bookings() {
         />
       </div>
 
-      {bookingsView === "schedule" && (
+      {bookingsView === BookingsViewType.schedule && (
         <>
           <span className="md:hidden">
             Die Zeitplanansicht steht der mobilen Ansicht nicht zur Verfügung.
@@ -38,7 +45,7 @@ function Bookings() {
           </div>
         </>
       )}
-      {bookingsView === "table" && <BookingsTable />}
+      {bookingsView === BookingsViewType.table && <BookingsTable />}
     </>
   );
 }
