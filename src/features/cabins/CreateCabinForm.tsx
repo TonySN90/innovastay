@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
-import { FormValues, IOnSubmitType } from "../../types/FormTypes";
+import { FormValues, IFormRowProps, IInputProps } from "../../types/FormTypes";
 
 function CreateCabinForm() {
   const {
@@ -22,14 +22,14 @@ function CreateCabinForm() {
           label="Zimmername"
           type="text"
           id="name"
-          register={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.name?.message}
         />
         <FormRow
           label="Max. Personen"
           type="number"
           id="capacity"
-          register={{
+          registerProp={{
             register,
             required: "Dieses Feld ist erforderlich",
             min: {
@@ -43,21 +43,24 @@ function CreateCabinForm() {
           label="Regulärer Preis"
           type="number"
           id="price"
-          register={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{
+            register,
+            required: "Dieses Feld ist erforderlich",
+          }}
           error={errors?.price?.message}
         />
         <FormRow
           label="Angebots-Preis"
           type="number"
           id="discount"
-          register={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.discount?.message}
         />
         <FormRow
           label="Beschreibung"
           type="textarea"
           id="description"
-          register={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.description?.message?.toString() || ""}
         />
         {/* <FormRow
@@ -91,24 +94,22 @@ function CreateCabinForm() {
 
 export default CreateCabinForm;
 
-interface IFormRowProps {
-  label: string;
-  id: string;
-  register: object;
-  error: string;
-  type: string;
-}
-
-function FormRow({ label, id, register, error, type }: IFormRowProps) {
+function FormRow<T extends keyof FormValues>({
+  label,
+  id,
+  registerProp,
+  error,
+  type,
+}: IFormRowProps<T>) {
   return (
     <div className="border-b-2 border-indigo-100 min-w-[300px] md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 items-center">
       <Label label={label} />
-      <Input id={id} type={type} reg={register} error={error} />
+      <Input id={id} type={type} reg={registerProp} error={error} />
     </div>
   );
 }
 
-function Label({ label }) {
+function Label({ label }: { label: string }) {
   return (
     <label className="w-full md:w-[200px]" htmlFor={label}>
       {label}
@@ -116,7 +117,12 @@ function Label({ label }) {
   );
 }
 
-function Input({ id, reg, error, type }) {
+function Input<T extends keyof FormValues>({
+  id,
+  reg,
+  error,
+  type,
+}: IInputProps<T>) {
   const { register, required, min } = reg;
 
   return (
@@ -139,7 +145,6 @@ function Input({ id, reg, error, type }) {
       {type === "textarea" && (
         <textarea
           className="md:mr-10 w-full md:w-[220px] border border-gray-300 rounded-sm h-14 mb-1"
-          type={type}
           id={id}
           disabled={false}
           {...register(id, {
