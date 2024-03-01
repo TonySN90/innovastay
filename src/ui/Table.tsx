@@ -1,8 +1,14 @@
 import { createContext, useContext } from "react";
+import {
+  ITableTypes,
+  TableBodyProps,
+  TableHeaderProps,
+  TableProps,
+} from "../types/TableTypes";
 
-const tableContext = createContext();
+const tableContext = createContext<ITableTypes | undefined>(undefined);
 
-function Table({ children, columns, columnSpace }) {
+function Table({ children, columns, columnSpace }: TableProps) {
   return (
     <tableContext.Provider value={{ columns, columnSpace }}>
       <table className="w-[100%] rounded mb-4 text-sm">{children}</table>
@@ -10,8 +16,14 @@ function Table({ children, columns, columnSpace }) {
   );
 }
 
-function Header({ content }) {
-  const { columns, columnSpace } = useContext(tableContext);
+function Header({ content }: TableHeaderProps) {
+  const contextValues = useContext<ITableTypes | undefined>(tableContext);
+
+  if (!contextValues) {
+    return null;
+  }
+  const { columns, columnSpace } = contextValues;
+
   return (
     <thead>
       <tr
@@ -20,7 +32,7 @@ function Header({ content }) {
         {content.map((el, i) => (
           <th
             className={`flex items-center font-semibold uppercase text-gray-700 ${
-              columnSpace[`col${i}`] ? columnSpace[`col${i}`] : ""
+              columnSpace[`col${i}` as keyof typeof columnSpace] || ""
             }`}
             key={el}
           >
@@ -32,7 +44,7 @@ function Header({ content }) {
   );
 }
 
-function Body({ render, data }) {
+function Body({ render, data }: TableBodyProps) {
   return <tbody>{data.map(render)}</tbody>;
 }
 

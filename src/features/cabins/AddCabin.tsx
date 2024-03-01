@@ -6,7 +6,6 @@ function AddCabin() {
     <div>
       <Modal>
         <Modal.Open opens="cabin-form" />
-
         <Modal.Window name="cabin-form">
           <CreateCabinForm />
         </Modal.Window>

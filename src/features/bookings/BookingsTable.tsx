@@ -3,12 +3,6 @@ import BookingsRow from "./BookingsRow";
 import { bookingsData } from "../../data/data";
 import { useEffect, useState } from "react";
 
-// interface TableColumnSpace {
-//   col1: string;
-//   col2: string;
-//   col3: string;
-// }
-
 function BookingsTable() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -23,6 +17,8 @@ function BookingsTable() {
       window.removeEventListener("resize", updateWindowSize);
     };
   }, []);
+
+  console.log(bookingsData);
 
   return (
     <>

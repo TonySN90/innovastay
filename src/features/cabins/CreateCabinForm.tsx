@@ -13,7 +13,7 @@ function CreateCabinForm() {
     console.log(data);
   }
 
-  interface IFormRegister {}
+  // interface IFormRegister {}
 
   return (
     <>
