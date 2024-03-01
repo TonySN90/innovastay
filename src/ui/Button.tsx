@@ -1,5 +1,13 @@
-function Button({ onClick, type, size, content, extras = "" }) {
-  const buttonTypes = {
+import { IButtonPropsTypes, ButtonTypes } from "../types/UiTypes";
+
+function Button({
+  onClick,
+  type,
+  size,
+  content,
+  extras = "",
+}: IButtonPropsTypes) {
+  const buttonStyles: ButtonTypes = {
     basics: "border-2 rounded-lg shadow-lg hover:shadow-xl transition-all",
     md: "px-3 h-10",
     lg: "px-3 h-12",
@@ -12,7 +20,7 @@ function Button({ onClick, type, size, content, extras = "" }) {
   return (
     <button
       onClick={onClick}
-      className={`${buttonTypes.basics} ${buttonTypes[type]} ${buttonTypes[size]} ${extras}`}
+      className={`${buttonStyles.basics} ${buttonStyles[type]} ${buttonStyles[size]} ${extras}`}
     >
       {content}
     </button>

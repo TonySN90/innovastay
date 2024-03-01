@@ -1,6 +1,6 @@
 import { Booking } from "./BookingTypes";
 
-export interface ITableTypes {
+export interface ITableContextTypes {
   columns: string;
   columnSpace: {
     col1: string;
@@ -9,7 +9,7 @@ export interface ITableTypes {
   };
 }
 
-export interface TableProps extends ITableTypes {
+export interface TableProps extends ITableContextTypes {
   children: React.ReactNode;
 }
 

@@ -1,7 +1,8 @@
 import { HiListBullet } from "react-icons/hi2";
 import ButtonIcon from "../../ui/ButtonIcon";
+import { Booking } from "../../types/BookingTypes";
 
-function BookingsRow({ bookings }) {
+function BookingsRow({ bookings }: { bookings: Booking }) {
   const {
     cabin: cabinNumber,
     guest,
@@ -41,7 +42,7 @@ function BookingsRow({ bookings }) {
       </td>
       <td className="flex items-center">{totalPrice} €</td>
       <td className="flex flex-end mx-auto md:col-span-2">
-        <ButtonIcon>
+        <ButtonIcon onClick={() => console.log(guest)}>
           <HiListBullet className="w-6 h-6" />
         </ButtonIcon>
       </td>

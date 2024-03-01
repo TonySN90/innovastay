@@ -1,12 +1,12 @@
 import { createContext, useContext } from "react";
 import {
-  ITableTypes,
+  ITableContextTypes,
   TableBodyProps,
   TableHeaderProps,
   TableProps,
 } from "../types/TableTypes";
 
-const tableContext = createContext<ITableTypes | undefined>(undefined);
+const tableContext = createContext<ITableContextTypes | undefined>(undefined);
 
 function Table({ children, columns, columnSpace }: TableProps) {
   return (
@@ -17,7 +17,9 @@ function Table({ children, columns, columnSpace }: TableProps) {
 }
 
 function Header({ content }: TableHeaderProps) {
-  const contextValues = useContext<ITableTypes | undefined>(tableContext);
+  const contextValues = useContext<ITableContextTypes | undefined>(
+    tableContext
+  );
 
   if (!contextValues) {
     return null;

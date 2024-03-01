@@ -1,8 +1,8 @@
-const enum status {
-  unconfirmed = "unconfirmed",
-  confirmed = "confirmed",
-  canceled = "canceled",
-}
+// const enum status {
+//   unconfirmed = "unconfirmed",
+//   confirmed = "confirmed",
+//   canceled = "canceled",
+// }
 
 export interface Booking {
   bookingId: string;

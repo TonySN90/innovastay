@@ -1,13 +1,17 @@
-import { cloneElement, createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import Button from "./Button";
 import ModalBox from "./ModalBox";
 import { HiXMark } from "react-icons/hi2";
 import Overlay from "./Overlay";
+import {
+  IModalContextTypes,
+  IModalWindowPropsTypes,
+} from "../types/ModalTypes";
 
-const ModalContext = createContext();
+const ModalContext = createContext<IModalContextTypes | undefined>(undefined);
 
-function Modal({ children }) {
+function Modal({ children }: { children: React.ReactNode }) {
   const [openName, setOpenName] = useState("");
 
   const close = () => setOpenName("");
@@ -20,8 +24,9 @@ function Modal({ children }) {
   );
 }
 
-function Open({ opens: opensWindowName }) {
-  const { open } = useContext(ModalContext);
+function Open({ opens: opensWindowName }: { opens: string }) {
+  // @ts-expect-error ModalContext is not defined
+  const { open } = useContext<IModalContextTypes>(ModalContext) || {};
 
   //   return cloneElement(children, { onClick: () => console.log("test") });
   return (
@@ -34,8 +39,9 @@ function Open({ opens: opensWindowName }) {
   );
 }
 
-function Window({ children, name }) {
-  const { openName, close } = useContext(ModalContext);
+function Window({ children, name }: IModalWindowPropsTypes) {
+  // @ts-expect-error ModalContext is not defined
+  const { openName, close } = useContext<IModalContextTypes>(ModalContext);
   console.log(openName);
 
   if (openName !== name) return null;
