@@ -1,7 +1,8 @@
 import { HiListBullet } from "react-icons/hi2";
 import ButtonIcon from "../../ui/ButtonIcon";
+import { ICabinTypes } from "../../types/cabinTypes";
 
-function TableRow({ cabin }) {
+function TableRow({ cabin }: { cabin: ICabinTypes }) {
   const { cabin: cabinNumber, capacity, price, discount, img } = cabin;
 
   return (
@@ -18,7 +19,7 @@ function TableRow({ cabin }) {
         <img className="w-[70px]" src={img} alt="" />
       </td>
       <td className="flex flex-end mx-auto">
-        <ButtonIcon>
+        <ButtonIcon onClick={() => console.log("test")}>
           <HiListBullet className="w-6 h-6" />
         </ButtonIcon>
       </td>

@@ -1,8 +1,8 @@
 import { HiListBullet } from "react-icons/hi2";
 import ButtonIcon from "../../ui/ButtonIcon";
-import { Booking } from "../../types/BookingTypes";
+import { IBookingTypes } from "../../types/BookingTypes";
 
-function BookingsRow({ bookings }: { bookings: Booking }) {
+function BookingsRow({ bookings }: { bookings: IBookingTypes }) {
   const {
     cabin: cabinNumber,
     guest,

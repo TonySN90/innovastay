@@ -1,19 +1,15 @@
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
+import { FormValues, IOnSubmitType } from "../../types/FormTypes";
 
 function CreateCabinForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormValues>();
 
-  function onSubmit(data, e) {
-    e.preventDefault();
-    console.log(data);
-  }
-
-  // interface IFormRegister {}
+  const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
 
   return (
     <>
@@ -73,8 +69,20 @@ function CreateCabinForm() {
           // Hier weitermachen
         /> */}
         <div className="w-[full] flex justify-center md:justify-end mt-4">
-          <Button type="inverted" size="md" extras="mr-2" content="abbrechen" />
-          <Button type="standard" size="md" content="hinzufügen" />
+          <Button
+            onClick={() => console.log("test")}
+            type="inverted"
+            size="md"
+            extras="mr-2 rounded-lg"
+            content="abbrechen"
+          />
+          <Button
+            onClick={() => console.log("test")}
+            type="standard"
+            size="md"
+            extras="rounded-lg"
+            content="hinzufügen"
+          />
         </div>
       </form>
     </>

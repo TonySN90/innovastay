@@ -3,9 +3,9 @@ import { Booking } from "./BookingTypes";
 export interface ITableContextTypes {
   columns: string;
   columnSpace: {
-    col1: string;
-    col2: string;
-    col3: string;
+    col1: string | null;
+    col2: string | null;
+    col3: string | null;
   };
 }
 

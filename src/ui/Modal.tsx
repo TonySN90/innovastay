@@ -33,7 +33,8 @@ function Open({ opens: opensWindowName }: { opens: string }) {
     <Button
       onClick={() => open(opensWindowName)}
       type="standard"
-      size="lg"
+      size="md"
+      extras="rounded-lg"
       content="Zimmer hinzufügen"
     />
   );
@@ -49,7 +50,13 @@ function Window({ children, name }: IModalWindowPropsTypes) {
     <Overlay>
       <ModalBox>
         <div className="absolute right-4 top-4">
-          <Button onClick={close} content={<HiXMark />} />
+          <Button
+            type="inverted"
+            size="sm"
+            extras="rounded-full"
+            onClick={close}
+            content={<HiXMark />}
+          />
         </div>
         {children}
       </ModalBox>

@@ -4,7 +4,7 @@ export interface IButtonPropsTypes {
   onClick: () => void;
   type: string;
   size: string;
-  content: string;
+  content: string | React.ReactNode;
   extras: string;
 }
 export type ButtonTypes = {

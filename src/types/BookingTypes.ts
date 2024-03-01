@@ -1,10 +1,4 @@
-// const enum status {
-//   unconfirmed = "unconfirmed",
-//   confirmed = "confirmed",
-//   canceled = "canceled",
-// }
-
-export interface Booking {
+export interface IBookingTypes {
   bookingId: string;
   cabin: string;
   guest: string;
@@ -31,3 +25,7 @@ export interface IToggleButtonsTypes {
   onClick: (type: BookingsViewType) => void;
   bookingsView: BookingsViewType;
 }
+
+export type BookingsState = {
+  bookingsView: BookingsViewType;
+};

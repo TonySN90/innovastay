@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BookingsViewType } from "../../types/BookingTypes";
-
-export type BookingsState = {
-  bookingsView: BookingsViewType;
-};
+import { BookingsState, BookingsViewType } from "../../types/BookingTypes";
 
 const initialState: BookingsState = {
   bookingsView: BookingsViewType.schedule,
