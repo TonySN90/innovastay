@@ -101,9 +101,11 @@ function FormRow<T extends keyof FormValues>({
   type,
 }: IFormRowProps<T>) {
   return (
-    <div className="border-b-2 border-indigo-100 min-w-[300px] md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between items-center">
+    <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
       <Label label={label} />
-      {error && <span className="text-red-500 text-md">{error}</span>}
+      {error && (
+        <span className="text-red-500 text-md min-w-[300px]">{error}</span>
+      )}
       <Input id={id} type={type} reg={registerProp} />
     </div>
   );
@@ -124,7 +126,7 @@ function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
     <div className="">
       {type === "text" || type === "number" ? (
         <input
-          className="md:w-[280px] border border-gray-300 rounded-sm h-9"
+          className="w-[100%] md:w-[320px] border border-gray-300 rounded-sm h-9 pl-2"
           type={type}
           id={id}
           disabled={false}
@@ -139,7 +141,7 @@ function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
 
       {type === "textarea" && (
         <textarea
-          className="md:w-[280px] md:w-[220px] border border-gray-300 rounded-sm h-14"
+          className="w-full md:w-[320px] border border-gray-300 rounded-sm h-24 pl-2"
           id={id}
           disabled={false}
           {...register(id, {
@@ -151,9 +153,10 @@ function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
 
       {type === "file" && (
         <input
-          className=""
+          className="fileInputStyle flex items-center justify-center w-full md:w-[320px] "
           type={type}
           id={id}
+          accept="image/*"
           disabled={false}
           {...register(id, {
             required: required,
