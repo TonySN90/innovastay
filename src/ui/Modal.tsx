@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import Button from "./Button";
-import ModalBox from "./ModalBox";
 import { HiXMark } from "react-icons/hi2";
 import Overlay from "./Overlay";
 import {
@@ -25,13 +24,11 @@ function Modal({ children }: { children: React.ReactNode }) {
 }
 
 function Open({ opens: opensWindowName }: { opens: string }) {
-  // @ts-expect-error ModalContext is not defined
-  const { open } = useContext<IModalContextTypes>(ModalContext) || {};
+  const { open } = useContext(ModalContext) || {};
 
-  //   return cloneElement(children, { onClick: () => console.log("test") });
   return (
     <Button
-      onClick={() => open(opensWindowName)}
+      onClick={() => open?.(opensWindowName)}
       type="standard"
       size="md"
       extras="rounded-lg"
@@ -41,25 +38,25 @@ function Open({ opens: opensWindowName }: { opens: string }) {
 }
 
 function Window({ children, name }: IModalWindowPropsTypes) {
-  // @ts-expect-error ModalContext is not defined
-  const { openName, close } = useContext<IModalContextTypes>(ModalContext);
-  console.log(openName);
+  const { openName, close } = useContext(ModalContext) || {};
+
+  console.log(close);
 
   if (openName !== name) return null;
   return createPortal(
     <Overlay>
-      <ModalBox>
+      <ModalContent>
         <div className="absolute right-4 top-4">
           <Button
             type="inverted"
             size="sm"
             extras="rounded-full"
-            onClick={close}
+            onClick={close ? close : () => null}
             content={<HiXMark />}
           />
         </div>
         {children}
-      </ModalBox>
+      </ModalContent>
     </Overlay>,
     document.body
   );
@@ -69,3 +66,11 @@ Modal.Open = Open;
 Modal.Window = Window;
 
 export default Modal;
+
+function ModalContent({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="fixed top-[50%] left-[50%] border-2 border-indigo-300 rounded-md bg-slate-100 translate-x-[-50%] translate-y-[-50%] mx-auto p-3">
+      {children}
+    </div>
+  );
+}

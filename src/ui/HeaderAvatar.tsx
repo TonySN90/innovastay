@@ -1,5 +1,3 @@
-import React from "react";
-
 function HeaderAvatar() {
   return (
     <div className="flex mr-10">
