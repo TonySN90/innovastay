@@ -5,7 +5,6 @@ function ButtonIcon({
   children: React.ReactNode;
   onClick: () => void;
 }) {
-  console.log(children);
   return <button onClick={onClick}>{children}</button>;
 }
 

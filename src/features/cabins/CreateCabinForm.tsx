@@ -63,14 +63,13 @@ function CreateCabinForm() {
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.description?.message?.toString() || ""}
         />
-        {/* <FormRow
-          type="fileinput"
-          id="fileinput"
-          register={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.fileinput?.message}
-
-          // Hier weitermachen
-        /> */}
+        <FormRow
+          label="Bild"
+          type="file"
+          id="file"
+          registerProp={{ register, required: "Wähle ein Bild" }}
+          error={errors?.file?.message}
+        />
         <div className="w-[full] flex justify-center md:justify-end mt-4">
           <Button
             onClick={() => console.log("test")}
@@ -102,34 +101,30 @@ function FormRow<T extends keyof FormValues>({
   type,
 }: IFormRowProps<T>) {
   return (
-    <div className="border-b-2 border-indigo-100 min-w-[300px] md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 items-center">
+    <div className="border-b-2 border-indigo-100 min-w-[300px] md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between items-center">
       <Label label={label} />
-      <Input id={id} type={type} reg={registerProp} error={error} />
+      {error && <span className="text-red-500 text-md">{error}</span>}
+      <Input id={id} type={type} reg={registerProp} />
     </div>
   );
 }
 
 function Label({ label }: { label: string }) {
   return (
-    <label className="w-full md:w-[200px]" htmlFor={label}>
+    <label className="md:w-[150px]" htmlFor={label}>
       {label}
     </label>
   );
 }
 
-function Input<T extends keyof FormValues>({
-  id,
-  reg,
-  error,
-  type,
-}: IInputProps<T>) {
+function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
   const { register, required, min } = reg;
 
   return (
-    <div className="w-full">
+    <div className="">
       {type === "text" || type === "number" ? (
         <input
-          className="md:mr-10 w-full md:w-[220px] border border-gray-300 rounded-sm h-9"
+          className="md:w-[280px] border border-gray-300 rounded-sm h-9"
           type={type}
           id={id}
           disabled={false}
@@ -144,7 +139,7 @@ function Input<T extends keyof FormValues>({
 
       {type === "textarea" && (
         <textarea
-          className="md:mr-10 w-full md:w-[220px] border border-gray-300 rounded-sm h-14 mb-1"
+          className="md:w-[280px] md:w-[220px] border border-gray-300 rounded-sm h-14"
           id={id}
           disabled={false}
           {...register(id, {
@@ -154,7 +149,18 @@ function Input<T extends keyof FormValues>({
         ></textarea>
       )}
 
-      {error && <span className="text-red-500 text-md">{error}</span>}
+      {type === "file" && (
+        <input
+          className=""
+          type={type}
+          id={id}
+          disabled={false}
+          {...register(id, {
+            required: required,
+            min: min,
+          })}
+        />
+      )}
     </div>
   );
 }

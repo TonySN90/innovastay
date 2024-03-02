@@ -40,8 +40,6 @@ function Open({ opens: opensWindowName }: { opens: string }) {
 function Window({ children, name }: IModalWindowPropsTypes) {
   const { openName, close } = useContext(ModalContext) || {};
 
-  console.log(close);
-
   if (openName !== name) return null;
   return createPortal(
     <Overlay>
@@ -69,8 +67,12 @@ export default Modal;
 
 function ModalContent({ children }: { children: React.ReactNode }) {
   return (
-    <div className="fixed top-[50%] left-[50%] border-2 border-indigo-300 rounded-md bg-slate-100 translate-x-[-50%] translate-y-[-50%] mx-auto p-3">
-      {children}
+    <div className="fixed top-0 left-0 bottom-0 right-0 overflow-auto">
+      <div className="absolute top-1/2 left-1/2 transform -translate-y-1/2 translate-x-[-50%]">
+        <div className="bg-white border-2 border-indigo-300 rounded-md  mx-auto p-3 max-h-[80vh] overflow-auto">
+          {children}
+        </div>
+      </div>
     </div>
   );
 }
