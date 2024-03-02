@@ -2,9 +2,9 @@ import { FieldValues, UseFormRegister } from "react-hook-form";
 
 export interface FormValues {
   name: string;
-  capacity: string;
-  price: string;
-  discount: string;
+  capacity: number;
+  price: number;
+  discount: number;
   description: string;
   register: UseFormRegister<FieldValues>;
 }

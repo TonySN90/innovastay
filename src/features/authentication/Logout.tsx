@@ -3,7 +3,7 @@ import ButtonIcon from "../../ui/ButtonIcon";
 
 export default function Logout() {
   return (
-    <ButtonIcon>
+    <ButtonIcon onClick={() => console.log("test")}>
       <HiArrowRightOnRectangle className="w-6 h-6" />
     </ButtonIcon>
   );

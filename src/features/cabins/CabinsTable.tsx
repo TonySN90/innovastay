@@ -1,6 +1,7 @@
 import Table from "../../ui/Table";
 import CabinsRow from "./CabinsRow";
 import { cabinsData } from "../../data/data";
+import { ICabinTypes } from "../../types/cabinTypes";
 
 function CabinsTable() {
   return (
@@ -16,7 +17,9 @@ function CabinsTable() {
         <Table.Header content={["Zimmer", "Kapazität", "Preis", "Angebote"]} />
         <Table.Body
           data={cabinsData}
-          render={(cabin) => <CabinsRow cabin={cabin} key={cabin.cabin} />}
+          render={(cabin: ICabinTypes) => (
+            <CabinsRow cabins={cabin} key={cabin.cabin} />
+          )}
         />
       </Table>
     </>

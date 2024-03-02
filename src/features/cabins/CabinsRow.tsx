@@ -2,8 +2,8 @@ import { HiListBullet } from "react-icons/hi2";
 import ButtonIcon from "../../ui/ButtonIcon";
 import { ICabinTypes } from "../../types/cabinTypes";
 
-function TableRow({ cabin }: { cabin: ICabinTypes }) {
-  const { cabin: cabinNumber, capacity, price, discount, img } = cabin;
+function TableRow({ cabins }: { cabins: ICabinTypes }) {
+  const { cabin: cabinNumber, capacity, price, discount, img } = cabins;
 
   return (
     <tr className=" bg-gray-50 grid grid-cols-5 md:grid-cols-7 text-left hyphens-manual px-2 py-1 gap-4 border-t-[1px]">

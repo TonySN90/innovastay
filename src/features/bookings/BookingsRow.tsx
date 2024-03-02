@@ -9,10 +9,9 @@ function BookingsRow({ bookings }: { bookings: IBookingTypes }) {
     email,
     startDate,
     endDate,
-    numNights,
-    numGuests,
+    // numNights,
+    // numGuests,
     status,
-    amount,
     totalPrice,
   } = bookings;
 

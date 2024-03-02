@@ -1,21 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
 import BookingsTable from "../features/bookings/BookingsTable";
 import BookingTimeline from "../features/bookings/BookingTimeline";
 import Heading from "../ui/Heading";
 import ToggleButtons from "../ui/ToggleButtons";
-import {
-  updateBookingsView,
-  BookingsState,
-} from "../features/bookings/bookingsSlice";
+import { updateBookingsView } from "../features/bookings/bookingsSlice";
 import { BookingsViewType } from "../types/BookingTypes";
+import { useAppDispatch, useAppSelector } from "../store";
 
 function Bookings() {
-  const bookingsView: BookingsViewType = useSelector(
-    // @ts-expect-error redux special string convert
-    (state: BookingsState) => state.bookings.bookingsView
-  );
-
-  const dispatch = useDispatch();
+  const bookingsView = useAppSelector((state) => state.bookings.bookingsView);
+  const dispatch = useAppDispatch();
 
   function handleClick(buttonType: BookingsViewType) {
     dispatch(updateBookingsView(buttonType));

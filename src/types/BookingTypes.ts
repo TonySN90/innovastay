@@ -26,6 +26,6 @@ export interface IToggleButtonsTypes {
   bookingsView: BookingsViewType;
 }
 
-export type BookingsState = {
+export type BookingsStateTypes = {
   bookingsView: BookingsViewType;
 };

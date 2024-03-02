@@ -2,6 +2,7 @@ import Table from "../../ui/Table";
 import BookingsRow from "./BookingsRow";
 import { bookingsData } from "../../data/data";
 import { useEffect, useState } from "react";
+import { IBookingTypes } from "../../types/BookingTypes";
 
 function BookingsTable() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -17,8 +18,6 @@ function BookingsTable() {
       window.removeEventListener("resize", updateWindowSize);
     };
   }, []);
-
-  console.log(bookingsData);
 
   return (
     <>
@@ -39,7 +38,7 @@ function BookingsTable() {
         />
         <Table.Body
           data={bookingsData}
-          render={(booking) => (
+          render={(booking: IBookingTypes) => (
             <BookingsRow bookings={booking} key={booking.bookingId} />
           )}
         />

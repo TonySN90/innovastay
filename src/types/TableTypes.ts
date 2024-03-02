@@ -1,5 +1,3 @@
-import { Booking } from "./BookingTypes";
-
 export interface ITableContextTypes {
   columns: string;
   columnSpace: {
@@ -17,7 +15,7 @@ export interface TableHeaderProps {
   content: string[];
 }
 
-export interface TableBodyProps {
-  data: Booking[];
-  render: (booking: Booking) => React.ReactNode;
+export interface TableBodyProps<T> {
+  render: (item: T) => React.ReactNode;
+  data: T[];
 }

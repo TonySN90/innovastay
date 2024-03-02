@@ -46,7 +46,7 @@ function Header({ content }: TableHeaderProps) {
   );
 }
 
-function Body({ render, data }: TableBodyProps) {
+function Body<T>({ render, data }: TableBodyProps<T>) {
   return <tbody>{data.map(render)}</tbody>;
 }
 
