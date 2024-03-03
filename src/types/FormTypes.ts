@@ -7,6 +7,8 @@ export interface FormValues {
   discount: number;
   description: string;
   file: File;
+  password: string;
+  email: string;
   register: UseFormRegister<FieldValues>;
 }
 
@@ -16,10 +18,12 @@ export interface IFormRowProps<T extends keyof FormValues> {
   registerProp: {
     register: UseFormRegister<FormValues>;
     required: string;
+    pattern?: { value: RegExp; message: string };
     min?: { value: number; message: string };
+    minLength?: { value: number; message: string };
   };
   error?: string;
-  type: "text" | "number" | "textarea" | "file";
+  type: "text" | "number" | "textarea" | "file" | "email" | "password";
 }
 
 export interface IInputProps<T extends keyof FormValues> {
@@ -30,5 +34,5 @@ export interface IInputProps<T extends keyof FormValues> {
     min?: { value: number; message: string };
   };
   error?: string;
-  type: "text" | "number" | "textarea" | "file";
+  type: "text" | "number" | "textarea" | "file" | "email" | "password";
 }
