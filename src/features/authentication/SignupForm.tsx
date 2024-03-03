@@ -7,15 +7,20 @@ function SignupForm() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<FormValues> = (data, event) => {
+    event?.preventDefault();
+    console.log(data);
+  };
 
   return (
     <form
       className="p-3 md:p-5 transition-all bg-gray-50 rounded-lg"
       onSubmit={handleSubmit(onSubmit)}
+      encType="multipart/form-data"
     >
       <div className="max-w-[850px]  mx-auto">
         <h2 className="font-semibold text-lg mb-3 mt-5">
@@ -56,14 +61,39 @@ function SignupForm() {
           }}
           error={errors?.password?.message}
         />
-        <div className="w-[full] flex justify-center md:justify-end mt-4">
-          <Button
-            onClick={() => console.log("test")}
-            type="standard"
-            size="md"
-            extras="rounded-lg"
-            content="hinzufügen"
-          />
+        <FormRow
+          label="Passwort wiederholen"
+          type="password"
+          id="passwordConfirm"
+          registerProp={{
+            register,
+            required: "This field is required",
+            validate: (value) =>
+              value === getValues().password || "Passwort stimmt nicht überein",
+          }}
+          error={errors?.passwordConfirm?.message}
+        />
+        <div className="flex justify-end gap-2">
+          <div className="w-[full] flex justify-center md:justify-end mt-4">
+            <Button
+              type="reset"
+              onClick={() => console.log("test")}
+              variation="inverted"
+              size="lg"
+              extras="rounded-lg"
+              content="Abbrechen"
+            />
+          </div>
+          <div className="w-[full] flex justify-center md:justify-end mt-4">
+            <Button
+              type="submit"
+              onClick={() => console.log("test")}
+              variation="standard"
+              size="lg"
+              extras="rounded-lg"
+              content="Mitarbeiter anlegen"
+            />
+          </div>
         </div>
       </div>
     </form>

@@ -3,7 +3,7 @@ import MainNav from "./MainNav";
 
 function Sidebar() {
   return (
-    <aside className="hidden bg-stone-50 min-w-[15rem] w-[20%] h-dvh border-r-2 lg:block">
+    <aside className="hidden bg-stone-50 min-w-[15rem] w-[20%] h-[100vh] border-r-2 lg:block">
       <Logo />
       <MainNav />
     </aside>

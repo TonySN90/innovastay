@@ -29,8 +29,9 @@ function Open({ opens: opensWindowName }: { opens: string }) {
   return (
     <Button
       onClick={() => open?.(opensWindowName)}
-      type="standard"
-      size="md"
+      type="button"
+      variation="standard"
+      size="lg"
       extras="rounded-lg"
       content="Zimmer hinzufügen"
     />
@@ -46,7 +47,7 @@ function Window({ children, name }: IModalWindowPropsTypes) {
       <ModalContent>
         <div className="absolute right-4 top-4">
           <Button
-            type="inverted"
+            variation="inverted"
             size="sm"
             extras="rounded-full"
             onClick={close ? close : () => null}

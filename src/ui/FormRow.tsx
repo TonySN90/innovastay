@@ -31,7 +31,7 @@ function Label({ label }: { label: string }) {
 }
 
 function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
-  const { register, required, min } = reg;
+  const { register, required, minLength, pattern, validate } = reg;
 
   return (
     <div className="">
@@ -46,7 +46,9 @@ function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
           disabled={false}
           {...register(id, {
             required: required,
-            min: min,
+            min: minLength,
+            pattern: pattern,
+            validate: validate,
           })}
         />
       ) : (
@@ -60,7 +62,7 @@ function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
           disabled={false}
           {...register(id, {
             required: required,
-            min: min,
+            min: minLength,
           })}
         ></textarea>
       )}
@@ -74,7 +76,7 @@ function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
           disabled={false}
           {...register(id, {
             required: required,
-            min: min,
+            min: minLength,
           })}
         />
       )}

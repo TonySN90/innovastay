@@ -73,18 +73,20 @@ function CreateCabinForm() {
         />
         <div className="w-[full] flex justify-center md:justify-end mt-4">
           <Button
+            type="reset"
             onClick={() => console.log("test")}
-            type="inverted"
+            variation="inverted"
             size="md"
             extras="mr-2 rounded-lg"
-            content="abbrechen"
+            content="Abbrechen"
           />
           <Button
+            type="submit"
             onClick={() => console.log("test")}
-            type="standard"
+            variation="standard"
             size="md"
             extras="rounded-lg"
-            content="hinzufügen"
+            content="Hinzufügen"
           />
         </div>
       </form>

@@ -2,7 +2,9 @@
 
 export interface IButtonPropsTypes {
   onClick: () => void;
-  type: string;
+  variation: string;
+
+  type?: "reset" | "submit" | "button";
   size: string;
   content: string | React.ReactNode;
   extras: string;

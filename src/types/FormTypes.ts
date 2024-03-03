@@ -8,6 +8,7 @@ export interface FormValues {
   description: string;
   file: File;
   password: string;
+  passwordConfirm: string;
   email: string;
   register: UseFormRegister<FieldValues>;
 }
@@ -19,11 +20,18 @@ export interface IFormRowProps<T extends keyof FormValues> {
     register: UseFormRegister<FormValues>;
     required: string;
     pattern?: { value: RegExp; message: string };
-    min?: { value: number; message: string };
     minLength?: { value: number; message: string };
+    validate?: (value: FormValues[T]) => string | boolean;
   };
   error?: string;
-  type: "text" | "number" | "textarea" | "file" | "email" | "password";
+  type:
+    | "text"
+    | "number"
+    | "textarea"
+    | "file"
+    | "email"
+    | "password"
+    | "passwordConfirm";
 }
 
 export interface IInputProps<T extends keyof FormValues> {
@@ -31,8 +39,17 @@ export interface IInputProps<T extends keyof FormValues> {
   reg: {
     register: UseFormRegister<FormValues>;
     required: string;
-    min?: { value: number; message: string };
+    minLength?: { value: number; message: string };
+    pattern?: { value: RegExp; message: string };
+    validate?: (value: FormValues[T]) => string | boolean;
   };
   error?: string;
-  type: "text" | "number" | "textarea" | "file" | "email" | "password";
+  type:
+    | "text"
+    | "number"
+    | "textarea"
+    | "file"
+    | "email"
+    | "password"
+    | "passwordConfirm";
 }
