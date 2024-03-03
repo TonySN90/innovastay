@@ -104,7 +104,9 @@ function FormRow<T extends keyof FormValues>({
     <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
       <Label label={label} />
       {error && (
-        <span className="text-red-500 text-md min-w-[300px]">{error}</span>
+        <span className="text-red-500 text-md md:min-w-[220px] text-wrap">
+          {error}
+        </span>
       )}
       <Input id={id} type={type} reg={registerProp} />
     </div>
@@ -126,7 +128,7 @@ function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
     <div className="">
       {type === "text" || type === "number" ? (
         <input
-          className="w-[100%] md:w-[320px] border border-gray-300 rounded-sm h-9 pl-2"
+          className="w-[100%] md:w-[300px] border border-gray-300 rounded-sm h-9 pl-2"
           type={type}
           id={id}
           disabled={false}
@@ -141,7 +143,7 @@ function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
 
       {type === "textarea" && (
         <textarea
-          className="w-full md:w-[320px] border border-gray-300 rounded-sm h-24 pl-2"
+          className="w-full md:w-[300px] border border-gray-300 rounded-sm h-24 pl-2"
           id={id}
           disabled={false}
           {...register(id, {
@@ -153,7 +155,7 @@ function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
 
       {type === "file" && (
         <input
-          className="fileInputStyle flex items-center justify-center w-full md:w-[320px] "
+          className="fileInputStyle flex items-center justify-center w-full md:w-[300px] "
           type={type}
           id={id}
           accept="image/*"
