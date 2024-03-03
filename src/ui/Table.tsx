@@ -11,7 +11,12 @@ const tableContext = createContext<ITableContextTypes | undefined>(undefined);
 function Table({ children, columns, columnSpace }: TableProps) {
   return (
     <tableContext.Provider value={{ columns, columnSpace }}>
-      <table className="w-[100%] rounded mb-4 text-sm">{children}</table>
+      <table
+        className="w-[100%] rounded mb-4 text-sm shadow-lg shadow-gray-400/10"
+        data-testid="table"
+      >
+        {children}
+      </table>
     </tableContext.Provider>
   );
 }

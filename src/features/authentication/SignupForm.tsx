@@ -18,11 +18,11 @@ function SignupForm() {
 
   return (
     <form
-      className="p-3 md:p-5 transition-all bg-gray-50 rounded-lg"
+      className="p-3 md:p-5 transition-all bg-gray-50 rounded-lg "
       onSubmit={handleSubmit(onSubmit)}
       encType="multipart/form-data"
     >
-      <div className="max-w-[850px]  mx-auto">
+      <div className="max-w-[850px] mx-auto">
         <h2 className="font-semibold text-lg mb-3 mt-5">
           Neuen Mitarbeiter hinzufügen
         </h2>

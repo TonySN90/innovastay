@@ -34,3 +34,25 @@
   font-size: 14px;
   color: #333;
 }
+
+#reactSchedulerOutsideWrapper {
+  height: 570px;
+  width: 100%;
+  overflow: hidden;
+  /* border: 1px solid #6365f142; */
+  box-shadow: #33333328 0px 0px 35px;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+#reactSchedulerOutsideWrapper .jMfbsI {
+  min-width: 140px;
+  max-width: 140px;
+}
+#reactSchedulerOutsideWrapper .bmRGyN {
+  min-width: 140px;
+  max-width: 140px;
+}
+#reactSchedulerOutsideWrapper .sc-jsEegt {
+  background-color: #f3f4f6;
+}

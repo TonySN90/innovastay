@@ -3,7 +3,7 @@ import Heading from "../ui/Heading";
 
 function Users() {
   return (
-    <div>
+    <div className="shadow-gray-400/10 shadow-lg">
       <Heading title="Mitarbeiter" />
       <SignupForm />
     </div>

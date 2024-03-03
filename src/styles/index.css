@@ -24,15 +24,6 @@ body {
   color: #6366f1;
 }
 
-#reactSchedulerOutsideWrapper {
-  height: 570px;
-  width: 100%;
-  overflow: hidden;
-  border: 1px solid #6365f142;
-  border-radius: 10px;
-  background-color: transparent;
-}
-
 input[type="file"]::file-selector-button {
   font-weight: bold;
   color: #6366f1;

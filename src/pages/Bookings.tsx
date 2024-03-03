@@ -31,7 +31,7 @@ function Bookings() {
           <span className="md:hidden">
             Die Zeitplanansicht steht der mobilen Ansicht nicht zur Verfügung.
           </span>
-          <div className="hidden md:block h-[600px]">
+          <div className="hidden md:block">
             <div className="relative">
               <BookingTimeline />
             </div>

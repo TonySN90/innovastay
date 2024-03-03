@@ -1,9 +1,11 @@
+import UpdateSettingsForm from "../features/settings/UpdateSettingsForm";
 import Heading from "../ui/Heading";
 
 function Settings() {
   return (
-    <div>
-      <Heading title="Einstellungen" />
+    <div className="shadow-gray-400/10 shadow-lg">
+      <Heading title="Hoteleinstellungen" />
+      <UpdateSettingsForm />
     </div>
   );
 }
