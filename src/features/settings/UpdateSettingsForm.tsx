@@ -44,7 +44,7 @@ function UpdateSettingsForm() {
           type="number"
           id="breakfastPrice"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.maxGuestsPerBooking?.message}
+          error={errors?.breakfastPrice?.message}
         />
         <div className="flex justify-end md:justify-end mt-4">
           <Button

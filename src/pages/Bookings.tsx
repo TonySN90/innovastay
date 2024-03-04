@@ -29,7 +29,7 @@ function Bookings() {
       {bookingsView === BookingsViewType.schedule && (
         <>
           <span className="md:hidden">
-            Die Zeitplanansicht steht der mobilen Ansicht nicht zur Verfügung.
+            Der Belegungsplan steht der mobilen Ansicht nicht zur Verfügung.
           </span>
           <div className="hidden md:block">
             <div className="relative">

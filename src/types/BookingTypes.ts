@@ -15,6 +15,12 @@ export interface IBookingTypes {
   totalPrice: number;
 }
 
+export enum StatusTypes {
+  checkedOut = "checked-out",
+  unconfirmed = "unconfirmed",
+  confirmed = "confirmed",
+}
+
 export enum BookingsViewType {
   schedule = "schedule",
   table = "table",

@@ -8,23 +8,18 @@ function CabinsTable() {
   return (
     <>
       <Table
-        columns="grid-cols-5 md:grid-cols-7"
+        columns="grid-cols-5 md:grid-cols-10"
         columnSpace={{
-          col1: "",
-          col2: "col-span-2",
-          col3: "",
+          col1: "col-span-2",
+          col2: "col-span-3",
+          col3: "col-span-2",
+          col4: "",
         }}
       >
         <Table.Header
           content={
             windowWidth > 768
-              ? [
-                  "Gast",
-                  "Adresse",
-                  "Letzter Aufenthalt ",
-                  "Aufenthalte insg.",
-                  "Infos",
-                ]
+              ? ["Gast", "Adresse", "Letzter Aufenthalt", "Insg.", "Infos"]
               : ["Gastinformationen"]
           }
         />

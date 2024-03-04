@@ -13,22 +13,27 @@ function BookingsTable() {
         columns="grid-cols-12 md:grid-cols-12"
         columnSpace={{
           col1: "",
-          col2: "col-span-4 xl:col-span-3",
+          col2: "col-span-3",
           col3: "col-span-2",
           col4: "col-span-2",
+          col5: "col-span-2",
         }}
       >
         <Table.Header
           content={
             windowWidth > 768
-              ? ["Zimmer", "Gast", "Datum", "Status", "Endbetrag"]
+              ? ["Zimmer", "Gast", "Datum", "Status", "Frühstück?", "Endbetrag"]
               : ["Buchungsinformationen"]
           }
         />
         <Table.Body
           data={bookingsData}
           render={(booking: IBookingTypes) => (
-            <BookingsRow bookings={booking} key={booking.bookingId} />
+            <BookingsRow
+              bookings={booking}
+              key={booking.bookingId}
+              windowWidth={windowWidth}
+            />
           )}
         />
       </Table>

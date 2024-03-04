@@ -2,8 +2,10 @@ import Table from "../../ui/Table";
 import CabinsRow from "./CabinsRow";
 import { cabinsData } from "../../data/data";
 import { ICabinTypes } from "../../types/cabinTypes";
+import useWindowWidth from "../../hooks/UseWindowWidth";
 
 function CabinsTable() {
+  const windowWidth = useWindowWidth();
   return (
     <>
       <Table
@@ -12,13 +14,25 @@ function CabinsTable() {
           col1: "",
           col2: "col-span-2",
           col3: "",
+          col4: "",
+          col5: "",
         }}
       >
-        <Table.Header content={["Zimmer", "Kapazität", "Preis", "Angebote"]} />
+        <Table.Header
+          content={
+            windowWidth > 768
+              ? ["Zimmer", "Kapazität", "Preis", "Angebote"]
+              : ["Zimmerinformationen"]
+          }
+        />
         <Table.Body
           data={cabinsData}
           render={(cabin: ICabinTypes) => (
-            <CabinsRow cabins={cabin} key={cabin.id} />
+            <CabinsRow
+              cabins={cabin}
+              key={cabin.id}
+              windowWidth={windowWidth}
+            />
           )}
         />
       </Table>

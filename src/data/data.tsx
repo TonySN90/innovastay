@@ -80,7 +80,7 @@ export const bookingsData = [
     cabinPrice: 1320,
     extrasPrice: 300,
     status: "confirmed",
-    hasBreakfast: true,
+    hasBreakfast: false,
     isPaid: false,
     totalPrice: 1800,
   },

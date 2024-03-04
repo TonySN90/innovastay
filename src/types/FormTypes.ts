@@ -11,6 +11,9 @@ export interface FormValues {
   passwordConfirm: string;
   email: string;
   register: UseFormRegister<FieldValues>;
+  nights: number;
+  maxGuestsPerBooking: number;
+  breakfastPrice: number;
 }
 
 export interface IFormRowProps<T extends keyof FormValues> {
@@ -22,6 +25,7 @@ export interface IFormRowProps<T extends keyof FormValues> {
     pattern?: { value: RegExp; message: string };
     minLength?: { value: number; message: string };
     validate?: (value: FormValues[T]) => string | boolean;
+    min?: { value: number; message: string };
   };
   error?: string;
   type:

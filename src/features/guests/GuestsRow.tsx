@@ -19,13 +19,13 @@ function GuestsRow({
   } = guestInformation;
 
   return (
-    <tr className=" bg-gray-50 grid grid-cols-5 md:grid-cols-7 text-left hyphens-manual p-4 px-7 gap-2 border-t-[1px] min-h-[70px]">
-      <td className="flex items-center font-semibold col-span-2 md:col-auto">
+    <tr className=" bg-gray-50 grid grid-cols-5 md:grid-cols-10 text-left hyphens-manual p-4 px-7 gap-2 border-t-[1px] min-h-[70px]">
+      <td className="flex items-center font-semibold col-span-2 md:col-span-2">
         <div className="flex flex-col">
           <span className="font-semibold">{guest}</span>
         </div>
       </td>
-      <td className="flex items-center col-span-4 md:col-span-2">
+      <td className="flex items-center col-span-5 md:col-span-3">
         <div className="flex flex-col">
           <span className="font-semibold">
             {address}, {postalCode}, {city}
@@ -34,7 +34,7 @@ function GuestsRow({
           <span className="text-xs">Tel: {phone}</span>
         </div>
       </td>
-      <td className={`flex items-center col-span-5 md:col-auto`}>
+      <td className={`flex items-center col-span-5 md:col-span-2`}>
         {windowWidth > 768 ? (
           lastStay
         ) : (
