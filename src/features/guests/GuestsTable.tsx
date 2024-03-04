@@ -22,7 +22,7 @@ function CabinsTable() {
                   "Gast",
                   "Adresse",
                   "Letzter Aufenthalt ",
-                  "Aufenthalte insg",
+                  "Aufenthalte insg.",
                   "Infos",
                 ]
               : ["Gastinformationen"]
@@ -32,7 +32,7 @@ function CabinsTable() {
           data={guestsData}
           render={(guest) => (
             <GuestsRow
-              guests={guest}
+              guestInformation={guest}
               key={guest.id}
               windowWidth={windowWidth}
             />

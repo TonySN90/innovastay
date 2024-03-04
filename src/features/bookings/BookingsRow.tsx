@@ -16,7 +16,7 @@ function BookingsRow({ bookings }: { bookings: IBookingTypes }) {
   } = bookings;
 
   return (
-    <tr className="bg-gray-50 min-h-16 grid grid-cols-14 md:grid-cols-12 text-left hyphens-manual py-3 px-5 gap-4 border-t-[1px]">
+    <tr className="bg-gray-50 min-h-16 grid grid-cols-14 md:grid-cols-12 text-left hyphens-manual py-3 px-7 gap-2 border-t-[1px]">
       <td className="flex items-center font-semibold grid-cols-3">
         {cabinNumber}
       </td>

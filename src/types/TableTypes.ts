@@ -4,6 +4,7 @@ export interface ITableContextTypes {
     col1: string | null;
     col2: string | null;
     col3: string | null;
+    col4: string | null;
   };
 }
 

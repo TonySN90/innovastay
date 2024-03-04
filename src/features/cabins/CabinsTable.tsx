@@ -18,7 +18,7 @@ function CabinsTable() {
         <Table.Body
           data={cabinsData}
           render={(cabin: ICabinTypes) => (
-            <CabinsRow cabins={cabin} key={cabin.cabin} />
+            <CabinsRow cabins={cabin} key={cabin.id} />
           )}
         />
       </Table>

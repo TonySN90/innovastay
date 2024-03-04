@@ -15,6 +15,7 @@ function BookingsTable() {
           col1: "",
           col2: "col-span-4 xl:col-span-3",
           col3: "col-span-2",
+          col4: "col-span-2",
         }}
       >
         <Table.Header

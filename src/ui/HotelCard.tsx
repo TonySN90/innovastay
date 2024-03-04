@@ -2,7 +2,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 function HotelCard() {
   return (
-    <div className="bg-gray-500 p-2 text-gray-50 rounded-lg flex text-sm">
+    <div className=" p-2 bg-indigo-500 text-gray-50 rounded-lg flex text-sm border-[4px] border-indigo-200 ">
       <div className="flex flex-col w-[90%]">
         <span>Hotel</span>
         <span className="font-semibold">Panorama Inn</span>

@@ -36,7 +36,7 @@
 }
 
 #reactSchedulerOutsideWrapper {
-  height: 570px;
+  height: 500px;
   width: 100%;
   overflow: hidden;
   /* border: 1px solid #6365f142; */
@@ -48,6 +48,7 @@
 #reactSchedulerOutsideWrapper .jMfbsI {
   min-width: 140px;
   max-width: 140px;
+  background-color: #f9fafb;
 }
 #reactSchedulerOutsideWrapper .bmRGyN {
   min-width: 140px;

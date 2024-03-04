@@ -3,11 +3,17 @@ import ButtonIcon from "../../ui/ButtonIcon";
 import { ICabinTypes } from "../../types/cabinTypes";
 
 function TableRow({ cabins }: { cabins: ICabinTypes }) {
-  const { cabin: cabinNumber, capacity, price, discount, img } = cabins;
+  const { cabin, capacity, price, discount, img } = cabins;
+  const { name: cabinName, category } = cabin;
 
   return (
-    <tr className=" bg-gray-50 grid grid-cols-5 md:grid-cols-7 text-left hyphens-manual px-5 py-1 gap-4 border-t-[1px]">
-      <td className="flex items-center font-semibold">{cabinNumber}</td>
+    <tr className=" bg-gray-50 grid grid-cols-6 md:grid-cols-7 text-left hyphens-manual px-7 py-1 gap-2 border-t-[1px]">
+      <td className="flex items-center">
+        <div className="flex flex-col">
+          <span className="font-semibold">{cabinName}</span>
+          <span className="text-xs">{category}</span>
+        </div>
+      </td>
       <td className="flex items-center col-span-2">
         Auf&shy;bet&shy;tung bis {capacity} Per&shy;sonen
       </td>
