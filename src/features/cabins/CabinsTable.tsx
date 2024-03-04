@@ -9,8 +9,8 @@ function CabinsTable() {
       <Table
         columns="grid-cols-5 md:grid-cols-7"
         columnSpace={{
-          col1: "col-span-2",
-          col2: "",
+          col1: "",
+          col2: "col-span-2",
           col3: "",
         }}
       >

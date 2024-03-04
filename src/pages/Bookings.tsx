@@ -20,7 +20,7 @@ function Bookings() {
       <div className="mb-2">
         <ToggleButtons
           onClick={handleClick}
-          buttonLeft="Zeitplan"
+          buttonLeft="Kalender"
           buttonRight="Tabelle"
           bookingsView={bookingsView}
         />

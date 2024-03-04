@@ -12,8 +12,8 @@ function Table({ children, columns, columnSpace }: TableProps) {
   return (
     <tableContext.Provider value={{ columns, columnSpace }}>
       <table
-        className="w-[100%] rounded mb-4 text-sm shadow-lg shadow-gray-400/10"
-        data-testid="table"
+        className="w-full mb-4 text-sm shadow-lg shadow-gray-400/10"
+        // data-testid="table"
       >
         {children}
       </table>
@@ -29,17 +29,18 @@ function Header({ content }: TableHeaderProps) {
   if (!contextValues) {
     return null;
   }
+
   const { columns, columnSpace } = contextValues;
 
   return (
     <thead>
       <tr
-        className={`grid ${columns} text-left hyphens-manual p-3 gap-4 bg-indigo-200`}
+        className={`grid ${columns} text-left hyphens-manual p-3 px-5 gap-2 bg-indigo-200 rounded-t-md`}
       >
         {content.map((el, i) => (
           <th
             className={`flex items-center font-semibold uppercase text-gray-700 ${
-              columnSpace[`col${i}` as keyof typeof columnSpace] || ""
+              columnSpace[`col${i + 1}` as keyof typeof columnSpace] || ""
             }`}
             key={el}
           >

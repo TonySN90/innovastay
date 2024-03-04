@@ -261,3 +261,26 @@ export const mockedSchedulerData: SchedulerData = [
     ],
   },
 ];
+
+export const guestsData = [
+  {
+    id: "8b71a8a5-33dd-4fc8-9caa-b4a7563762",
+    guest: "Olaf Scholz",
+    address: "Bundeskanzlerstr. 1, 10435 Berlin",
+    tel: "0160666666",
+    email: "olafscholz@bundeskanzler.de",
+    maxStays: 2,
+    lastStay: "27.02.2024 - 03.01.2024",
+    informations: "Der Gast war sehr unsauber bei seinem letzten Aufenthalt!",
+  },
+  {
+    id: "8b71a8a5-33dd-4fc8-9caa-b45gh2",
+    guest: "Daniel Güntherino",
+    address: "Güntherinoallee. 4, 10435 Berlin",
+    tel: "0160666666",
+    email: "daniel.güntherino@gmail.com",
+    maxStays: 2,
+    lastStay: "04.02.2024 - 20.02.2024",
+    informations: "Der Gast war sehr unsauber!",
+  },
+];

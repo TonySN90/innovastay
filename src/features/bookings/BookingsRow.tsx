@@ -16,7 +16,7 @@ function BookingsRow({ bookings }: { bookings: IBookingTypes }) {
   } = bookings;
 
   return (
-    <tr className=" bg-gray-50 min-h-16 grid grid-cols-14 md:grid-cols-12 text-left hyphens-manual px-2 py-1 gap-4 border-t-[1px]">
+    <tr className="bg-gray-50 min-h-16 grid grid-cols-14 md:grid-cols-12 text-left hyphens-manual py-3 px-5 gap-4 border-t-[1px]">
       <td className="flex items-center font-semibold grid-cols-3">
         {cabinNumber}
       </td>
@@ -40,7 +40,7 @@ function BookingsRow({ bookings }: { bookings: IBookingTypes }) {
         </div>
       </td>
       <td className="flex items-center">{totalPrice} €</td>
-      <td className="flex flex-end mx-auto md:col-span-2">
+      <td className="flex md:justify-end md:col-span-2 xl:col-span-3">
         <ButtonIcon onClick={() => console.log(guest)}>
           <HiListBullet className="w-6 h-6" />
         </ButtonIcon>

@@ -1,31 +1,19 @@
 import Table from "../../ui/Table";
 import BookingsRow from "./BookingsRow";
 import { bookingsData } from "../../data/data";
-import { useEffect, useState } from "react";
 import { IBookingTypes } from "../../types/BookingTypes";
+import useWindowWidth from "../../hooks/UseWindowWidth";
 
 function BookingsTable() {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const updateWindowSize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", updateWindowSize);
-
-    return () => {
-      window.removeEventListener("resize", updateWindowSize);
-    };
-  }, []);
+  const windowWidth = useWindowWidth();
 
   return (
     <>
       <Table
         columns="grid-cols-12 md:grid-cols-12"
         columnSpace={{
-          col1: "col-span-4 xl:col-span-3",
-          col2: "col-span-2",
+          col1: "",
+          col2: "col-span-4 xl:col-span-3",
           col3: "col-span-2",
         }}
       >

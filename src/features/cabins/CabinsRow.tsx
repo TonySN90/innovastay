@@ -6,7 +6,7 @@ function TableRow({ cabins }: { cabins: ICabinTypes }) {
   const { cabin: cabinNumber, capacity, price, discount, img } = cabins;
 
   return (
-    <tr className=" bg-gray-50 grid grid-cols-5 md:grid-cols-7 text-left hyphens-manual px-2 py-1 gap-4 border-t-[1px]">
+    <tr className=" bg-gray-50 grid grid-cols-5 md:grid-cols-7 text-left hyphens-manual px-5 py-1 gap-4 border-t-[1px]">
       <td className="flex items-center font-semibold">{cabinNumber}</td>
       <td className="flex items-center col-span-2">
         Auf&shy;bet&shy;tung bis {capacity} Per&shy;sonen
@@ -18,7 +18,7 @@ function TableRow({ cabins }: { cabins: ICabinTypes }) {
       <td>
         <img className="w-[70px]" src={img} alt="" />
       </td>
-      <td className="flex flex-end mx-auto">
+      <td className="flex justify-end col-span-4 md:col-auto">
         <ButtonIcon onClick={() => console.log("test")}>
           <HiListBullet className="w-6 h-6" />
         </ButtonIcon>
