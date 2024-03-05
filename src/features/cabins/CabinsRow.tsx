@@ -1,6 +1,9 @@
 import { HiListBullet } from "react-icons/hi2";
 import ButtonIcon from "../../ui/ButtonIcon";
 import { ICabinTypes } from "../../types/cabinTypes";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCabins } from "./cabinsSlice";
 
 function TableRow({
   cabins,

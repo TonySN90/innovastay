@@ -4,8 +4,30 @@ import { cabinsData } from "../../data/data";
 import { ICabinTypes } from "../../types/cabinTypes";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCabins } from "./cabinsSlice";
+
 function CabinsTable() {
   const windowWidth = useWindowWidth();
+
+  const dispatch = useDispatch();
+  const { cabins, status, error } = useSelector((state) => state.cabins);
+
+  const { cabin_name, category, capacity, price, discount, img } = cabins;
+
+  const cabin = {
+    cabinName: cabin_name,
+    category,
+    capacity,
+    price,
+    discount,
+    img: "avatar.jpeg",
+  };
+
+  useEffect(() => {
+    dispatch(fetchCabins());
+  }, [dispatch]);
 
   return (
     <>
@@ -26,9 +48,21 @@ function CabinsTable() {
               : ["Zimmerinformationen"]
           }
         />
-        <Table.Body
+        {status === "loading" && <h1 className="text-2xl">Laden!</h1>}
+        {status === "idle" && (
+          <Table.Body
+            data={cabinsData}
+            render={(cabin: ICabinTypes) => (
+              <CabinsRow
+                cabins={cabin}
+                key={cabin.id}
+                windowWidth={windowWidth}
+              />
+            )}
+          />
+        )}
+        {/* <Table.Body
           data={cabinsData}
-          // data={cabinsData}
           render={(cabin: ICabinTypes) => (
             <CabinsRow
               cabins={cabin}
@@ -36,7 +70,7 @@ function CabinsTable() {
               windowWidth={windowWidth}
             />
           )}
-        />
+        /> */}
       </Table>
     </>
   );

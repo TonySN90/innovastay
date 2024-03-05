@@ -1,12 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getCabins } from "../../services/apiCabins";
 
-const fetchCabins = createAsyncThunk("cabins/fetchCabins", async () => {
-  const cabins = await getCabins();
-  return cabins;
-});
+export const fetchCabins = createAsyncThunk(
+  "cabins/fetchCabins",
+  async (_, { getState }) => {
+    const { cabins } = getState();
+    if (cabins.cabins.length > 0) {
+      return cabins.cabins;
+    }
 
-const initialState: object = {
+    const newCabins = await getCabins();
+    return newCabins;
+  }
+);
+
+const initialState = {
   status: "idle",
   error: "",
   cabins: [],
@@ -18,15 +26,14 @@ const cabinsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchCabins.pending, (state, action) => {
+      .addCase(fetchCabins.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchCabins.fulfilled, (state, action) => {
         state.status = "idle";
         state.cabins = action.payload;
-        console.log(state.cabins);
       })
-      .addCase(fetchCabins.rejected, (state, action) => {
+      .addCase(fetchCabins.rejected, (state) => {
         state.status = "error";
         state.error =
           "Es gab ein Problem bei dem Abruf der Zimmerdaten. Bitte versuchen Sie es erneut.";
