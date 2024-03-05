@@ -11,9 +11,7 @@ const tableContext = createContext<ITableContextTypes | undefined>(undefined);
 function Table({ children, columns, columnSpace }: TableProps) {
   return (
     <tableContext.Provider value={{ columns, columnSpace }}>
-      <table className="w-full mb-4 text-sm shadow-lg shadow-gray-400/10">
-        {children}
-      </table>
+      <table className="w-full mb-4 text-sm shadow-l">{children}</table>
     </tableContext.Provider>
   );
 }
@@ -32,11 +30,11 @@ function Header({ content }: TableHeaderProps) {
   return (
     <thead>
       <tr
-        className={`grid ${columns} text-left hyphens-manual p-4 px-7 gap-2 bg-indigo-200 rounded-t-md`}
+        className={`grid ${columns} bg-indigo-200 text-left hyphens-manual p-4 px-7 gap-2 rounded-t-md shadow-2xl shadow-indigo-300 border-b-2 border-indigo-200`}
       >
         {content.map((el, i) => (
           <th
-            className={`flex items-center font-semibold uppercase text-gray-700 ${
+            className={`flex items-center font-semibold uppercase text-gray-600 ${
               columnSpace[`col${i + 1}` as keyof typeof columnSpace] || ""
             }`}
             key={el}

@@ -19,7 +19,7 @@ function GuestsRow({
   } = guestInformation;
 
   return (
-    <tr className=" bg-gray-50 grid grid-cols-5 md:grid-cols-10 text-left hyphens-manual p-4 px-7 gap-2 border-t-[1px] min-h-[70px]">
+    <tr className="shadow-2xl shadow-indigo-300 bg-gray-50 grid grid-cols-5 md:grid-cols-10 text-left hyphens-manual rounded-md min-h-[70px] p-4 px-7 gap-2 border-indigo-300 my-1.5 hover:bg-indigo-100">
       <td className="flex items-center font-semibold col-span-2 md:col-span-2">
         <div className="flex flex-col">
           <span className="font-semibold">{guest}</span>
@@ -57,7 +57,7 @@ function GuestsRow({
         )}
       </td>
       <td className={`flex items-center col-span-4 md:col-auto`}>
-        {info.substring(0, 30) + "..."}
+        {info.substring(0, 25) + "..."}
       </td>
 
       <td className="flex justify-end col-span-1 md:col-auto">

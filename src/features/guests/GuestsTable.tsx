@@ -14,6 +14,7 @@ function CabinsTable() {
           col2: "col-span-3",
           col3: "col-span-2",
           col4: "",
+          col5: "",
         }}
       >
         <Table.Header

@@ -20,7 +20,7 @@ function BookingsRow({
   } = bookings;
 
   return (
-    <tr className="bg-gray-50 min-h-16 grid grid-cols-1 md:grid-cols-12 text-left hyphens-manual py-3 px-5 md:px-7 gap-2 border-t-[1px]">
+    <tr className="bg-gray-50 min-h-16 grid grid-cols-1 md:grid-cols-12 text-left hyphens-manual py-3 px-5 md:px-7 gap-2 border-t-[1px] rounded-md shadow-2xl shadow-indigo-300 my-1.5 hover:bg-indigo-100">
       <td className="flex items-center font-semibold ">
         {windowWidth < 768 && "Zimmer:"} {cabinNumber}
       </td>
@@ -37,15 +37,15 @@ function BookingsRow({
       </td>
       <td className={`flex items-center md:col-span-2`}>
         <div
-          className={`md:col-span-4 p-1.5 md:w-full text-center rounded-md text-xs ${
+          className={`md:col-span-4 p-1.5 md:w-[120px] text-center rounded-md text-xs ${
             (status === StatusTypes.unconfirmed && "bg-blue-200") ||
             (status === StatusTypes.confirmed && "bg-green-200") ||
             (status === StatusTypes.checkedOut && "bg-gray-200")
           }`}
         >
-          {status === StatusTypes.unconfirmed && "Nicht bestätigt"}
-          {status === StatusTypes.confirmed && "Ausgechecked"}
-          {status === StatusTypes.checkedOut && "Bestätigt"}
+          {status === StatusTypes.unconfirmed && "Ausstehend"}
+          {status === StatusTypes.confirmed && "Bestätigt"}
+          {status === StatusTypes.checkedOut && "Ausgechecked"}
         </div>
       </td>
       <td className="flex items-center md:col-span-2">

@@ -6,6 +6,7 @@ import useWindowWidth from "../../hooks/UseWindowWidth";
 
 function CabinsTable() {
   const windowWidth = useWindowWidth();
+
   return (
     <>
       <Table
@@ -27,6 +28,7 @@ function CabinsTable() {
         />
         <Table.Body
           data={cabinsData}
+          // data={cabinsData}
           render={(cabin: ICabinTypes) => (
             <CabinsRow
               cabins={cabin}

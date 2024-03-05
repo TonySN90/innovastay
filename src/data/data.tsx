@@ -3,7 +3,8 @@ import { SchedulerData } from "@bitnoi.se/react-scheduler";
 export const cabinsData = [
   {
     id: "01",
-    cabin: { name: "Zimmer 1", category: "Einzelzimmer" },
+    cabinName: "Zimmer 1",
+    category: "Einzelzimmer",
     capacity: 2,
     price: 250,
     discount: 220,
@@ -11,7 +12,8 @@ export const cabinsData = [
   },
   {
     id: "02",
-    cabin: { name: "Zimmer 2", category: "Doppelzimmer" },
+    cabinName: "Zimmer 2",
+    category: "Doppelzimmer",
     capacity: 2,
     price: 560,
     discount: 480,
@@ -19,23 +21,26 @@ export const cabinsData = [
   },
   {
     id: "03",
-    cabin: { name: "Zimmer 3", category: "Doppelzimmer" },
-    capacity: 2,
+    cabinName: "Zimmer 3",
+    category: "Doppelzimmer",
     price: 780,
+    capacity: 2,
     discount: "",
     img: "avatar.jpeg",
   },
   {
     id: "04",
-    cabin: { name: "Zimmer 4", category: "Mehrbettzimmer" },
-    capacity: 3,
+    cabinName: "Zimmer 4",
+    category: "Mehrbettzimmer",
+    capacity: 4,
     price: 1080,
     discount: 960,
     img: "avatar.jpeg",
   },
   {
     id: "05",
-    cabin: { name: "Zimmer 2", category: "Zweibettzimmer" },
+    cabinName: "Zimmer 5",
+    category: "Zweibettzimmer",
     capacity: 2,
     price: 1300,
     discount: 1240,
@@ -43,7 +48,8 @@ export const cabinsData = [
   },
   {
     id: "06",
-    cabin: { name: "Zimmer 6", category: "Familienzimmer" },
+    cabinName: "Zimmer 6",
+    category: "Familienzimmer",
     capacity: 6,
     price: 1300,
     discount: 1240,
@@ -95,7 +101,7 @@ export const bookingsData = [
     numGuests: 2,
     cabinPrice: 1320,
     extrasPrice: 300,
-    status: "confirmed",
+    status: "checked-out",
     hasBreakfast: true,
     isPaid: false,
     totalPrice: 1800,
@@ -107,8 +113,8 @@ export const mockedSchedulerData: SchedulerData = [
     id: "cabin-001",
     label: {
       icon: "https://picsum.photos/24",
-      title: cabinsData[0].cabin.name,
-      subtitle: cabinsData[0].cabin.category,
+      title: cabinsData[0].cabinName,
+      subtitle: cabinsData[0].category,
     },
     data: [
       {
@@ -137,8 +143,8 @@ export const mockedSchedulerData: SchedulerData = [
     id: "070ac5b5-8369-4cd2-8ba2-0a2567570cc60",
     label: {
       icon: "https://picsum.photos/25",
-      title: cabinsData[1].cabin.name,
-      subtitle: cabinsData[1].cabin.category,
+      title: cabinsData[1].cabinName,
+      subtitle: cabinsData[1].category,
     },
     data: [
       {
@@ -167,8 +173,8 @@ export const mockedSchedulerData: SchedulerData = [
     id: "070ac5b5-8369-4cd2-8b45637570cc60",
     label: {
       icon: "https://picsum.photos/20",
-      title: cabinsData[2].cabin.name,
-      subtitle: cabinsData[2].cabin.category,
+      title: cabinsData[2].cabinName,
+      subtitle: cabinsData[2].category,
     },
     data: [
       {
@@ -197,8 +203,8 @@ export const mockedSchedulerData: SchedulerData = [
     id: "070ac5b5-8369-4cd2-8ba2-0456570cc60",
     label: {
       icon: "https://picsum.photos/26",
-      title: cabinsData[3].cabin.name,
-      subtitle: cabinsData[3].cabin.category,
+      title: cabinsData[3].cabinName,
+      subtitle: cabinsData[3].category,
     },
     data: [
       {
@@ -217,8 +223,8 @@ export const mockedSchedulerData: SchedulerData = [
     id: "070ac5b5-8369-4cd2-8ba2-045667570cc60",
     label: {
       icon: "https://picsum.photos/27",
-      title: cabinsData[4].cabin.name,
-      subtitle: cabinsData[4].cabin.category,
+      title: cabinsData[4].cabinName,
+      subtitle: cabinsData[4].category,
     },
     data: [
       {
@@ -247,8 +253,8 @@ export const mockedSchedulerData: SchedulerData = [
     id: "070ac5b5-8369-4cd2-8ba2-0a25786570cc60",
     label: {
       icon: "https://picsum.photos/28",
-      title: cabinsData[5].cabin.name,
-      subtitle: cabinsData[5].cabin.category,
+      title: cabinsData[5].cabinName,
+      subtitle: cabinsData[5].category,
     },
     data: [
       {
@@ -334,3 +340,72 @@ export const guestsData = [
       "Während des Aufenthalts was alles in Ordnung. Das Zimmer wurde aber in einem dreckigen Zustand hinterlassen!",
   },
 ];
+
+// const hotelData_23423424 = {
+//   cabinsData: [
+//     {
+//       id: "01",
+//       cabin: { name: "Zimmer 1", category: "Einzelzimmer" },
+//       capacity: 2,
+//       price: 250,
+//       discount: 220,
+//       img: "avatar.jpeg",
+//     },
+//   ],
+//   bookingsData: [
+//     {
+//       id: "5546",
+//       cabin: "cabin-01",
+//       guest: "Olaf Scholz",
+//       email: "olafscholz@bundeskanzler.de",
+//       startDate: "27.02.2024",
+//       endDate: "03.01.2024",
+//       numNights: 6,
+//       numGuests: 2,
+//       cabinPrice: 1320,
+//       extrasPrice: 300,
+//       status: "unconfirmed",
+//       hasBreakfast: true,
+//       isPaid: false,
+//       totalPrice: 2000,
+//     },
+//   ],
+
+//   guestData: [
+//     {
+//       id: "8b71a8a5-33dd-4fc8-9caa-b4a7563762",
+//       guest: "Olaf Scholz",
+//       address: "Bundeskanzlerstr. 1",
+//       postalCode: "10435",
+//       city: "Berlin",
+//       email: "olafscholz@bundeskanzler.de",
+//       phone: "0160666666",
+//       country: "DE",
+//       maxStays: 2,
+//       lastStay: "27.02.2024 - 03.01.2024",
+//       information: "Der Gast war sehr unsauber bei seinem letzten Aufenthalt!",
+//     },
+//   ],
+//   SchedulerData: [
+//     {
+//       id: "cabin-01",
+//       label: {
+//         icon: "https://picsum.photos/24",
+//         title: cabinsData[0].cabin.name,
+//         subtitle: cabinsData[0].cabin.category,
+//       },
+//       data: [
+//         {
+//           id: "8b71a8a5-33dd-4fc8-9caa-b4a7563762",
+//           startDate: new Date("2024-02-27T15:31:24.272Z"),
+//           endDate: new Date("2024-03-01T10:28:22.649Z"),
+//           occupancy: 3600,
+//           title: "Olaf Scholz",
+//           subtitle: "2 Gäste",
+//           description: "olafscholz@bundeskanzler.de",
+//           bgColor: "#C7D2FE",
+//         },
+//       ],
+//     },
+//   ],
+// };

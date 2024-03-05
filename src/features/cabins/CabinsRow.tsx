@@ -6,11 +6,10 @@ function TableRow({
   cabins,
   windowWidth,
 }: { cabins: ICabinTypes } & { windowWidth: number }) {
-  const { cabin, capacity, price, discount, img } = cabins;
-  const { name: cabinName, category } = cabin;
+  const { capacity, price, discount, img, category, cabinName } = cabins;
 
   return (
-    <tr className=" bg-gray-50 grid grid-cols-1 md:grid-cols-7 text-left hyphens-manual px-7 py-1 gap-2 border-t-[1px]">
+    <tr className=" bg-gray-50 grid grid-cols-1 md:grid-cols-7 text-left hyphens-manual px-7 py-1 gap-2 border-t-[1px] rounded-md shadow-2xl shadow-indigo-300 my-1.5 hover:bg-indigo-100">
       <td className="flex items-center">
         <div className="flex flex-col">
           <span className="font-semibold">{cabinName}</span>
