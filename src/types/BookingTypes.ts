@@ -15,6 +15,13 @@ export interface IBookingTypes {
   totalPrice: number;
 }
 
+export interface IBookingStateTypes {
+  bookingsView: BookingsViewType;
+  status: "idle" | "loading" | "error";
+  error: string;
+  bookings: IBookingTypes[];
+}
+
 export enum StatusTypes {
   checkedOut = "checked-out",
   unconfirmed = "unconfirmed",
@@ -31,7 +38,3 @@ export interface IToggleButtonsTypes {
   onClick: (type: BookingsViewType) => void;
   bookingsView: BookingsViewType;
 }
-
-export type BookingsStateTypes = {
-  bookingsView: BookingsViewType;
-};
