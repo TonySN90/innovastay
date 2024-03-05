@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getCabins } from "../../services/apiCabins";
+import { ICabinStatesTypes, ICabinTypes } from "../../types/cabinTypes";
 
 export const fetchCabins = createAsyncThunk(
   "cabins/fetchCabins",
   async (_, { getState }) => {
-    const { cabins } = getState();
-    if (cabins.cabins.length > 0) {
+    const { cabins } = getState() as {
+      cabins: { cabins: ICabinTypes[] };
+    };
+    if (cabins?.cabins.length > 0) {
       return cabins.cabins;
     }
 
@@ -18,7 +21,7 @@ const initialState = {
   status: "idle",
   error: "",
   cabins: [],
-};
+} as ICabinStatesTypes;
 
 const cabinsSlice = createSlice({
   name: "cabins",

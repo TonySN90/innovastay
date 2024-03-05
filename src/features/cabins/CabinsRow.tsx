@@ -1,15 +1,19 @@
 import { HiListBullet } from "react-icons/hi2";
 import ButtonIcon from "../../ui/ButtonIcon";
 import { ICabinTypes } from "../../types/cabinTypes";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCabins } from "./cabinsSlice";
 
 function TableRow({
   cabins,
   windowWidth,
 }: { cabins: ICabinTypes } & { windowWidth: number }) {
-  const { capacity, price, discount, img, category, cabinName } = cabins;
+  const {
+    capacity,
+    price,
+    discount,
+    img,
+    category,
+    cabin_name: cabinName,
+  } = cabins;
 
   return (
     <tr className=" bg-gray-50 grid grid-cols-1 md:grid-cols-7 text-left hyphens-manual px-7 py-1 gap-2 border-t-[1px] rounded-md shadow-2xl shadow-indigo-300 my-1.5 hover:bg-indigo-100">
