@@ -43,7 +43,7 @@ const bookingsSlice = createSlice({
       })
       .addCase(fetchBookings.fulfilled, (state, action) => {
         state.status = "idle";
-        state.bookings = action.payload;
+        state.bookings = action.payload || [];
       })
       .addCase(fetchBookings.rejected, (state) => {
         state.status = "error";

@@ -1,11 +1,18 @@
 import Table from "../../ui/Table";
 import BookingsRow from "./BookingsRow";
-import { bookingsData } from "../../data/data";
 import { IBookingTypes } from "../../types/BookingTypes";
 import useWindowWidth from "../../hooks/UseWindowWidth";
+import useBookings from "./useBookings";
+import Empty from "../../ui/Empty";
 
 function BookingsTable() {
   const windowWidth = useWindowWidth();
+  const { bookings, status } = useBookings();
+
+  if (status === "loading")
+    return <div className="text-center">Loading...</div>;
+  console.log(bookings);
+  if (!bookings.length) return <Empty resourceName="bookings" />;
 
   return (
     <>
@@ -27,11 +34,11 @@ function BookingsTable() {
           }
         />
         <Table.Body
-          data={bookingsData}
+          data={bookings}
           render={(booking: IBookingTypes) => (
             <BookingsRow
               bookings={booking}
-              key={booking.bookingId}
+              key={booking.id}
               windowWidth={windowWidth}
             />
           )}

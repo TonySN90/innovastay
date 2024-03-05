@@ -1,13 +1,12 @@
 export interface IBookingTypes {
-  bookingId: string;
-  cabin: string;
-  guest: string;
-  email: string;
+  cabins: { name: string };
+  created_at: string;
+  id: string;
+  guests: { email: string; fullName: string };
   startDate: string;
   endDate: string;
   numNights: number;
   numGuests: number;
-  cabinPrice: number;
   extrasPrice: number;
   status: string;
   hasBreakfast: boolean;

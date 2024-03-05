@@ -1,7 +1,7 @@
 export interface ICabinTypes {
   id: string;
   cabinName: string;
-  cabin_name: string;
+  name: string;
   category: string;
   capacity: number;
   price: number;
