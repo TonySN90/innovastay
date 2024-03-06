@@ -6,12 +6,11 @@ import useBookings from "./useBookings";
 import Empty from "../../ui/Empty";
 
 function BookingsTable() {
-  const windowWidth = useWindowWidth();
   const { bookings, status } = useBookings();
+  const windowWidth = useWindowWidth();
 
   if (status === "loading")
     return <div className="text-center">Loading...</div>;
-  console.log(bookings);
   if (!bookings.length) return <Empty resourceName="bookings" />;
 
   return (

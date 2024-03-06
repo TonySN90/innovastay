@@ -1,12 +1,14 @@
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import bookingsReducer from "./features/bookings/bookingsSlice";
 import cabinsReducer from "./features/cabins/cabinsSlice";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import guestsReducer from "./features/guests/guestsSlice";
 
 const store = configureStore({
   reducer: {
     bookings: bookingsReducer,
     cabins: cabinsReducer,
+    guests: guestsReducer,
   },
 });
 

@@ -1,10 +1,15 @@
-import { guestsData } from "../../data/data";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import Table from "../../ui/Table";
 import GuestsRow from "./GuestsRow";
+import useGuests from "./useGuests";
 
 function CabinsTable() {
   const windowWidth = useWindowWidth();
+  const { guests, status } = useGuests();
+
+  if (status === "loading")
+    return <div className="text-center">Loading...</div>;
+
   return (
     <>
       <Table
@@ -25,7 +30,7 @@ function CabinsTable() {
           }
         />
         <Table.Body
-          data={guestsData}
+          data={guests}
           render={(guest) => (
             <GuestsRow
               guestInformation={guest}

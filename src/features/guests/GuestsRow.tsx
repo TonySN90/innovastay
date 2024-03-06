@@ -7,7 +7,7 @@ function GuestsRow({
   windowWidth,
 }: { guestInformation: IGuestTypes } & { windowWidth: number }) {
   const {
-    guest,
+    fullName,
     address,
     city,
     postalCode,
@@ -22,7 +22,7 @@ function GuestsRow({
     <tr className="shadow-2xl shadow-indigo-300 bg-gray-50 grid grid-cols-5 md:grid-cols-10 text-left hyphens-manual rounded-md min-h-[70px] p-4 px-7 gap-2 border-indigo-300 my-1.5 hover:bg-indigo-100">
       <td className="flex items-center font-semibold col-span-2 md:col-span-2">
         <div className="flex flex-col">
-          <span className="font-semibold">{guest}</span>
+          <span className="font-semibold">{fullName}</span>
         </div>
       </td>
       <td className="flex items-center col-span-5 md:col-span-3">
