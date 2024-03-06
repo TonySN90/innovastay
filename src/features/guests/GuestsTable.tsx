@@ -1,4 +1,6 @@
 import useWindowWidth from "../../hooks/UseWindowWidth";
+import { StatusTypes } from "../../types/GlobalTypes";
+import Empty from "../../ui/Empty";
 import Table from "../../ui/Table";
 import GuestsRow from "./GuestsRow";
 import useGuests from "./useGuests";
@@ -7,8 +9,10 @@ function CabinsTable() {
   const windowWidth = useWindowWidth();
   const { guests, status } = useGuests();
 
-  if (status === "loading")
+  if (status === StatusTypes.LOADING)
     return <div className="text-center">Loading...</div>;
+
+  if (!guests.length) return <Empty resourceName="guests" />;
 
   return (
     <>

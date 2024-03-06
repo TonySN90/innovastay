@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { HiListBullet } from "react-icons/hi2";
 import ButtonIcon from "../../ui/ButtonIcon";
-import { IBookingTypes, StatusTypes } from "../../types/BookingTypes";
+import { IBookingTypes, BookingStatusTypes } from "../../types/BookingTypes";
 
 function BookingsRow({
   bookings,
@@ -27,7 +27,11 @@ function BookingsRow({
           {/* {windowWidth < 768 && <span className="font-semibold">Gast:</span>} */}
 
           <span className="font-semibold">{guests.fullName}</span>
-          <span className="text-xs">{guests.email}</span>
+          <span className="text-xs">
+            {windowWidth > 768
+              ? guests.email.substring(0, 22) + "..."
+              : guests.email}
+          </span>
         </div>
       </td>
       <td className="flex items-center md:col-span-2">
@@ -37,14 +41,14 @@ function BookingsRow({
       <td className={`flex items-center md:col-span-2`}>
         <div
           className={`md:col-span-4 p-1.5 md:w-[120px] text-center rounded-md text-xs ${
-            (status === StatusTypes.unconfirmed && "bg-blue-200") ||
-            (status === StatusTypes.confirmed && "bg-green-200") ||
-            (status === StatusTypes.checkedOut && "bg-gray-200")
+            (status === BookingStatusTypes.unconfirmed && "bg-blue-200") ||
+            (status === BookingStatusTypes.confirmed && "bg-green-200") ||
+            (status === BookingStatusTypes.checkedOut && "bg-gray-200")
           }`}
         >
-          {status === StatusTypes.unconfirmed && "Ausstehend"}
-          {status === StatusTypes.confirmed && "Bestätigt"}
-          {status === StatusTypes.checkedOut && "Ausgechecked"}
+          {status === BookingStatusTypes.unconfirmed && "Ausstehend"}
+          {status === BookingStatusTypes.confirmed && "Bestätigt"}
+          {status === BookingStatusTypes.checkedOut && "Ausgechecked"}
         </div>
       </td>
       <td className="flex items-center md:col-span-2">

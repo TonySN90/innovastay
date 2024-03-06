@@ -1,4 +1,4 @@
-import { IButtonPropsTypes, ButtonTypes } from "../types/UiTypes";
+import { ButtonTypes, IButtonPropsTypes } from "../types/GlobalTypes";
 
 function Button({
   type,

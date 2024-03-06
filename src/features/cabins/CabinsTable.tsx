@@ -4,12 +4,13 @@ import { ICabinTypes } from "../../types/cabinTypes";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import useCabins from "./useCabins";
 import Empty from "../../ui/Empty";
+import { StatusTypes } from "../../types/GlobalTypes";
 
 function CabinsTable() {
   const windowWidth = useWindowWidth();
   const { cabins, status } = useCabins();
 
-  if (status === "loading")
+  if (status === StatusTypes.LOADING)
     return <div className="text-center">Loading...</div>;
 
   if (!cabins.length) return <Empty resourceName="cabins" />;

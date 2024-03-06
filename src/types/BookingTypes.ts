@@ -21,7 +21,7 @@ export interface IBookingStateTypes {
   bookings: IBookingTypes[];
 }
 
-export enum StatusTypes {
+export enum BookingStatusTypes {
   checkedOut = "checked-out",
   unconfirmed = "unconfirmed",
   confirmed = "confirmed",
@@ -30,10 +30,4 @@ export enum StatusTypes {
 export enum BookingsViewType {
   schedule = "schedule",
   table = "table",
-}
-export interface IToggleButtonsTypes {
-  buttonLeft: string;
-  buttonRight: string;
-  onClick: (type: BookingsViewType) => void;
-  bookingsView: BookingsViewType;
 }

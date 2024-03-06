@@ -4,13 +4,15 @@ import { IBookingTypes } from "../../types/BookingTypes";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import useBookings from "./useBookings";
 import Empty from "../../ui/Empty";
+import { StatusTypes } from "../../types/GlobalTypes";
 
 function BookingsTable() {
   const { bookings, status } = useBookings();
   const windowWidth = useWindowWidth();
 
-  if (status === "loading")
+  if (status === StatusTypes.LOADING)
     return <div className="text-center">Loading...</div>;
+
   if (!bookings.length) return <Empty resourceName="bookings" />;
 
   return (

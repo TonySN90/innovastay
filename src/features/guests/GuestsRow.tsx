@@ -57,7 +57,7 @@ function GuestsRow({
         )}
       </td>
       <td className={`flex items-center col-span-4 md:col-auto`}>
-        {info.substring(0, 25) + "..."}
+        {windowWidth > 768 ? info.substring(0, 20) + "..." : info}
       </td>
 
       <td className="flex justify-end col-span-1 md:col-auto">

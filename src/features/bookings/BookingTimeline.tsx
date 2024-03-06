@@ -2,9 +2,13 @@ import "../../styles/timeline.css";
 import { Scheduler } from "@bitnoi.se/react-scheduler";
 import { useState } from "react";
 import { mockedSchedulerData } from "../../data/data";
+import useBookings from "./useBookings";
+import { StatusTypes } from "../../types/GlobalTypes";
 
 export default function Component() {
   const [filterButtonState, setFilterButtonState] = useState(0);
+  const { bookings, status } = useBookings();
+  const isLoadingBookings = status === StatusTypes.LOADING;
 
   return (
     <section>

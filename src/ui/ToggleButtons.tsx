@@ -1,4 +1,5 @@
-import { BookingsViewType, IToggleButtonsTypes } from "../types/BookingTypes";
+import { BookingsViewType } from "../types/BookingTypes";
+import { IToggleButtonsTypes } from "../types/GlobalTypes";
 
 function ToggleButtons({
   buttonLeft,
