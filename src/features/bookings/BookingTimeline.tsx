@@ -1,21 +1,22 @@
 import "../../styles/timeline.css";
 import { Scheduler } from "@bitnoi.se/react-scheduler";
 import { useState } from "react";
-import { mockedSchedulerData } from "../../data/data";
 import useBookings from "./useBookings";
 import { StatusTypes } from "../../types/GlobalTypes";
 
 export default function Component() {
   const [filterButtonState, setFilterButtonState] = useState(0);
-  const { bookings, status } = useBookings();
+  const { mockedSchedulerData, status } = useBookings();
   const isLoadingBookings = status === StatusTypes.LOADING;
+
+  if (isLoadingBookings) return <div>Loading...</div>;
 
   return (
     <section>
       <Scheduler
         data={mockedSchedulerData}
-        // isLoading={isLoading}
-        onRangeChange={(newRange) => console.log(newRange)}
+        isLoading={isLoadingBookings}
+        // onRangeChange={(newRange) => console.log(newRange)}
         onTileClick={(clickedResource) => console.log(clickedResource)}
         onItemClick={(item) => console.log(item)}
         onFilterData={() => {
