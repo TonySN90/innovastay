@@ -6,7 +6,7 @@ function TableRow({
   cabins,
   windowWidth,
 }: { cabins: ICabinTypes } & { windowWidth: number }) {
-  const { capacity, price, discount, img, category, name } = cabins;
+  const { capacity, price, discount, image, category, name } = cabins;
 
   return (
     <tr className=" bg-gray-50 grid grid-cols-1 md:grid-cols-7 text-left hyphens-manual px-7 py-1 gap-2 border-t-[1px] rounded-md shadow-2xl shadow-indigo-300 my-1.5 hover:bg-indigo-100">
@@ -36,7 +36,7 @@ function TableRow({
         )}
       </td>
       <td>
-        <img className="w-[70px]" src={img} alt="" />
+        <img className="w-[70px]" src={image} alt="" />
       </td>
       <td className="flex justify-end">
         <ButtonIcon onClick={() => console.log("test")}>

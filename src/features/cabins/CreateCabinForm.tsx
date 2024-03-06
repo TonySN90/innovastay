@@ -2,6 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import { FormValues } from "../../types/FormTypes";
 import FormRow from "../../ui/FormRow";
+import { createCabin } from "../../services/apiCabins";
 
 function CreateCabinForm() {
   const {
@@ -10,7 +11,9 @@ function CreateCabinForm() {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    createCabin(data);
+  };
 
   return (
     <>
@@ -25,6 +28,13 @@ function CreateCabinForm() {
           id="name"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.name?.message}
+        />
+        <FormRow
+          label="Kategorie"
+          type="text"
+          id="category"
+          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          error={errors?.category?.message}
         />
         <FormRow
           label="Max. Personen"
@@ -67,14 +77,14 @@ function CreateCabinForm() {
         <FormRow
           label="Bild"
           type="file"
-          id="file"
+          id="image"
           registerProp={{ register, required: "Wähle ein Bild" }}
-          error={errors?.file?.message}
+          error={errors?.image?.message}
         />
         <div className="w-[full] flex justify-center md:justify-end mt-4">
           <Button
             type="reset"
-            onClick={() => console.log("test")}
+            onClick={() => null}
             variation="inverted"
             size="md"
             extras="mr-2 rounded-lg"
@@ -82,7 +92,7 @@ function CreateCabinForm() {
           />
           <Button
             type="submit"
-            onClick={() => console.log("test")}
+            onClick={() => null}
             variation="standard"
             size="md"
             extras="rounded-lg"

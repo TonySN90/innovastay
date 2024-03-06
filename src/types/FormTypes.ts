@@ -2,11 +2,12 @@ import { FieldValues, UseFormRegister } from "react-hook-form";
 
 export interface FormValues {
   name: string;
+  category: string;
   capacity: number;
   price: number;
   discount: number;
   description: string;
-  file: File;
+  image: File;
   password: string;
   passwordConfirm: string;
   email: string;

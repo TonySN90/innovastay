@@ -7,6 +7,7 @@ export interface ICabinTypes {
   price: number;
   discount: number | string;
   img: string;
+  image: string;
 }
 
 export interface ICabinStatesTypes {
