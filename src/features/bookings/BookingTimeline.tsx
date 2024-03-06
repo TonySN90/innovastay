@@ -3,13 +3,14 @@ import { Scheduler } from "@bitnoi.se/react-scheduler";
 import { useState } from "react";
 import useBookings from "./useBookings";
 import { StatusTypes } from "../../types/GlobalTypes";
+import Spinner from "../../ui/Spinner";
 
 export default function Component() {
   const [filterButtonState, setFilterButtonState] = useState(0);
   const { mockedSchedulerData, status } = useBookings();
   const isLoadingBookings = status === StatusTypes.LOADING;
 
-  if (isLoadingBookings) return <div>Loading...</div>;
+  if (isLoadingBookings) return <Spinner />;
 
   return (
     <section>

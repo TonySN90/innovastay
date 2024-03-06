@@ -5,13 +5,13 @@ import useWindowWidth from "../../hooks/UseWindowWidth";
 import useBookings from "./useBookings";
 import Empty from "../../ui/Empty";
 import { StatusTypes } from "../../types/GlobalTypes";
+import Spinner from "../../ui/Spinner";
 
 function BookingsTable() {
   const { bookings, status } = useBookings();
   const windowWidth = useWindowWidth();
 
-  if (status === StatusTypes.LOADING)
-    return <div className="text-center">Loading...</div>;
+  if (status === StatusTypes.LOADING) return <Spinner />;
 
   if (!bookings.length) return <Empty resourceName="bookings" />;
 
