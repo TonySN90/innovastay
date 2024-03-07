@@ -4,8 +4,6 @@ import { FormValues } from "../../types/FormTypes";
 import FormRow from "../../ui/FormRow";
 import useCreateCabin from "./useCreateCabin";
 import { StatusTypes } from "../../types/GlobalTypes";
-import { useAppDispatch } from "../../store";
-import { resetStatus } from "./cabinsSlice";
 
 function CreateCabinForm({ onCloseModal }: { onCloseModal: () => void }) {
   const {
@@ -15,32 +13,16 @@ function CreateCabinForm({ onCloseModal }: { onCloseModal: () => void }) {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const {
-    uploadNewCabin,
-    error: uploadError,
-    status: uploadStatus,
-  } = useCreateCabin();
+  const { uploadNewCabin, uploadingStatus } = useCreateCabin(
+    reset,
+    onCloseModal
+  );
 
-  const dispatch = useAppDispatch();
+  const isUploading = uploadingStatus === StatusTypes.LOADING;
 
-  const isUploading = uploadStatus === StatusTypes.LOADING;
-
-  const onSubmit: SubmitHandler<FormValues> = async (formData) => {
-    try {
-      await uploadNewCabin(formData);
-
-      console.log("uploadStatus nach uploadNewCabin:", uploadStatus);
-    } catch (error) {
-      console.error("Fehler beim Hochladen des Zimmers:", error);
-    }
+  const onSubmit: SubmitHandler<FormValues> = (formData) => {
+    uploadNewCabin(formData);
   };
-
-  if (uploadStatus === "success") {
-    console.log("Resetting form and closing modal", uploadStatus);
-    reset();
-    onCloseModal();
-    dispatch(resetStatus());
-  }
 
   return (
     <>

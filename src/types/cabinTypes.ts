@@ -11,7 +11,8 @@ export interface ICabinTypes {
 }
 
 export interface ICabinStatesTypes {
-  status: "idle" | "loading" | "error";
+  loadingStatus: "idle" | "loading" | "error";
+  uploadingStatus: "idle" | "success" | "loading" | "error";
   error: string;
   cabins: ICabinTypes[];
 }

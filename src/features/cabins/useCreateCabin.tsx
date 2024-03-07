@@ -1,13 +1,23 @@
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { ICabinStatesTypes } from "../../types/cabinTypes";
-import { uploadCabin } from "./cabinsSlice";
+import { fetchCabins, resetStatus, uploadCabin } from "./cabinsSlice";
 
-function useCreateCabin() {
+function useCreateCabin(reset, onCloseModal) {
   const dispatch = useAppDispatch();
 
-  const { status, error } = useAppSelector(
+  const { uploadingStatus, error } = useAppSelector(
     (state: { cabins: ICabinStatesTypes }) => state.cabins
   );
+
+  useEffect(() => {
+    if (uploadingStatus === "success") {
+      reset();
+      onCloseModal();
+      dispatch(fetchCabins());
+      dispatch(resetStatus());
+    }
+  }, [uploadingStatus, reset, onCloseModal, dispatch]);
 
   function uploadNewCabin(newCabin) {
     dispatch(uploadCabin(newCabin));
@@ -18,7 +28,7 @@ function useCreateCabin() {
     throw new Error(`Fehler beim Upload der Zimmerdaten.`);
   }
 
-  return { uploadNewCabin, status, error };
+  return { uploadNewCabin, uploadingStatus, error };
 }
 
 export default useCreateCabin;

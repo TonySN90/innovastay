@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createCabin, getCabins } from "../../services/apiCabins";
 import { ICabinStatesTypes, ICabinTypes } from "../../types/cabinTypes";
+import { StatusTypes } from "../../types/GlobalTypes";
 
 export const fetchCabins = createAsyncThunk(
   "cabins/fetchCabins",
@@ -8,12 +9,12 @@ export const fetchCabins = createAsyncThunk(
     const { cabins } = getState() as {
       cabins: { cabins: ICabinTypes[] };
     };
-    if (cabins?.cabins.length > 0) {
-      return cabins.cabins;
-    }
 
-    const newCabins = await getCabins();
-    return newCabins;
+    if (cabins.uploadingStatus === StatusTypes.SUCCESS)
+      return await getCabins();
+    if (cabins?.cabins.length > 0) return cabins.cabins;
+
+    return await getCabins();
   }
 );
 
@@ -26,7 +27,8 @@ export const uploadCabin = createAsyncThunk(
 );
 
 const initialState = {
-  status: "idle",
+  loadingStatus: "idle",
+  uploadingStatus: "idle",
   error: "",
   cabins: [],
 } as ICabinStatesTypes;
@@ -36,31 +38,31 @@ const cabinsSlice = createSlice({
   initialState,
   reducers: {
     resetStatus: (state) => {
-      state.status = "idle";
+      state.uploadingStatus = "idle";
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCabins.pending, (state) => {
-        state.status = "loading";
+        state.loadingStatus = "loading";
       })
       .addCase(fetchCabins.fulfilled, (state, action) => {
-        state.status = "idle";
+        state.loadingStatus = "idle";
         state.cabins = action.payload;
       })
       .addCase(fetchCabins.rejected, (state) => {
-        state.status = "error";
+        state.loadingStatus = "error";
         state.error =
           "Es gab ein Problem bei dem Abruf der Zimmerdaten. Bitte versuchen Sie es erneut.";
       })
       .addCase(uploadCabin.pending, (state) => {
-        state.status = "loading";
+        state.uploadingStatus = "loading";
       })
       .addCase(uploadCabin.fulfilled, (state) => {
-        state.status = "success";
+        state.uploadingStatus = "success";
       })
       .addCase(uploadCabin.rejected, (state) => {
-        state.status = "error";
+        state.uploadingStatus = "error";
         state.error =
           "Es gab ein Problem bei dem Erstellen der Zimmerdaten. Bitte versuchen Sie es erneut.";
       });

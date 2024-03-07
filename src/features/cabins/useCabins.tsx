@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 
 function useCabins() {
   const dispatch = useAppDispatch();
-  const { cabins, status, error } = useAppSelector(
+  const { cabins, loadingStatus, error } = useAppSelector(
     (state: { cabins: ICabinStatesTypes }) => state.cabins
   );
 
@@ -13,7 +13,7 @@ function useCabins() {
     dispatch(fetchCabins());
   }, [dispatch]);
 
-  return { cabins, status, error };
+  return { cabins, loadingStatus, error };
 }
 
 export default useCabins;

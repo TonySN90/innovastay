@@ -9,9 +9,9 @@ import Spinner from "../../ui/Spinner";
 
 function CabinsTable() {
   const windowWidth = useWindowWidth();
-  const { cabins, status } = useCabins();
+  const { cabins, loadingStatus } = useCabins();
 
-  if (status === StatusTypes.LOADING) return <Spinner />;
+  if (loadingStatus === StatusTypes.LOADING) return <Spinner />;
 
   if (!cabins.length) return <Empty resourceName="cabins" />;
 
