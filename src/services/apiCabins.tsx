@@ -1,3 +1,4 @@
+import { FormValues } from "../types/FormTypes";
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function getCabins() {
@@ -6,21 +7,20 @@ export async function getCabins() {
   if (error) {
     console.error(error);
     throw new Error(
-      `Zimmer konnten nicht geladen werden ${error.message}: ${error.details}`
+      `Die Zimmerliste konnte nicht geladen werden. ${error.message}: ${error.details}`
     );
   }
 
   return cabins;
 }
 
-export async function createCabin(newCabin) {
-  console.log(newCabin);
+export async function createCabin(newCabin: FormValues) {
+  const image =
+    typeof newCabin.image === "string" ? newCabin.image : newCabin.image[0];
 
-  const imageName = `${Math.random()}-${newCabin.image[0]?.name}`;
-  console.log(imageName);
-
-  const test = `https://dphwgwsehqjvebdyhncn.supabase.co/storage/v1/object/public/cabin_images/Binz.jpg?t=2024-03-06T18%3A03%3A29.117Z`;
+  const imageName = `${Math.random()}-${image.name}`;
   const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin_images/${imageName}`;
+
   const { data, error } = await supabase
     .from("cabins")
     .insert([{ ...newCabin, image: imagePath }])
@@ -34,17 +34,17 @@ export async function createCabin(newCabin) {
     );
   }
 
-  // Upload image to Supabase
+  // Upload image to storage
   const { error: uploadError } = await supabase.storage
     .from("cabin_images")
-    .upload(imageName, newCabin.image[0]);
+    .upload(imageName, image);
 
   if (uploadError) {
     await supabase.from("cabins").delete().eq("id", data.id);
 
     console.error(uploadError);
     throw new Error(
-      `Das Bild konnte nicht hochgeladern werden, das neue Zimmer wurde nicht erstellt `
+      `Das Bild konnte nicht hochgeladen werden, das neue Zimmer wurde nicht erstellt `
     );
   }
 

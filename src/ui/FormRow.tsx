@@ -6,6 +6,7 @@ function FormRow<T extends keyof FormValues>({
   registerProp,
   error,
   type,
+  isUploading,
 }: IFormRowProps<T>) {
   return (
     <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
@@ -13,7 +14,7 @@ function FormRow<T extends keyof FormValues>({
       {error && (
         <span className="text-red-500 text-md md:max-w-[220px]">{error}</span>
       )}
-      <Input id={id} type={type} reg={registerProp} />
+      <Input id={id} type={type} reg={registerProp} isUploading={isUploading} />
     </div>
   );
 }
@@ -28,7 +29,12 @@ function Label({ label }: { label: string }) {
   );
 }
 
-function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
+function Input<T extends keyof FormValues>({
+  id,
+  reg,
+  type,
+  isUploading,
+}: IInputProps<T>) {
   const { register, required, minLength, pattern, validate } = reg;
 
   return (
@@ -41,7 +47,7 @@ function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
           className="w-[100%] md:w-[300px] border border-gray-300 rounded-sm h-9 pl-2"
           type={type}
           id={id}
-          disabled={false}
+          disabled={isUploading}
           {...register(id, {
             required: required,
             min: minLength,
@@ -57,7 +63,7 @@ function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
         <textarea
           className="w-full md:w-[300px] border border-gray-300 rounded-sm h-24 pl-2"
           id={id}
-          disabled={false}
+          disabled={isUploading}
           {...register(id, {
             required: required,
             min: minLength,
@@ -71,7 +77,7 @@ function Input<T extends keyof FormValues>({ id, reg, type }: IInputProps<T>) {
           type={type}
           id={id}
           accept="image/*"
-          disabled={false}
+          disabled={isUploading}
           {...register(id, {
             required: required,
             min: minLength,

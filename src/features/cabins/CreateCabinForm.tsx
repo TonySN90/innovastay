@@ -2,18 +2,45 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import { FormValues } from "../../types/FormTypes";
 import FormRow from "../../ui/FormRow";
-import { createCabin } from "../../services/apiCabins";
+import useCreateCabin from "./useCreateCabin";
+import { StatusTypes } from "../../types/GlobalTypes";
+import { useAppDispatch } from "../../store";
+import { resetStatus } from "./cabinsSlice";
 
-function CreateCabinForm() {
+function CreateCabinForm({ onCloseModal }: { onCloseModal: () => void }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    createCabin(data);
+  const {
+    uploadNewCabin,
+    error: uploadError,
+    status: uploadStatus,
+  } = useCreateCabin();
+
+  const dispatch = useAppDispatch();
+
+  const isUploading = uploadStatus === StatusTypes.LOADING;
+
+  const onSubmit: SubmitHandler<FormValues> = async (formData) => {
+    try {
+      await uploadNewCabin(formData);
+
+      console.log("uploadStatus nach uploadNewCabin:", uploadStatus);
+    } catch (error) {
+      console.error("Fehler beim Hochladen des Zimmers:", error);
+    }
   };
+
+  if (uploadStatus === "success") {
+    console.log("Resetting form and closing modal", uploadStatus);
+    reset();
+    onCloseModal();
+    dispatch(resetStatus());
+  }
 
   return (
     <>
@@ -28,6 +55,7 @@ function CreateCabinForm() {
           id="name"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.name?.message}
+          isUploading={isUploading}
         />
         <FormRow
           label="Kategorie"
@@ -35,6 +63,7 @@ function CreateCabinForm() {
           id="category"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.category?.message}
+          isUploading={isUploading}
         />
         <FormRow
           label="Max. Personen"
@@ -49,6 +78,7 @@ function CreateCabinForm() {
             },
           }}
           error={errors?.capacity?.message}
+          isUploading={isUploading}
         />
         <FormRow
           label="Regulärer Preis"
@@ -59,6 +89,7 @@ function CreateCabinForm() {
             required: "Dieses Feld ist erforderlich",
           }}
           error={errors?.price?.message}
+          isUploading={isUploading}
         />
         <FormRow
           label="Angebots-Preis"
@@ -66,6 +97,7 @@ function CreateCabinForm() {
           id="discount"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.discount?.message}
+          isUploading={isUploading}
         />
         <FormRow
           label="Beschreibung"
@@ -73,6 +105,7 @@ function CreateCabinForm() {
           id="description"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.description?.message?.toString() || ""}
+          isUploading={isUploading}
         />
         <FormRow
           label="Bild"
@@ -80,6 +113,7 @@ function CreateCabinForm() {
           id="image"
           registerProp={{ register, required: "Wähle ein Bild" }}
           error={errors?.image?.message}
+          isUploading={isUploading}
         />
         <div className="w-[full] flex justify-center md:justify-end mt-4">
           <Button

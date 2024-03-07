@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getCabins } from "../../services/apiCabins";
+import { createCabin, getCabins } from "../../services/apiCabins";
 import { ICabinStatesTypes, ICabinTypes } from "../../types/cabinTypes";
 
 export const fetchCabins = createAsyncThunk(
@@ -17,6 +17,14 @@ export const fetchCabins = createAsyncThunk(
   }
 );
 
+export const uploadCabin = createAsyncThunk(
+  "cabins/uploadCabin",
+  async (newCabin) => {
+    const uploadedCabin = await createCabin(newCabin);
+    return uploadedCabin;
+  }
+);
+
 const initialState = {
   status: "idle",
   error: "",
@@ -26,7 +34,11 @@ const initialState = {
 const cabinsSlice = createSlice({
   name: "cabins",
   initialState,
-  reducers: {},
+  reducers: {
+    resetStatus: (state) => {
+      state.status = "idle";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCabins.pending, (state) => {
@@ -40,8 +52,20 @@ const cabinsSlice = createSlice({
         state.status = "error";
         state.error =
           "Es gab ein Problem bei dem Abruf der Zimmerdaten. Bitte versuchen Sie es erneut.";
+      })
+      .addCase(uploadCabin.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(uploadCabin.fulfilled, (state) => {
+        state.status = "success";
+      })
+      .addCase(uploadCabin.rejected, (state) => {
+        state.status = "error";
+        state.error =
+          "Es gab ein Problem bei dem Erstellen der Zimmerdaten. Bitte versuchen Sie es erneut.";
       });
   },
 });
 
 export default cabinsSlice.reducer;
+export const { resetStatus } = cabinsSlice.actions;

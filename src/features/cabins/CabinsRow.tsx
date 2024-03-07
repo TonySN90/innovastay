@@ -9,7 +9,7 @@ function TableRow({
   const { capacity, price, discount, image, category, name } = cabins;
 
   return (
-    <tr className=" bg-gray-50 grid grid-cols-1 md:grid-cols-7 text-left hyphens-manual px-7 py-1 gap-2 border-t-[1px] rounded-md shadow-2xl shadow-indigo-300 my-1.5 hover:bg-indigo-100">
+    <tr className="md:h-[70px] bg-gray-50 grid grid-cols-1 md:grid-cols-7 text-left hyphens-manual px-7 py-1 gap-2 border-t-[1px] rounded-md shadow-2xl shadow-indigo-300 my-1.5 hover:bg-indigo-100">
       <td className="flex items-center">
         <div className="flex flex-col">
           <span className="font-semibold">{name}</span>
@@ -35,8 +35,12 @@ function TableRow({
           "Kein Angebot"
         )}
       </td>
-      <td>
-        <img className="w-[70px]" src={image} alt="" />
+      <td className="flex items-center w-[150px] md:w-[90px]">
+        <img
+          className="w-[100%] rounded-md"
+          src={image}
+          alt="Bild von dem Zimmer"
+        />
       </td>
       <td className="flex justify-end">
         <ButtonIcon onClick={() => console.log("test")}>

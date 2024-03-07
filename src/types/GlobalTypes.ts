@@ -4,6 +4,7 @@ export enum StatusTypes {
   IDLE = "idle",
   LOADING = "loading",
   ERROR = "error",
+  SUCCESS = "success",
 }
 
 export interface IButtonPropsTypes {
