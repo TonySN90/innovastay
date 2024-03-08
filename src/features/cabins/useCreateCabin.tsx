@@ -5,6 +5,8 @@ import { fetchCabins, resetStatus, uploadCabin } from "./cabinsSlice";
 import { FormValues } from "../../types/FormTypes";
 import { StatusTypes } from "../../types/GlobalTypes";
 
+import { toast } from "react-hot-toast";
+
 function useCreateCabin(reset: () => void, onCloseModal: () => void) {
   const dispatch = useAppDispatch();
 
@@ -18,6 +20,8 @@ function useCreateCabin(reset: () => void, onCloseModal: () => void) {
       onCloseModal();
       dispatch(fetchCabins());
       dispatch(resetStatus());
+
+      toast.success("Zimmerdaten erfolgreich hochgeladen.");
     }
   }, [uploadingStatus, reset, onCloseModal, dispatch]);
 
@@ -27,6 +31,7 @@ function useCreateCabin(reset: () => void, onCloseModal: () => void) {
 
   if (error) {
     console.error(error);
+    toast.error(`Fehler beim Upload der Zimmerdaten.`);
     throw new Error(`Fehler beim Upload der Zimmerdaten.`);
   }
 
