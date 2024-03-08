@@ -18,7 +18,12 @@ export async function createCabin(newCabin: FormValues) {
   const image =
     typeof newCabin.image === "string" ? newCabin.image : newCabin.image[0];
 
-  const imageName = `${Math.random()}-${image.name}`;
+  if (!image) {
+    throw new Error("Bild nicht gefunden.");
+  }
+
+  const imageName =
+    typeof image === "string" ? image : `${Math.random()}-${image.name}`;
   const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin_images/${imageName}`;
 
   const { data, error } = await supabase

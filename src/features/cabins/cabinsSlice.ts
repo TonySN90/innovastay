@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createCabin, getCabins } from "../../services/apiCabins";
-import { ICabinStatesTypes, ICabinTypes } from "../../types/cabinTypes";
+import { ICabinStatesTypes } from "../../types/cabinTypes";
 import { StatusTypes } from "../../types/GlobalTypes";
+import { FormValues } from "../../types/FormTypes";
 
 export const fetchCabins = createAsyncThunk(
   "cabins/fetchCabins",
   async (_, { getState }) => {
     const { cabins } = getState() as {
-      cabins: { cabins: ICabinTypes[] };
+      cabins: ICabinStatesTypes;
     };
 
     if (cabins.uploadingStatus === StatusTypes.SUCCESS)
@@ -20,7 +21,7 @@ export const fetchCabins = createAsyncThunk(
 
 export const uploadCabin = createAsyncThunk(
   "cabins/uploadCabin",
-  async (newCabin) => {
+  async (newCabin: FormValues) => {
     const uploadedCabin = await createCabin(newCabin);
     return uploadedCabin;
   }

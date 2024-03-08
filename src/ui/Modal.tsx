@@ -59,7 +59,11 @@ function Window({ children, name }: IModalWindowPropsTypes) {
             content={<HiXMark />}
           />
         </div>
-        <div>{cloneElement(children, { onCloseModal: close })}</div>
+        <div>
+          {cloneElement(children as React.ReactElement, {
+            onCloseModal: close,
+          })}
+        </div>
       </ModalContent>
     </Overlay>,
     document.body

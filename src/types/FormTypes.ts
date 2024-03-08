@@ -7,7 +7,7 @@ export interface FormValues {
   price: number;
   discount: number;
   description: string;
-  image: string[] | string;
+  image: File[] | string;
   password: string;
   passwordConfirm: string;
   email: string;
@@ -30,7 +30,7 @@ export interface IFormRowProps<T extends keyof FormValues> {
     min?: { value: number; message: string };
   };
   error?: string;
-  isUploading: boolean;
+  isUploading?: boolean;
   type:
     | "text"
     | "number"
@@ -43,7 +43,7 @@ export interface IFormRowProps<T extends keyof FormValues> {
 
 export interface IInputProps<T extends keyof FormValues> {
   id: T;
-  isUploading: boolean;
+  isUploading: boolean | undefined;
   reg: {
     register: UseFormRegister<FormValues>;
     required: string;

@@ -31,6 +31,7 @@ function UpdateSettingsForm() {
           id="nights"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.nights?.message}
+          isUploading
         />
         <FormRow
           label="Maximale Gastanzahl pro Buchung"

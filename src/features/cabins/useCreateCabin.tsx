@@ -2,8 +2,10 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { ICabinStatesTypes } from "../../types/cabinTypes";
 import { fetchCabins, resetStatus, uploadCabin } from "./cabinsSlice";
+import { FormValues } from "../../types/FormTypes";
+import { StatusTypes } from "../../types/GlobalTypes";
 
-function useCreateCabin(reset, onCloseModal) {
+function useCreateCabin(reset: () => void, onCloseModal: () => void) {
   const dispatch = useAppDispatch();
 
   const { uploadingStatus, error } = useAppSelector(
@@ -11,7 +13,7 @@ function useCreateCabin(reset, onCloseModal) {
   );
 
   useEffect(() => {
-    if (uploadingStatus === "success") {
+    if (uploadingStatus === StatusTypes.SUCCESS) {
       reset();
       onCloseModal();
       dispatch(fetchCabins());
@@ -19,7 +21,7 @@ function useCreateCabin(reset, onCloseModal) {
     }
   }, [uploadingStatus, reset, onCloseModal, dispatch]);
 
-  function uploadNewCabin(newCabin) {
+  function uploadNewCabin(newCabin: FormValues) {
     dispatch(uploadCabin(newCabin));
   }
 
