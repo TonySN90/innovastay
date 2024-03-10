@@ -5,7 +5,7 @@ import FormRow from "../../ui/FormRow";
 import useCreateCabin from "./useCreateCabin";
 import { StatusTypes } from "../../types/GlobalTypes";
 
-function CreateCabinForm({ onCloseModal }: { onCloseModal: () => void }) {
+function CreateCabinForm({ onCloseModal }: { onCloseModal?: () => void }) {
   const {
     register,
     handleSubmit,

@@ -28,19 +28,16 @@ function Modal({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Open({ opens: opensWindowName }: { opens: string }) {
-  const { open } = useContext(ModalContext) || {};
+function Open({
+  children,
+  opens: opensWindowName,
+}: {
+  opens: string;
+  children: React.ReactNode;
+}) {
+  const { open } = useContext(ModalContext);
 
-  return (
-    <Button
-      onClick={() => open?.(opensWindowName)}
-      type="button"
-      variation="standard"
-      size="lg"
-      extras="rounded-lg"
-      content="Zimmer hinzufügen"
-    />
-  );
+  return cloneElement(children, { onClick: () => open(opensWindowName) });
 }
 
 function Window({ children, name }: IModalWindowPropsTypes) {

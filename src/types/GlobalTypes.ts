@@ -8,7 +8,7 @@ export enum StatusTypes {
 }
 
 export interface IButtonPropsTypes {
-  onClick: () => void;
+  onClick?: () => void;
   variation: string;
 
   type?: "reset" | "submit" | "button";

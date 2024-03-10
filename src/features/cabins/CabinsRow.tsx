@@ -1,12 +1,20 @@
-import { HiListBullet } from "react-icons/hi2";
-import ButtonIcon from "../../ui/ButtonIcon";
 import { ICabinTypes } from "../../types/cabinTypes";
+import Menu from "../../ui/Menu";
+import Modal from "../../ui/Modal";
 
 function TableRow({
   cabins,
   windowWidth,
 }: { cabins: ICabinTypes } & { windowWidth: number }) {
-  const { capacity, price, discount, image, category, name } = cabins;
+  const {
+    capacity,
+    price,
+    discount,
+    image,
+    category,
+    name,
+    id: cabinId,
+  } = cabins;
 
   return (
     <tr className="md:h-[70px] bg-gray-50 grid grid-cols-1 md:grid-cols-7 text-left hyphens-manual px-7 py-1 gap-2 border-t-[1px] shadow-lg shadow-indigo-100 rounded-md my-1.5 hover:bg-indigo-100">
@@ -39,9 +47,15 @@ function TableRow({
         <img className="rounded-md" src={image} alt="Bild des Zimmers" />
       </td>
       <td className="flex justify-end">
-        <ButtonIcon onClick={() => console.log("test")}>
-          <HiListBullet className="w-6 h-6" />
-        </ButtonIcon>
+        <Modal>
+          <Menu>
+            <Menu.List cabinId={cabinId}>
+              <Menu.Item>Bearbeiten</Menu.Item>
+              <Menu.Item>Löschen</Menu.Item>
+            </Menu.List>
+            <Menu.ToggleButton cabinId={cabinId} />
+          </Menu>
+        </Modal>
       </td>
     </tr>
   );

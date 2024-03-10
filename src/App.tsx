@@ -8,7 +8,6 @@ import Settings from "./pages/Settings";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
 import Guests from "./pages/Guests";
-import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
