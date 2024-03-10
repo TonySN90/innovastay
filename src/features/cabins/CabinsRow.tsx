@@ -1,6 +1,13 @@
+import { FaRegEdit } from "react-icons/fa";
 import { ICabinTypes } from "../../types/cabinTypes";
 import Menu from "../../ui/Menu";
 import Modal from "../../ui/Modal";
+
+import { IoDuplicateOutline } from "react-icons/io5";
+
+import { TfiTrash } from "react-icons/tfi";
+import CreateCabinForm from "./CreateCabinForm";
+import Button from "../../ui/Button";
 
 function TableRow({
   cabins,
@@ -48,13 +55,39 @@ function TableRow({
       </td>
       <td className="flex justify-end">
         <Modal>
-          <Menu>
-            <Menu.List cabinId={cabinId}>
-              <Menu.Item>Bearbeiten</Menu.Item>
-              <Menu.Item>Löschen</Menu.Item>
-            </Menu.List>
-            <Menu.ToggleButton cabinId={cabinId} />
-          </Menu>
+          <Menu.List cabinId={cabinId}>
+            <Menu.Item>
+              <IoDuplicateOutline />
+              Duplizieren
+            </Menu.Item>
+
+            <Modal.Open opens="edit">
+              <Menu.Item>
+                <FaRegEdit />
+                Bearbeiten
+              </Menu.Item>
+            </Modal.Open>
+
+            <Menu.Item>
+              <TfiTrash />
+              Löschen
+            </Menu.Item>
+
+            <Modal.Open opens="edit">
+              <Button
+                type="button"
+                variation="standard"
+                size="lg"
+                extras="rounded-lg"
+                content="Edit"
+              />
+            </Modal.Open>
+
+            <Modal.Window name="edit">
+              <CreateCabinForm />
+            </Modal.Window>
+          </Menu.List>
+          <Menu.ToggleButton cabinId={cabinId} />
         </Modal>
       </td>
     </tr>

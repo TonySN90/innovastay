@@ -1,58 +1,8 @@
-// import { createContext, useContext, useState } from "react";
-// import ButtonIcon from "./ButtonIcon";
-// import { HiListBullet } from "react-icons/hi2";
-
 import { HiEllipsisVertical } from "react-icons/hi2";
 import ButtonIcon from "./ButtonIcon";
-import { createContext, useContext, useState } from "react";
-
-// const MenuContext = createContext(undefined);
-
-// function Menu({ children }) {
-//   const [openId, setIsOpenId] = useState("");
-
-//   const close = () => setIsOpenId("");
-//   const open = setIsOpenId;
-
-//   return (
-//     <MenuContext.Provider value={{ openId, close, open }}>
-//       <div className="flex justify-center items-center bg-red-300">
-//         {children}
-//       </div>
-//     </MenuContext.Provider>
-//   );
-// }
-
-// function ToggleButton({ id }) {
-//   const { close, open, openId } = useContext(MenuContext);
-
-//   function handleClick(e) {
-//     e.stopPropagation();
-//     console.log(openId);
-
-//     openId === "" || openId !== id ? open(id) : close();
-//   }
-
-//   return (
-//     <ButtonIcon onClick={handleClick}>
-//       <HiListBullet className="w-6 h-6" />
-//     </ButtonIcon>
-//   );
-// }
-
-// function List({ id, children }) {
-//   return <ul className="absolute top-0 left-0 ">{children}</ul>;
-// }
-
-// function Button({ id, children }) {
-//   return <li className="p-3">{children}</li>;
-// }
-
-// Menu.ToggleButton = ToggleButton;
-// Menu.List = List;
-// Menu.Button = Button;
-// export default Menu;
-// //
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import useClickOutside from "../hooks/useClickOutside";
 
 const MenuContext = createContext(undefined);
 
@@ -78,13 +28,10 @@ function ToggleButton({ cabinId }) {
   function handleClick(e) {
     e.stopPropagation();
 
-    if (openId === "" || openId !== cabinId) {
-      open(cabinId);
-    } else {
-      close();
-    }
     const rect = e.target.closest("button").getBoundingClientRect();
     setPosition({ x: rect.x - rect.width - 45, y: rect.y + 50 });
+
+    openId === "" || openId !== cabinId ? open(cabinId) : close();
   }
 
   return (
@@ -94,28 +41,45 @@ function ToggleButton({ cabinId }) {
   );
 }
 
-function List({ children }) {
-  const { position } = useContext(MenuContext);
+function List({ children, cabinId }) {
+  const { position, close, openId } = useContext(MenuContext);
 
-  return (
-    <div
+  const ref = useClickOutside(close, false);
+
+  if (openId !== cabinId) return null;
+
+  return createPortal(
+    <ul
+      data-id={cabinId}
+      ref={ref}
       style={{
         position: position ? "absolute" : "static",
         top: position && position.y,
         left: position && position.x,
       }}
-      className="z-10"
+      className="z-10 bg-indigo-200 rounded-lg"
     >
-      <ul>{children}</ul>
-    </div>
+      {children}
+    </ul>,
+
+    document.body
   );
 }
 
-function Item({ children }) {
-  const { openId } = useContext(MenuContext);
+function Item({ children, onClick }) {
+  const { close, openId } = useContext(MenuContext);
+  function handleClick() {
+    console.log(openId);
+    close();
+  }
 
-  if (openId === "") return null;
-  return <li className="bg-blue-300 px-3 py-1.5 cursor-pointer">{children}</li>;
+  return (
+    <li className=" px-3 py-1.5 cursor-pointer" onClick={onClick}>
+      <div className="flex items-center jus gap-2 h-7 hover:text-stone-100 transition-all">
+        {children}
+      </div>
+    </li>
+  );
 }
 
 Menu.List = List;

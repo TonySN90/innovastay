@@ -6,6 +6,7 @@ import useCabins from "./useCabins";
 import Empty from "../../ui/Empty";
 import { StatusTypes } from "../../types/GlobalTypes";
 import Spinner from "../../ui/Spinner";
+import Menu from "../../ui/Menu";
 
 function CabinsTable() {
   const windowWidth = useWindowWidth();
@@ -16,7 +17,7 @@ function CabinsTable() {
   if (!cabins.length) return <Empty resourceName="cabins" />;
 
   return (
-    <>
+    <Menu>
       <Table
         columns="grid-cols-5 md:grid-cols-7"
         columnSpace={{
@@ -45,7 +46,7 @@ function CabinsTable() {
           )}
         />
       </Table>
-    </>
+    </Menu>
   );
 }
 
