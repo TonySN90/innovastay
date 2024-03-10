@@ -7,7 +7,6 @@ import { IoDuplicateOutline } from "react-icons/io5";
 
 import { TfiTrash } from "react-icons/tfi";
 import CreateCabinForm from "./CreateCabinForm";
-import Button from "../../ui/Button";
 
 function TableRow({
   cabins,
@@ -72,21 +71,10 @@ function TableRow({
               <TfiTrash />
               Löschen
             </Menu.Item>
-
-            <Modal.Open opens="edit">
-              <Button
-                type="button"
-                variation="standard"
-                size="lg"
-                extras="rounded-lg"
-                content="Edit"
-              />
-            </Modal.Open>
-
-            <Modal.Window name="edit">
-              <CreateCabinForm />
-            </Modal.Window>
           </Menu.List>
+          <Modal.Window name="edit">
+            <CreateCabinForm cabinToUpdate={cabins} />
+          </Modal.Window>
           <Menu.ToggleButton cabinId={cabinId} />
         </Modal>
       </td>

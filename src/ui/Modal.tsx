@@ -43,7 +43,7 @@ function Open({
 function Window({ children, name }: IModalWindowPropsTypes) {
   const { openName, close } = useContext(ModalContext) || {};
 
-  if (openName !== name) return null;
+  if (!openName || openName !== name) return null;
   return createPortal(
     <Overlay>
       <ModalContent>

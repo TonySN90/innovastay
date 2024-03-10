@@ -67,14 +67,14 @@ function List({ children, cabinId }) {
 }
 
 function Item({ children, onClick }) {
-  const { close, openId } = useContext(MenuContext);
+  const { close } = useContext(MenuContext);
   function handleClick() {
-    console.log(openId);
+    onClick?.();
     close();
   }
 
   return (
-    <li className=" px-3 py-1.5 cursor-pointer" onClick={onClick}>
+    <li className=" px-3 py-1.5 cursor-pointer" onClick={handleClick}>
       <div className="flex items-center jus gap-2 h-7 hover:text-stone-100 transition-all">
         {children}
       </div>

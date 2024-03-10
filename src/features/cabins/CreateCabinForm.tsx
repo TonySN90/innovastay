@@ -4,24 +4,43 @@ import { FormValues } from "../../types/FormTypes";
 import FormRow from "../../ui/FormRow";
 import useCreateCabin from "./useCreateCabin";
 import { StatusTypes } from "../../types/GlobalTypes";
+import useUpdateCabin from "./useUpdateCabin";
+// import { updateCabin } from "../../services/apiCabins";
 
-function CreateCabinForm({ onCloseModal }: { onCloseModal?: () => void }) {
+function CreateCabinForm({
+  onCloseModal,
+  cabinToUpdate = {},
+}: {
+  onCloseModal?: () => void;
+}) {
+  const isUpdatingSession = Boolean(cabinToUpdate.id);
+  const { id: updateId, ...updateValues } = cabinToUpdate;
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    defaultValues: isUpdatingSession ? updateValues : {},
+  });
 
   const { uploadNewCabin, uploadingStatus } = useCreateCabin(
     reset,
     onCloseModal
   );
 
+  const { updateCabin, updatingStatus } = useUpdateCabin(reset, onCloseModal);
+
   const isUploading = uploadingStatus === StatusTypes.LOADING;
+  const isUpdating = updatingStatus === StatusTypes.LOADING;
+  const isWorking = isUploading || isUpdating;
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
-    uploadNewCabin(formData);
+    isUpdatingSession
+      ? updateCabin(updateId, { ...formData })
+      : // : uploadNewCabin(formData);
+        console.log("create");
   };
 
   return (
@@ -37,7 +56,7 @@ function CreateCabinForm({ onCloseModal }: { onCloseModal?: () => void }) {
           id="name"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.name?.message}
-          isUploading={isUploading}
+          isUploading={isWorking}
         />
         <FormRow
           label="Kategorie"
@@ -45,7 +64,7 @@ function CreateCabinForm({ onCloseModal }: { onCloseModal?: () => void }) {
           id="category"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.category?.message}
-          isUploading={isUploading}
+          isUploading={isWorking}
         />
         <FormRow
           label="Max. Personen"
@@ -60,7 +79,7 @@ function CreateCabinForm({ onCloseModal }: { onCloseModal?: () => void }) {
             },
           }}
           error={errors?.capacity?.message}
-          isUploading={isUploading}
+          isUploading={isWorking}
         />
         <FormRow
           label="Regulärer Preis"
@@ -71,7 +90,7 @@ function CreateCabinForm({ onCloseModal }: { onCloseModal?: () => void }) {
             required: "Dieses Feld ist erforderlich",
           }}
           error={errors?.price?.message}
-          isUploading={isUploading}
+          isUploading={isWorking}
         />
         <FormRow
           label="Angebots-Preis"
@@ -79,7 +98,7 @@ function CreateCabinForm({ onCloseModal }: { onCloseModal?: () => void }) {
           id="discount"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.discount?.message}
-          isUploading={isUploading}
+          isUploading={isWorking}
         />
         <FormRow
           label="Beschreibung"
@@ -87,7 +106,7 @@ function CreateCabinForm({ onCloseModal }: { onCloseModal?: () => void }) {
           id="description"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.description?.message?.toString() || ""}
-          isUploading={isUploading}
+          isUploading={isWorking}
         />
         <FormRow
           label="Bild"
@@ -95,7 +114,7 @@ function CreateCabinForm({ onCloseModal }: { onCloseModal?: () => void }) {
           id="image"
           registerProp={{ register, required: "Wähle ein Bild" }}
           error={errors?.image?.message}
-          isUploading={isUploading}
+          isUploading={isWorking}
         />
         <div className="w-[full] flex justify-center md:justify-end mt-4">
           <Button
@@ -112,7 +131,7 @@ function CreateCabinForm({ onCloseModal }: { onCloseModal?: () => void }) {
             variation="standard"
             size="md"
             extras="rounded-lg"
-            content="Hinzufügen"
+            content={isUpdatingSession ? "Aktualisieren" : "Hinzufügen"}
           />
         </div>
       </form>

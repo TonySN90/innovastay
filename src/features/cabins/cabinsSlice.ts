@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createCabin, getCabins } from "../../services/apiCabins";
+import { createCabin, getCabins, updateCabin } from "../../services/apiCabins";
 import { ICabinStatesTypes } from "../../types/cabinTypes";
 import { StatusTypes } from "../../types/GlobalTypes";
 import { FormValues } from "../../types/FormTypes";
@@ -27,9 +27,20 @@ export const uploadCabin = createAsyncThunk(
   }
 );
 
+export const editCabin = createAsyncThunk(
+  "cabins/editCabin",
+  async ({ id, toUpdatedCabin }) => {
+    console.log(toUpdatedCabin, id);
+
+    const updatedCabin = await updateCabin(id, toUpdatedCabin);
+    return updatedCabin;
+  }
+);
+
 const initialState = {
   loadingStatus: "idle",
   uploadingStatus: "idle",
+  updatingStatus: "idle",
   error: "",
   cabins: [],
 } as ICabinStatesTypes;
@@ -40,6 +51,10 @@ const cabinsSlice = createSlice({
   reducers: {
     resetStatus: (state) => {
       state.uploadingStatus = "idle";
+    },
+
+    resetUpdatingStatus: (state) => {
+      state.updatingStatus = "idle";
     },
   },
   extraReducers: (builder) => {
@@ -66,9 +81,20 @@ const cabinsSlice = createSlice({
         state.uploadingStatus = "error";
         state.error =
           "Es gab ein Problem bei dem Erstellen der Zimmerdaten. Bitte versuchen Sie es erneut.";
+      })
+      .addCase(editCabin.pending, (state) => {
+        state.updatingStatus = "loading";
+      })
+      .addCase(editCabin.fulfilled, (state) => {
+        state.updatingStatus = "success";
+      })
+      .addCase(editCabin.rejected, (state) => {
+        state.updatingStatus = "error";
+        state.error =
+          "Es gab ein Problem bei dem Aktualisieren der Zimmerdaten. Bitte versuchen Sie es erneut.";
       });
   },
 });
 
 export default cabinsSlice.reducer;
-export const { resetStatus } = cabinsSlice.actions;
+export const { resetStatus, resetUpdatingStatus } = cabinsSlice.actions;
