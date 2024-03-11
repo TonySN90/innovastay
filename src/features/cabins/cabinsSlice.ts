@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-  createCabin,
+  createUpdateCabin,
   deleteCabin,
   getCabins,
-  updateCabin,
 } from "../../services/apiCabins";
 import { ICabinStatesTypes } from "../../types/cabinTypes";
 import { StatusTypes } from "../../types/GlobalTypes";
@@ -31,7 +30,7 @@ export const fetchCabins = createAsyncThunk(
 export const uploadCabin = createAsyncThunk(
   "cabins/uploadCabin",
   async (newCabin: FormValues) => {
-    const uploadedCabin = await createCabin(newCabin);
+    const uploadedCabin = await createUpdateCabin(newCabin);
     return uploadedCabin;
   }
 );
@@ -45,7 +44,7 @@ export const editCabin = createAsyncThunk(
     id: number;
     toUpdatedCabin: FormValues;
   }) => {
-    const updatedCabin = await updateCabin(id, toUpdatedCabin);
+    const updatedCabin = await createUpdateCabin(toUpdatedCabin, id);
     return updatedCabin;
   }
 );

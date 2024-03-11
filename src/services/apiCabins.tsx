@@ -1,5 +1,7 @@
+import { PostgrestQueryBuilder } from "@supabase/postgrest-js";
 import { FormValues } from "../types/FormTypes";
 import supabase, { supabaseUrl } from "./supabase";
+import { ICabinTypes } from "../types/cabinTypes";
 
 export async function getCabins() {
   const { data: cabins, error } = await supabase.from("cabins").select("*");
@@ -14,7 +16,10 @@ export async function getCabins() {
   return cabins;
 }
 
-export async function createCabin(newCabin: FormValues) {
+export async function createUpdateCabin(
+  newCabin: ICabinTypes | FormValues,
+  cabinId?: number
+) {
   const hastImagePath =
     typeof newCabin.image === "string" &&
     newCabin.image.startsWith(supabaseUrl);
@@ -33,11 +38,20 @@ export async function createCabin(newCabin: FormValues) {
     ? newCabin.image
     : `${supabaseUrl}/storage/v1/object/public/cabin_images/${imageName}`;
 
-  const { data, error } = await supabase
-    .from("cabins")
-    .insert([{ ...newCabin, image: imagePath }])
-    .select()
-    .single();
+  // Create Query
+
+  // @ts-expect-error type error from supabase
+  let query = supabase.from("cabins") as PostgrestQueryBuilder<an>;
+
+  // if create new cabin
+  if (!cabinId) query = query.insert([{ ...newCabin, image: imagePath }]);
+
+  // if update existing cabin
+  if (cabinId)
+    query = query.update({ ...newCabin, image: imagePath }).eq("id", cabinId);
+
+  // Execute Query
+  const { data, error } = await query.select().single();
 
   if (error) {
     console.error(error);
@@ -47,64 +61,6 @@ export async function createCabin(newCabin: FormValues) {
   }
 
   // Upload image to storage
-
-  if (hastImagePath) return data;
-
-  const { error: uploadError } = await supabase.storage
-    .from("cabin_images")
-    .upload(imageName, image);
-
-  if (uploadError) {
-    await supabase.from("cabins").delete().eq("id", data.id);
-
-    console.error(uploadError);
-    throw new Error(
-      `Das Bild konnte nicht hochgeladen werden, das neue Zimmer wurde nicht erstellt `
-    );
-  }
-
-  return data;
-}
-
-export async function updateCabin(cabinId: number, updatedCabin: FormValues) {
-  const hastImagePath =
-    typeof updatedCabin.image === "string" &&
-    updatedCabin.image.startsWith(supabaseUrl);
-  console.log(hastImagePath);
-
-  const image =
-    typeof updatedCabin.image === "string"
-      ? updatedCabin.image
-      : updatedCabin.image[0];
-
-  if (!image) {
-    throw new Error("Bild nicht gefunden.");
-  }
-
-  const imageName =
-    typeof image === "string" ? image : `${Math.random()}-${image.name}`;
-
-  const imagePath = hastImagePath
-    ? updatedCabin.image
-    : `${supabaseUrl}/storage/v1/object/public/cabin_images/${imageName}`;
-
-  const forUpdate = { ...updatedCabin, image: imagePath };
-
-  const { data, error } = await supabase
-    .from("cabins")
-    .update(forUpdate)
-    .eq("id", cabinId)
-    .select();
-
-  if (error) {
-    console.error(error);
-    throw new Error(
-      `Das Zimmer konnte nicht angelegt werden. ${error.message}: ${error.details}`
-    );
-  }
-
-  // Upload image to storage
-
   if (hastImagePath) return data;
 
   const { error: uploadError } = await supabase.storage
@@ -122,6 +78,8 @@ export async function updateCabin(cabinId: number, updatedCabin: FormValues) {
 
   return data;
 }
+
+// -------------------------------------
 
 export async function deleteCabin(cabinId: number) {
   const { data, error } = await supabase
