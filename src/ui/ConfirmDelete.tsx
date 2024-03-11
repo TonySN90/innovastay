@@ -4,6 +4,7 @@ import Button from "./Button";
 function ConfirmDelete({
   onCloseModal,
   cabinId,
+  name,
 }: {
   onCloseModal: () => void;
 }) {
@@ -12,9 +13,10 @@ function ConfirmDelete({
   return (
     <div>
       <h2 className="font-semibold text-lg ">Löschen</h2>
-      <div className="py-2">Soll {"Zimmer 1"} wirklich gelöscht werden?</div>
+      <div className="py-2">Soll {name} wirklich gelöscht werden?</div>
       <div className="flex justify-end">
         <Button
+          onClick={onCloseModal}
           variation="inverted"
           size="md"
           content="Abbruch"

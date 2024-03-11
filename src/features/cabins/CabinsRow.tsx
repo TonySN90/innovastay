@@ -80,7 +80,7 @@ function TableRow({
           </Modal.Window>
 
           <Modal.Window name="delete">
-            <ConfirmDelete cabinId={cabinId} />
+            <ConfirmDelete cabinId={cabinId} name={name} />
           </Modal.Window>
 
           <Menu.ToggleButton cabinId={cabinId} />

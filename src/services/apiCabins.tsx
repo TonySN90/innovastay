@@ -57,6 +57,9 @@ export async function createCabin(newCabin: FormValues) {
 }
 
 export async function updateCabin(cabinId: number, updatedCabin: FormValues) {
+  const hastImagePath = updatedCabin.image?.startsWith?.(supabaseUrl);
+  console.log(hastImagePath);
+
   const image =
     typeof updatedCabin.image === "string"
       ? updatedCabin.image
@@ -65,10 +68,14 @@ export async function updateCabin(cabinId: number, updatedCabin: FormValues) {
   if (!image) {
     throw new Error("Bild nicht gefunden.");
   }
+  console.log(image);
 
   const imageName =
     typeof image === "string" ? image : `${Math.random()}-${image.name}`;
-  const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin_images/${imageName}`;
+
+  const imagePath = hastImagePath
+    ? updatedCabin.image
+    : `${supabaseUrl}/storage/v1/object/public/cabin_images/${imageName}`;
 
   const forUpdate = { ...updatedCabin, image: imagePath };
   console.log(forUpdate);

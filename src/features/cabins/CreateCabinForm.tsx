@@ -111,7 +111,10 @@ function CreateCabinForm({
           label="Bild"
           type="file"
           id="image"
-          registerProp={{ register, required: "Wähle ein Bild" }}
+          registerProp={{
+            register,
+            required: isUpdatingSession ? false : "Wähle ein Bild",
+          }}
           error={errors?.image?.message}
           isUploading={isWorking}
         />
