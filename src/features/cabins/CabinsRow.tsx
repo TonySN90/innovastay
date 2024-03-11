@@ -7,6 +7,7 @@ import { IoDuplicateOutline } from "react-icons/io5";
 
 import { TfiTrash } from "react-icons/tfi";
 import CreateCabinForm from "./CreateCabinForm";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 function TableRow({
   cabins,
@@ -67,14 +68,21 @@ function TableRow({
               </Menu.Item>
             </Modal.Open>
 
-            <Menu.Item>
-              <TfiTrash />
-              Löschen
-            </Menu.Item>
+            <Modal.Open opens="delete">
+              <Menu.Item>
+                <TfiTrash />
+                Löschen
+              </Menu.Item>
+            </Modal.Open>
           </Menu.List>
           <Modal.Window name="edit">
             <CreateCabinForm cabinToUpdate={cabins} />
           </Modal.Window>
+
+          <Modal.Window name="delete">
+            <ConfirmDelete cabinId={cabinId} />
+          </Modal.Window>
+
           <Menu.ToggleButton cabinId={cabinId} />
         </Modal>
       </td>

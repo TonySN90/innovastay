@@ -68,6 +68,7 @@ function List({ children, cabinId }) {
 
 function Item({ children, onClick }) {
   const { close } = useContext(MenuContext);
+
   function handleClick() {
     onClick?.();
     close();

@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createCabin, getCabins, updateCabin } from "../../services/apiCabins";
+import {
+  createCabin,
+  deleteCabin,
+  getCabins,
+  updateCabin,
+} from "../../services/apiCabins";
 import { ICabinStatesTypes } from "../../types/cabinTypes";
 import { StatusTypes } from "../../types/GlobalTypes";
 import { FormValues } from "../../types/FormTypes";
@@ -11,7 +16,11 @@ export const fetchCabins = createAsyncThunk(
       cabins: ICabinStatesTypes;
     };
 
-    if (cabins.uploadingStatus === StatusTypes.SUCCESS)
+    if (
+      cabins.uploadingStatus === StatusTypes.SUCCESS ||
+      cabins.updatingStatus === StatusTypes.SUCCESS ||
+      cabins.deletingStatus === StatusTypes.SUCCESS
+    )
       return await getCabins();
     if (cabins?.cabins.length > 0) return cabins.cabins;
 
@@ -30,10 +39,16 @@ export const uploadCabin = createAsyncThunk(
 export const editCabin = createAsyncThunk(
   "cabins/editCabin",
   async ({ id, toUpdatedCabin }) => {
-    console.log(toUpdatedCabin, id);
-
     const updatedCabin = await updateCabin(id, toUpdatedCabin);
     return updatedCabin;
+  }
+);
+
+export const deleteCabinThunk = createAsyncThunk(
+  "cabins/deleteCabin",
+  async (cabinId: number) => {
+    const deletedCabin = await deleteCabin(cabinId);
+    return deletedCabin;
   }
 );
 
@@ -41,6 +56,7 @@ const initialState = {
   loadingStatus: "idle",
   uploadingStatus: "idle",
   updatingStatus: "idle",
+  deletingStatus: "idle",
   error: "",
   cabins: [],
 } as ICabinStatesTypes;
@@ -55,6 +71,10 @@ const cabinsSlice = createSlice({
 
     resetUpdatingStatus: (state) => {
       state.updatingStatus = "idle";
+    },
+
+    resetDeletingStatus: (state) => {
+      state.deletingStatus = "idle";
     },
   },
   extraReducers: (builder) => {
@@ -92,9 +112,21 @@ const cabinsSlice = createSlice({
         state.updatingStatus = "error";
         state.error =
           "Es gab ein Problem bei dem Aktualisieren der Zimmerdaten. Bitte versuchen Sie es erneut.";
+      })
+      .addCase(deleteCabinThunk.pending, (state) => {
+        state.deletingStatus = "loading";
+      })
+      .addCase(deleteCabinThunk.fulfilled, (state) => {
+        state.deletingStatus = "success";
+      })
+      .addCase(deleteCabinThunk.rejected, (state) => {
+        state.deletingStatus = "error";
+        state.error =
+          "Es gab ein Problem bei dem Löschen der Zimmerdaten. Bitte versuchen Sie es erneut.";
       });
   },
 });
 
 export default cabinsSlice.reducer;
-export const { resetStatus, resetUpdatingStatus } = cabinsSlice.actions;
+export const { resetStatus, resetUpdatingStatus, resetDeletingStatus } =
+  cabinsSlice.actions;

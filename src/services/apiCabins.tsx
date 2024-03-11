@@ -95,7 +95,6 @@ export async function updateCabin(cabinId: number, updatedCabin: FormValues) {
     console.log(uploadError);
     await supabase.from("cabins").delete().eq("id", data.id);
 
-    console.error(uploadError);
     throw new Error(
       `Das Bild konnte nicht hochgeladen werden, das neue Zimmer wurde nicht erstellt `
     );
@@ -104,11 +103,18 @@ export async function updateCabin(cabinId: number, updatedCabin: FormValues) {
   return data;
 }
 
-// export async function deleteCabin(cabinId: number) {
-//   const { data, error } = await supabase
-//     .from("cabins")
-//     .delete()
-//     .eq("id", cabinId)
-//     .select()
-//     .single();
-// }
+export async function deleteCabin(cabinId: number) {
+  const { data, error } = await supabase
+    .from("cabins")
+    .delete()
+    .eq("id", cabinId)
+    .select()
+    .single();
+
+  if (error) {
+    console;
+    throw new Error(
+      `Fehler beim Löschen des Zimmers!. ${error.message}: ${error.details}`
+    );
+  }
+}

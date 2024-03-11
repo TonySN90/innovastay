@@ -39,8 +39,7 @@ function CreateCabinForm({
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
     isUpdatingSession
       ? updateCabin(updateId, { ...formData })
-      : // : uploadNewCabin(formData);
-        console.log("create");
+      : uploadNewCabin(formData);
   };
 
   return (
@@ -123,7 +122,7 @@ function CreateCabinForm({
             variation="inverted"
             size="md"
             extras="mr-2 rounded-lg"
-            content="Abbrechen"
+            content="Löschen"
           />
           <Button
             type="submit"
