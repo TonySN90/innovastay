@@ -25,7 +25,7 @@ function useUpdateCabin(reset: () => void, onCloseModal: () => void) {
     }
   }, [updatingStatus, reset, onCloseModal, dispatch]);
 
-  function updateCabin(id, toUpdatedCabin: FormValues) {
+  function updateCabin(id: number, toUpdatedCabin: FormValues) {
     dispatch(editCabin({ id, toUpdatedCabin }));
   }
 

@@ -38,7 +38,13 @@ export const uploadCabin = createAsyncThunk(
 
 export const editCabin = createAsyncThunk(
   "cabins/editCabin",
-  async ({ id, toUpdatedCabin }) => {
+  async ({
+    id,
+    toUpdatedCabin,
+  }: {
+    id: number;
+    toUpdatedCabin: FormValues;
+  }) => {
     const updatedCabin = await updateCabin(id, toUpdatedCabin);
     return updatedCabin;
   }

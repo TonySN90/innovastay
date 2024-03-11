@@ -23,9 +23,9 @@ function useDeleteCabin(onCloseModal: () => void) {
       dispatch(resetDeletingStatus());
       toast.success("Zimmerdaten erfolgreich gelöscht.");
     }
-  }, [dispatch, deletingStatus]);
+  }, [dispatch, deletingStatus, onCloseModal]);
 
-  function deleteCabin(id) {
+  function deleteCabin(id: number) {
     dispatch(deleteCabinThunk(id));
   }
 

@@ -1,16 +1,17 @@
 import { HiEllipsisVertical } from "react-icons/hi2";
 import ButtonIcon from "./ButtonIcon";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import useClickOutside from "../hooks/useClickOutside";
+import { IMenuTypes } from "../types/MenuTypes";
 
-const MenuContext = createContext(undefined);
+const MenuContext = createContext({} as IMenuTypes);
 
-function Menu({ children }) {
-  const [openId, setIsOpenId] = useState("");
-  const [position, setPosition] = useState(null);
+function Menu({ children }: { children: React.ReactNode }) {
+  const [openId, setIsOpenId] = useState(0);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  const close = () => setIsOpenId("");
+  const close = () => setIsOpenId(0);
   const open = setIsOpenId;
 
   return (
@@ -22,16 +23,19 @@ function Menu({ children }) {
   );
 }
 
-function ToggleButton({ cabinId }) {
-  const { close, open, openId, setPosition } = useContext(MenuContext);
+function ToggleButton({ cabinId }: { cabinId: number }) {
+  const { close, open, openId, setPosition }: IMenuTypes =
+    useContext(MenuContext);
 
-  function handleClick(e) {
+  function handleClick(e: React.MouseEvent) {
     e.stopPropagation();
 
-    const rect = e.target.closest("button").getBoundingClientRect();
-    setPosition({ x: rect.x - rect.width - 45, y: rect.y + 50 });
+    const rect = (e.target as Element)
+      .closest("button")
+      ?.getBoundingClientRect();
+    if (rect) setPosition({ x: rect.x - rect.width - 45, y: rect.y + 50 });
 
-    openId === "" || openId !== cabinId ? open(cabinId) : close();
+    openId === 0 || openId !== cabinId ? open(cabinId) : close();
   }
 
   return (
@@ -41,7 +45,13 @@ function ToggleButton({ cabinId }) {
   );
 }
 
-function List({ children, cabinId }) {
+function List({
+  children,
+  cabinId,
+}: {
+  children: React.ReactNode;
+  cabinId: number;
+}) {
   const { position, close, openId } = useContext(MenuContext);
 
   const ref = useClickOutside(close, false);
@@ -66,7 +76,13 @@ function List({ children, cabinId }) {
   );
 }
 
-function Item({ children, onClick }) {
+function Item({
+  children,
+  onClick = () => {},
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+}) {
   const { close } = useContext(MenuContext);
 
   function handleClick() {

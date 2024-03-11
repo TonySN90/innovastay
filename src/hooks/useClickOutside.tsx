@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 
-function useClickOutside(handler, listenCapturing = true) {
-  const ref = useRef();
+function useClickOutside(handler: () => void, listenCapturing = true) {
+  const ref = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    function handleClick(e) {
-      if (ref.current && !ref.current.contains(e.target)) {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
         handler();
       }
     }
@@ -13,7 +13,7 @@ function useClickOutside(handler, listenCapturing = true) {
 
     return () =>
       document.removeEventListener("click", handleClick, listenCapturing);
-  }, [handler]);
+  }, [handler, listenCapturing]);
 
   return ref;
 }

@@ -5,16 +5,18 @@ import FormRow from "../../ui/FormRow";
 import useCreateCabin from "./useCreateCabin";
 import { StatusTypes } from "../../types/GlobalTypes";
 import useUpdateCabin from "./useUpdateCabin";
-// import { updateCabin } from "../../services/apiCabins";
 
 function CreateCabinForm({
   onCloseModal,
   cabinToUpdate = {},
 }: {
   onCloseModal?: () => void;
+  cabinToUpdate?: FormValues | object;
 }) {
-  const isUpdatingSession = Boolean(cabinToUpdate.id);
-  const { id: updateId, ...updateValues } = cabinToUpdate;
+  const isUpdatingSession = Boolean(cabinToUpdate && "id" in cabinToUpdate);
+  const { id: updateId, ...updateValues } = cabinToUpdate as FormValues;
+
+  console.log(updateId);
 
   const {
     register,
@@ -27,10 +29,13 @@ function CreateCabinForm({
 
   const { uploadNewCabin, uploadingStatus } = useCreateCabin(
     reset,
-    onCloseModal
+    onCloseModal || (() => {})
   );
 
-  const { updateCabin, updatingStatus } = useUpdateCabin(reset, onCloseModal);
+  const { updateCabin, updatingStatus } = useUpdateCabin(
+    reset,
+    onCloseModal || (() => {})
+  );
 
   const isUploading = uploadingStatus === StatusTypes.LOADING;
   const isUpdating = updatingStatus === StatusTypes.LOADING;

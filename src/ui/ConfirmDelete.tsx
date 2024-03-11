@@ -7,8 +7,11 @@ function ConfirmDelete({
   name,
 }: {
   onCloseModal: () => void;
+  cabinId: number;
+  name: string;
 }) {
-  const { deleteCabin } = useDeleteCabin(onCloseModal);
+  const { deleteCabin }: { deleteCabin: (id: number) => void } =
+    useDeleteCabin(onCloseModal);
 
   return (
     <div>

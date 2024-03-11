@@ -35,9 +35,11 @@ function Open({
   opens: string;
   children: React.ReactNode;
 }) {
-  const { open } = useContext(ModalContext);
+  const { open } = useContext(ModalContext) as IModalContextTypes;
 
-  return cloneElement(children, { onClick: () => open(opensWindowName) });
+  return cloneElement(children as React.ReactElement, {
+    onClick: () => open(opensWindowName),
+  });
 }
 
 function Window({ children, name }: IModalWindowPropsTypes) {

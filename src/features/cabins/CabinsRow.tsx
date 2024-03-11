@@ -80,7 +80,11 @@ function TableRow({
           </Modal.Window>
 
           <Modal.Window name="delete">
-            <ConfirmDelete cabinId={cabinId} name={name} />
+            <ConfirmDelete
+              cabinId={cabinId}
+              name={name}
+              onCloseModal={() => {}} //Children prop
+            />
           </Modal.Window>
 
           <Menu.ToggleButton cabinId={cabinId} />

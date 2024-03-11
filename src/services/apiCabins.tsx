@@ -57,7 +57,9 @@ export async function createCabin(newCabin: FormValues) {
 }
 
 export async function updateCabin(cabinId: number, updatedCabin: FormValues) {
-  const hastImagePath = updatedCabin.image?.startsWith?.(supabaseUrl);
+  const hastImagePath =
+    typeof updatedCabin.image === "string" &&
+    updatedCabin.image.startsWith(supabaseUrl);
   console.log(hastImagePath);
 
   const image =
@@ -78,7 +80,6 @@ export async function updateCabin(cabinId: number, updatedCabin: FormValues) {
     : `${supabaseUrl}/storage/v1/object/public/cabin_images/${imageName}`;
 
   const forUpdate = { ...updatedCabin, image: imagePath };
-  console.log(forUpdate);
 
   const { data, error } = await supabase
     .from("cabins")
@@ -92,15 +93,19 @@ export async function updateCabin(cabinId: number, updatedCabin: FormValues) {
       `Das Zimmer konnte nicht angelegt werden. ${error.message}: ${error.details}`
     );
   }
+  console.log(data);
 
   // Upload image to storage
+
+  if (hastImagePath) return data;
+
   const { error: uploadError } = await supabase.storage
     .from("cabin_images")
     .upload(imageName, image);
 
   if (uploadError) {
     console.log(uploadError);
-    await supabase.from("cabins").delete().eq("id", data.id);
+    await supabase.from("cabins").delete().eq("id", data[0].id);
 
     throw new Error(
       `Das Bild konnte nicht hochgeladen werden, das neue Zimmer wurde nicht erstellt `
@@ -124,4 +129,6 @@ export async function deleteCabin(cabinId: number) {
       `Fehler beim Löschen des Zimmers!. ${error.message}: ${error.details}`
     );
   }
+
+  return data;
 }

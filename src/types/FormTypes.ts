@@ -1,6 +1,7 @@
 import { FieldValues, UseFormRegister } from "react-hook-form";
 
 export interface FormValues {
+  id: number;
   name: string;
   category: string;
   capacity: number;
@@ -23,7 +24,7 @@ export interface IFormRowProps<T extends keyof FormValues> {
   label: string;
   registerProp: {
     register: UseFormRegister<FormValues>;
-    required: string;
+    required: string | boolean;
     pattern?: { value: RegExp; message: string };
     minLength?: { value: number; message: string };
     validate?: (value: FormValues[T]) => string | boolean;
@@ -46,7 +47,7 @@ export interface IInputProps<T extends keyof FormValues> {
   isUploading: boolean | undefined;
   reg: {
     register: UseFormRegister<FormValues>;
-    required: string;
+    required: string | boolean;
     minLength?: { value: number; message: string };
     pattern?: { value: RegExp; message: string };
     validate?: (value: FormValues[T]) => string | boolean;
