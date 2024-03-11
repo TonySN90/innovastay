@@ -7,6 +7,7 @@ function Button({
   size,
   content,
   extras = "",
+  loading,
 }: IButtonPropsTypes) {
   const buttonStyles: ButtonTypes = {
     sm: "p-1",
@@ -19,13 +20,19 @@ function Button({
       "text-gray-100 bg-indigo-600 border-indigo-600 hover:bg-indigo-700",
     inverted:
       "text-indigo-600 bg-gray-100 border-indigo-600 hover:bg-indigo-700 hover:text-gray-100",
+    delete:
+      "text-gray-100 bg-red-500 border-red-500 hover:bg-red-400 hover:border-red-600 ",
+    disabled: "opacity-40 cursor-not-allowed",
   };
 
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`${buttonStyles.basics} ${buttonStyles[variation]} ${buttonStyles[size]} ${extras}`}
+      className={`${buttonStyles.basics} ${buttonStyles[variation]} ${
+        buttonStyles[size]
+      } ${extras} ${loading && buttonStyles.disabled}`}
+      disabled={loading}
     >
       {content}
     </button>

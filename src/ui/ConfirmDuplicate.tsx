@@ -1,7 +1,7 @@
 import useDeleteCabin from "../features/cabins/useDeleteCabin";
 import Button from "./Button";
 
-function ConfirmDelete({
+function ConfirmDuplicate({
   onCloseModal,
   cabinId,
   name,
@@ -27,9 +27,9 @@ function ConfirmDelete({
         />
         <Button
           onClick={() => deleteCabin(cabinId)}
-          variation="standard"
+          variation="delete"
           size="md"
-          extras="rounded-lg"
+          extras="rounded-lg bg"
           content="Löschen"
         />
       </div>
@@ -37,4 +37,4 @@ function ConfirmDelete({
   );
 }
 
-export default ConfirmDelete;
+export default ConfirmDuplicate;

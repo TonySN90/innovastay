@@ -1,22 +1,22 @@
 import { FieldValues, UseFormRegister } from "react-hook-form";
 
 export interface FormValues {
-  id: number;
-  name: string;
-  category: string;
-  capacity: number;
-  price: number;
-  discount: number;
-  description: string;
+  id?: number;
+  name?: string;
+  category?: string;
+  capacity?: number;
+  price?: number;
+  discount?: number;
+  description?: string;
   image: File[] | string;
-  password: string;
-  passwordConfirm: string;
-  email: string;
-  register: UseFormRegister<FieldValues>;
-  nights: number;
-  maxGuestsPerBooking: number;
-  breakfastPrice: number;
-  isUploading: boolean;
+  password?: string;
+  passwordConfirm?: string;
+  email?: string;
+  register?: UseFormRegister<FieldValues>;
+  nights?: number;
+  maxGuestsPerBooking?: number;
+  breakfastPrice?: number;
+  isUploading?: boolean;
 }
 
 export interface IFormRowProps<T extends keyof FormValues> {

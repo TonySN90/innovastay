@@ -16,8 +16,6 @@ function CreateCabinForm({
   const isUpdatingSession = Boolean(cabinToUpdate && "id" in cabinToUpdate);
   const { id: updateId, ...updateValues } = cabinToUpdate as FormValues;
 
-  console.log(updateId);
-
   const {
     register,
     handleSubmit,
@@ -43,7 +41,7 @@ function CreateCabinForm({
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
     isUpdatingSession
-      ? updateCabin(updateId, { ...formData })
+      ? updateCabin(updateId as number, { ...formData })
       : uploadNewCabin(formData);
   };
 
@@ -131,6 +129,7 @@ function CreateCabinForm({
             size="md"
             extras="mr-2 rounded-lg"
             content="Löschen"
+            loading={isWorking}
           />
           <Button
             type="submit"
@@ -139,6 +138,7 @@ function CreateCabinForm({
             size="md"
             extras="rounded-lg"
             content={isUpdatingSession ? "Aktualisieren" : "Hinzufügen"}
+            loading={isWorking}
           />
         </div>
       </form>

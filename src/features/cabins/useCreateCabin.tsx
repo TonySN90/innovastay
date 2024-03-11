@@ -7,7 +7,7 @@ import { StatusTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 
-function useCreateCabin(reset: () => void, onCloseModal: () => void) {
+function useCreateCabin(reset?: () => void, onCloseModal?: () => void) {
   const dispatch = useAppDispatch();
 
   const { uploadingStatus, error } = useAppSelector(
@@ -16,11 +16,10 @@ function useCreateCabin(reset: () => void, onCloseModal: () => void) {
 
   useEffect(() => {
     if (uploadingStatus === StatusTypes.SUCCESS) {
-      reset();
-      onCloseModal();
+      if (reset) reset();
+      if (onCloseModal) onCloseModal();
       dispatch(fetchCabins());
       dispatch(resetStatus());
-
       toast.success("Zimmerdaten erfolgreich hochgeladen.");
     }
   }, [uploadingStatus, reset, onCloseModal, dispatch]);

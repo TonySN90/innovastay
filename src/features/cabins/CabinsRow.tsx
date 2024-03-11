@@ -7,7 +7,7 @@ import { IoDuplicateOutline } from "react-icons/io5";
 
 import { TfiTrash } from "react-icons/tfi";
 import CreateCabinForm from "./CreateCabinForm";
-import ConfirmDelete from "../../ui/ConfirmDelete";
+import ConfirmAction from "../../ui/ConfirmAction";
 
 function TableRow({
   cabins,
@@ -56,10 +56,12 @@ function TableRow({
       <td className="flex justify-end">
         <Modal>
           <Menu.List cabinId={cabinId}>
-            <Menu.Item>
-              <IoDuplicateOutline />
-              Duplizieren
-            </Menu.Item>
+            <Modal.Open opens="duplicate">
+              <Menu.Item>
+                <IoDuplicateOutline />
+                Duplizieren
+              </Menu.Item>
+            </Modal.Open>
 
             <Modal.Open opens="edit">
               <Menu.Item>
@@ -75,15 +77,26 @@ function TableRow({
               </Menu.Item>
             </Modal.Open>
           </Menu.List>
+
+          <Modal.Window name="duplicate">
+            <ConfirmAction
+              cabin={cabins}
+              cabinId={cabinId}
+              onCloseModal={() => {}} //Children prop
+              action="duplicate"
+            />
+          </Modal.Window>
+
           <Modal.Window name="edit">
             <CreateCabinForm cabinToUpdate={cabins} />
           </Modal.Window>
 
           <Modal.Window name="delete">
-            <ConfirmDelete
+            <ConfirmAction
+              cabin={cabins}
               cabinId={cabinId}
-              name={name}
               onCloseModal={() => {}} //Children prop
+              action="delete"
             />
           </Modal.Window>
 

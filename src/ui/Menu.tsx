@@ -86,8 +86,8 @@ function Item({
   const { close } = useContext(MenuContext);
 
   function handleClick() {
-    onClick?.();
-    close();
+    onClick?.(); // Open Modal
+    close(); // Close Menu
   }
 
   return (

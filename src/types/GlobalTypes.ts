@@ -15,6 +15,7 @@ export interface IButtonPropsTypes {
   size: string;
   content: string | React.ReactNode;
   extras: string;
+  loading?: boolean;
 }
 export type ButtonTypes = {
   basics: string;
