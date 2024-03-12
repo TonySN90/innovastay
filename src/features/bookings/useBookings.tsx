@@ -15,32 +15,47 @@ function useBookings() {
   }, [dispatch]);
 
   function convertData() {
-    return bookings.map((booking) => {
-      const bookingData = {
-        id: booking.cabins.id,
-        label: {
-          icon: "avatar.jpeg",
-          title: booking.cabins.name,
-          subtitle: booking.cabins.category,
-        },
-        data: [
-          {
-            id: booking.id,
-            startDate: new Date(booking.startDate),
-            endDate: new Date(booking.endDate),
-            occupancy: 0,
-            title: booking.guests.fullName,
-            subtitle: booking.numGuests + " Gast/Gäste",
-            description: booking.guests.email,
-            bgColor: "#C7D2FE",
+    const roomBookingsMap = new Map();
+
+    // Gruppieren der Buchungen nach Zimmern
+    bookings.forEach((booking) => {
+      const roomId = booking.cabins.id;
+
+      if (!roomBookingsMap.has(roomId)) {
+        roomBookingsMap.set(roomId, {
+          id: roomId,
+          label: {
+            icon: booking.cabins.image,
+            title: booking.cabins.name,
+            subtitle: booking.cabins.category,
           },
-        ],
+          data: [],
+        });
+      }
+
+      const roomData = roomBookingsMap.get(roomId);
+
+      const bookingData = {
+        id: booking.id,
+        startDate: new Date(booking.startDate),
+        endDate: new Date(booking.endDate),
+        occupancy: 0,
+        title: booking.guests.fullName,
+        subtitle: booking.numGuests + " Gast/Gäste",
+        description: booking.guests.email,
+        bgColor: "#C7D2FE",
       };
-      return bookingData;
+
+      roomData.data.push(bookingData);
     });
+
+    // Konvertieren der Map in ein Array
+    return Array.from(roomBookingsMap.values());
   }
 
   const mockedSchedulerData: SchedulerData = convertData();
+
+  console.log(bookings);
 
   return { bookings, status, error, mockedSchedulerData };
 }

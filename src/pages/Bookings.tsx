@@ -5,6 +5,7 @@ import ToggleButtons from "../ui/ToggleButtons";
 import { updateBookingsView } from "../features/bookings/bookingsSlice";
 import { BookingsViewType } from "../types/BookingTypes";
 import { useAppDispatch, useAppSelector } from "../store";
+import AddBooking from "../features/bookings/addBooking";
 
 function Bookings() {
   const bookingsView = useAppSelector((state) => state.bookings.bookingsView);
@@ -17,30 +18,39 @@ function Bookings() {
   return (
     <>
       <Heading title="Buchungsübersicht" />
-      <div className="mb-2">
-        <ToggleButtons
-          onClick={handleClick}
-          buttonLeft="Kalender"
-          buttonRight="Tabelle"
-          bookingsView={bookingsView}
-        />
-      </div>
+      <ToggleButtons
+        onClick={handleClick}
+        buttonLeft="Kalender"
+        buttonRight="Tabelle"
+        bookingsView={bookingsView}
+      />
 
       {bookingsView === BookingsViewType.schedule && (
+        <Hint>
+          <BookingTimeline />
+        </Hint>
+      )}
+      {bookingsView === BookingsViewType.table && (
         <>
-          <span className="md:hidden">
-            Der Belegungsplan steht der mobilen Ansicht nicht zur Verfügung.
-          </span>
-          <div className="hidden md:block">
-            <div className="relative">
-              <BookingTimeline />
-            </div>
-          </div>
+          <BookingsTable />
+          <AddBooking />
         </>
       )}
-      {bookingsView === BookingsViewType.table && <BookingsTable />}
     </>
   );
 }
 
 export default Bookings;
+
+function Hint({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <span className="md:hidden">
+        Der Belegungsplan steht der mobilen Ansicht nicht zur Verfügung.
+      </span>
+      <div className="hidden md:block">
+        <div className="relative">{children}</div>
+      </div>
+    </>
+  );
+}
