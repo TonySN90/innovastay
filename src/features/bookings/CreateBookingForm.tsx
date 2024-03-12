@@ -117,7 +117,7 @@ function CreateBookingForm({
             variation="inverted"
             size="md"
             extras="mr-2 rounded-lg"
-            content="Löschen"
+            content="Zurücksetzen"
             loading={isWorking}
           />
           <Button

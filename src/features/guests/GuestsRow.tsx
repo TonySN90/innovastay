@@ -1,11 +1,12 @@
+import { format } from "date-fns";
 import { HiListBullet } from "react-icons/hi2";
 import ButtonIcon from "../../ui/ButtonIcon";
 import { IGuestTypes } from "../../types/GuestTypes";
 
 function GuestsRow({
-  guestInformation,
+  guest,
   windowWidth,
-}: { guestInformation: IGuestTypes } & { windowWidth: number }) {
+}: { guest: IGuestTypes } & { windowWidth: number }) {
   const {
     fullName,
     address,
@@ -13,10 +14,10 @@ function GuestsRow({
     postalCode,
     phone,
     email,
-    maxStays,
-    lastStay,
+    guestSince,
+    created_at: createdAt,
     information: info,
-  } = guestInformation;
+  } = guest;
 
   return (
     <tr className="shadow-lg shadow-indigo-100 bg-gray-50 grid grid-cols-5 md:grid-cols-10 text-left hyphens-manual rounded-md min-h-[70px] p-4 px-7 gap-2 border-indigo-300 my-1.5 hover:bg-indigo-100">
@@ -36,23 +37,23 @@ function GuestsRow({
       </td>
       <td className={`flex items-center col-span-5 md:col-span-2`}>
         {windowWidth > 768 ? (
-          lastStay
+          `${format(new Date(createdAt), "dd.MM.yyyy")}`
         ) : (
           <div className="flex flex-col">
-            <span className="font-semibold text-sm">Letzter Aufenthalt: </span>
-            {lastStay}
+            <span className="font-semibold text-sm">Gast seit: </span>
+            {format(new Date(createdAt), "dd.MM.yyyy")}
           </div>
         )}
       </td>
       <td className={`flex items-center col-span-5 md:col-auto`}>
         {windowWidth > 768 ? (
-          maxStays
+          "3"
         ) : (
           <div className="flex flex-col">
             <span className="font-semibold text-sm">
               Aufenthalte insgesamt:
             </span>
-            {maxStays}
+            {"3"}
           </div>
         )}
       </td>

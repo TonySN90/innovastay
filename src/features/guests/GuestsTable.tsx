@@ -29,18 +29,14 @@ function CabinsTable() {
         <Table.Header
           content={
             windowWidth > 768
-              ? ["Gast", "Adresse", "Letzter Aufenthalt", "Insg.", "Infos"]
+              ? ["Gast", "Adresse", "Gast seit", "Insg.", "Infos"]
               : ["Gastinformationen"]
           }
         />
         <Table.Body
           data={guests}
           render={(guest) => (
-            <GuestsRow
-              guestInformation={guest}
-              key={guest.id}
-              windowWidth={windowWidth}
-            />
+            <GuestsRow guest={guest} key={guest.id} windowWidth={windowWidth} />
           )}
         />
       </Table>

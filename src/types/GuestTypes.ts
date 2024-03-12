@@ -8,13 +8,14 @@ export interface IGuestTypes {
   country: string;
   email: string;
   phone: string;
-  lastStay: string;
+  guestSince: string;
   maxStays: number;
   information: string;
 }
 
 export interface IGuestStatesTypes {
-  status: "idle" | "loading" | "error";
+  uploadingStatus: "idle" | "loading" | "success" | "error";
+  loadingStatus: "idle" | "loading" | "error";
   error: string;
   guests: IGuestTypes[];
 }

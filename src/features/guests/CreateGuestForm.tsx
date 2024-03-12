@@ -2,11 +2,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import { FormValues } from "../../types/FormTypes";
 import FormRow from "../../ui/FormRow";
-import useCreateCabin from "./useCreateCabin";
 import { StatusTypes } from "../../types/GlobalTypes";
-import useUpdateCabin from "./useUpdateCabin";
+import useCreateGuest from "./useCreateGuest";
 
-function CreateCabinForm({
+function CreateGuestForm({
   onCloseModal,
   cabinToUpdate = {},
 }: {
@@ -14,7 +13,7 @@ function CreateCabinForm({
   cabinToUpdate?: FormValues | object;
 }) {
   const isUpdatingSession = Boolean(cabinToUpdate && "id" in cabinToUpdate);
-  const { id: updateId, ...updateValues } = cabinToUpdate as FormValues;
+  //   const { id: updateId, ...updateValues } = cabinToUpdate as FormValues;
 
   const {
     register,
@@ -22,27 +21,37 @@ function CreateCabinForm({
     reset,
     formState: { errors },
   } = useForm<FormValues>({
-    defaultValues: isUpdatingSession ? updateValues : {},
+    // defaultValues: isUpdatingSession ? updateValues : {},
   });
 
-  const { uploadNewCabin, uploadingStatus } = useCreateCabin(
+  //   const { uploadNewCabin, uploadingStatus } = useCreateCabin(
+  //     reset,
+  //     onCloseModal || (() => {})
+  //   );
+
+  //   const { updateCabin, updatingStatus } = useUpdateCabin(
+  //     reset,
+  //     onCloseModal || (() => {})
+  //   );
+
+  const { uploadNewGuest, uploadingStatus } = useCreateGuest(
     reset,
     onCloseModal || (() => {})
   );
 
-  const { updateCabin, updatingStatus } = useUpdateCabin(
-    reset,
-    onCloseModal || (() => {})
-  );
-
-  const isUploading = uploadingStatus === StatusTypes.LOADING;
-  const isUpdating = updatingStatus === StatusTypes.LOADING;
-  const isWorking = isUploading || isUpdating;
+  //   const isUploading = uploadingStatus === StatusTypes.LOADING;
+  //   const isUpdating = updatingStatus === StatusTypes.LOADING;
+  //   const isWorking = isUploading || isUpdating;
+  const isWorking = uploadingStatus === StatusTypes.LOADING;
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
-    isUpdatingSession
-      ? updateCabin(updateId as number, { ...formData })
-      : uploadNewCabin(formData);
+    console.log(formData);
+    uploadNewGuest(formData);
+    reset();
+
+    // isUpdatingSession
+    //   ? updateCabin(updateId as number, { ...formData })
+    //   : uploadNewCabin(formData);
   };
 
   return (
@@ -51,27 +60,27 @@ function CreateCabinForm({
         className="p-3 md:p-5 transition-all"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h2 className="font-semibold text-lg mb-3">Neues Zimmer hinzufügen</h2>
+        <h2 className="font-semibold text-lg mb-3">Neuen Gast hinzufügen</h2>
         <FormRow
-          label="Zimmername"
+          label="Vorname, Nachname"
           type="text"
-          id="name"
+          id="fullName"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.name?.message}
           isUploading={isWorking}
         />
         <FormRow
-          label="Kategorie"
+          label="Adresse"
           type="text"
-          id="category"
+          id="address"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.category?.message}
+          error={errors?.address?.message}
           isUploading={isWorking}
         />
         <FormRow
-          label="Max. Personen"
+          label="Postleitzahl"
           type="number"
-          id="capacity"
+          id="postalCode"
           registerProp={{
             register,
             required: "Dieses Feld ist erforderlich",
@@ -80,45 +89,53 @@ function CreateCabinForm({
               message: "Es sollte 1 betragen",
             },
           }}
-          error={errors?.capacity?.message}
+          error={errors?.postalCode?.message}
           isUploading={isWorking}
         />
         <FormRow
-          label="Regulärer Preis"
-          type="number"
-          id="price"
+          label="Stadt/Ort"
+          type="text"
+          id="city"
           registerProp={{
             register,
             required: "Dieses Feld ist erforderlich",
           }}
-          error={errors?.price?.message}
+          error={errors?.city?.message}
           isUploading={isWorking}
         />
         <FormRow
-          label="Angebots-Preis"
-          type="number"
-          id="discount"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.discount?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Beschreibung"
-          type="textarea"
-          id="description"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.description?.message?.toString() || ""}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Bild"
-          type="file"
-          id="image"
+          label="Land"
+          type="text"
+          id="country"
           registerProp={{
             register,
-            required: isUpdatingSession ? false : "Wähle ein Bild",
+            required: "Dieses Feld ist erforderlich",
           }}
-          error={errors?.image?.message}
+          error={errors?.country?.message}
+          isUploading={isWorking}
+        />
+        <FormRow
+          label="E-Mail-Adresse"
+          type="email"
+          id="email"
+          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          error={errors?.email?.message}
+          isUploading={isWorking}
+        />
+        <FormRow
+          label="Telefonnummer"
+          type="number"
+          id="phone"
+          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          error={errors?.phone?.message}
+          isUploading={isWorking}
+        />
+        <FormRow
+          label="Informationen über den Gast"
+          type="textarea"
+          id="information"
+          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          error={errors?.information?.message?.toString() || ""}
           isUploading={isWorking}
         />
         <div className="w-[full] flex justify-center md:justify-end mt-4">
@@ -146,4 +163,4 @@ function CreateCabinForm({
   );
 }
 
-export default CreateCabinForm;
+export default CreateGuestForm;

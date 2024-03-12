@@ -3,6 +3,7 @@ import { FieldValues, UseFormRegister } from "react-hook-form";
 export interface FormValues {
   id?: number;
   name?: string;
+  fullName?: string;
   category?: string;
   capacity?: number;
   price?: number;
@@ -14,9 +15,23 @@ export interface FormValues {
   email?: string;
   register?: UseFormRegister<FieldValues>;
   nights?: number;
+  guests?: number;
   maxGuestsPerBooking?: number;
   breakfastPrice?: number;
   isUploading?: boolean;
+  address?: string;
+  postalCode?: string;
+  city?: string;
+  country?: string;
+  phone?: string;
+  guestSince?: string;
+  maxStays?: number;
+  information?: string;
+  startDate?: string;
+  endDate?: string;
+  numNights?: number;
+  numGuests?: number;
+  extrasPrice?: number;
 }
 
 export interface IFormRowProps<T extends keyof FormValues> {
