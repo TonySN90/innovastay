@@ -5,8 +5,8 @@ import Menu from "../../ui/Menu";
 import { IoDuplicateOutline } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
 import { TfiTrash } from "react-icons/tfi";
-import ConfirmAction from "../../ui/ConfirmAction";
 import CreateGuestForm from "./CreateGuestForm";
+import ConfirmAction from "./ConfirmActionGuests";
 
 function GuestsRow({
   guest,
@@ -94,7 +94,7 @@ function GuestsRow({
           <Modal.Window name="duplicate">
             <ConfirmAction
               guest={guest}
-              id={guestId}
+              guestId={guestId}
               onCloseModal={() => {}} //Children prop
               action="duplicate"
             />
@@ -107,7 +107,7 @@ function GuestsRow({
           <Modal.Window name="delete">
             <ConfirmAction
               guest={guest}
-              id={guestId}
+              guestId={guestId}
               onCloseModal={() => {}} //Children prop
               action="delete"
             />

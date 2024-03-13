@@ -9,7 +9,7 @@ export interface FormValues {
   price?: number;
   discount?: number;
   description?: string;
-  image: File[] | string;
+  image?: File[] | string;
   password?: string;
   passwordConfirm?: string;
   email?: string;

@@ -40,7 +40,6 @@ function CreateGuestForm({
   const isWorking = isUploading || isUpdating;
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
-    // console.log(formData);
     isUpdatingSession
       ? updateGuest(updateId as number, { ...formData })
       : uploadNewGuest(formData);
