@@ -1,7 +1,12 @@
 import { format } from "date-fns";
-import { HiListBullet } from "react-icons/hi2";
-import ButtonIcon from "../../ui/ButtonIcon";
 import { IGuestTypes } from "../../types/GuestTypes";
+import Modal from "../../ui/Modal";
+import Menu from "../../ui/Menu";
+import { IoDuplicateOutline } from "react-icons/io5";
+import { FaRegEdit } from "react-icons/fa";
+import { TfiTrash } from "react-icons/tfi";
+import ConfirmAction from "../../ui/ConfirmAction";
+import CreateGuestForm from "./CreateGuestForm";
 
 function GuestsRow({
   guest,
@@ -14,9 +19,9 @@ function GuestsRow({
     postalCode,
     phone,
     email,
-    guestSince,
     created_at: createdAt,
     information: info,
+    id: guestId,
   } = guest;
 
   return (
@@ -62,9 +67,54 @@ function GuestsRow({
       </td>
 
       <td className="flex justify-end col-span-1 md:col-auto">
-        <ButtonIcon onClick={() => console.log("test")}>
-          <HiListBullet className="w-6 h-6" />
-        </ButtonIcon>
+        <Modal>
+          <Menu.List id={guestId}>
+            <Modal.Open opens="duplicate">
+              <Menu.Item>
+                <IoDuplicateOutline />
+                Duplizieren
+              </Menu.Item>
+            </Modal.Open>
+
+            <Modal.Open opens="edit">
+              <Menu.Item>
+                <FaRegEdit />
+                Bearbeiten
+              </Menu.Item>
+            </Modal.Open>
+
+            <Modal.Open opens="delete">
+              <Menu.Item>
+                <TfiTrash />
+                Löschen
+              </Menu.Item>
+            </Modal.Open>
+          </Menu.List>
+
+          <Modal.Window name="duplicate">
+            <ConfirmAction
+              guest={guest}
+              id={guestId}
+              onCloseModal={() => {}} //Children prop
+              action="duplicate"
+            />
+          </Modal.Window>
+
+          <Modal.Window name="edit">
+            <CreateGuestForm guestToUpdate={guest} />
+          </Modal.Window>
+
+          <Modal.Window name="delete">
+            <ConfirmAction
+              guest={guest}
+              id={guestId}
+              onCloseModal={() => {}} //Children prop
+              action="delete"
+            />
+          </Modal.Window>
+
+          <Menu.ToggleButton id={guestId} />
+        </Modal>
       </td>
     </tr>
   );

@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IGuestStatesTypes } from "../../types/GuestTypes";
-import { createUpdateGuest, getGuests } from "../../services/apiGuests";
+import {
+  createUpdateGuest,
+  deleteGuest,
+  getGuests,
+} from "../../services/apiGuests";
 import { FormValues } from "../../types/FormTypes";
 import { StatusTypes } from "../../types/GlobalTypes";
 
@@ -11,7 +15,11 @@ export const fetchGuests = createAsyncThunk(
       guests: IGuestStatesTypes;
     };
 
-    if (guests.uploadingStatus === StatusTypes.SUCCESS)
+    if (
+      guests.uploadingStatus === StatusTypes.SUCCESS ||
+      guests.updatingStatus === StatusTypes.SUCCESS ||
+      guests.deletingStatus === StatusTypes.SUCCESS
+    )
       return await getGuests();
 
     if (guests?.guests.length > 0) {
@@ -29,9 +37,33 @@ export const uploadGuest = createAsyncThunk(
   }
 );
 
+export const editGuest = createAsyncThunk(
+  "guests/editGuest",
+  async ({
+    id,
+    toUpdatedGuest,
+  }: {
+    id: number;
+    toUpdatedGuest: FormValues;
+  }) => {
+    const updatedGuest = await createUpdateGuest(toUpdatedGuest, id);
+    return updatedGuest;
+  }
+);
+
+export const deleteGuestThunk = createAsyncThunk(
+  "guest/deleteCabin",
+  async (cabinId: number) => {
+    const deletedGuest = await deleteGuest(cabinId);
+    return deletedGuest;
+  }
+);
+
 const initialState = {
   loadingStatus: "idle",
   uploadingStatus: "idle",
+  updatingStatus: "idle",
+  deletingStatus: "idle",
   error: "",
   guests: [],
 } as IGuestStatesTypes;
@@ -42,6 +74,14 @@ const guestsSlice = createSlice({
   reducers: {
     resetUploadingStatus: (state) => {
       state.uploadingStatus = "idle";
+    },
+
+    resetUpdatingStatus: (state) => {
+      state.updatingStatus = "idle";
+    },
+
+    resetDeletingStatus: (state) => {
+      state.deletingStatus = "idle";
     },
   },
   extraReducers: (builder) => {
@@ -68,10 +108,36 @@ const guestsSlice = createSlice({
         state.uploadingStatus = "error";
         state.error =
           "Es gab ein Problem bei dem Erstellen der Gastdaten. Bitte versuchen Sie es erneut.";
+      })
+      .addCase(editGuest.pending, (state) => {
+        state.updatingStatus = "loading";
+      })
+      .addCase(editGuest.fulfilled, (state) => {
+        state.updatingStatus = "success";
+      })
+      .addCase(editGuest.rejected, (state) => {
+        state.updatingStatus = "error";
+        state.error =
+          "Es gab ein Problem bei dem Aktualisieren der Gastdaten. Bitte versuchen Sie es erneut.";
+      })
+      .addCase(deleteGuestThunk.pending, (state) => {
+        state.deletingStatus = "loading";
+      })
+      .addCase(deleteGuestThunk.fulfilled, (state) => {
+        state.deletingStatus = "success";
+      })
+      .addCase(deleteGuestThunk.rejected, (state) => {
+        state.deletingStatus = "error";
+        state.error =
+          "Es gab ein Problem bei dem Löschen der Gastdaten. Bitte versuchen Sie es erneut.";
       });
   },
 });
 
 export default guestsSlice.reducer;
 
-export const { resetUploadingStatus } = guestsSlice.actions;
+export const {
+  resetUploadingStatus,
+  resetDeletingStatus,
+  resetUpdatingStatus,
+} = guestsSlice.actions;

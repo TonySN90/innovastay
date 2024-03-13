@@ -23,7 +23,7 @@ function Menu({ children }: { children: React.ReactNode }) {
   );
 }
 
-function ToggleButton({ cabinId }: { cabinId: number }) {
+function ToggleButton({ id }: { id: number }) {
   const { close, open, openId, setPosition }: IMenuTypes =
     useContext(MenuContext);
 
@@ -35,7 +35,7 @@ function ToggleButton({ cabinId }: { cabinId: number }) {
       ?.getBoundingClientRect();
     if (rect) setPosition({ x: rect.x - rect.width - 52, y: rect.y + 50 });
 
-    openId === 0 || openId !== cabinId ? open(cabinId) : close();
+    openId === 0 || openId !== id ? open(id) : close();
   }
 
   return (
@@ -45,22 +45,16 @@ function ToggleButton({ cabinId }: { cabinId: number }) {
   );
 }
 
-function List({
-  children,
-  cabinId,
-}: {
-  children: React.ReactNode;
-  cabinId: number;
-}) {
+function List({ children, id }: { children: React.ReactNode; id: number }) {
   const { position, close, openId } = useContext(MenuContext);
 
   const ref = useClickOutside(close, false);
 
-  if (openId !== cabinId) return null;
+  if (openId !== id) return null;
 
   return createPortal(
     <ul
-      data-id={cabinId}
+      data-id={id}
       ref={ref}
       style={{
         position: position ? "absolute" : "static",

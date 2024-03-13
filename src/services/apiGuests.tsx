@@ -25,10 +25,11 @@ export async function createUpdateGuest(
   // @ts-expect-error type error from supabase
   let query = supabase.from("guests") as PostgrestQueryBuilder<an>;
 
-  // if create new cabin
-  if (!guestId) query = query.insert([{ ...newGuest }]);
+  // if create new guest
+  if (!guestId) query = query.insert([newGuest]);
 
-  // if update existing cabin
+  // if update existing guest
+  console.log(newGuest);
   if (guestId) query = query.update({ ...newGuest }).eq("id", guestId);
 
   // Execute Query
@@ -38,6 +39,24 @@ export async function createUpdateGuest(
     console.error(error);
     throw new Error(
       `Der Gast konnte nicht angelegt werden. ${error.message}: ${error.details}`
+    );
+  }
+
+  return data;
+}
+
+export async function deleteGuest(guestId: number) {
+  const { data, error } = await supabase
+    .from("guests")
+    .delete()
+    .eq("id", guestId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error(
+      `Fehler beim Löschen des Zimmers!. ${error.message}: ${error.details}`
     );
   }
 

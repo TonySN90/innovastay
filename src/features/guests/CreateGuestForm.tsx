@@ -1,19 +1,20 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
-import { FormValues } from "../../types/FormTypes";
 import FormRow from "../../ui/FormRow";
-import { StatusTypes } from "../../types/GlobalTypes";
 import useCreateGuest from "./useCreateGuest";
+import { FormValues } from "../../types/FormTypes";
+import { StatusTypes } from "../../types/GlobalTypes";
+import useUpdateGuest from "./useUpdateGuest";
 
 function CreateGuestForm({
   onCloseModal,
-  cabinToUpdate = {},
+  guestToUpdate = {},
 }: {
   onCloseModal?: () => void;
   cabinToUpdate?: FormValues | object;
 }) {
-  const isUpdatingSession = Boolean(cabinToUpdate && "id" in cabinToUpdate);
-  //   const { id: updateId, ...updateValues } = cabinToUpdate as FormValues;
+  const isUpdatingSession = Boolean(guestToUpdate && "id" in guestToUpdate);
+  const { id: updateId, ...updateValues } = guestToUpdate as FormValues;
 
   const {
     register,
@@ -21,37 +22,28 @@ function CreateGuestForm({
     reset,
     formState: { errors },
   } = useForm<FormValues>({
-    // defaultValues: isUpdatingSession ? updateValues : {},
+    defaultValues: isUpdatingSession ? updateValues : {},
   });
-
-  //   const { uploadNewCabin, uploadingStatus } = useCreateCabin(
-  //     reset,
-  //     onCloseModal || (() => {})
-  //   );
-
-  //   const { updateCabin, updatingStatus } = useUpdateCabin(
-  //     reset,
-  //     onCloseModal || (() => {})
-  //   );
 
   const { uploadNewGuest, uploadingStatus } = useCreateGuest(
     reset,
     onCloseModal || (() => {})
   );
 
-  //   const isUploading = uploadingStatus === StatusTypes.LOADING;
-  //   const isUpdating = updatingStatus === StatusTypes.LOADING;
-  //   const isWorking = isUploading || isUpdating;
-  const isWorking = uploadingStatus === StatusTypes.LOADING;
+  const { updateGuest, updatingStatus } = useUpdateGuest(
+    reset,
+    onCloseModal || (() => {})
+  );
+
+  const isUploading = uploadingStatus === StatusTypes.LOADING;
+  const isUpdating = updatingStatus === StatusTypes.LOADING;
+  const isWorking = isUploading || isUpdating;
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
-    console.log(formData);
-    uploadNewGuest(formData);
-    reset();
-
-    // isUpdatingSession
-    //   ? updateCabin(updateId as number, { ...formData })
-    //   : uploadNewCabin(formData);
+    // console.log(formData);
+    isUpdatingSession
+      ? updateGuest(updateId as number, { ...formData })
+      : uploadNewGuest(formData);
   };
 
   return (

@@ -1,5 +1,5 @@
 export interface IGuestTypes {
-  id: string;
+  id: number;
   created_at: string;
   fullName: string;
   address: string;
@@ -16,6 +16,8 @@ export interface IGuestTypes {
 export interface IGuestStatesTypes {
   uploadingStatus: "idle" | "loading" | "success" | "error";
   loadingStatus: "idle" | "loading" | "error";
+  deletingStatus: "idle" | "success" | "loading" | "error";
+  updatingStatus: "idle" | "success" | "loading" | "error";
   error: string;
   guests: IGuestTypes[];
 }
