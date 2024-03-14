@@ -55,7 +55,7 @@ function TableRow({
       </td>
       <td className="flex justify-end">
         <Modal>
-          <Menu.List cabinId={cabinId}>
+          <Menu.List id={cabinId}>
             <Modal.Open opens="duplicate">
               <Menu.Item>
                 <IoDuplicateOutline />
@@ -100,7 +100,7 @@ function TableRow({
             />
           </Modal.Window>
 
-          <Menu.ToggleButton cabinId={cabinId} />
+          <Menu.ToggleButton id={cabinId} />
         </Modal>
       </td>
     </tr>

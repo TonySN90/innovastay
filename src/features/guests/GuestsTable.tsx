@@ -9,9 +9,9 @@ import useGuests from "./useGuests";
 
 function CabinsTable() {
   const windowWidth = useWindowWidth();
-  const { guests, status } = useGuests();
+  const { guests, loadingStatus } = useGuests();
 
-  if (status === StatusTypes.LOADING) return <Spinner />;
+  if (loadingStatus === StatusTypes.LOADING) return <Spinner />;
 
   if (!guests.length) return <Empty resourceName="guests" />;
 

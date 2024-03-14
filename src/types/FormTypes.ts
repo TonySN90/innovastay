@@ -32,6 +32,11 @@ export interface FormValues {
   numNights?: number;
   numGuests?: number;
   extrasPrice?: number;
+  arrival?: string;
+  departure?: string;
+  breakfast?: boolean;
+  isPaid?: boolean;
+  cabin?: string;
 }
 
 export interface IFormRowProps<T extends keyof FormValues> {

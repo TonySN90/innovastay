@@ -1,5 +1,5 @@
 export interface IBookingTypes {
-  cabins: { name: string; category: string; img: string; id: string };
+  cabins: { name: string; category: string; image: string; id: string };
   created_at: string;
   id: string;
   guests: { email: string; fullName: string };

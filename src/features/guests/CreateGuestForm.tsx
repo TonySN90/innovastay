@@ -11,7 +11,7 @@ function CreateGuestForm({
   guestToUpdate = {},
 }: {
   onCloseModal?: () => void;
-  cabinToUpdate?: FormValues | object;
+  guestToUpdate?: FormValues | object;
 }) {
   const isUpdatingSession = Boolean(guestToUpdate && "id" in guestToUpdate);
   const { id: updateId, ...updateValues } = guestToUpdate as FormValues;

@@ -25,7 +25,7 @@ export async function createUpdateCabin(
     newCabin.image.startsWith(supabaseUrl);
 
   const image =
-    typeof newCabin.image === "string" ? newCabin.image : newCabin.image[0];
+    typeof newCabin.image === "string" ? newCabin.image : newCabin.image?.[0];
 
   if (!image) {
     throw new Error("Bild nicht gefunden.");

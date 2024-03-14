@@ -10,9 +10,9 @@ function ConfirmAction({
   onCloseModal,
 }: {
   onCloseModal: () => void;
-  cabinId: number;
+  guest: IGuestTypes;
+  guestId: number;
   action: "delete" | "duplicate";
-  cabin: IGuestTypes;
 }) {
   const { deleteGuest }: { deleteGuest: (id: number) => void } =
     useDeleteGuest(onCloseModal);

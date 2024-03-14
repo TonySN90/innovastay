@@ -5,7 +5,7 @@ import { fetchGuests } from "./guestsSlice";
 
 function useGuests() {
   const dispatch = useAppDispatch();
-  const { guests, status, error } = useAppSelector(
+  const { guests, loadingStatus, error } = useAppSelector(
     (state: { guests: IGuestStatesTypes }) => state.guests
   );
 
@@ -13,7 +13,7 @@ function useGuests() {
     dispatch(fetchGuests());
   }, [dispatch]);
 
-  return { guests, status, error };
+  return { guests, loadingStatus, error };
 }
 
 export default useGuests;

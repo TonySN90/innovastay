@@ -17,7 +17,6 @@ function useBookings() {
   function convertData() {
     const roomBookingsMap = new Map();
 
-    // Gruppieren der Buchungen nach Zimmern
     bookings.forEach((booking) => {
       const roomId = booking.cabins.id;
 
@@ -49,13 +48,10 @@ function useBookings() {
       roomData.data.push(bookingData);
     });
 
-    // Konvertieren der Map in ein Array
     return Array.from(roomBookingsMap.values());
   }
 
   const mockedSchedulerData: SchedulerData = convertData();
-
-  console.log(bookings);
 
   return { bookings, status, error, mockedSchedulerData };
 }

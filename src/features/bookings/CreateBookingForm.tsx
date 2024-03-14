@@ -5,6 +5,7 @@ import FormRow from "../../ui/FormRow";
 import useCreateCabin from "../cabins/useCreateCabin";
 import { StatusTypes } from "../../types/GlobalTypes";
 import useUpdateCabin from "../cabins/useUpdateCabin";
+import SearchBar from "../../ui/SearchBar";
 
 function CreateBookingForm({
   onCloseModal,
@@ -53,22 +54,33 @@ function CreateBookingForm({
       >
         <h2 className="font-semibold text-lg mb-3">Neue Buchung hinzufügen</h2>
 
-        <FormRow
-          label="Gast"
-          type="text"
-          id="name"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.name?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Zimmer"
-          type="text"
-          id="cabin"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.cabin?.message}
-          isUploading={isWorking}
-        />
+        <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
+          <label htmlFor="cabin">Zimmer</label>
+          <select
+            name="cabin"
+            id="cabin"
+            className="md:w-[300px] h-10 bg-indigo-500 text-gray-50 px-2 rounded-xl"
+          >
+            <option value="cabinId">Zimmer 1</option>
+            <option value="cabinId">Zimmer 2</option>
+          </select>
+        </div>
+        {/* Gast   ---------------------------------*/}
+
+        {/* <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
+          <label htmlFor="guest">Gast</label>
+          <select
+            name="guest"
+            id="guest"
+            className="md:w-[300px] h-10 bg-indigo-500 text-gray-50 px-2 rounded-xl"
+          >
+            <option value="guestId">Daniel Güntherino</option>
+            <option value="guestId">Olaf Scholz</option>
+          </select>
+        </div> */}
+
+        <SearchBar label="Gast" />
+
         <FormRow
           label="Anreisedatum"
           type="text"
@@ -80,7 +92,7 @@ function CreateBookingForm({
         <FormRow
           label="Abreisedatum"
           type="text"
-          id="departure "
+          id="departure"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.departure?.message}
           isUploading={isWorking}
