@@ -6,6 +6,7 @@ import useCreateCabin from "../cabins/useCreateCabin";
 import { StatusTypes } from "../../types/GlobalTypes";
 import useUpdateCabin from "../cabins/useUpdateCabin";
 import SearchBar from "../../ui/SearchBar";
+import { useState } from "react";
 
 function CreateBookingForm({
   onCloseModal,
@@ -14,6 +15,8 @@ function CreateBookingForm({
   onCloseModal?: () => void;
   cabinToUpdate?: FormValues | object;
 }) {
+  const [selectedGuest, setSelectedGuest] = useState(null);
+
   const isUpdatingSession = Boolean(cabinToUpdate && "id" in cabinToUpdate);
   const { id: updateId, ...updateValues } = cabinToUpdate as FormValues;
 
@@ -79,7 +82,13 @@ function CreateBookingForm({
           </select>
         </div> */}
 
-        <SearchBar label="Gast" />
+        <SearchBar
+          label="Gast"
+          setSelectedGuest={setSelectedGuest}
+          selectedGuest={selectedGuest}
+          id="guest"
+          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+        />
 
         <FormRow
           label="Anreisedatum"
