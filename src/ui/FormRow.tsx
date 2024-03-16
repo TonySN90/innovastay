@@ -1,4 +1,3 @@
-import SearchBar from "../features/bookings/SearchBar";
 import { FormValues, IFormRowProps, IInputProps } from "../types/FormTypes";
 
 function FormRow<T extends keyof FormValues>({
@@ -8,6 +7,7 @@ function FormRow<T extends keyof FormValues>({
   error,
   type,
   isUploading,
+  cabins,
 }: IFormRowProps<T>) {
   return (
     <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
@@ -15,7 +15,13 @@ function FormRow<T extends keyof FormValues>({
       {error && (
         <span className="text-red-500 text-md md:max-w-[220px]">{error}</span>
       )}
-      <Input id={id} type={type} reg={registerProp} isUploading={isUploading} />
+      <Input
+        cabins={cabins}
+        id={id}
+        type={type}
+        reg={registerProp}
+        isUploading={isUploading}
+      />
     </div>
   );
 }
@@ -35,8 +41,7 @@ function Input<T extends keyof FormValues>({
   reg,
   type,
   isUploading,
-  setSelectedGuest,
-  selectedGuest,
+  cabins,
 }: IInputProps<T>) {
   const { register, required, minLength, pattern, validate } = reg;
 
@@ -88,14 +93,34 @@ function Input<T extends keyof FormValues>({
         />
       )}
 
-      {type === "search" && (
-        <SearchBar
-          setSelectedGuest={setSelectedGuest}
-          selectedGuest={selectedGuest}
-          id={id}
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          isUploading={isUploading}
-        />
+      {type === "select" ? (
+        <select
+          name="cabin"
+          id="cabin"
+          className="md:w-[300px] h-9 border-2 border-indigo-500 text-gray-500 px-2 rounded-lg"
+          disabled={isUploading}
+          {...register(id, {
+            required: required,
+            min: minLength,
+          })}
+        >
+          {id === "cabinId" && (
+            <>
+              <option value="" hidden>
+                Wähle ein Zimmer aus...
+              </option>
+              {cabins.map((cabin) => (
+                <option key={cabin.id} value={cabin.id}>
+                  {cabin.name}
+                </option>
+              ))}
+            </>
+          )}
+          {id === "breakfast" && <option value="true">Ja</option>}{" "}
+          <option value="false">Nein</option>
+        </select>
+      ) : (
+        ""
       )}
     </div>
   );

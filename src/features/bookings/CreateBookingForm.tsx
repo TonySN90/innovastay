@@ -7,6 +7,7 @@ import { StatusTypes } from "../../types/GlobalTypes";
 import useUpdateCabin from "../cabins/useUpdateCabin";
 import SearchBar from "../bookings/SearchBar";
 import { useState } from "react";
+import useCabins from "../cabins/useCabins";
 
 function CreateBookingForm({
   onCloseModal,
@@ -16,6 +17,7 @@ function CreateBookingForm({
   cabinToUpdate?: FormValues | object;
 }) {
   const [selectedGuest, setSelectedGuest] = useState(null);
+  const { cabins } = useCabins();
 
   const isUpdatingSession = Boolean(cabinToUpdate && "id" in cabinToUpdate);
   const { id: updateId, ...updateValues } = cabinToUpdate as FormValues;
@@ -41,6 +43,7 @@ function CreateBookingForm({
     const guestData = {
       ...formData,
       guestId: selectedGuest?.id,
+      cabinId: Number(formData.cabinId),
     };
     console.log(guestData);
   };
@@ -53,18 +56,14 @@ function CreateBookingForm({
       >
         <h2 className="font-semibold text-lg mb-3">Neue Buchung hinzufügen</h2>
 
-        <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
-          <label htmlFor="cabin">Zimmer</label>
-          <select
-            name="cabin"
-            id="cabin"
-            className="md:w-[300px] h-10 bg-indigo-500 text-gray-50 px-2 rounded-xl"
-          >
-            <option value="cabinId">Zimmer 1</option>
-            <option value="cabinId">Zimmer 2</option>
-          </select>
-        </div>
-        {/* Gast   ---------------------------------*/}
+        <FormRow
+          label="Zimmer"
+          type="select"
+          id="cabinId"
+          cabins={cabins}
+          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          error={errors?.cabinId?.message}
+        />
 
         <SearchBar
           label="Gast"
@@ -76,17 +75,17 @@ function CreateBookingForm({
         <FormRow
           label="Anreisedatum"
           type="text"
-          id="arrival"
+          id="startDate"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.arrival?.message}
+          error={errors?.startDate?.message}
           isUploading={isWorking}
         />
         <FormRow
           label="Abreisedatum"
           type="text"
-          id="departure"
+          id="endDate"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.departure?.message}
+          error={errors?.endDate?.message}
           isUploading={isWorking}
         />
         <FormRow
@@ -99,7 +98,7 @@ function CreateBookingForm({
         />
         <FormRow
           label="Frühstück"
-          type="text"
+          type="select"
           id="breakfast"
           registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
           error={errors?.breakfast?.message}
