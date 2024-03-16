@@ -1,3 +1,4 @@
+import SearchBar from "../features/bookings/SearchBar";
 import { FormValues, IFormRowProps, IInputProps } from "../types/FormTypes";
 
 function FormRow<T extends keyof FormValues>({
@@ -34,11 +35,13 @@ function Input<T extends keyof FormValues>({
   reg,
   type,
   isUploading,
+  setSelectedGuest,
+  selectedGuest,
 }: IInputProps<T>) {
   const { register, required, minLength, pattern, validate } = reg;
 
   return (
-    <div className="">
+    <div>
       {type === "text" ||
       type === "number" ||
       type === "email" ||
@@ -73,7 +76,7 @@ function Input<T extends keyof FormValues>({
 
       {type === "file" && (
         <input
-          className="fileInputStyle flex items-center justify-center w-full md:w-[300px] "
+          className="fileInputStyle flex items-center justify-center w-full md:w-[300px]"
           type={type}
           id={id}
           accept="image/*"
@@ -82,6 +85,16 @@ function Input<T extends keyof FormValues>({
             required: required,
             min: minLength,
           })}
+        />
+      )}
+
+      {type === "search" && (
+        <SearchBar
+          setSelectedGuest={setSelectedGuest}
+          selectedGuest={selectedGuest}
+          id={id}
+          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          isUploading={isUploading}
         />
       )}
     </div>

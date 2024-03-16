@@ -3,7 +3,7 @@ import { Toaster } from "react-hot-toast";
 
 function Main({ children }: { children: React.ReactNode }) {
   return (
-    <main className="h-[95vh] lg:h-full shadow-2xl shadow-indigo-300">
+    <main className="h-[92vh] lg:h-full">
       <div>
         <Toaster />
       </div>

@@ -1,12 +1,13 @@
 import { useState } from "react";
-import useGuests from "../features/guests/useGuests";
 import { GoInfo } from "react-icons/go";
-import Modal from "./Modal";
 import { format } from "date-fns";
-import useWindowWidth from "../hooks/UseWindowWidth";
+import useGuests from "../guests/useGuests";
+import useWindowWidth from "../../hooks/UseWindowWidth";
+import Modal from "../../ui/Modal";
+import { IGuestTypes } from "../../types/GuestTypes";
+import GuestInfoBox from "../guests/GuestInfoBox";
 
 function SearchBar({
-  id,
   label,
   selectedGuest,
   setSelectedGuest,
@@ -19,13 +20,18 @@ function SearchBar({
   const windowWidth = useWindowWidth();
 
   function handleChange(e) {
+    const inputText = e.target.value.toLowerCase();
     const filterResult = guests.filter((guest) =>
-      guest.fullName.toLowerCase().includes(e.target.value.toLowerCase())
+      guest.fullName.toLowerCase().includes(inputText)
     );
-    setSearchTerm(e.target.value);
-    setFilteredGuests(filterResult);
+
+    if (!selectedGuest) {
+      setSearchTerm(inputText);
+      setFilteredGuests(filterResult);
+    }
     setSelectedGuest(null);
   }
+
   function handleClear() {
     setSearchTerm("");
     setFilteredGuests([]);
@@ -43,7 +49,7 @@ function SearchBar({
       <div className="relative">
         <input
           type="text"
-          id={id}
+          id="guest"
           className="w-full md:w-[300px] h-9 px-8 rounded-lg border-2 border-indigo-500"
           onChange={(e) => handleChange(e)}
           value={selectedGuest ? selectedGuest.fullName : searchTerm}
@@ -86,34 +92,7 @@ function SearchBar({
                   </Modal.Open>
 
                   <Modal.Window name="guest-info">
-                    <div className="p-2">
-                      <h2 className="font-semibold mb-4 text-lg">
-                        Gast Informationen
-                      </h2>
-
-                      {windowWidth < 500 && (
-                        <h2 className="font-semibold">Gastdaten angelegt am</h2>
-                      )}
-                      <InfoRow
-                        label="Gastdaten angelegt am"
-                        info={format(new Date(guest.created_at), "dd.MM.yyyy")}
-                      />
-
-                      <div className="my-4">
-                        <h2 className="font-semibold">Adressdaten</h2>
-                        <InfoRow label="Name" info={guest.fullName} />
-                        <InfoRow label="Adresse" info={guest.address} />
-                        <InfoRow label="Postleitzahl" info={guest.postalCode} />
-                        <InfoRow label="Stadt" info={guest.city} />
-                        <InfoRow label="Land" info={guest.country} />
-                      </div>
-
-                      <h2 className="font-semibold">Kontaktdaten</h2>
-                      <div>
-                        <InfoRow label="E-Mail Addresse" info={guest.email} />
-                        <InfoRow label="Telefonnummer" info={guest.phone} />
-                      </div>
-                    </div>
+                    <GuestInfoBox windowWidth={windowWidth} guest={guest} />
                   </Modal.Window>
                 </Modal>
               </div>
@@ -130,17 +109,3 @@ function SearchBar({
 }
 
 export default SearchBar;
-
-function InfoRow({ label, info }: { label: string; info: string }) {
-  const windowWidth = useWindowWidth();
-
-  return (
-    <div className="flex justify-between">
-      {windowWidth > 500 && (
-        <span className="flex-shrink-0 w-1/3">{label}</span>
-      )}
-
-      <span className="flex-shrink-0 w-2/3 ">{info}</span>
-    </div>
-  );
-}

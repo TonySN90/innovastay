@@ -5,7 +5,7 @@ import FormRow from "../../ui/FormRow";
 import useCreateCabin from "../cabins/useCreateCabin";
 import { StatusTypes } from "../../types/GlobalTypes";
 import useUpdateCabin from "../cabins/useUpdateCabin";
-import SearchBar from "../../ui/SearchBar";
+import SearchBar from "../bookings/SearchBar";
 import { useState } from "react";
 
 function CreateBookingForm({
@@ -29,24 +29,20 @@ function CreateBookingForm({
     defaultValues: isUpdatingSession ? updateValues : {},
   });
 
-  const { uploadNewCabin, uploadingStatus } = useCreateCabin(
-    reset,
-    onCloseModal || (() => {})
-  );
-
-  const { updateCabin, updatingStatus } = useUpdateCabin(
-    reset,
-    onCloseModal || (() => {})
-  );
-
-  const isUploading = uploadingStatus === StatusTypes.LOADING;
-  const isUpdating = updatingStatus === StatusTypes.LOADING;
-  const isWorking = isUploading || isUpdating;
+  // const isUploading = uploadingStatus === StatusTypes.LOADING;
+  // const isUpdating = updatingStatus === StatusTypes.LOADING;
+  // const isWorking = isUploading || isUpdating;
+  const isWorking = selectedGuest === null || false;
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
-    isUpdatingSession
-      ? updateCabin(updateId as number, { ...formData })
-      : uploadNewCabin(formData);
+    // isUpdatingSession
+    //   ? updateCabin(updateId as number, { ...formData })
+    //   : uploadNewCabin(formData);
+    const guestData = {
+      ...formData,
+      guestId: selectedGuest?.id,
+    };
+    console.log(guestData);
   };
 
   return (
@@ -70,24 +66,11 @@ function CreateBookingForm({
         </div>
         {/* Gast   ---------------------------------*/}
 
-        {/* <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
-          <label htmlFor="guest">Gast</label>
-          <select
-            name="guest"
-            id="guest"
-            className="md:w-[300px] h-10 bg-indigo-500 text-gray-50 px-2 rounded-xl"
-          >
-            <option value="guestId">Daniel Güntherino</option>
-            <option value="guestId">Olaf Scholz</option>
-          </select>
-        </div> */}
-
         <SearchBar
           label="Gast"
           setSelectedGuest={setSelectedGuest}
           selectedGuest={selectedGuest}
           id="guest"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
         />
 
         <FormRow
@@ -134,12 +117,12 @@ function CreateBookingForm({
         <div className="w-[full] flex justify-center md:justify-end mt-4">
           <Button
             type="reset"
-            onClick={() => null}
+            onClick={() => selectedGuest && setSelectedGuest(null)}
             variation="inverted"
             size="md"
             extras="mr-2 rounded-lg"
             content="Zurücksetzen"
-            loading={isWorking}
+            // loading={isWorking}
           />
           <Button
             type="submit"
