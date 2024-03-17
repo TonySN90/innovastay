@@ -8,6 +8,7 @@ function FormRow<T extends keyof FormValues>({
   type,
   isUploading,
   cabins,
+  onChange,
 }: IFormRowProps<T>) {
   return (
     <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
@@ -21,6 +22,7 @@ function FormRow<T extends keyof FormValues>({
         type={type}
         reg={registerProp}
         isUploading={isUploading}
+        onChange={onChange}
       />
     </div>
   );
@@ -42,6 +44,7 @@ function Input<T extends keyof FormValues>({
   type,
   isUploading,
   cabins,
+  onChange,
 }: IInputProps<T>) {
   const { register, required, minLength, pattern, validate } = reg;
 
@@ -52,7 +55,7 @@ function Input<T extends keyof FormValues>({
       type === "email" ||
       type === "password" ? (
         <input
-          className="w-[100%] md:w-[300px] border border-gray-300 rounded-sm h-9 pl-2"
+          className="w-[100%] md:w-[300px] border border-gray-300 rounded-md h-9 pl-2"
           type={type}
           id={id}
           disabled={isUploading}
@@ -62,6 +65,7 @@ function Input<T extends keyof FormValues>({
             pattern: pattern,
             validate: validate,
           })}
+          onChange={(e) => onChange(e.target.value)}
         />
       ) : (
         ""
@@ -97,12 +101,19 @@ function Input<T extends keyof FormValues>({
         <select
           name="cabin"
           id="cabin"
-          className="md:w-[300px] h-9 border-2 border-indigo-500 text-gray-500 px-2 rounded-lg"
+          className="md:w-[300px] h-9 border border-gray-300 text-gray-500 px-2 rounded-lg"
           disabled={isUploading}
           {...register(id, {
             required: required,
             min: minLength,
           })}
+          onChange={(e) => {
+            id === "cabinId" &&
+              onChange(
+                cabins.filter((cabin) => cabin.id === +e.target.value)[0]
+              );
+            id === "hasBreakfast" && onChange(e.target.value === "true");
+          }}
         >
           {id === "cabinId" && (
             <>
@@ -116,8 +127,25 @@ function Input<T extends keyof FormValues>({
               ))}
             </>
           )}
-          {id === "breakfast" && <option value="true">Ja</option>}{" "}
-          <option value="false">Nein</option>
+          {["hasBreakfast", "isPaid"].includes(id) && (
+            <>
+              <option value="" hidden>
+                Wähle...
+              </option>
+              <option value="true">Ja</option>
+              <option value="false">Nein</option>
+            </>
+          )}
+          {id === "status" && (
+            <>
+              <option value="" hidden>
+                Wähle...
+              </option>
+              <option value="confirmed">Bestätigt</option>
+              <option value="unconfirmed">Unbestätigt</option>
+              <option value="checked-out">Ausgecheckt</option>
+            </>
+          )}
         </select>
       ) : (
         ""

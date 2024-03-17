@@ -50,7 +50,7 @@ function SearchBar({
         <input
           type="text"
           id="guest"
-          className="w-full md:w-[300px] h-9 px-8 rounded-lg border-2 border-indigo-500"
+          className="w-full md:w-[300px] h-9 px-8 rounded-lg border border-gray-300"
           onChange={(e) => handleChange(e)}
           value={selectedGuest ? selectedGuest.fullName : searchTerm}
           placeholder={"Gast suchen"}
