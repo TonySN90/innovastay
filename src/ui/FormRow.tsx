@@ -1,4 +1,7 @@
 import { FormValues, IFormRowProps, IInputProps } from "../types/FormTypes";
+import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
+// import "../features/bookings/bookingsform.css";
 
 function FormRow<T extends keyof FormValues>({
   label,
@@ -8,21 +11,27 @@ function FormRow<T extends keyof FormValues>({
   type,
   isUploading,
   cabins,
-  onChange,
+  handleChange,
+  date,
 }: IFormRowProps<T>) {
   return (
     <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
       <Label label={label} />
+
       {error && (
-        <span className="text-red-500 text-md md:max-w-[220px]">{error}</span>
+        <span className="text-red-500 text-md w-[160px] md:max-w-[220px]">
+          {error}
+        </span>
       )}
+
       <Input
         cabins={cabins}
         id={id}
         type={type}
         reg={registerProp}
         isUploading={isUploading}
-        onChange={onChange}
+        handleChange={handleChange}
+        date={date}
       />
     </div>
   );
@@ -32,7 +41,7 @@ export default FormRow;
 
 function Label({ label }: { label: string }) {
   return (
-    <label className="md:w-[250px]" htmlFor={label}>
+    <label className="md:w-[200px]" htmlFor={label}>
       {label}
     </label>
   );
@@ -44,31 +53,42 @@ function Input<T extends keyof FormValues>({
   type,
   isUploading,
   cabins,
-  onChange,
+  handleChange,
+  date,
 }: IInputProps<T>) {
-  const { register, required, minLength, pattern, validate } = reg;
+  const { register, required, minLength, validate } = reg;
 
   return (
-    <div>
+    <>
       {type === "text" ||
       type === "number" ||
       type === "email" ||
       type === "password" ? (
         <input
           className="w-[100%] md:w-[300px] border border-gray-300 rounded-md h-9 pl-2"
-          type={type}
-          id={id}
+          // type={type}
+          // id={id}
           disabled={isUploading}
           {...register(id, {
             required: required,
             min: minLength,
-            pattern: pattern,
             validate: validate,
           })}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
         />
       ) : (
         ""
+      )}
+
+      {type === "date" && (
+        <DatePicker
+          id={id}
+          className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+          selected={date}
+          onChange={(date) => handleChange(date)}
+          disabled={isUploading}
+          dateFormat={"dd.MM.yyyy"}
+        />
       )}
 
       {type === "textarea" && (
@@ -109,10 +129,10 @@ function Input<T extends keyof FormValues>({
           })}
           onChange={(e) => {
             id === "cabinId" &&
-              onChange(
+              handleChange(
                 cabins.filter((cabin) => cabin.id === +e.target.value)[0]
               );
-            id === "hasBreakfast" && onChange(e.target.value === "true");
+            id === "hasBreakfast" && handleChange(e.target.value === "true");
           }}
         >
           {id === "cabinId" && (
@@ -150,6 +170,6 @@ function Input<T extends keyof FormValues>({
       ) : (
         ""
       )}
-    </div>
+    </>
   );
 }

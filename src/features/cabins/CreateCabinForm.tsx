@@ -56,7 +56,7 @@ function CreateCabinForm({
           label="Zimmername"
           type="text"
           id="name"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.name?.message}
           isUploading={isWorking}
         />
@@ -64,7 +64,7 @@ function CreateCabinForm({
           label="Kategorie"
           type="text"
           id="category"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.category?.message}
           isUploading={isWorking}
         />
@@ -74,7 +74,7 @@ function CreateCabinForm({
           id="capacity"
           registerProp={{
             register,
-            required: "Dieses Feld ist erforderlich",
+            required: "Eintrag erforderlich",
             min: {
               value: 1,
               message: "Es sollte 1 betragen",
@@ -89,7 +89,7 @@ function CreateCabinForm({
           id="price"
           registerProp={{
             register,
-            required: "Dieses Feld ist erforderlich",
+            required: "Eintrag erforderlich",
           }}
           error={errors?.price?.message}
           isUploading={isWorking}
@@ -98,7 +98,7 @@ function CreateCabinForm({
           label="Angebots-Preis"
           type="number"
           id="discount"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.discount?.message}
           isUploading={isWorking}
         />
@@ -106,7 +106,7 @@ function CreateCabinForm({
           label="Beschreibung"
           type="textarea"
           id="description"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.description?.message?.toString() || ""}
           isUploading={isWorking}
         />

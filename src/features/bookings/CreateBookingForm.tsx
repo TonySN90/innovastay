@@ -1,4 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../ui/Button";
 import { FormValues } from "../../types/FormTypes";
 import FormRow from "../../ui/FormRow";
@@ -20,7 +22,13 @@ function CreateBookingForm({
   const [selectedGuest, setSelectedGuest] = useState(null);
   const [selectedCabin, setSelectedCabin] = useState(null);
   const [hasBreakfast, setHasBreakfast] = useState(false);
-  const [numPersons, setNumPersons] = useState(1);
+  const [numGuests, setNumGuests] = useState(1);
+  const [numNights, setNumNights] = useState(7);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(
+    new Date(new Date().setDate(startDate.getDate() + 1))
+  );
+
   const [pricePerNight, setPricePerNight] = useState(0);
   const [priceAllDays, setPriceAllDays] = useState(0);
   const [totalBreakfastPrice, setTotalBreakfastPrice] = useState(0);
@@ -36,26 +44,30 @@ function CreateBookingForm({
           ? selectedCabin.discount
           : selectedCabin.price;
       setPricePerNight(price);
-      setPriceAllDays(price * 7);
+      setPriceAllDays(price * numNights);
     }
 
-    // hasBreakfast && setTotalBreakfastPrice(7 * 15 * 2);
-    // !hasBreakfast && setTotalBreakfastPrice(0);
-    console.log(hasBreakfast);
     if (hasBreakfast) {
-      setTotalBreakfastPrice(7 * 15 * 2);
+      setTotalBreakfastPrice(numNights * +numGuests * 15);
     } else {
       setTotalBreakfastPrice(0);
     }
     setTotalPrice(priceAllDays + totalBreakfastPrice);
-    console.log(priceAllDays, totalBreakfastPrice);
-  }, [selectedCabin, hasBreakfast, priceAllDays, totalBreakfastPrice]);
+  }, [
+    selectedCabin,
+    hasBreakfast,
+    priceAllDays,
+    totalBreakfastPrice,
+    numGuests,
+    numNights,
+  ]);
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isDirty, isValid },
+    watch,
+    formState: { errors },
   } = useForm<FormValues>({
     defaultValues: isUpdatingSession ? updateValues : {},
   });
@@ -69,6 +81,7 @@ function CreateBookingForm({
     // isUpdatingSession
     //   ? updateCabin(updateId as number, { ...formData })
     //   : uploadNewCabin(formData);
+
     const guestData = {
       ...formData,
       guestId: selectedGuest?.id,
@@ -78,8 +91,14 @@ function CreateBookingForm({
       cabinPrice: pricePerNight,
       extrasPrice: totalBreakfastPrice,
       totalPrice: totalPrice,
-      numNights: 7,
+      numGuests: Number(formData.numGuests),
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+      numNights: Math.round(
+        (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
+      ),
     };
+
     console.log(guestData);
   };
 
@@ -96,9 +115,9 @@ function CreateBookingForm({
           type="select"
           id="cabinId"
           cabins={cabins}
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.cabinId?.message}
-          onChange={setSelectedCabin}
+          handleChange={setSelectedCabin}
         />
 
         <SearchBar
@@ -110,43 +129,48 @@ function CreateBookingForm({
 
         <FormRow
           label="Anreisedatum"
-          type="text"
+          type="date"
           id="startDate"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.startDate?.message}
           isUploading={isWorking}
+          handleChange={setStartDate}
+          date={startDate}
         />
+
         <FormRow
           label="Abreisedatum"
-          type="text"
+          type="date"
           id="endDate"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.endDate?.message}
           isUploading={isWorking}
+          handleChange={setEndDate}
+          date={endDate}
         />
         <FormRow
           label="Anzahl Personen"
           type="number"
           id="numGuests"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.numGuests?.message}
           isUploading={isWorking}
-          onChange={setNumPersons}
+          handleChange={setNumGuests}
         />
         <FormRow
           label="Frühstück"
           type="select"
           id="hasBreakfast"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.hasBreakfast?.message}
           isUploading={isWorking}
-          onChange={setHasBreakfast}
+          handleChange={setHasBreakfast}
         />
         <FormRow
           label="Bereits bezahlt?"
           type="select"
           id="isPaid"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.isPaid?.message}
           isUploading={isWorking}
         />
@@ -154,7 +178,7 @@ function CreateBookingForm({
           label="Status"
           type="select"
           id="status"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
+          registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.status?.message}
           isUploading={isWorking}
         />
@@ -162,24 +186,34 @@ function CreateBookingForm({
           <div className="flex">
             <p className="flex-1">Preis pro Nacht a 7 Nächte:</p>
             <p>
-              7 Nächte * {pricePerNight} € p.N = {priceAllDays}.00 €
+              7 Nächte *{" "}
+              <span
+                className={`${selectedCabin?.discount && "text-green-500"}`}
+              >
+                {pricePerNight}
+              </span>{" "}
+              € p.N = {priceAllDays}.00 €
             </p>
           </div>
           <div className="flex">
-            <p className="flex-1">
-              Zzgl. Frühstück pro Person a 2 Personen pro Tag:
+            <p className="flex-1">Frühstück</p>
+            <p>
+              ({numGuests}P/{numNights}N): {numNights * numGuests}* (15€) ={" "}
+              {totalBreakfastPrice} €
             </p>
-            <p>{totalBreakfastPrice}</p>
           </div>
           <div className="flex">
             <p className="flex-1">Gesamtpreis: </p>
-            <p>{totalPrice} €</p>
+            <p>{totalPrice}.00 €</p>
           </div>
         </div>
         <div className="w-[full] flex justify-center md:justify-end mt-4">
           <Button
             type="reset"
-            onClick={() => selectedGuest && setSelectedGuest(null)}
+            onClick={() => {
+              selectedGuest && setSelectedGuest(null);
+              reset();
+            }}
             variation="inverted"
             size="md"
             extras="mr-2 rounded-lg"
