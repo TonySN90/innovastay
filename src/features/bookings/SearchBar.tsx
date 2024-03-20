@@ -44,7 +44,12 @@ function SearchBar({
 
   return (
     <div className="relative border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
-      <label htmlFor="guest">{label}</label>
+      <label htmlFor="guest">
+        {label}{" "}
+        <span className="text-sm ml-6 text-indigo-500 font-semibold cursor-pointer">
+          Neuen Gast anlegen
+        </span>
+      </label>
 
       <div className="relative">
         <input

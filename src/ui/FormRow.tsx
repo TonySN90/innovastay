@@ -1,7 +1,5 @@
 import { FormValues, IFormRowProps, IInputProps } from "../types/FormTypes";
 import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
-// import "../features/bookings/bookingsform.css";
 
 function FormRow<T extends keyof FormValues>({
   label,
@@ -55,6 +53,7 @@ function Input<T extends keyof FormValues>({
   cabins,
   handleChange,
   date,
+  value,
 }: IInputProps<T>) {
   const { register, required, minLength, validate } = reg;
 
@@ -66,14 +65,16 @@ function Input<T extends keyof FormValues>({
       type === "password" ? (
         <input
           className="w-[100%] md:w-[300px] border border-gray-300 rounded-md h-9 pl-2"
-          // type={type}
-          // id={id}
+          type={type}
+          id={id}
           disabled={isUploading}
           {...register(id, {
             required: required,
             min: minLength,
             validate: validate,
           })}
+          {...(type === "number" && { min: value })}
+          defaultValue={type === "number" ? value : null}
           onChange={(e) => handleChange(e.target.value)}
         />
       ) : (
@@ -119,7 +120,6 @@ function Input<T extends keyof FormValues>({
 
       {type === "select" ? (
         <select
-          name="cabin"
           id="cabin"
           className="md:w-[300px] h-9 border border-gray-300 text-gray-500 px-2 rounded-lg"
           disabled={isUploading}
@@ -141,7 +141,11 @@ function Input<T extends keyof FormValues>({
                 Wähle ein Zimmer aus...
               </option>
               {cabins.map((cabin) => (
-                <option key={cabin.id} value={cabin.id}>
+                <option
+                  className="bg-indigo-300 h-[50px] rounded-md"
+                  key={cabin.id}
+                  value={cabin.id}
+                >
                   {cabin.name}
                 </option>
               ))}

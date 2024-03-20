@@ -8,10 +8,10 @@ import { StatusTypes } from "../../types/GlobalTypes";
 import Spinner from "../../ui/Spinner";
 
 function BookingsTable() {
-  const { bookings, status } = useBookings();
+  const { bookings, loadingStatus } = useBookings();
   const windowWidth = useWindowWidth();
 
-  if (status === StatusTypes.LOADING) return <Spinner />;
+  if (loadingStatus === StatusTypes.LOADING) return <Spinner />;
 
   if (!bookings.length) return <Empty resourceName="bookings" />;
 

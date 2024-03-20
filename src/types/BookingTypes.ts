@@ -16,7 +16,10 @@ export interface IBookingTypes {
 
 export interface IBookingStateTypes {
   bookingsView: BookingsViewType;
-  status: "idle" | "loading" | "error";
+  uploadingStatus: "idle" | "loading" | "success" | "error";
+  deletingStatus: "idle" | "success" | "loading" | "error";
+  updatingStatus: "idle" | "success" | "loading" | "error";
+  loadingStatus: "idle" | "loading" | "error";
   error: string;
   bookings: IBookingTypes[];
 }

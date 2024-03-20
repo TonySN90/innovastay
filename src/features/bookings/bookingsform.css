@@ -1,8 +1,20 @@
-.react-datepicker__input-container input {
-  width: 300px;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+:root {
+  --indigo-300: #a5b4fc;
+  --indigo-500: #6366f1;
+}
+
+.react-datepicker__tab-loop {
+  position: absolute;
+}
+
+.react-datepicker__header {
+  background-color: var(--indigo-300);
+}
+
+.react-datepicker__day--selected {
+  background-color: var(--indigo-500);
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: var(--indigo-300);
 }

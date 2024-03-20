@@ -7,8 +7,8 @@ import Spinner from "../../ui/Spinner";
 
 export default function Component() {
   const [filterButtonState, setFilterButtonState] = useState(0);
-  const { mockedSchedulerData, status } = useBookings();
-  const isLoadingBookings = status === StatusTypes.LOADING;
+  const { mockedSchedulerData, loadingStatus } = useBookings();
+  const isLoadingBookings = loadingStatus === StatusTypes.LOADING;
 
   if (isLoadingBookings) return <Spinner />;
 

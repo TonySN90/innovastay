@@ -7,6 +7,9 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import store from "./store.ts";
 
+import "react-datepicker/dist/react-datepicker.css";
+import "./features/bookings/bookingsform.css";
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>

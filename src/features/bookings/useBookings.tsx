@@ -6,7 +6,7 @@ import { SchedulerData } from "@bitnoi.se/react-scheduler";
 
 function useBookings() {
   const dispatch = useAppDispatch();
-  const { bookings, status, error } = useAppSelector(
+  const { bookings, loadingStatus, error } = useAppSelector(
     (state: { bookings: IBookingStateTypes }) => state.bookings
   );
 
@@ -53,7 +53,7 @@ function useBookings() {
 
   const mockedSchedulerData: SchedulerData = convertData();
 
-  return { bookings, status, error, mockedSchedulerData };
+  return { bookings, loadingStatus, error, mockedSchedulerData };
 }
 
 export default useBookings;

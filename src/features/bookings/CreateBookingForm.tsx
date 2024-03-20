@@ -1,15 +1,16 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import DatePicker from "react-datepicker";
+
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../ui/Button";
 import { FormValues } from "../../types/FormTypes";
 import FormRow from "../../ui/FormRow";
-import useCreateCabin from "../cabins/useCreateCabin";
+
 import { StatusTypes } from "../../types/GlobalTypes";
-import useUpdateCabin from "../cabins/useUpdateCabin";
+
 import SearchBar from "../bookings/SearchBar";
 import { useEffect, useState } from "react";
 import useCabins from "../cabins/useCabins";
+import useCreateBooking from "./useCreateBooking";
 
 function CreateBookingForm({
   onCloseModal,
@@ -19,11 +20,12 @@ function CreateBookingForm({
   cabinToUpdate?: FormValues | object;
 }) {
   const { cabins } = useCabins();
+
   const [selectedGuest, setSelectedGuest] = useState(null);
   const [selectedCabin, setSelectedCabin] = useState(null);
   const [hasBreakfast, setHasBreakfast] = useState(false);
-  const [numGuests, setNumGuests] = useState(1);
-  const [numNights, setNumNights] = useState(7);
+  const [numGuests, setNumGuests] = useState(2);
+  const [numNights, setNumNights] = useState(1);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(
     new Date(new Date().setDate(startDate.getDate() + 1))
@@ -37,6 +39,26 @@ function CreateBookingForm({
   const isUpdatingSession = Boolean(cabinToUpdate && "id" in cabinToUpdate);
   const { id: updateId, ...updateValues } = cabinToUpdate as FormValues;
 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm<FormValues>({
+    defaultValues: isUpdatingSession ? updateValues : {},
+  });
+
+  const { uploadNewBooking, uploadingStatus } = useCreateBooking(
+    reset,
+    onCloseModal || (() => {})
+  );
+
+  // const { updateBooking, updatingStatus } = useUpdateBooking(
+  //   reset,
+  //   onCloseModal || (() => {})
+  // );
+
   useEffect(() => {
     if (selectedCabin) {
       const price =
@@ -45,6 +67,11 @@ function CreateBookingForm({
           : selectedCabin.price;
       setPricePerNight(price);
       setPriceAllDays(price * numNights);
+      setNumNights(
+        Math.round(
+          (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
+        )
+      );
     }
 
     if (hasBreakfast) {
@@ -60,22 +87,14 @@ function CreateBookingForm({
     totalBreakfastPrice,
     numGuests,
     numNights,
+    startDate,
+    endDate,
   ]);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm<FormValues>({
-    defaultValues: isUpdatingSession ? updateValues : {},
-  });
-
-  // const isUploading = uploadingStatus === StatusTypes.LOADING;
+  const isUploading = uploadingStatus === StatusTypes.LOADING;
   // const isUpdating = updatingStatus === StatusTypes.LOADING;
   // const isWorking = isUploading || isUpdating;
-  const isWorking = selectedGuest === null || false;
+  const isWorking = selectedGuest === null || isUploading;
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
     // isUpdatingSession
@@ -94,13 +113,27 @@ function CreateBookingForm({
       numGuests: Number(formData.numGuests),
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
-      numNights: Math.round(
-        (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
-      ),
+      numNights,
     };
 
     console.log(guestData);
+    uploadNewBooking(guestData);
   };
+
+  function resetForm() {
+    setSelectedCabin(null);
+    setSelectedGuest(null);
+    setHasBreakfast(false);
+    setNumGuests(1);
+    setNumNights(1);
+    setStartDate(new Date());
+    setEndDate(new Date(new Date().setDate(startDate.getDate() + 1)));
+    setPricePerNight(0);
+    setPriceAllDays(0);
+    setTotalBreakfastPrice(0);
+    setTotalPrice(0);
+    reset();
+  }
 
   return (
     <>
@@ -156,6 +189,7 @@ function CreateBookingForm({
           error={errors?.numGuests?.message}
           isUploading={isWorking}
           handleChange={setNumGuests}
+          value={numGuests}
         />
         <FormRow
           label="Frühstück"
@@ -182,43 +216,28 @@ function CreateBookingForm({
           error={errors?.status?.message}
           isUploading={isWorking}
         />
-        <div className="mt-4 md:w-full p-3 border border-indigo-200 rounded-lg">
-          <div className="flex">
-            <p className="flex-1">Preis pro Nacht a 7 Nächte:</p>
-            <p>
-              7 Nächte *{" "}
-              <span
-                className={`${selectedCabin?.discount && "text-green-500"}`}
-              >
-                {pricePerNight}
-              </span>{" "}
-              € p.N = {priceAllDays}.00 €
-            </p>
-          </div>
-          <div className="flex">
-            <p className="flex-1">Frühstück</p>
-            <p>
-              ({numGuests}P/{numNights}N): {numNights * numGuests}* (15€) ={" "}
-              {totalBreakfastPrice} €
-            </p>
-          </div>
-          <div className="flex">
-            <p className="flex-1">Gesamtpreis: </p>
-            <p>{totalPrice}.00 €</p>
-          </div>
-        </div>
+
+        <TotalsBox
+          numGuests={numGuests}
+          priceAllDays={priceAllDays}
+          totalBreakfastPrice={totalBreakfastPrice}
+          totalPrice={totalPrice}
+          numNights={numNights}
+          pricePerNight={pricePerNight}
+          selectedCabin={selectedCabin}
+        />
+
         <div className="w-[full] flex justify-center md:justify-end mt-4">
           <Button
             type="reset"
             onClick={() => {
-              selectedGuest && setSelectedGuest(null);
-              reset();
+              resetForm();
             }}
             variation="inverted"
             size="md"
             extras="mr-2 rounded-lg"
             content="Zurücksetzen"
-            // loading={isWorking}
+            loading={isWorking}
           />
           <Button
             type="submit"
@@ -236,3 +255,38 @@ function CreateBookingForm({
 }
 
 export default CreateBookingForm;
+
+function TotalsBox({
+  numGuests,
+  priceAllDays,
+  totalBreakfastPrice,
+  totalPrice,
+  numNights,
+  pricePerNight,
+  selectedCabin,
+}) {
+  return (
+    <div className="mt-4 md:w-full p-3 border border-indigo-200 rounded-lg bg-indigo-100">
+      <div className="flex">
+        <p className="flex-1">
+          Übernachtung: ({numNights} Nächte) a{" "}
+          <span className={`${selectedCabin?.discount && "text-green-500"}`}>
+            {pricePerNight} €
+          </span>
+          :
+        </p>
+        <p>{priceAllDays}.00 €</p>
+      </div>
+      <div className="flex">
+        <p className="flex-1">
+          Frühstück: ({numGuests} Person / {numNights} Nächte) a 15 €:
+        </p>
+        <p>{totalBreakfastPrice}.00 €</p>
+      </div>
+      <div className="flex">
+        <p className="flex-1">Gesamtpreis </p>
+        <p className="font-semibold">{totalPrice}.00 €</p>
+      </div>
+    </div>
+  );
+}
