@@ -14,10 +14,10 @@ import useCreateBooking from "./useCreateBooking";
 
 function CreateBookingForm({
   onCloseModal,
-  cabinToUpdate = {},
+  bookingToUpdate = {},
 }: {
   onCloseModal?: () => void;
-  cabinToUpdate?: FormValues | object;
+  bookingToUpdate?: FormValues | object;
 }) {
   const { cabins } = useCabins();
 
@@ -36,14 +36,13 @@ function CreateBookingForm({
   const [totalBreakfastPrice, setTotalBreakfastPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const isUpdatingSession = Boolean(cabinToUpdate && "id" in cabinToUpdate);
-  const { id: updateId, ...updateValues } = cabinToUpdate as FormValues;
+  const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
+  const { id: updateId, ...updateValues } = bookingToUpdate as FormValues;
 
   const {
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: isUpdatingSession ? updateValues : {},
@@ -60,35 +59,50 @@ function CreateBookingForm({
   // );
 
   useEffect(() => {
-    if (selectedCabin) {
+    if (isUpdatingSession) {
+      setSelectedGuest(bookingToUpdate?.guests);
+      setHasBreakfast(bookingToUpdate?.hasBreakfast);
+      setNumGuests(bookingToUpdate?.numGuests);
+      setNumNights(bookingToUpdate?.numNights);
+      setStartDate(new Date(bookingToUpdate?.startDate));
+      setEndDate(new Date(bookingToUpdate?.endDate));
+      setPricePerNight(bookingToUpdate?.cabinPrice);
+      setTotalPrice(bookingToUpdate?.totalPrice);
+    }
+
+    if (selectedCabin && startDate && endDate) {
       const price =
         selectedCabin.discount !== 0
           ? selectedCabin.discount
           : selectedCabin.price;
       setPricePerNight(price);
-      setPriceAllDays(price * numNights);
-      setNumNights(
-        Math.round(
-          (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
-        )
+      const nights = Math.round(
+        (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
       );
+      setNumNights(nights);
+      setPriceAllDays(price * nights);
     }
 
-    if (hasBreakfast) {
+    if (hasBreakfast && numNights && numGuests) {
       setTotalBreakfastPrice(numNights * +numGuests * 15);
     } else {
       setTotalBreakfastPrice(0);
     }
-    setTotalPrice(priceAllDays + totalBreakfastPrice);
   }, [
     selectedCabin,
     hasBreakfast,
-    priceAllDays,
-    totalBreakfastPrice,
     numGuests,
+    // startDate,
+    // endDate,
+    bookingToUpdate,
+    isUpdatingSession,
     numNights,
-    startDate,
-    endDate,
+    pricePerNight,
+    totalBreakfastPrice,
+    totalBreakfastPrice,
+    totalPrice,
+    setTotalPrice,
+    setTotalBreakfastPrice,
   ]);
 
   const isUploading = uploadingStatus === StatusTypes.LOADING;
@@ -116,8 +130,9 @@ function CreateBookingForm({
       numNights,
     };
 
-    console.log(guestData);
-    uploadNewBooking(guestData);
+    console.log(selectedGuest);
+    // console.log(guestData);
+    // uploadNewBooking(guestData);
   };
 
   function resetForm() {
@@ -150,7 +165,8 @@ function CreateBookingForm({
           cabins={cabins}
           registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.cabinId?.message}
-          handleChange={setSelectedCabin}
+          selectedCabin={selectedCabin}
+          defaultValue={isUpdatingSession ? bookingToUpdate.cabins : ""}
         />
 
         <SearchBar
@@ -158,6 +174,9 @@ function CreateBookingForm({
           setSelectedGuest={setSelectedGuest}
           selectedGuest={selectedGuest}
           id="guest"
+          defaultValue={
+            isUpdatingSession ? bookingToUpdate.guests.fullName : ""
+          }
         />
 
         <FormRow
@@ -168,7 +187,9 @@ function CreateBookingForm({
           error={errors?.startDate?.message}
           isUploading={isWorking}
           handleChange={setStartDate}
-          date={startDate}
+          date={
+            isUpdatingSession ? new Date(bookingToUpdate.startDate) : startDate
+          }
         />
 
         <FormRow
@@ -179,7 +200,7 @@ function CreateBookingForm({
           error={errors?.endDate?.message}
           isUploading={isWorking}
           handleChange={setEndDate}
-          date={endDate}
+          date={isUpdatingSession ? new Date(bookingToUpdate.endDate) : endDate}
         />
         <FormRow
           label="Anzahl Personen"
@@ -189,7 +210,7 @@ function CreateBookingForm({
           error={errors?.numGuests?.message}
           isUploading={isWorking}
           handleChange={setNumGuests}
-          value={numGuests}
+          defaultValue={numGuests}
         />
         <FormRow
           label="Frühstück"

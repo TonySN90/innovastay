@@ -1,7 +1,13 @@
 import { format } from "date-fns";
-import { HiListBullet } from "react-icons/hi2";
-import ButtonIcon from "../../ui/ButtonIcon";
 import { IBookingTypes, BookingStatusTypes } from "../../types/BookingTypes";
+import Modal from "../../ui/Modal";
+import Menu from "../../ui/Menu";
+import { IoDuplicateOutline } from "react-icons/io5";
+import ConfirmAction from "../guests/ConfirmActionGuests";
+import CreateBookingForm from "./CreateBookingForm";
+import { FaRegEdit } from "react-icons/fa";
+import { TfiTrash } from "react-icons/tfi";
+import BookingInfoBox from "./bookingInfoBox";
 
 function BookingsRow({
   bookings,
@@ -15,6 +21,7 @@ function BookingsRow({
     status,
     hasBreakfast,
     totalPrice,
+    id: bookingId,
   } = bookings;
 
   return (
@@ -24,8 +31,6 @@ function BookingsRow({
       </td>
       <td className="flex items-center md:col-span-3">
         <div className="flex flex-col">
-          {/* {windowWidth < 768 && <span className="font-semibold">Gast:</span>} */}
-
           <span className="font-semibold">{guests.fullName}</span>
           <span className="text-xs">
             {windowWidth > 768
@@ -78,9 +83,49 @@ function BookingsRow({
         )}
       </td>
       <td className="flex justify-end">
-        <ButtonIcon onClick={() => console.log(name)}>
-          <HiListBullet className="w-6 h-6" />
-        </ButtonIcon>
+        <Modal>
+          <Menu.List id={bookingId}>
+            <Modal.Open opens="view">
+              <Menu.Item>
+                <IoDuplicateOutline />
+                Details ansehen
+              </Menu.Item>
+            </Modal.Open>
+
+            <Modal.Open opens="edit">
+              <Menu.Item>
+                <FaRegEdit />
+                Bearbeiten
+              </Menu.Item>
+            </Modal.Open>
+
+            <Modal.Open opens="delete">
+              <Menu.Item>
+                <TfiTrash />
+                Löschen
+              </Menu.Item>
+            </Modal.Open>
+          </Menu.List>
+
+          <Modal.Window name="view">
+            <BookingInfoBox windowWidth={windowWidth} booking={bookings} />
+          </Modal.Window>
+
+          <Modal.Window name="edit">
+            <CreateBookingForm bookingToUpdate={bookings} />
+          </Modal.Window>
+
+          <Modal.Window name="delete">
+            <ConfirmAction
+              booking={bookings}
+              bookingId={bookingId}
+              onCloseModal={() => {}} //Children prop
+              action="delete"
+            />
+          </Modal.Window>
+
+          <Menu.ToggleButton id={bookingId} />
+        </Modal>
       </td>
     </tr>
   );

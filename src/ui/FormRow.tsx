@@ -11,6 +11,7 @@ function FormRow<T extends keyof FormValues>({
   cabins,
   handleChange,
   date,
+  defaultValue,
 }: IFormRowProps<T>) {
   return (
     <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
@@ -30,6 +31,7 @@ function FormRow<T extends keyof FormValues>({
         isUploading={isUploading}
         handleChange={handleChange}
         date={date}
+        defaultValue={defaultValue}
       />
     </div>
   );
@@ -53,9 +55,11 @@ function Input<T extends keyof FormValues>({
   cabins,
   handleChange,
   date,
-  value,
+  defaultValue,
 }: IInputProps<T>) {
   const { register, required, minLength, validate } = reg;
+
+  console.log(defaultValue);
 
   return (
     <>
@@ -73,8 +77,8 @@ function Input<T extends keyof FormValues>({
             min: minLength,
             validate: validate,
           })}
-          {...(type === "number" && { min: value })}
-          defaultValue={type === "number" ? value : null}
+          {...(type === "number" && { min: defaultValue })}
+          defaultValue={type === "number" ? defaultValue : null}
           onChange={(e) => handleChange(e.target.value)}
         />
       ) : (
@@ -120,14 +124,14 @@ function Input<T extends keyof FormValues>({
 
       {type === "select" ? (
         <select
-          id="cabin"
+          // id="cabin"
           className="md:w-[300px] h-9 border border-gray-300 text-gray-500 px-2 rounded-lg"
           disabled={isUploading}
           {...register(id, {
             required: required,
             min: minLength,
           })}
-          onChange={(e) => {
+          onSelect={(e) => {
             id === "cabinId" &&
               handleChange(
                 cabins.filter((cabin) => cabin.id === +e.target.value)[0]
@@ -137,12 +141,21 @@ function Input<T extends keyof FormValues>({
         >
           {id === "cabinId" && (
             <>
+              {defaultValue && (
+                <option
+                  className="bg-indigo-300 h-[50px] rounded-md"
+                  value={defaultValue.id}
+                  hidden
+                >
+                  {defaultValue.name}
+                </option>
+              )}
               <option value="" hidden>
                 Wähle ein Zimmer aus...
               </option>
               {cabins.map((cabin) => (
                 <option
-                  className="bg-indigo-300 h-[50px] rounded-md"
+                  className="h-[50px] rounded-md"
                   key={cabin.id}
                   value={cabin.id}
                 >

@@ -8,7 +8,7 @@ export async function getBookings(): Promise<IBookingTypes[] | null> {
     await supabase
       .from("bookings")
       .select(
-        "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, isPaid, cabins(name, id, image, category), guests(id, fullName, email)",
+        "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, isPaid, hasBreakfast, cabins(name, id, image, category), guests(id, fullName, address, postalCode, city, country, email, phone, information)",
         { count: "exact" }
       );
 
