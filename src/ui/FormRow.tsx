@@ -59,8 +59,6 @@ function Input<T extends keyof FormValues>({
 }: IInputProps<T>) {
   const { register, required, minLength, validate } = reg;
 
-  console.log(defaultValue);
-
   return (
     <>
       {type === "text" ||
@@ -131,7 +129,7 @@ function Input<T extends keyof FormValues>({
             required: required,
             min: minLength,
           })}
-          onSelect={(e) => {
+          onChange={(e) => {
             id === "cabinId" &&
               handleChange(
                 cabins.filter((cabin) => cabin.id === +e.target.value)[0]

@@ -4,6 +4,7 @@ import useGuests from "../guests/useGuests";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import Modal from "../../ui/Modal";
 import GuestInfoBox from "../guests/GuestInfoBox";
+import { Link } from "react-router-dom";
 
 function SearchBar({
   label,
@@ -48,7 +49,7 @@ function SearchBar({
       <label htmlFor="guest">
         {label}{" "}
         <span className="text-sm ml-6 text-indigo-500 font-semibold cursor-pointer">
-          Neuen Gast anlegen
+          <Link to="/guests">Neuen Gast anlegen</Link>
         </span>
       </label>
 

@@ -11,6 +11,7 @@ import SearchBar from "../bookings/SearchBar";
 import { useEffect, useState } from "react";
 import useCabins from "../cabins/useCabins";
 import useCreateBooking from "./useCreateBooking";
+// import TotalsBox from "./TotalsBox";
 
 function CreateBookingForm({
   onCloseModal,
@@ -64,13 +65,14 @@ function CreateBookingForm({
       setHasBreakfast(bookingToUpdate?.hasBreakfast);
       setNumGuests(bookingToUpdate?.numGuests);
       setNumNights(bookingToUpdate?.numNights);
-      setStartDate(new Date(bookingToUpdate?.startDate));
-      setEndDate(new Date(bookingToUpdate?.endDate));
-      setPricePerNight(bookingToUpdate?.cabinPrice);
+      setPricePerNight(bookingToUpdate?.cabins?.price);
+      setPriceAllDays(
+        bookingToUpdate?.cabins?.price * bookingToUpdate?.numNights
+      );
       setTotalPrice(bookingToUpdate?.totalPrice);
     }
 
-    if (selectedCabin && startDate && endDate) {
+    if (selectedCabin) {
       const price =
         selectedCabin.discount !== 0
           ? selectedCabin.discount
@@ -81,7 +83,9 @@ function CreateBookingForm({
       );
       setNumNights(nights);
       setPriceAllDays(price * nights);
+      setTotalPrice(priceAllDays + totalBreakfastPrice);
     }
+    console.log(endDate);
 
     if (hasBreakfast && numNights && numGuests) {
       setTotalBreakfastPrice(numNights * +numGuests * 15);
@@ -92,17 +96,17 @@ function CreateBookingForm({
     selectedCabin,
     hasBreakfast,
     numGuests,
-    // startDate,
-    // endDate,
     bookingToUpdate,
     isUpdatingSession,
     numNights,
     pricePerNight,
     totalBreakfastPrice,
-    totalBreakfastPrice,
     totalPrice,
     setTotalPrice,
     setTotalBreakfastPrice,
+    startDate,
+    endDate,
+    priceAllDays,
   ]);
 
   const isUploading = uploadingStatus === StatusTypes.LOADING;
@@ -115,7 +119,7 @@ function CreateBookingForm({
     //   ? updateCabin(updateId as number, { ...formData })
     //   : uploadNewCabin(formData);
 
-    const guestData = {
+    const newBookingData = {
       ...formData,
       guestId: selectedGuest?.id,
       cabinId: Number(formData.cabinId),
@@ -130,9 +134,9 @@ function CreateBookingForm({
       numNights,
     };
 
-    console.log(selectedGuest);
-    // console.log(guestData);
-    // uploadNewBooking(guestData);
+    console.log(newBookingData);
+    // console.log(newBookingData);
+    // uploadNewBooking(newBookingData);
   };
 
   function resetForm() {
@@ -167,6 +171,7 @@ function CreateBookingForm({
           error={errors?.cabinId?.message}
           selectedCabin={selectedCabin}
           defaultValue={isUpdatingSession ? bookingToUpdate.cabins : ""}
+          handleChange={setSelectedCabin}
         />
 
         <SearchBar
@@ -187,9 +192,7 @@ function CreateBookingForm({
           error={errors?.startDate?.message}
           isUploading={isWorking}
           handleChange={setStartDate}
-          date={
-            isUpdatingSession ? new Date(bookingToUpdate.startDate) : startDate
-          }
+          date={startDate}
         />
 
         <FormRow
@@ -200,7 +203,7 @@ function CreateBookingForm({
           error={errors?.endDate?.message}
           isUploading={isWorking}
           handleChange={setEndDate}
-          date={isUpdatingSession ? new Date(bookingToUpdate.endDate) : endDate}
+          date={endDate}
         />
         <FormRow
           label="Anzahl Personen"
