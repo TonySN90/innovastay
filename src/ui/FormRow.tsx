@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FormValues, IFormRowProps, IInputProps } from "../types/FormTypes";
 import DatePicker from "react-datepicker";
 
@@ -13,6 +14,13 @@ function FormRow<T extends keyof FormValues>({
   date,
   defaultValue,
 }: IFormRowProps<T>) {
+  // useEffect(() => {
+  //   if (defaultValue) {
+  //     // handleChange(defaultValue);
+  //     console.log(defaultValue);
+  //   }
+  // }, [defaultValue, handleChange]);
+
   return (
     <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
       <Label label={label} />
@@ -30,7 +38,7 @@ function FormRow<T extends keyof FormValues>({
         reg={registerProp}
         isUploading={isUploading}
         handleChange={handleChange}
-        date={date}
+        // date={date}
         defaultValue={defaultValue}
       />
     </div>
@@ -54,7 +62,7 @@ function Input<T extends keyof FormValues>({
   isUploading,
   cabins,
   handleChange,
-  date,
+  // date,
   defaultValue,
 }: IInputProps<T>) {
   const { register, required, minLength, validate } = reg;
@@ -87,7 +95,7 @@ function Input<T extends keyof FormValues>({
         <DatePicker
           id={id}
           className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
-          selected={date}
+          selected={defaultValue}
           onChange={(date) => handleChange(date)}
           disabled={isUploading}
           dateFormat={"dd.MM.yyyy"}

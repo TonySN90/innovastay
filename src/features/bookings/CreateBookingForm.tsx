@@ -21,24 +21,47 @@ function CreateBookingForm({
   bookingToUpdate?: FormValues | object;
 }) {
   const { cabins } = useCabins();
+  const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
 
-  const [selectedGuest, setSelectedGuest] = useState(null);
-  const [selectedCabin, setSelectedCabin] = useState(null);
-  const [hasBreakfast, setHasBreakfast] = useState(false);
-  const [numGuests, setNumGuests] = useState(2);
-  const [numNights, setNumNights] = useState(1);
-  const [startDate, setStartDate] = useState(new Date());
+  const [selectedGuest, setSelectedGuest] = useState(
+    isUpdatingSession ? bookingToUpdate?.guests : null
+  );
+  const [selectedCabin, setSelectedCabin] = useState(
+    isUpdatingSession ? bookingToUpdate?.cabins : null
+  );
+  const [hasBreakfast, setHasBreakfast] = useState(
+    isUpdatingSession ? bookingToUpdate?.hasBreakfast : false
+  );
+  const [numGuests, setNumGuests] = useState(
+    isUpdatingSession ? bookingToUpdate?.numGuests : 2
+  );
+  const [numNights, setNumNights] = useState(
+    isUpdatingSession ? bookingToUpdate?.numNights : 1
+  );
+  const [startDate, setStartDate] = useState(
+    isUpdatingSession ? new Date(bookingToUpdate?.startDate) : new Date()
+  );
   const [endDate, setEndDate] = useState(
-    new Date(new Date().setDate(startDate.getDate() + 1))
+    isUpdatingSession
+      ? new Date(bookingToUpdate?.endDate)
+      : new Date(new Date().setDate(startDate.getDate() + 1))
   );
 
-  const [pricePerNight, setPricePerNight] = useState(0);
-  const [priceAllDays, setPriceAllDays] = useState(0);
-  const [totalBreakfastPrice, setTotalBreakfastPrice] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [pricePerNight, setPricePerNight] = useState(
+    isUpdatingSession ? selectedCabin?.price : 0
+  );
 
-  const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
-  const { id: updateId, ...updateValues } = bookingToUpdate as FormValues;
+  const [priceAllDays, setPriceAllDays] = useState(
+    isUpdatingSession ? bookingToUpdate?.cabins?.price * numNights : 0
+  );
+  const [totalBreakfastPrice, setTotalBreakfastPrice] = useState(
+    isUpdatingSession ? bookingToUpdate?.extrasPrice : 0
+  );
+  const [totalPrice, setTotalPrice] = useState(
+    isUpdatingSession ? bookingToUpdate?.totalPrice : 0
+  );
+
+  // const { id: updateId, ...updateValues } = bookingToUpdate as FormValues;
 
   const {
     register,
@@ -46,7 +69,7 @@ function CreateBookingForm({
     reset,
     formState: { errors },
   } = useForm<FormValues>({
-    defaultValues: isUpdatingSession ? updateValues : {},
+    defaultValues: isUpdatingSession ? bookingToUpdate : {},
   });
 
   const { uploadNewBooking, uploadingStatus } = useCreateBooking(
@@ -60,32 +83,22 @@ function CreateBookingForm({
   // );
 
   useEffect(() => {
-    if (isUpdatingSession) {
-      setSelectedGuest(bookingToUpdate?.guests);
-      setHasBreakfast(bookingToUpdate?.hasBreakfast);
-      setNumGuests(bookingToUpdate?.numGuests);
-      setNumNights(bookingToUpdate?.numNights);
-      setPricePerNight(bookingToUpdate?.cabins?.price);
-      setPriceAllDays(
-        bookingToUpdate?.cabins?.price * bookingToUpdate?.numNights
-      );
-      setTotalPrice(bookingToUpdate?.totalPrice);
-    }
+    const nights = Math.round(
+      (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
+    );
 
-    if (selectedCabin) {
+    setNumNights(nights);
+
+    if (selectedCabin && !isUpdatingSession) {
       const price =
         selectedCabin.discount !== 0
           ? selectedCabin.discount
           : selectedCabin.price;
       setPricePerNight(price);
-      const nights = Math.round(
-        (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
-      );
-      setNumNights(nights);
+
       setPriceAllDays(price * nights);
       setTotalPrice(priceAllDays + totalBreakfastPrice);
     }
-    console.log(endDate);
 
     if (hasBreakfast && numNights && numGuests) {
       setTotalBreakfastPrice(numNights * +numGuests * 15);
@@ -93,20 +106,15 @@ function CreateBookingForm({
       setTotalBreakfastPrice(0);
     }
   }, [
-    selectedCabin,
-    hasBreakfast,
-    numGuests,
-    bookingToUpdate,
-    isUpdatingSession,
-    numNights,
-    pricePerNight,
-    totalBreakfastPrice,
-    totalPrice,
-    setTotalPrice,
-    setTotalBreakfastPrice,
     startDate,
     endDate,
+    selectedCabin,
+    hasBreakfast,
+    numNights,
+    numGuests,
+    isUpdatingSession,
     priceAllDays,
+    totalBreakfastPrice,
   ]);
 
   const isUploading = uploadingStatus === StatusTypes.LOADING;
@@ -160,7 +168,9 @@ function CreateBookingForm({
         className="p-3 md:p-5 transition-all"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h2 className="font-semibold text-lg mb-3">Neue Buchung hinzufügen</h2>
+        <h2 className="font-semibold text-lg mb-3">
+          {isUpdatingSession ? "Buchung bearbeiten" : "Buchung erstellen"}
+        </h2>
 
         <FormRow
           label="Zimmer"
@@ -170,8 +180,10 @@ function CreateBookingForm({
           registerProp={{ register, required: "Eintrag erforderlich" }}
           error={errors?.cabinId?.message}
           selectedCabin={selectedCabin}
-          defaultValue={isUpdatingSession ? bookingToUpdate.cabins : ""}
+          // defaultValue={isUpdatingSession ? bookingToUpdate.cabins : null}
+          defaultValue={selectedCabin}
           handleChange={setSelectedCabin}
+          isUploading={isUpdatingSession && true}
         />
 
         <SearchBar
@@ -192,7 +204,7 @@ function CreateBookingForm({
           error={errors?.startDate?.message}
           isUploading={isWorking}
           handleChange={setStartDate}
-          date={startDate}
+          defaultValue={startDate}
         />
 
         <FormRow
@@ -203,7 +215,7 @@ function CreateBookingForm({
           error={errors?.endDate?.message}
           isUploading={isWorking}
           handleChange={setEndDate}
-          date={endDate}
+          defaultValue={endDate}
         />
         <FormRow
           label="Anzahl Personen"
