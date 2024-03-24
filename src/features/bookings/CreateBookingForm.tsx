@@ -27,41 +27,26 @@ function CreateBookingForm({
 
   // const { id: updateId, ...updateValues } = bookingToUpdate as FormValues;
 
-  // console.log(bookingToUpdate);
+  console.log(bookingToUpdate);
 
-  const [cabinId, setCabinId] = useState({
-    value: 276,
-    label: "Zimmer 2",
-  });
+  const [cabinId, setCabinId] = useState(null);
   const [selectedCabin, setSelectedCabin] = useState(null);
-  const [guest, setGuest] = useState({
-    id: 3,
-    created_at: "2024-03-12T09:52:41+00:00",
-    fullName: "Sandra Müller",
-    address: "Müllerstraße 2",
-    postalCode: "18057",
-    city: "Schwerin",
-    country: "De",
-    email: "sandramueller@gmail.com",
-    phone: 15799563268,
-    information: "Alles in Ordnung!",
-  });
+  const [selectedGuest, setSelectedGuest] = useState(null);
 
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(
     new Date(new Date().setDate(new Date().getDate() + 1))
   );
   const [numGuests, setNumGuests] = useState(1);
-  const [hasBreakfast, setHasBreakfast] = useState({
-    value: false,
-    label: "Nein",
-  });
+  const [hasBreakfast, setHasBreakfast] = useState(null);
 
   const [numNights, setNumNights] = useState(1);
   const [pricePerNight, setPricePerNight] = useState(0);
   const [allDaysPrice, setAllDaysPrice] = useState(0);
   const [totalBreakfastPrice, setTotalBreakfastPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  console.log(bookingToUpdate);
 
   const {
     register,
@@ -71,7 +56,35 @@ function CreateBookingForm({
     formState: { errors },
     control,
   } = useForm<FormValues>({
-    defaultValues: { startDate, endDate, numGuests },
+    defaultValues: isUpdatingSession
+      ? {
+          cabinId: {
+            value: bookingToUpdate.cabins.id,
+            label: bookingToUpdate.cabins.name,
+          },
+          guest: bookingToUpdate.guests,
+          startDate: bookingToUpdate.startDate,
+          endDate: bookingToUpdate.endDate,
+          numGuests: bookingToUpdate.numGuests,
+          hasBreakfast: {
+            value: bookingToUpdate.hasBreakfast,
+            label: bookingToUpdate.hasBreakfast ? "Ja" : "Nein",
+          },
+          isPaid: {
+            value: bookingToUpdate.isPaid,
+            label: bookingToUpdate.isPaid ? "Ja" : "Nein",
+          },
+          status: {
+            value: bookingToUpdate.status,
+            label:
+              bookingToUpdate.status === "confirmed"
+                ? "Bestätigt"
+                : bookingToUpdate.status === "checked-out"
+                ? "Ausgechecked"
+                : "Ausstehend",
+          },
+        }
+      : { startDate, endDate, numGuests },
   });
 
   const { uploadNewBooking, uploadingStatus } = useCreateBooking(
@@ -87,7 +100,7 @@ function CreateBookingForm({
   useEffect(() => {
     watch(() => {
       setCabinId(watch("cabinId"));
-      setGuest(watch("guest"));
+      setSelectedGuest(watch("guest"));
       setStartDate(watch("startDate"));
       setEndDate(watch("endDate"));
       setNumGuests(watch("numGuests"));
@@ -172,6 +185,10 @@ function CreateBookingForm({
       ":active": {
         color: "#6366f1",
       },
+
+      ":disabled": {
+        backgroundColor: "#6366f1",
+      },
     }),
     option: (styles, state) => ({
       ...styles,
@@ -210,6 +227,7 @@ function CreateBookingForm({
                   label: cabin.name,
                 }))}
                 placeholder="Zimmer auswählen"
+                isDisabled={isUpdatingSession}
               />
             )}
           />
@@ -348,7 +366,7 @@ function CreateBookingForm({
                 options={[
                   { value: "confirmed", label: "Bestätigt" },
                   { value: "unconfirmed", label: "Ausstehend" },
-                  { value: "checkedOut", label: "Ausgechecked" },
+                  { value: "checked-out", label: "Ausgechecked" },
                 ]}
                 placeholder="Wähle..."
               />
