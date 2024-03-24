@@ -27,23 +27,13 @@ function CreateBookingForm({
 
   // const { id: updateId, ...updateValues } = bookingToUpdate as FormValues;
 
-  const { uploadNewBooking, uploadingStatus } = useCreateBooking(
-    // reset,
-    onCloseModal || (() => {})
-  );
+  // console.log(bookingToUpdate);
 
-  const isUploading = uploadingStatus === StatusTypes.LOADING;
-  // const isUpdating = updatingStatus === StatusTypes.LOADING;
-  // const isWorking = isUploading || isUpdating;
-  // const isWorking = selectedGuest === null || isUploading;
-
-  // const [cabinId, setCabinId] = useState(null);
   const [cabinId, setCabinId] = useState({
     value: 276,
     label: "Zimmer 2",
   });
   const [selectedCabin, setSelectedCabin] = useState(null);
-  // const [guest, setGuest] = useState(null);
   const [guest, setGuest] = useState({
     id: 3,
     created_at: "2024-03-12T09:52:41+00:00",
@@ -58,9 +48,9 @@ function CreateBookingForm({
   });
 
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState("");
-  // const [startDate, setStartDate] = useState("2024-03-21T23:00:00.000Z");
-  // const [endDate, setEndDate] = useState("2024-03-29T23:00:00.000Z");
+  const [endDate, setEndDate] = useState(
+    new Date(new Date().setDate(new Date().getDate() + 1))
+  );
   const [numGuests, setNumGuests] = useState(1);
   const [hasBreakfast, setHasBreakfast] = useState({
     value: false,
@@ -81,15 +71,18 @@ function CreateBookingForm({
     formState: { errors },
     control,
   } = useForm<FormValues>({
-    defaultValues: {
-      cabinId,
-      guest,
-      startDate,
-      endDate,
-      numGuests,
-      hasBreakfast,
-    },
+    defaultValues: { startDate, endDate, numGuests },
   });
+
+  const { uploadNewBooking, uploadingStatus } = useCreateBooking(
+    reset,
+    onCloseModal || (() => {})
+  );
+
+  const isUploading = uploadingStatus === StatusTypes.LOADING;
+  // const isUpdating = updatingStatus === StatusTypes.LOADING;
+  // const isWorking = isUploading || isUpdating;
+  // const isWorking = selectedGuest === null || isUploading;
 
   useEffect(() => {
     watch(() => {
@@ -100,8 +93,6 @@ function CreateBookingForm({
       setNumGuests(watch("numGuests"));
       setHasBreakfast(watch("hasBreakfast"));
     });
-
-    // setHasBreakfast(hasBreakfast.value);
 
     if (startDate && endDate) {
       const nights = Math.round(
@@ -127,16 +118,12 @@ function CreateBookingForm({
       setAllDaysPrice(numNights * pricePerNight);
     }
 
-    // console.log(hasBreakfast);
-
     if (hasBreakfast?.value && numNights && numGuests) {
       console.log("hasBreakfast");
       setTotalBreakfastPrice(numNights * +numGuests * 15);
     }
 
     setTotalPrice(allDaysPrice + totalBreakfastPrice);
-
-    console.log(totalBreakfastPrice);
   }, [
     watch,
     startDate,
@@ -154,12 +141,20 @@ function CreateBookingForm({
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
     const newBooking = {
-      ...formData,
       cabinId: formData.cabinId.value,
-      startDate: new Date(formData.startDate),
-      endDate: new Date(formData.endDate),
+      guestId: formData.guest.id,
+      startDate: new Date(formData.startDate).toISOString(),
+      endDate: new Date(formData.endDate).toISOString(),
+      numNights,
+      numGuests: +formData.numGuests,
+      cabinPrice: pricePerNight,
+      totalPrice,
+      status: formData.status.value,
+      hasBreakfast: formData.hasBreakfast.value,
+      isPaid: formData.isPaid.value,
     };
 
+    uploadNewBooking(newBooking);
     console.log(newBooking);
   };
 
@@ -377,7 +372,7 @@ function CreateBookingForm({
           <div className="flex">
             <p className="flex-1">
               Frühstück:{" "}
-              {hasBreakfast.value
+              {hasBreakfast?.value
                 ? `(${numGuests} Person / ${numNights} Nächte) a 15 €`
                 : "Nicht erwünscht"}
             </p>
