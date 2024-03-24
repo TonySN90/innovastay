@@ -1,4 +1,6 @@
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, Controller } from "react-hook-form";
+import Select from "react-select";
+import { DevTool } from "@hookform/devtools";
 
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../ui/Button";
@@ -11,6 +13,9 @@ import SearchBar from "../bookings/SearchBar";
 import { useEffect, useState } from "react";
 import useCabins from "../cabins/useCabins";
 import useCreateBooking from "./useCreateBooking";
+import DatePicker from "react-datepicker";
+import { formatDate } from "date-fns";
+import { de } from "date-fns/locale/de";
 // import TotalsBox from "./TotalsBox";
 
 function CreateBookingForm({
@@ -23,9 +28,6 @@ function CreateBookingForm({
   const { cabins } = useCabins();
   const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
 
-  const [selectedGuest, setSelectedGuest] = useState(
-    isUpdatingSession ? bookingToUpdate?.guests : null
-  );
   const [selectedCabin, setSelectedCabin] = useState(
     isUpdatingSession ? bookingToUpdate?.cabins : null
   );
@@ -38,14 +40,14 @@ function CreateBookingForm({
   const [numNights, setNumNights] = useState(
     isUpdatingSession ? bookingToUpdate?.numNights : 1
   );
-  const [startDate, setStartDate] = useState(
-    isUpdatingSession ? new Date(bookingToUpdate?.startDate) : new Date()
-  );
-  const [endDate, setEndDate] = useState(
-    isUpdatingSession
-      ? new Date(bookingToUpdate?.endDate)
-      : new Date(new Date().setDate(startDate.getDate() + 1))
-  );
+  // const [startDate, setStartDate] = useState(
+  //   isUpdatingSession ? new Date(bookingToUpdate?.startDate) : new Date()
+  // );
+  // const [endDate, setEndDate] = useState(
+  //   isUpdatingSession
+  //     ? new Date(bookingToUpdate?.endDate)
+  //     : new Date(new Date().setDate(startDate.getDate() + 1))
+  // );
 
   const [pricePerNight, setPricePerNight] = useState(
     isUpdatingSession ? selectedCabin?.price : 0
@@ -63,17 +65,8 @@ function CreateBookingForm({
 
   // const { id: updateId, ...updateValues } = bookingToUpdate as FormValues;
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormValues>({
-    defaultValues: isUpdatingSession ? bookingToUpdate : {},
-  });
-
   const { uploadNewBooking, uploadingStatus } = useCreateBooking(
-    reset,
+    // reset,
     onCloseModal || (() => {})
   );
 
@@ -82,85 +75,127 @@ function CreateBookingForm({
   //   onCloseModal || (() => {})
   // );
 
-  useEffect(() => {
-    const nights = Math.round(
-      (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
-    );
+  // useEffect(() => {
+  //   const nights = Math.round(
+  //     (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
+  //   );
 
-    setNumNights(nights);
+  //   setNumNights(nights);
 
-    if (selectedCabin && !isUpdatingSession) {
-      const price =
-        selectedCabin.discount !== 0
-          ? selectedCabin.discount
-          : selectedCabin.price;
-      setPricePerNight(price);
+  //   if (selectedCabin && !isUpdatingSession) {
+  //     const price =
+  //       selectedCabin.discount !== 0
+  //         ? selectedCabin.discount
+  //         : selectedCabin.price;
+  //     setPricePerNight(price);
 
-      setPriceAllDays(price * nights);
-      setTotalPrice(priceAllDays + totalBreakfastPrice);
-    }
+  //     setPriceAllDays(price * nights);
+  //     setTotalPrice(priceAllDays + totalBreakfastPrice);
+  //   }
 
-    if (hasBreakfast && numNights && numGuests) {
-      setTotalBreakfastPrice(numNights * +numGuests * 15);
-    } else {
-      setTotalBreakfastPrice(0);
-    }
-  }, [
-    startDate,
-    endDate,
-    selectedCabin,
-    hasBreakfast,
-    numNights,
-    numGuests,
-    isUpdatingSession,
-    priceAllDays,
-    totalBreakfastPrice,
-  ]);
+  //   if (hasBreakfast && numNights && numGuests) {
+  //     setTotalBreakfastPrice(numNights * +numGuests * 15);
+  //   } else {
+  //     setTotalBreakfastPrice(0);
+  //   }
+  // }, [
+  //   startDate,
+  //   endDate,
+  //   selectedCabin,
+  //   hasBreakfast,
+  //   numNights,
+  //   numGuests,
+  //   isUpdatingSession,
+  //   priceAllDays,
+  //   totalBreakfastPrice,
+  // ]);
 
   const isUploading = uploadingStatus === StatusTypes.LOADING;
   // const isUpdating = updatingStatus === StatusTypes.LOADING;
   // const isWorking = isUploading || isUpdating;
-  const isWorking = selectedGuest === null || isUploading;
+  // const isWorking = selectedGuest === null || isUploading;
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
-    // isUpdatingSession
-    //   ? updateCabin(updateId as number, { ...formData })
-    //   : uploadNewCabin(formData);
-
-    const newBookingData = {
+    const newBooking = {
       ...formData,
-      guestId: selectedGuest?.id,
-      cabinId: Number(formData.cabinId),
-      isPaid: formData.isPaid === "true",
-      hasBreakfast: formData.hasBreakfast === "true",
-      cabinPrice: pricePerNight,
-      extrasPrice: totalBreakfastPrice,
-      totalPrice: totalPrice,
-      numGuests: Number(formData.numGuests),
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-      numNights,
+      cabinId: formData.cabinId.value,
+      startDate: new Date(formData.startDate),
+      endDate: new Date(formData.endDate),
     };
 
-    console.log(newBookingData);
-    // console.log(newBookingData);
-    // uploadNewBooking(newBookingData);
+    console.log(newBooking);
   };
 
-  function resetForm() {
-    setSelectedCabin(null);
-    setSelectedGuest(null);
-    setHasBreakfast(false);
-    setNumGuests(1);
-    setNumNights(1);
-    setStartDate(new Date());
-    setEndDate(new Date(new Date().setDate(startDate.getDate() + 1)));
-    setPricePerNight(0);
-    setPriceAllDays(0);
-    setTotalBreakfastPrice(0);
-    setTotalPrice(0);
-    reset();
-  }
+  // const [cabinId, setCabinId] = useState(null);
+  const [cabinId, setCabinId] = useState({
+    value: 276,
+    label: "Zimmer 2",
+  });
+  // const [guest, setGuest] = useState(null);
+  const [guest, setGuest] = useState({
+    id: 3,
+    created_at: "2024-03-12T09:52:41+00:00",
+    fullName: "Sandra Müller",
+    address: "Müllerstraße 2",
+    postalCode: "18057",
+    city: "Schwerin",
+    country: "De",
+    email: "sandramueller@gmail.com",
+    phone: 15799563268,
+    information: "Alles in Ordnung!",
+  });
+
+  // const [startDate, setStartDate] = useState("");
+  // const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState("2024-03-21T23:00:00.000Z");
+  const [endDate, setEndDate] = useState("2024-03-29T23:00:00.000Z");
+
+  // const isWorking = guest === null || isUploading;
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+    control,
+  } = useForm<FormValues>({
+    defaultValues: { cabinId, guest, startDate, endDate },
+  });
+
+  useEffect(() => {
+    watch(() => {
+      setCabinId(watch("cabinId"));
+      setGuest(watch("guest"));
+      setStartDate(watch("startDate"));
+      setEndDate(watch("endDate"));
+    });
+  }, [watch]);
+
+  const selectStyles = {
+    control: (base, state) => ({
+      ...base,
+      minWidth: "300px",
+      borderColor: state.isFocused && "#6366f1",
+      borderRadius: "0.5rem",
+      "&:hover": {
+        borderColor: "#6366f1",
+        color: "#333",
+      },
+
+      ":active": {
+        color: "#6366f1",
+      },
+    }),
+    option: (styles, state) => ({
+      ...styles,
+      backgroundColor: state.isSelected && "#6366f1",
+      "&:hover": {
+        backgroundColor: "#a5b4fc",
+        color: "#fff",
+      },
+    }),
+  };
 
   return (
     <>
@@ -172,51 +207,90 @@ function CreateBookingForm({
           {isUpdatingSession ? "Buchung bearbeiten" : "Buchung erstellen"}
         </h2>
 
-        <FormRow
-          label="Zimmer"
-          type="select"
-          id="cabinId"
-          cabins={cabins}
-          registerProp={{ register, required: "Eintrag erforderlich" }}
-          error={errors?.cabinId?.message}
-          selectedCabin={selectedCabin}
-          // defaultValue={isUpdatingSession ? bookingToUpdate.cabins : null}
-          defaultValue={selectedCabin}
-          handleChange={setSelectedCabin}
-          isUploading={isUpdatingSession && true}
-        />
+        <FormRow2 label="Zimmer" id="cabinId" error={errors}>
+          <Controller
+            control={control}
+            name="cabinId"
+            rules={{ required: "Eintrag erforderlich" }}
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <Select
+                styles={selectStyles}
+                onChange={onChange} // send value to hook form
+                onBlur={onBlur} // notify when input is touched/blur
+                ref={ref}
+                value={value}
+                options={cabins.map((cabin) => ({
+                  value: cabin.id,
+                  label: cabin.name,
+                }))}
+                placeholder="Zimmer auswählen"
+              />
+            )}
+          />
+        </FormRow2>
 
-        <SearchBar
-          label="Gast"
-          setSelectedGuest={setSelectedGuest}
-          selectedGuest={selectedGuest}
-          id="guest"
-          defaultValue={
-            isUpdatingSession ? bookingToUpdate.guests.fullName : ""
-          }
-        />
+        <FormRow2 label="Gast" id="guest" error={errors}>
+          <Controller
+            control={control}
+            name="guest"
+            rules={{ required: "Eintrag erforderlich" }}
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <SearchBar
+                onChange={onChange}
+                onBlur={onBlur}
+                id="guest"
+                defaultValue={value}
+                isUpdatingSession={isUpdatingSession}
+              />
+            )}
+          />
+        </FormRow2>
 
-        <FormRow
-          label="Anreisedatum"
-          type="date"
-          id="startDate"
-          registerProp={{ register, required: "Eintrag erforderlich" }}
-          error={errors?.startDate?.message}
-          isUploading={isWorking}
-          handleChange={setStartDate}
-          defaultValue={startDate}
-        />
+        <FormRow2 label="Anreisedatum" id="startDate" error={errors}>
+          <Controller
+            rules={{ required: "Eintrag erforderlich" }}
+            control={control}
+            name="startDate"
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <DatePicker
+                locale={de}
+                minDate={new Date()}
+                className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+                disabled={isUploading}
+                onChange={onChange}
+                onBlur={onBlur}
+                value={formatDate(value, "dd.MM.yyyy", { locale: de })}
+                // selected={value}
+                dateFormat={"dd.MM.yyyy"}
+                placeholderText="tt.mm.jjjj"
+              />
+            )}
+          />
+        </FormRow2>
 
-        <FormRow
-          label="Abreisedatum"
-          type="date"
-          id="endDate"
-          registerProp={{ register, required: "Eintrag erforderlich" }}
-          error={errors?.endDate?.message}
-          isUploading={isWorking}
-          handleChange={setEndDate}
-          defaultValue={endDate}
-        />
+        <FormRow2 label="Abreisedatum" id="endDate" error={errors}>
+          <Controller
+            rules={{ required: "Eintrag erforderlich" }}
+            control={control}
+            name="endDate"
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <DatePicker
+                locale={de}
+                minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
+                className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+                disabled={isUploading}
+                onChange={onChange}
+                onBlur={onBlur}
+                selected={value}
+                dateFormat={"dd.MM.yyyy"}
+                placeholderText="tt.mm.jjjj"
+              />
+            )}
+          />
+        </FormRow2>
+
+        {/* <FormRow
+
         <FormRow
           label="Anzahl Personen"
           type="number"
@@ -261,19 +335,19 @@ function CreateBookingForm({
           numNights={numNights}
           pricePerNight={pricePerNight}
           selectedCabin={selectedCabin}
-        />
+        /> */}
 
         <div className="w-[full] flex justify-center md:justify-end mt-4">
           <Button
             type="reset"
             onClick={() => {
-              resetForm();
+              reset();
             }}
             variation="inverted"
             size="md"
             extras="mr-2 rounded-lg"
             content="Zurücksetzen"
-            loading={isWorking}
+            // loading={isWorking}
           />
           <Button
             type="submit"
@@ -282,15 +356,35 @@ function CreateBookingForm({
             size="md"
             extras="rounded-lg"
             content={isUpdatingSession ? "Aktualisieren" : "Hinzufügen"}
-            loading={isWorking}
+            // loading={isWorking}
           />
         </div>
       </form>
+      <DevTool control={control} />
     </>
   );
 }
 
 export default CreateBookingForm;
+
+function FormRow2({ children, label, error, id }) {
+  return (
+    <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
+      {/* LABEL */}
+      <label htmlFor={id}>{label}</label>
+
+      {/* ERROR */}
+      {error && (
+        <span className="text-red-500 text-md w-[160px] md:max-w-[220px]">
+          {error[id]?.message}
+        </span>
+      )}
+
+      {/* Input */}
+      {children}
+    </div>
+  );
+}
 
 function TotalsBox({
   numGuests,

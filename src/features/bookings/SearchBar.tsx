@@ -7,25 +7,26 @@ import GuestInfoBox from "../guests/GuestInfoBox";
 import { Link } from "react-router-dom";
 
 function SearchBar({
-  label,
-  selectedGuest,
-  setSelectedGuest,
   defaultValue,
+  isUpdatingSession,
+  onChange,
 }: {
   label: string;
 }) {
   const [inputValue, setInputValue] = useState("");
   const [filteredGuests, setFilteredGuests] = useState([]);
+  const [selectedGuest, setSelectedGuest] = useState(null);
   const { guests } = useGuests();
   const windowWidth = useWindowWidth();
 
   useEffect(() => {
-    if (selectedGuest) {
-      setInputValue(selectedGuest.fullName);
+    if (defaultValue) {
+      setInputValue(defaultValue.fullName);
+      setSelectedGuest(defaultValue);
     } else {
-      setInputValue(defaultValue);
+      setInputValue("");
     }
-  }, [selectedGuest, defaultValue]);
+  }, [defaultValue]);
 
   function handleChange(e) {
     const inputText = e.target.value.toLowerCase();
@@ -38,21 +39,15 @@ function SearchBar({
     setSelectedGuest(null);
   }
 
-  function handleClickSelect(guest) {
+  function handleClick(guest) {
     setSelectedGuest(guest);
+    onChange(guest);
     setInputValue(guest.fullName);
     setFilteredGuests([]);
   }
 
   return (
-    <div className="relative border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
-      <label htmlFor="guest">
-        {label}{" "}
-        <span className="text-sm ml-6 text-indigo-500 font-semibold cursor-pointer">
-          <Link to="/guests">Neuen Gast anlegen</Link>
-        </span>
-      </label>
-
+    <div className="relative">
       <div className="relative">
         <input
           type="text"
@@ -61,6 +56,7 @@ function SearchBar({
           onChange={(e) => handleChange(e)}
           value={inputValue}
           placeholder={"Gast suchen"}
+          disabled={isUpdatingSession}
         />
         <span className="absolute inset-y-0 left-0 flex items-center pl-2">
           <svg
@@ -86,7 +82,7 @@ function SearchBar({
               >
                 <span
                   className="flex items-center pl-2 w-full"
-                  onClick={() => handleClickSelect(guest)}
+                  onClick={() => handleClick(guest)}
                 >
                   {guest.fullName}
                 </span>
