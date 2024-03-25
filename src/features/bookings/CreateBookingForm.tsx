@@ -13,6 +13,7 @@ import useCabins from "../cabins/useCabins";
 import useCreateBooking from "./useCreateBooking";
 import DatePicker from "react-datepicker";
 import { de } from "date-fns/locale/de";
+import useUpdateBooking from "./useUpdateBooking";
 // import TotalsBox from "./TotalsBox";
 
 function CreateBookingForm({
@@ -22,31 +23,50 @@ function CreateBookingForm({
   onCloseModal?: () => void;
   bookingToUpdate?: FormValues | object;
 }) {
+  const { id: updateId, ...updateValues } = bookingToUpdate as FormValues;
   const { cabins } = useCabins();
   const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
 
-  // const { id: updateId, ...updateValues } = bookingToUpdate as FormValues;
-
-  console.log(bookingToUpdate);
-
-  const [cabinId, setCabinId] = useState(null);
-  const [selectedCabin, setSelectedCabin] = useState(null);
-  const [selectedGuest, setSelectedGuest] = useState(null);
-
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(
-    new Date(new Date().setDate(new Date().getDate() + 1))
+  const [cabinId, setCabinId] = useState(
+    isUpdatingSession
+      ? {
+          value: bookingToUpdate?.cabins.id,
+          label: bookingToUpdate?.cabins.name,
+        }
+      : null
   );
-  const [numGuests, setNumGuests] = useState(1);
-  const [hasBreakfast, setHasBreakfast] = useState(null);
+  const [selectedCabin, setSelectedCabin] = useState(null);
+  const [selectedGuest, setSelectedGuest] = useState(
+    isUpdatingSession ? bookingToUpdate?.guests : null
+  );
 
-  const [numNights, setNumNights] = useState(1);
+  const [startDate, setStartDate] = useState(
+    isUpdatingSession ? new Date(bookingToUpdate?.startDate) : new Date()
+  );
+  const [endDate, setEndDate] = useState(
+    isUpdatingSession
+      ? new Date(bookingToUpdate?.endDate)
+      : new Date(new Date().setDate(new Date().getDate() + 1))
+  );
+  const [numGuests, setNumGuests] = useState(
+    isUpdatingSession ? bookingToUpdate?.numGuests : 1
+  );
+  const [hasBreakfast, setHasBreakfast] = useState(
+    isUpdatingSession
+      ? {
+          value: bookingToUpdate?.hasBreakfast,
+          label: bookingToUpdate?.hasBreakfast ? "Ja" : "Nein",
+        }
+      : null
+  );
+
+  const [numNights, setNumNights] = useState(
+    isUpdatingSession ? bookingToUpdate?.numNights : 1
+  );
   const [pricePerNight, setPricePerNight] = useState(0);
   const [allDaysPrice, setAllDaysPrice] = useState(0);
   const [totalBreakfastPrice, setTotalBreakfastPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-
-  console.log(bookingToUpdate);
 
   const {
     register,
@@ -56,35 +76,56 @@ function CreateBookingForm({
     formState: { errors },
     control,
   } = useForm<FormValues>({
-    defaultValues: isUpdatingSession
-      ? {
-          cabinId: {
-            value: bookingToUpdate.cabins.id,
-            label: bookingToUpdate.cabins.name,
-          },
-          guest: bookingToUpdate.guests,
-          startDate: bookingToUpdate.startDate,
-          endDate: bookingToUpdate.endDate,
-          numGuests: bookingToUpdate.numGuests,
-          hasBreakfast: {
-            value: bookingToUpdate.hasBreakfast,
-            label: bookingToUpdate.hasBreakfast ? "Ja" : "Nein",
-          },
-          isPaid: {
-            value: bookingToUpdate.isPaid,
-            label: bookingToUpdate.isPaid ? "Ja" : "Nein",
-          },
-          status: {
-            value: bookingToUpdate.status,
-            label:
-              bookingToUpdate.status === "confirmed"
-                ? "Bestätigt"
-                : bookingToUpdate.status === "checked-out"
-                ? "Ausgechecked"
-                : "Ausstehend",
-          },
-        }
-      : { startDate, endDate, numGuests },
+    // defaultValues: isUpdatingSession
+    //   ? {
+    //       cabinId: {
+    //         value: bookingToUpdate?.cabins.id,
+    //         label: bookingToUpdate?.cabins.name,
+    //       },
+    //       guest: bookingToUpdate?.guests,
+    //       startDate: bookingToUpdate?.startDate,
+    //       endDate: bookingToUpdate?.endDate,
+    //       numGuests: bookingToUpdate?.numGuests,
+    //       hasBreakfast: {
+    //         value: bookingToUpdate?.hasBreakfast,
+    //         label: bookingToUpdate?.hasBreakfast ? "Ja" : "Nein",
+    //       },
+    //       isPaid: {
+    //         value: bookingToUpdate?.isPaid,
+    //         label: bookingToUpdate?.isPaid ? "Ja" : "Nein",
+    //       },
+    //       status: {
+    //         value: bookingToUpdate?.status,
+    //         label:
+    //           bookingToUpdate?.status === "confirmed"
+    //             ? "Bestätigt"
+    //             : bookingToUpdate?.status === "checked-out"
+    //             ? "Ausgechecked"
+    //             : "Ausstehend",
+    //       },
+    //     }
+    //   : { startDate, endDate, numGuests },
+    defaultValues: {
+      cabinId,
+      guest: selectedGuest,
+      startDate,
+      endDate,
+      numGuests,
+      hasBreakfast,
+      isPaid: {
+        value: bookingToUpdate?.isPaid,
+        label: bookingToUpdate?.isPaid ? "Ja" : "Nein",
+      },
+      status: {
+        value: bookingToUpdate?.status,
+        label:
+          bookingToUpdate?.status === "confirmed"
+            ? "Bestätigt"
+            : bookingToUpdate?.status === "checked-out"
+            ? "Ausgechecked"
+            : "Ausstehend",
+      },
+    },
   });
 
   const { uploadNewBooking, uploadingStatus } = useCreateBooking(
@@ -92,24 +133,31 @@ function CreateBookingForm({
     onCloseModal || (() => {})
   );
 
+  const { updateBooking, updatingStatus } = useUpdateBooking(
+    reset,
+    onCloseModal
+  );
+
   const isUploading = uploadingStatus === StatusTypes.LOADING;
-  // const isUpdating = updatingStatus === StatusTypes.LOADING;
-  // const isWorking = isUploading || isUpdating;
-  // const isWorking = selectedGuest === null || isUploading;
+  const isUpdating = updatingStatus === StatusTypes.LOADING;
+  const isWorking = isUploading || isUpdating;
 
   useEffect(() => {
     watch(() => {
       setCabinId(watch("cabinId"));
       setSelectedGuest(watch("guest"));
-      setStartDate(watch("startDate"));
-      setEndDate(watch("endDate"));
+      // setStartDate(watch("startDate"));
+      // setEndDate(watch("endDate"));
       setNumGuests(watch("numGuests"));
       setHasBreakfast(watch("hasBreakfast"));
     });
 
+    console.log(startDate.getTime());
+    console.log(endDate);
+
     if (startDate && endDate) {
       const nights = Math.round(
-        (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24)
+        (endDate?.getTime() - startDate?.getTime()) / (1000 * 3600 * 24)
       );
       setNumNights(nights);
     }
@@ -167,8 +215,14 @@ function CreateBookingForm({
       isPaid: formData.isPaid.value,
     };
 
-    uploadNewBooking(newBooking);
-    console.log(newBooking);
+    if (isUpdatingSession) {
+      // updateBooking(updateId as number, newBooking);
+      console.log("updated");
+      return;
+    }
+
+    // uploadNewBooking(newBooking);
+    console.log("created");
   };
 
   const selectStyles = {
@@ -260,7 +314,7 @@ function CreateBookingForm({
                 locale={de}
                 minDate={new Date()}
                 className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
-                disabled={isUploading}
+                disabled={isWorking}
                 onChange={onChange}
                 onBlur={onBlur}
                 // value={formatDate(value, "dd.MM.yyyy", { locale: de })}
@@ -282,7 +336,7 @@ function CreateBookingForm({
                 locale={de}
                 minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
                 className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
-                disabled={isUploading}
+                disabled={isWorking}
                 onChange={onChange}
                 onBlur={onBlur}
                 selected={value}
@@ -298,7 +352,7 @@ function CreateBookingForm({
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="number"
             id="numGuests"
-            disabled={isUploading}
+            disabled={isWorking}
             // defaultValue={numGuests}
             {...register("numGuests", {
               required: "Eintrag erforderlich",
