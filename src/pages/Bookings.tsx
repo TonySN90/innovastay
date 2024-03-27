@@ -6,6 +6,7 @@ import { updateBookingsView } from "../features/bookings/bookingsSlice";
 import { BookingsViewType } from "../types/BookingTypes";
 import { useAppDispatch, useAppSelector } from "../store";
 import AddBooking from "../features/bookings/addBooking";
+import BookingFormProvider from "../features/bookings/BookingFormContext";
 
 function Bookings() {
   const bookingsView = useAppSelector((state) => state.bookings.bookingsView);
@@ -16,7 +17,7 @@ function Bookings() {
   }
 
   return (
-    <>
+    <BookingFormProvider>
       <Heading title="Buchungsübersicht" />
       <ToggleButtons
         onClick={handleClick}
@@ -36,7 +37,7 @@ function Bookings() {
           <AddBooking />
         </>
       )}
-    </>
+    </BookingFormProvider>
   );
 }
 

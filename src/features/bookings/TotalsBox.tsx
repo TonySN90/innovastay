@@ -1,13 +1,16 @@
-function TotalsBox({
-  numGuests,
-  allDaysPrice,
-  extrasPrice,
-  totalPrice,
-  numNights,
-  pricePerNight,
-  cabin,
-  hasBreakfast,
-}) {
+import { useBookingFormContext } from "./BookingFormContext";
+
+function TotalsBox({ cabin }) {
+  const {
+    numGuests,
+    allDaysPrice,
+    extrasPrice,
+    totalPrice,
+    numNights,
+    pricePerNight,
+    hasBreakfast,
+  } = useBookingFormContext();
+
   // const numNights = 3;
   return (
     <div className="mt-4 md:w-full p-3 border border-indigo-200 rounded-lg bg-indigo-100">

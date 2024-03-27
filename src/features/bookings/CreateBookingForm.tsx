@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import { DevTool } from "@hookform/devtools";
@@ -20,8 +20,10 @@ import {
   getNextDay,
   getOption,
   getStatus,
+  getDate,
 } from "../../utils/helper";
-import { getDate } from "date-fns";
+import { useBookingFormContext } from "./BookingFormContext";
+import useFormOperations from "./useFormOperations";
 
 function CreateBookingForm({
   onCloseModal,
@@ -30,18 +32,11 @@ function CreateBookingForm({
   onCloseModal?: () => void;
   bookingToUpdate?: FormValues | object;
 }) {
-  const { id: updateId, ...updateValues } = bookingToUpdate as FormValues;
+  const { id: updateId } = bookingToUpdate as FormValues;
   const { cabins } = useCabins();
   const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
-
-  const [selectedCabin, setSelectedCabin] = useState(null);
-  const [numGuests, setNumGuests] = useState(0);
-  const [hasBreakfast, setHasBreakfast] = useState(null);
-  const [numNights, setNumNights] = useState(1);
-  const [pricePerNight, setPricePerNight] = useState(0);
-  const [allDaysPrice, setAllDaysPrice] = useState(0);
-  const [extrasPrice, setExtrasPrice] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const { selectedCabin, numNights, pricePerNight, extrasPrice, totalPrice } =
+    useBookingFormContext();
 
   const {
     register,
@@ -84,56 +79,7 @@ function CreateBookingForm({
   const isWorking = isUploading || isUpdating;
 
   const formValues = watch();
-
-  useEffect(() => {
-    const cabinId = formValues.cabinId;
-    const startDate = formValues.startDate;
-    const endDate = formValues.endDate;
-    const breakfast = formValues.hasBreakfast;
-    const numGuests = Number(formValues.numGuests);
-    setHasBreakfast(breakfast);
-    setNumGuests(Number(formValues.numGuests));
-
-    if (startDate && endDate) {
-      const nights = Math.round(
-        (endDate?.getTime() - startDate?.getTime()) / (1000 * 3600 * 24)
-      );
-      setNumNights(nights);
-    }
-
-    if (cabinId) {
-      const cabin = cabins.find((cabin) => cabin.id === +cabinId.value);
-      setSelectedCabin(cabin);
-    }
-
-    if (selectedCabin) {
-      const price =
-        selectedCabin.discount !== 0
-          ? selectedCabin.discount
-          : selectedCabin.price;
-      setPricePerNight(price);
-    }
-
-    if (numNights && pricePerNight) {
-      setAllDaysPrice(numNights * pricePerNight);
-    }
-
-    if (breakfast?.value && numNights && numGuests) {
-      setExtrasPrice(numNights * +numGuests * 15);
-    } else {
-      setExtrasPrice(0);
-    }
-
-    setTotalPrice(allDaysPrice + extrasPrice);
-  }, [
-    formValues,
-    cabins,
-    selectedCabin,
-    numNights,
-    pricePerNight,
-    extrasPrice,
-    allDaysPrice,
-  ]);
+  useFormOperations(formValues, cabins);
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
     const newBooking = {
@@ -365,14 +311,14 @@ function CreateBookingForm({
         </FormRow>
 
         <TotalsBox
-          numGuests={numGuests}
-          allDaysPrice={allDaysPrice}
-          extrasPrice={extrasPrice}
-          totalPrice={totalPrice}
-          numNights={numNights}
-          pricePerNight={pricePerNight}
+          // numGuests={numGuests}
+          // allDaysPrice={allDaysPrice}
+          // extrasPrice={extrasPrice}
+          // totalPrice={totalPrice}
+          // numNights={numNights}
+          // pricePerNight={pricePerNight}
+          // hasBreakfast={hasBreakfast}
           cabin={selectedCabin}
-          hasBreakfast={hasBreakfast}
         />
 
         <div className="w-[full] flex justify-center md:justify-end mt-4">
@@ -398,7 +344,7 @@ function CreateBookingForm({
           />
         </div>
       </form>
-      <DevTool control={control} />
+      {/* <DevTool control={control} /> */}
     </>
   );
 }
@@ -409,7 +355,9 @@ function FormRow({ children, label, error, id }) {
   return (
     <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
       {/* LABEL */}
-      <label htmlFor={id}>{label}</label>
+      <label className="w-full md:w-[160px]" htmlFor={id}>
+        {label}
+      </label>
 
       {/* ERROR */}
       {error && (

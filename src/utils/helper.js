@@ -6,7 +6,7 @@ export function getCabinData(bookingToUpdate) {
 }
 
 export function getDate(date) {
-  return date ? new Date(date) : new Date();
+  return new Date(date);
 }
 
 export function getNextDay() {

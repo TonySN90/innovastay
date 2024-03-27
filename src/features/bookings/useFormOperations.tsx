@@ -1,6 +1,25 @@
 import { useEffect } from "react";
+import { useBookingFormContext } from "./BookingFormContext";
+import { FormValues } from "../../types/FormTypes";
+import { ICabinTypes } from "../../types/cabinTypes";
 
-function useFormOperations(watch) {
+function useFormOperations(formValues: FormValues, cabins: ICabinTypes[]) {
+  const {
+    setHasBreakfast,
+    setNumGuests,
+    setNumNights,
+    setPricePerNight,
+    setAllDaysPrice,
+    setExtrasPrice,
+    setTotalPrice,
+    setSelectedCabin,
+    selectedCabin,
+    numNights,
+    pricePerNight,
+    allDaysPrice,
+    extrasPrice,
+  } = useBookingFormContext();
+
   useEffect(() => {
     const cabinId = formValues.cabinId;
     const startDate = formValues.startDate;
@@ -49,6 +68,14 @@ function useFormOperations(watch) {
     pricePerNight,
     extrasPrice,
     allDaysPrice,
+    setHasBreakfast,
+    setNumNights,
+    setNumGuests,
+    setPricePerNight,
+    setAllDaysPrice,
+    setExtrasPrice,
+    setTotalPrice,
+    setSelectedCabin,
   ]);
 }
 

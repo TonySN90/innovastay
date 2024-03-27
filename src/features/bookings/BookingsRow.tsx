@@ -8,9 +8,6 @@ import CreateBookingForm from "./CreateBookingForm";
 import { FaRegEdit } from "react-icons/fa";
 import { TfiTrash } from "react-icons/tfi";
 import BookingInfoBox from "./bookingInfoBox";
-import { createContext, useState } from "react";
-
-const FormContext = createContext({});
 
 function BookingsRow({
   bookings,
@@ -27,155 +24,110 @@ function BookingsRow({
     id: bookingId,
   } = bookings;
 
-  // const [selectedCabin, setSelectedCabin] = useState(null);
-  // const [numGuests, setNumGuests] = useState(
-  //   isUpdatingSession ? bookingToUpdate?.numGuests : 1
-  // );
-  // const [hasBreakfast, setHasBreakfast] = useState(
-  //   isUpdatingSession
-  //     ? {
-  //         value: bookingToUpdate?.hasBreakfast,
-  //         label: bookingToUpdate?.hasBreakfast ? "Ja" : "Nein",
-  //       }
-  //     : null
-  // );
-
-  // const [numNights, setNumNights] = useState(
-  //   isUpdatingSession ? bookingToUpdate?.numNights : 1
-  // );
-  // const [pricePerNight, setPricePerNight] = useState(0);
-  // const [allDaysPrice, setAllDaysPrice] = useState(0);
-  // const [extrasPrice, setExtrasPrice] = useState(0);
-  // const [totalPrice, setTotalPrice] = useState(0);
-
   return (
-    <FormContext.Provider
-      value={
-        {}
-        //   {
-        //   selectedCabin,
-        //   numGuests,
-        //   hasBreakfast,
-        //   numNights,
-        //   pricePerNight,
-        //   allDaysPrice,
-        //   extrasPrice,
-        //   totalPrice,
-        //   setSelectedCabin,
-        //   setNumGuests,
-        //   setHasBreakfast,
-        //   setNumNights,
-        //   setPricePerNight,
-        //   setAllDaysPrice,
-        //   setExtrasPrice,
-        //   setTotalPrice,
-        // }
-      }
-    >
-      <tr className="bg-gray-50 min-h-16 grid grid-cols-1 md:grid-cols-12 text-left hyphens-manual py-3 px-5 md:px-7 gap-2 border-t-[1px] rounded-md shadow-lg shadow-indigo-100 my-1.5 hover:bg-indigo-100">
-        <td className="flex items-center font-semibold ">
-          {windowWidth < 768 && "Zimmer:"} {cabins.name}
-        </td>
-        <td className="flex items-center md:col-span-3">
-          <div className="flex flex-col">
-            <span className="font-semibold">{guests.fullName}</span>
-            <span className="text-xs">
-              {windowWidth > 768
-                ? guests.email.substring(0, 22) + "..."
-                : guests.email}
-            </span>
-          </div>
-        </td>
-        <td className="flex items-center md:col-span-2">
-          {format(new Date(startDate), "dd.MM.yyyy")} -{" "}
-          {format(new Date(endDate), "dd.MM.yyyy")}
-        </td>
-        <td className={`flex items-center md:col-span-2`}>
-          <div
-            className={`md:col-span-4 p-1.5 md:w-[120px] text-center rounded-md text-xs ${
-              (status === BookingStatusTypes.unconfirmed && "bg-blue-200") ||
-              (status === BookingStatusTypes.confirmed && "bg-green-200") ||
-              (status === BookingStatusTypes.checkedOut && "bg-gray-200")
-            }`}
-          >
-            {status === BookingStatusTypes.unconfirmed && "Ausstehend"}
-            {status === BookingStatusTypes.confirmed && "Bestätigt"}
-            {status === BookingStatusTypes.checkedOut && "Ausgechecked"}
-          </div>
-        </td>
-        <td className="flex items-center md:col-span-2">
-          {windowWidth < 768 ? (
-            <span>
-              Frühstück?
-              {
-                <span className="font-semibold">
-                  {hasBreakfast ? " Ja" : " Nein"}
-                </span>
-              }
-            </span>
-          ) : hasBreakfast ? (
-            "Ja"
-          ) : (
-            "Nein"
-          )}
-        </td>
-        <td className="flex items-center">
-          {windowWidth < 768 ? (
-            <span>
-              Endpreis:
-              {<span className="font-semibold"> {totalPrice} €</span>}
-            </span>
-          ) : (
-            <span className="font-semibold">{totalPrice} €</span>
-          )}
-        </td>
-        <td className="flex justify-end">
-          <Modal>
-            <Menu.List id={bookingId}>
-              <Modal.Open opens="view">
-                <Menu.Item>
-                  <IoDuplicateOutline />
-                  Details ansehen
-                </Menu.Item>
-              </Modal.Open>
+    <tr className="bg-gray-50 min-h-16 grid grid-cols-1 md:grid-cols-12 text-left hyphens-manual py-3 px-5 md:px-7 gap-2 border-t-[1px] rounded-md shadow-lg shadow-indigo-100 my-1.5 hover:bg-indigo-100">
+      <td className="flex items-center font-semibold ">
+        {windowWidth < 768 && "Zimmer:"} {cabins.name}
+      </td>
+      <td className="flex items-center md:col-span-3">
+        <div className="flex flex-col">
+          <span className="font-semibold">{guests.fullName}</span>
+          <span className="text-xs">
+            {windowWidth > 768
+              ? guests.email.substring(0, 22) + "..."
+              : guests.email}
+          </span>
+        </div>
+      </td>
+      <td className="flex items-center md:col-span-2">
+        {format(new Date(startDate), "dd.MM.yyyy")} -{" "}
+        {format(new Date(endDate), "dd.MM.yyyy")}
+      </td>
+      <td className={`flex items-center md:col-span-2`}>
+        <div
+          className={`md:col-span-4 p-1.5 md:w-[120px] text-center rounded-md text-xs ${
+            (status === BookingStatusTypes.unconfirmed && "bg-blue-200") ||
+            (status === BookingStatusTypes.confirmed && "bg-green-200") ||
+            (status === BookingStatusTypes.checkedOut && "bg-gray-200")
+          }`}
+        >
+          {status === BookingStatusTypes.unconfirmed && "Ausstehend"}
+          {status === BookingStatusTypes.confirmed && "Bestätigt"}
+          {status === BookingStatusTypes.checkedOut && "Ausgechecked"}
+        </div>
+      </td>
+      <td className="flex items-center md:col-span-2">
+        {windowWidth < 768 ? (
+          <span>
+            Frühstück?
+            {
+              <span className="font-semibold">
+                {hasBreakfast ? " Ja" : " Nein"}
+              </span>
+            }
+          </span>
+        ) : hasBreakfast ? (
+          "Ja"
+        ) : (
+          "Nein"
+        )}
+      </td>
+      <td className="flex items-center">
+        {windowWidth < 768 ? (
+          <span>
+            Endpreis:
+            {<span className="font-semibold"> {totalPrice} €</span>}
+          </span>
+        ) : (
+          <span className="font-semibold">{totalPrice} €</span>
+        )}
+      </td>
+      <td className="flex justify-end">
+        <Modal>
+          <Menu.List id={bookingId}>
+            <Modal.Open opens="view">
+              <Menu.Item>
+                <IoDuplicateOutline />
+                Details ansehen
+              </Menu.Item>
+            </Modal.Open>
 
-              <Modal.Open opens="edit">
-                <Menu.Item>
-                  <FaRegEdit />
-                  Bearbeiten
-                </Menu.Item>
-              </Modal.Open>
+            <Modal.Open opens="edit">
+              <Menu.Item>
+                <FaRegEdit />
+                Bearbeiten
+              </Menu.Item>
+            </Modal.Open>
 
-              <Modal.Open opens="delete">
-                <Menu.Item>
-                  <TfiTrash />
-                  Löschen
-                </Menu.Item>
-              </Modal.Open>
-            </Menu.List>
+            <Modal.Open opens="delete">
+              <Menu.Item>
+                <TfiTrash />
+                Löschen
+              </Menu.Item>
+            </Modal.Open>
+          </Menu.List>
 
-            <Modal.Window name="view">
-              <BookingInfoBox windowWidth={windowWidth} booking={bookings} />
-            </Modal.Window>
+          <Modal.Window name="view">
+            <BookingInfoBox windowWidth={windowWidth} booking={bookings} />
+          </Modal.Window>
 
-            <Modal.Window name="edit">
-              <CreateBookingForm bookingToUpdate={bookings} />
-            </Modal.Window>
+          <Modal.Window name="edit">
+            <CreateBookingForm bookingToUpdate={bookings} />
+          </Modal.Window>
 
-            <Modal.Window name="delete">
-              <ConfirmAction
-                booking={bookings}
-                bookingId={bookingId}
-                onCloseModal={() => {}} //Children prop
-                action="delete"
-              />
-            </Modal.Window>
+          <Modal.Window name="delete">
+            <ConfirmAction
+              booking={bookings}
+              bookingId={bookingId}
+              onCloseModal={() => {}} //Children prop
+              action="delete"
+            />
+          </Modal.Window>
 
-            <Menu.ToggleButton id={bookingId} />
-          </Modal>
-        </td>
-      </tr>
-    </FormContext.Provider>
+          <Menu.ToggleButton id={bookingId} />
+        </Modal>
+      </td>
+    </tr>
   );
 }
 
