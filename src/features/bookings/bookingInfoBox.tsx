@@ -13,6 +13,8 @@ function BookingInfoBox({
   const guest = booking.guests;
   const cabin = booking.cabins;
 
+  console.log(booking);
+
   return (
     <div className="p-2">
       <h2 className="font-semibold mb-4 text-lg">Buchungsinformationen</h2>
@@ -59,12 +61,13 @@ function BookingInfoBox({
 
       <TotalsBox
         numGuests={booking.numGuests}
-        priceAllDays={booking.priceAllDays}
-        // totalBreakfastPrice={totalBreakfastPrice}
-        // totalPrice={totalPrice}
-        // numNights={numNights}
-        // pricePerNight={pricePerNight}
-        // selectedCabin={selectedCabin}
+        allDaysPrice={booking.allDaysPrice}
+        extrasPrice={booking.extrasPrice}
+        totalPrice={booking.totalPrice}
+        numNights={booking.numNights}
+        pricePerNight={booking.pricePerNight}
+        hasBreakfast={booking.hasBreakfast}
+        cabin={cabin}
       />
     </div>
   );

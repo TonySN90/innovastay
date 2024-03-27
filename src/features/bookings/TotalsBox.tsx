@@ -1,41 +1,33 @@
-import { useBookingFormContext } from "./BookingFormContext";
-
-function TotalsBox({ cabin }) {
-  const {
-    numGuests,
-    allDaysPrice,
-    extrasPrice,
-    totalPrice,
-    numNights,
-    pricePerNight,
-    hasBreakfast,
-  } = useBookingFormContext();
-
-  // const numNights = 3;
+function TotalsBox(props) {
   return (
     <div className="mt-4 md:w-full p-3 border border-indigo-200 rounded-lg bg-indigo-100">
       <div className="flex">
         <p className="flex-1">
-          Übernachtung: ({numNights} Nächte) a{" "}
-          <span className={`${cabin?.discount && "text-green-500"}`}>
-            {pricePerNight} €
+          Übernachtung: ({props.numNights} Nächte) à{" "}
+          <span className={`${props.cabin?.discount && "text-green-500"}`}>
+            {props.pricePerNight || props.cabin?.price} €
           </span>
           :
         </p>
-        <p>{allDaysPrice}.00 €</p>
+        <p>
+          {props.allDaysPrice === 0
+            ? props.allDaysPrice
+            : props.cabin?.price * props.numNights}
+          .00 €
+        </p>
       </div>
       <div className="flex">
         <p className="flex-1">
           Frühstück:{" "}
-          {hasBreakfast?.value
-            ? `(${numGuests} Person / ${numNights} Nächte) a 15 €`
+          {props.hasBreakfast
+            ? `(${props.numGuests} Person / ${props.numNights} Nächte) à 15 €`
             : "Nicht erwünscht"}
         </p>
-        <p>{extrasPrice}.00 €</p>
+        <p>{props.extrasPrice}.00 €</p>
       </div>
       <div className="flex">
         <p className="flex-1">Gesamtpreis </p>
-        <p className="font-semibold">{totalPrice}.00 €</p>
+        <p className="font-semibold">{props.totalPrice}.00 €</p>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import { DevTool } from "@hookform/devtools";
@@ -33,10 +32,20 @@ function CreateBookingForm({
   bookingToUpdate?: FormValues | object;
 }) {
   const { id: updateId } = bookingToUpdate as FormValues;
+
+  // Hooks
   const { cabins } = useCabins();
+  const {
+    selectedCabin,
+    numNights,
+    numGuests,
+    pricePerNight,
+    extrasPrice,
+    totalPrice,
+    allDaysPrice,
+    hasBreakfast,
+  } = useBookingFormContext();
   const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
-  const { selectedCabin, numNights, pricePerNight, extrasPrice, totalPrice } =
-    useBookingFormContext();
 
   const {
     register,
@@ -98,12 +107,12 @@ function CreateBookingForm({
     };
 
     if (isUpdatingSession) {
-      // updateBooking(updateId as number, newBooking);
+      updateBooking(updateId as number, newBooking);
       console.log(newBooking);
       return;
     }
 
-    // uploadNewBooking(newBooking);
+    uploadNewBooking(newBooking);
     console.log(newBooking);
   };
 
@@ -311,13 +320,13 @@ function CreateBookingForm({
         </FormRow>
 
         <TotalsBox
-          // numGuests={numGuests}
-          // allDaysPrice={allDaysPrice}
-          // extrasPrice={extrasPrice}
-          // totalPrice={totalPrice}
-          // numNights={numNights}
-          // pricePerNight={pricePerNight}
-          // hasBreakfast={hasBreakfast}
+          numGuests={numGuests}
+          allDaysPrice={allDaysPrice}
+          extrasPrice={extrasPrice}
+          totalPrice={totalPrice}
+          numNights={numNights}
+          pricePerNight={pricePerNight}
+          hasBreakfast={hasBreakfast}
           cabin={selectedCabin}
         />
 
