@@ -5,14 +5,14 @@ function TotalsBox(props) {
         <p className="flex-1">
           Übernachtung: ({props.numNights} Nächte) à{" "}
           <span className={`${props.cabin?.discount && "text-green-500"}`}>
-            {props.pricePerNight || props.cabin?.price} €
+            {props.pricePerNight} €
           </span>
           :
         </p>
         <p>
           {props.allDaysPrice === 0
             ? props.allDaysPrice
-            : props.cabin?.price * props.numNights}
+            : props.pricePerNight * props.numNights}
           .00 €
         </p>
       </div>

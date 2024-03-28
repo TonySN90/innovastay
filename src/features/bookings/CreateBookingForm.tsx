@@ -20,9 +20,15 @@ import {
   getOption,
   getStatus,
   getDate,
+  getPricePerNight,
+  getNumNights,
+  getExtrasPrice,
+  getTotalPrice,
+  getAllDaysPrice,
+  getCabin,
+  getHasBreakfast,
 } from "../../utils/helper";
-import { useBookingFormContext } from "./BookingFormContext";
-import useFormOperations from "./useFormOperations";
+// import { useBookingFormContext } from "./BookingFormContext";
 
 function CreateBookingForm({
   onCloseModal,
@@ -35,16 +41,6 @@ function CreateBookingForm({
 
   // Hooks
   const { cabins } = useCabins();
-  const {
-    selectedCabin,
-    numNights,
-    numGuests,
-    pricePerNight,
-    extrasPrice,
-    totalPrice,
-    allDaysPrice,
-    hasBreakfast,
-  } = useBookingFormContext();
   const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
 
   const {
@@ -87,8 +83,7 @@ function CreateBookingForm({
   const isUpdating = updatingStatus === StatusTypes.LOADING;
   const isWorking = isUploading || isUpdating;
 
-  const formValues = watch();
-  useFormOperations(formValues, cabins);
+  const watchedValues = watch();
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
     const newBooking = {
@@ -100,19 +95,19 @@ function CreateBookingForm({
       status: formData.status.value,
       hasBreakfast: formData.hasBreakfast.value,
       isPaid: formData.isPaid.value,
-      cabinPrice: pricePerNight,
-      numNights,
-      extrasPrice,
-      totalPrice,
+      cabinPrice: getPricePerNight(watchedValues, cabins),
+      numNights: getNumNights(watchedValues),
+      extrasPrice: getExtrasPrice(watchedValues),
+      totalPrice: getTotalPrice(watchedValues, cabins),
     };
 
     if (isUpdatingSession) {
-      updateBooking(updateId as number, newBooking);
+      // updateBooking(updateId as number, newBooking);
       console.log(newBooking);
       return;
     }
 
-    uploadNewBooking(newBooking);
+    // uploadNewBooking(newBooking);
     console.log(newBooking);
   };
 
@@ -182,10 +177,9 @@ function CreateBookingForm({
             control={control}
             name="guest"
             rules={{ required: "Eintrag erforderlich" }}
-            render={({ field: { onChange, onBlur, value, ref } }) => (
+            render={({ field: { onChange, value } }) => (
               <SearchBar
                 onChange={onChange}
-                // onBlur={onBlur}
                 id="guest"
                 defaultValue={value}
                 isUpdatingSession={isUpdatingSession}
@@ -206,7 +200,6 @@ function CreateBookingForm({
                 className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
                 disabled={isWorking}
                 onChange={onChange}
-                onBlur={onBlur}
                 selected={value}
                 ref={ref}
                 dateFormat={"dd.MM.yyyy"}
@@ -228,8 +221,6 @@ function CreateBookingForm({
                 className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
                 disabled={isWorking}
                 onChange={onChange}
-                onBlur={onBlur}
-                ref={ref}
                 selected={value}
                 dateFormat={"dd.MM.yyyy"}
                 placeholderText="tt.mm.jjjj"
@@ -261,8 +252,6 @@ function CreateBookingForm({
               <Select
                 styles={selectStyles}
                 onChange={onChange}
-                onBlur={onBlur}
-                ref={ref}
                 value={value}
                 options={[
                   { value: true, label: "Ja" },
@@ -279,12 +268,10 @@ function CreateBookingForm({
             name="isPaid"
             control={control}
             rules={{ required: "Eintrag erforderlich" }}
-            render={({ field: { onChange, onBlur, value, ref } }) => (
+            render={({ field: { onChange, value } }) => (
               <Select
                 styles={selectStyles}
                 onChange={onChange}
-                onBlur={onBlur}
-                ref={ref}
                 value={value}
                 options={[
                   { value: true, label: "Ja" },
@@ -301,12 +288,10 @@ function CreateBookingForm({
             name="status"
             control={control}
             rules={{ required: "Eintrag erforderlich" }}
-            render={({ field: { onChange, onBlur, value, ref } }) => (
+            render={({ field: { onChange, value } }) => (
               <Select
                 styles={selectStyles}
                 onChange={onChange}
-                onBlur={onBlur}
-                ref={ref}
                 value={value}
                 options={[
                   { value: "confirmed", label: "Bestätigt" },
@@ -320,14 +305,14 @@ function CreateBookingForm({
         </FormRow>
 
         <TotalsBox
-          numGuests={numGuests}
-          allDaysPrice={allDaysPrice}
-          extrasPrice={extrasPrice}
-          totalPrice={totalPrice}
-          numNights={numNights}
-          pricePerNight={pricePerNight}
-          hasBreakfast={hasBreakfast}
-          cabin={selectedCabin}
+          numGuests={watchedValues.numGuests}
+          allDaysPrice={getAllDaysPrice(watchedValues, cabins)}
+          extrasPrice={getExtrasPrice(watchedValues)}
+          totalPrice={getTotalPrice(watchedValues, cabins)}
+          numNights={getNumNights(watchedValues)}
+          pricePerNight={getPricePerNight(watchedValues, cabins)}
+          hasBreakfast={getHasBreakfast(watchedValues)}
+          cabin={getCabin(watchedValues, cabins)}
         />
 
         <div className="w-[full] flex justify-center md:justify-end mt-4">
@@ -353,7 +338,7 @@ function CreateBookingForm({
           />
         </div>
       </form>
-      {/* <DevTool control={control} /> */}
+      <DevTool control={control} />
     </>
   );
 }
