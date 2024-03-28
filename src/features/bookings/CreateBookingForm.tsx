@@ -28,6 +28,7 @@ import {
   getCabin,
   getHasBreakfast,
 } from "../../utils/helper";
+import FormRow from "../../ui/FormRow";
 
 function CreateBookingForm({
   onCloseModal,
@@ -38,7 +39,6 @@ function CreateBookingForm({
 }) {
   const { id: updateId } = bookingToUpdate as FormValues;
 
-  // Hooks
   const { cabins } = useCabins();
   const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
 
@@ -83,7 +83,6 @@ function CreateBookingForm({
   const isWorking = isUploading || isUpdating;
 
   const watchedValues = watch();
-  console.log(watchedValues);
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
     const newBooking = {
@@ -112,29 +111,31 @@ function CreateBookingForm({
   };
 
   const selectStyles = {
+    primaryColor: "#6366f1",
+    secondaryColor: "#a5b4fc",
     control: (base, state) => ({
       ...base,
       minWidth: "300px",
-      borderColor: state.isFocused && "#6366f1",
+      borderColor: state.isFocused && selectStyles.primaryColor,
       borderRadius: "0.5rem",
       "&:hover": {
-        borderColor: "#6366f1",
+        borderColor: selectStyles.primaryColor,
         color: "#333",
       },
 
       ":active": {
-        color: "#6366f1",
+        color: selectStyles.primaryColor,
       },
 
       ":disabled": {
-        backgroundColor: "#6366f1",
+        backgroundColor: selectStyles.primaryColor,
       },
     }),
     option: (styles, state) => ({
       ...styles,
-      backgroundColor: state.isSelected && "#6366f1",
+      backgroundColor: state.isSelected && selectStyles.primaryColor,
       "&:hover": {
-        backgroundColor: "#a5b4fc",
+        backgroundColor: selectStyles.secondaryColor,
         color: "#fff",
       },
     }),
@@ -235,7 +236,6 @@ function CreateBookingForm({
             type="number"
             id="numGuests"
             disabled={isWorking}
-            // defaultValue={numGuests}
             {...register("numGuests", {
               required: "Eintrag erforderlich",
               min: 1,
@@ -344,24 +344,3 @@ function CreateBookingForm({
 }
 
 export default CreateBookingForm;
-
-function FormRow({ children, label, error, id }) {
-  return (
-    <div className="border-b-2 border-indigo-100 md:min-w-[680px] transition-all flex flex-col md:flex-row py-4 justify-between md:items-center">
-      {/* LABEL */}
-      <label className="w-full md:w-[160px]" htmlFor={id}>
-        {label}
-      </label>
-
-      {/* ERROR */}
-      {error && (
-        <span className="text-red-500 text-md w-[160px] md:max-w-[220px]">
-          {error[id]?.message}
-        </span>
-      )}
-
-      {/* Input */}
-      {children}
-    </div>
-  );
-}

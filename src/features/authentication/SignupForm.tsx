@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FormValues } from "../../types/FormTypes";
-import FormRow from "../../ui/FormRow";
+import FormRow from "../../ui/FormRow2";
 import Button from "../../ui/Button";
 
 function SignupForm() {

@@ -1,10 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import { FormValues } from "../../types/FormTypes";
-import FormRow from "../../ui/FormRow";
 import useCreateCabin from "./useCreateCabin";
 import { StatusTypes } from "../../types/GlobalTypes";
 import useUpdateCabin from "./useUpdateCabin";
+import FormRow from "../../ui/FormRow";
 
 function CreateCabinForm({
   onCloseModal,
@@ -43,6 +43,7 @@ function CreateCabinForm({
     isUpdatingSession
       ? updateCabin(updateId as number, { ...formData })
       : uploadNewCabin(formData);
+    console.log(formData);
   };
 
   return (
@@ -52,75 +53,114 @@ function CreateCabinForm({
         onSubmit={handleSubmit(onSubmit)}
       >
         <h2 className="font-semibold text-lg mb-3">Neues Zimmer hinzufügen</h2>
-        <FormRow
-          label="Zimmername"
-          type="text"
-          id="name"
-          registerProp={{ register, required: "Eintrag erforderlich" }}
-          error={errors?.name?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Kategorie"
-          type="text"
-          id="category"
-          registerProp={{ register, required: "Eintrag erforderlich" }}
-          error={errors?.category?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Max. Personen"
-          type="number"
-          id="capacity"
-          registerProp={{
-            register,
-            required: "Eintrag erforderlich",
-            min: {
-              value: 1,
-              message: "Es sollte 1 betragen",
-            },
-          }}
-          error={errors?.capacity?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Regulärer Preis"
-          type="number"
-          id="price"
-          registerProp={{
-            register,
-            required: "Eintrag erforderlich",
-          }}
-          error={errors?.price?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Angebots-Preis"
-          type="number"
-          id="discount"
-          registerProp={{ register, required: "Eintrag erforderlich" }}
-          error={errors?.discount?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Beschreibung"
-          type="textarea"
-          id="description"
-          registerProp={{ register, required: "Eintrag erforderlich" }}
-          error={errors?.description?.message?.toString() || ""}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Bild"
-          type="file"
-          id="image"
-          registerProp={{
-            register,
-            required: isUpdatingSession ? false : "Wähle ein Bild",
-          }}
-          error={errors?.image?.message}
-          isUploading={isWorking}
-        />
+
+        <FormRow label={"Zimmername"} id="name" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="text"
+            id="name"
+            disabled={isWorking}
+            {...register("name", {
+              required: "Eintrag erforderlich",
+              min: {
+                value: 1,
+                message: "Es sollte mind.1 betragen",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"Kategorie"} id="category" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="text"
+            id="category"
+            disabled={isWorking}
+            {...register("category", {
+              required: "Eintrag erforderlich",
+              min: {
+                value: 1,
+                message: "Es sollte mind.1 betragen",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"Max. Personen"} id="capacity" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="number"
+            id="capacity"
+            disabled={isWorking}
+            {...register("capacity", {
+              required: "Eintrag erforderlich",
+              min: {
+                value: 1,
+                message: "Es sollte mind. 1 betragen",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"Regulärer Preis"} id="price" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="number"
+            id="price"
+            disabled={isWorking}
+            {...register("price", {
+              required: "Eintrag erforderlich",
+              min: {
+                value: 1,
+                message: "Es sollte mind. 1 betragen",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"Angebots-Preis"} id="discount" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="number"
+            id="discount"
+            disabled={isWorking}
+            {...register("discount", {
+              required: "Eintrag erforderlich",
+              min: {
+                value: 1,
+                message: "Es sollte mind. 1 betragen",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"Beschreibung"} id="description" error={errors}>
+          <textarea
+            className="w-full md:w-[300px] border border-gray-300 rounded-sm h-24 pl-2"
+            id="description"
+            disabled={isWorking}
+            {...register("description", {
+              required: "Eintrag erforderlich",
+              min: {
+                value: 1,
+                message: "Es sollte mind. 1 betragen",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"Bild"} id="image" error={errors}>
+          <input
+            type="file"
+            className="fileInputStyle flex items-center justify-center w-full md:w-[300px]"
+            accept="image/*"
+            disabled={isWorking}
+            {...register("image", {
+              required: isUpdatingSession ? false : "Wähle ein Bild",
+            })}
+          />
+        </FormRow>
+
         <div className="w-[full] flex justify-center md:justify-end mt-4">
           <Button
             type="reset"

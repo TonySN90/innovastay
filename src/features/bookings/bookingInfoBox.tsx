@@ -2,15 +2,6 @@ import { format } from "date-fns";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import { IBookingTypes } from "../../types/BookingTypes";
 import TotalsBox from "./TotalsBox";
-import {
-  getAllDaysPrice,
-  getCabin,
-  getExtrasPrice,
-  getHasBreakfast,
-  getNumNights,
-  getPricePerNight,
-  getTotalPrice,
-} from "../../utils/helper";
 
 function BookingInfoBox({
   windowWidth,
@@ -21,8 +12,6 @@ function BookingInfoBox({
 }) {
   const guest = booking.guests;
   const cabin = booking.cabins;
-
-  console.log(booking);
 
   return (
     <div className="p-2">

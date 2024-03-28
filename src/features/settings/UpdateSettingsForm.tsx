@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import FormRow from "../../ui/FormRow";
+import FormRow from "../../ui/FormRow2";
 import { FormValues } from "../../types/FormTypes";
 import Button from "../../ui/Button";
 

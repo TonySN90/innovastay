@@ -1,10 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
-import FormRow from "../../ui/FormRow";
 import useCreateGuest from "./useCreateGuest";
 import { FormValues } from "../../types/FormTypes";
 import { StatusTypes } from "../../types/GlobalTypes";
 import useUpdateGuest from "./useUpdateGuest";
+import FormRow from "../../ui/FormRow";
 
 function CreateGuestForm({
   onCloseModal,
@@ -43,6 +43,7 @@ function CreateGuestForm({
     isUpdatingSession
       ? updateGuest(updateId as number, { ...formData })
       : uploadNewGuest(formData);
+    console.log(formData);
   };
 
   return (
@@ -52,83 +53,133 @@ function CreateGuestForm({
         onSubmit={handleSubmit(onSubmit)}
       >
         <h2 className="font-semibold text-lg mb-3">Neuen Gast hinzufügen</h2>
+
+        <FormRow label={"Vorname, Nachname"} id="fullName" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="text"
+            id="fullName"
+            disabled={isWorking}
+            {...register("fullName", {
+              required: "Eintrag erforderlich",
+              minLength: {
+                value: 3,
+                message: "Mindestens 3 Zeichen",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"Adresse"} id="address" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="text"
+            id="address"
+            disabled={isWorking}
+            {...register("address", {
+              required: "Eintrag erforderlich",
+              minLength: {
+                value: 2,
+                message: "Mindestens 3 Zeichen",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"Postleitzahl"} id="postalCode" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="number"
+            id="postalCode"
+            disabled={isWorking}
+            {...register("postalCode", {
+              required: "Eintrag erforderlich",
+              min: {
+                value: 1,
+                message: "Es sollte 1 betragen",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"Stadt/Ort"} id="city" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="text"
+            id="city"
+            disabled={isWorking}
+            {...register("city", {
+              required: "Eintrag erforderlich",
+              minLength: {
+                value: 2,
+                message: "Mindestens 2 Zeichen",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"Land"} id="country" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="text"
+            id="country"
+            disabled={isWorking}
+            {...register("country", {
+              required: "Eintrag erforderlich",
+              minLength: {
+                value: 2,
+                message: "Mindestens 2 Zeichen",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"E-Mail-Adresse"} id="email" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="email"
+            id="email"
+            disabled={isWorking}
+            {...register("email", {
+              required: "Eintrag erforderlich",
+              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"Telefonnummer"} id="phone" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="number"
+            id="phone"
+            disabled={isWorking}
+            {...register("phone", {
+              required: "Eintrag erforderlich",
+              // pattern: /^[\d\s]+$/,
+            })}
+          />
+        </FormRow>
+
         <FormRow
-          label="Vorname, Nachname"
-          type="text"
-          id="fullName"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.name?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Adresse"
-          type="text"
-          id="address"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.address?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Postleitzahl"
-          type="number"
-          id="postalCode"
-          registerProp={{
-            register,
-            required: "Dieses Feld ist erforderlich",
-            min: {
-              value: 1,
-              message: "Es sollte 1 betragen",
-            },
-          }}
-          error={errors?.postalCode?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Stadt/Ort"
-          type="text"
-          id="city"
-          registerProp={{
-            register,
-            required: "Dieses Feld ist erforderlich",
-          }}
-          error={errors?.city?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Land"
-          type="text"
-          id="country"
-          registerProp={{
-            register,
-            required: "Dieses Feld ist erforderlich",
-          }}
-          error={errors?.country?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="E-Mail-Adresse"
-          type="email"
-          id="email"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.email?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Telefonnummer"
-          type="number"
-          id="phone"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.phone?.message}
-          isUploading={isWorking}
-        />
-        <FormRow
-          label="Informationen über den Gast"
-          type="textarea"
+          label={"Informationen über den Gast"}
           id="information"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.information?.message?.toString() || ""}
-          isUploading={isWorking}
-        />
+          error={errors}
+        >
+          <textarea
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="text"
+            id="information"
+            disabled={isWorking}
+            {...register("information", {
+              required: "Eintrag erforderlich",
+              minLength: {
+                value: 5,
+                message: "Mindestens 5 Zeichen",
+              },
+            })}
+          />
+        </FormRow>
+
         <div className="w-[full] flex justify-center md:justify-end mt-4">
           <Button
             type="reset"
