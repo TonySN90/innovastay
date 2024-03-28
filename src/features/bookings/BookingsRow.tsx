@@ -14,7 +14,7 @@ function BookingsRow({
   windowWidth,
 }: { bookings: IBookingTypes } & { windowWidth: number }) {
   const {
-    cabins,
+    cabins: cabin,
     guests,
     startDate,
     endDate,
@@ -27,7 +27,7 @@ function BookingsRow({
   return (
     <tr className="bg-gray-50 min-h-16 grid grid-cols-1 md:grid-cols-12 text-left hyphens-manual py-3 px-5 md:px-7 gap-2 border-t-[1px] rounded-md shadow-lg shadow-indigo-100 my-1.5 hover:bg-indigo-100">
       <td className="flex items-center font-semibold ">
-        {windowWidth < 768 && "Zimmer:"} {cabins.name}
+        {windowWidth < 768 && "Zimmer:"} {cabin.name}
       </td>
       <td className="flex items-center md:col-span-3">
         <div className="flex flex-col">

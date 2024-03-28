@@ -2,6 +2,15 @@ import { format } from "date-fns";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import { IBookingTypes } from "../../types/BookingTypes";
 import TotalsBox from "./TotalsBox";
+import {
+  getAllDaysPrice,
+  getCabin,
+  getExtrasPrice,
+  getHasBreakfast,
+  getNumNights,
+  getPricePerNight,
+  getTotalPrice,
+} from "../../utils/helper";
 
 function BookingInfoBox({
   windowWidth,
@@ -61,13 +70,13 @@ function BookingInfoBox({
 
       <TotalsBox
         numGuests={booking.numGuests}
-        allDaysPrice={booking.allDaysPrice}
-        extrasPrice={booking.extrasPrice}
-        totalPrice={booking.totalPrice}
-        numNights={booking.numNights}
-        pricePerNight={booking.pricePerNight}
         hasBreakfast={booking.hasBreakfast}
         cabin={cabin}
+        numNights={booking.numNights}
+        pricePerNight={booking.cabinPrice}
+        allDaysPrice={booking.cabinPrice * booking.numNights}
+        extrasPrice={booking.extrasPrice}
+        totalPrice={booking.totalPrice}
       />
     </div>
   );

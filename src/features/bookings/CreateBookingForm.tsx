@@ -28,7 +28,6 @@ import {
   getCabin,
   getHasBreakfast,
 } from "../../utils/helper";
-// import { useBookingFormContext } from "./BookingFormContext";
 
 function CreateBookingForm({
   onCloseModal,
@@ -84,6 +83,7 @@ function CreateBookingForm({
   const isWorking = isUploading || isUpdating;
 
   const watchedValues = watch();
+  console.log(watchedValues);
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {
     const newBooking = {
