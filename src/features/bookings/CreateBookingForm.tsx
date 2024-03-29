@@ -29,6 +29,7 @@ import {
   getHasBreakfast,
 } from "../../utils/helper";
 import FormRow from "../../ui/FormRow";
+import { Link } from "react-router-dom";
 
 function CreateBookingForm({
   onCloseModal,
@@ -101,12 +102,12 @@ function CreateBookingForm({
     };
 
     if (isUpdatingSession) {
-      // updateBooking(updateId as number, newBooking);
+      updateBooking(updateId as number, newBooking);
       console.log(newBooking);
       return;
     }
 
-    // uploadNewBooking(newBooking);
+    uploadNewBooking(newBooking);
     console.log(newBooking);
   };
 
@@ -314,28 +315,35 @@ function CreateBookingForm({
           hasBreakfast={getHasBreakfast(watchedValues)}
           cabin={getCabin(watchedValues, cabins)}
         />
-
-        <div className="w-[full] flex justify-center md:justify-end mt-4">
-          <Button
-            type="reset"
-            onClick={() => {
-              reset();
-            }}
-            variation="inverted"
-            size="md"
-            extras="mr-2 rounded-lg"
-            content="Zurücksetzen"
-            loading={isWorking}
-          />
-          <Button
-            type="submit"
-            onClick={() => null}
-            variation="standard"
-            size="md"
-            extras="rounded-lg"
-            content={isUpdatingSession ? "Aktualisieren" : "Hinzufügen"}
-            loading={isWorking}
-          />
+        <div className="w-[full] flex md:justify-between  mt-4">
+          <Link
+            className="text-sm font-semibold text-indigo-500 hover:text-indigo-300 transition-all flex items-center"
+            to="/guests"
+          >
+            Neuen Gast anlegen
+          </Link>
+          <div>
+            <Button
+              type="reset"
+              onClick={() => {
+                reset();
+              }}
+              variation="inverted"
+              size="md"
+              extras="mr-2 rounded-lg"
+              content="Zurücksetzen"
+              loading={isWorking}
+            />
+            <Button
+              type="submit"
+              onClick={() => null}
+              variation="standard"
+              size="md"
+              extras="rounded-lg"
+              content={isUpdatingSession ? "Aktualisieren" : "Hinzufügen"}
+              loading={isWorking}
+            />
+          </div>
         </div>
       </form>
       <DevTool control={control} />

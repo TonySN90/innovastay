@@ -1,7 +1,7 @@
-import useDeleteCabin from "../features/cabins/useDeleteCabin";
-import useDuplicateCabin from "../features/cabins/useDuplicateCabin";
-import { ICabinTypes } from "../types/cabinTypes";
-import Button from "./Button";
+import useDeleteCabin from "./useDeleteCabin";
+import useDuplicateCabin from "./useDuplicateCabin";
+import { ICabinTypes } from "../../types/cabinTypes";
+import Button from "../../ui/Button";
 
 function ConfirmAction({
   cabin,
@@ -10,9 +10,9 @@ function ConfirmAction({
   onCloseModal,
 }: {
   onCloseModal: () => void;
+  cabin: ICabinTypes;
   cabinId: number;
   action: "delete" | "duplicate";
-  cabin: ICabinTypes;
 }) {
   const { deleteCabin }: { deleteCabin: (id: number) => void } =
     useDeleteCabin(onCloseModal);
@@ -21,8 +21,6 @@ function ConfirmAction({
 
   const duplicateAction = action === "duplicate";
   const deleteAction = action === "delete";
-
-  console.log(action);
 
   return (
     <div>
@@ -33,7 +31,7 @@ function ConfirmAction({
         <div className="py-2">
           Bitte bestätigen Sie, dass{" "}
           <span className="font-semibold">{cabin.name}</span> dupliziert werden
-          soll. Der Neue Eintarg wird namentlich als Duplikat gekennzeichnet.
+          soll. Der Neue Eintrag wird namentlich als Duplikat gekennzeichnet.
         </div>
       )}
       {deleteAction && (

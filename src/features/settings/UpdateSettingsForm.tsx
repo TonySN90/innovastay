@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import FormRow from "../../ui/FormRow2";
 import { FormValues } from "../../types/FormTypes";
 import Button from "../../ui/Button";
+import FormRow from "../../ui/FormRow";
 
 function UpdateSettingsForm() {
   const {
@@ -25,28 +25,51 @@ function UpdateSettingsForm() {
         <h2 className="font-semibold text-lg mb-3 mt-5">
           Update Hoteleinstellungen
         </h2>
+
+        <FormRow label={"Mindestübernachtungen"} id="nights" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="text"
+            id="nights"
+            // disabled={isWorking}
+            {...register("nights", {
+              required: "Eintrag erforderlich",
+            })}
+          />
+        </FormRow>
+
         <FormRow
-          label="Mindestübernachtungen"
-          type="text"
-          id="nights"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.nights?.message}
-          isUploading
-        />
-        <FormRow
-          label="Maximale Gastanzahl pro Buchung"
-          type="number"
+          label={"Maximale Gastanzahl pro Buchung"}
           id="maxGuestsPerBooking"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.maxGuestsPerBooking?.message}
-        />
+          error={errors}
+        >
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="number"
+            id="maxGuestsPerBooking"
+            // disabled={isWorking}
+            {...register("maxGuestsPerBooking", {
+              required: "Eintrag erforderlich",
+            })}
+          />
+        </FormRow>
+
         <FormRow
-          label="Frühstückspreis pro Tag"
-          type="number"
+          label={"Frühstückspreis pro Tag"}
           id="breakfastPrice"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.breakfastPrice?.message}
-        />
+          error={errors}
+        >
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="number"
+            id="breakfastPrice"
+            // disabled={isWorking}
+            {...register("breakfastPrice", {
+              required: "Eintrag erforderlich",
+            })}
+          />
+        </FormRow>
+
         <div className="flex justify-end md:justify-end mt-4">
           <Button
             type="submit"

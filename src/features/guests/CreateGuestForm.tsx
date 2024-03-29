@@ -142,7 +142,10 @@ function CreateGuestForm({
             disabled={isWorking}
             {...register("email", {
               required: "Eintrag erforderlich",
-              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+              pattern: {
+                value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                message: "Bitte gebe ein gültige Email ein",
+              },
             })}
           />
         </FormRow>

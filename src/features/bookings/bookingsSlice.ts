@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { BookingsViewType, IBookingStateTypes } from "../../types/BookingTypes";
-import { createUpdateBooking, getBookings } from "../../services/apiBookings";
+import {
+  createUpdateBooking,
+  deleteBooking,
+  getBookings,
+} from "../../services/apiBookings";
 import { FormValues } from "../../types/FormTypes";
 import { StatusTypes } from "../../types/GlobalTypes";
 

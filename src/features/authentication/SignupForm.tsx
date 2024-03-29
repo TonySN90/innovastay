@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FormValues } from "../../types/FormTypes";
-import FormRow from "../../ui/FormRow2";
 import Button from "../../ui/Button";
+import FormRow from "../../ui/FormRow";
 
 function SignupForm() {
   const {
@@ -26,53 +26,79 @@ function SignupForm() {
         <h2 className="font-semibold text-lg mb-3 mt-5">
           Neuen Mitarbeiter hinzufügen
         </h2>
+
+        <FormRow label={"Name"} id="name" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="text"
+            id="name"
+            // disabled={isWorking}
+            {...register("name", {
+              required: "Eintrag erforderlich",
+              minLength: {
+                value: 2,
+                message: "Mindestens 2 Zeichen",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"E-Mail"} id="email" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="email"
+            id="email"
+            // disabled={isWorking}
+            {...register("email", {
+              required: "Eintrag erforderlich",
+              pattern: {
+                value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                message: "Bitte gebe ein gültige Email ein",
+              },
+            })}
+          />
+        </FormRow>
+
+        <FormRow label={"Passwort"} id="password" error={errors}>
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="password"
+            id="password"
+            // disabled={isWorking}
+            {...register("password", {
+              required: "Eintrag erforderlich",
+              minLength: {
+                value: 5,
+                message: "Mindestens 5 Zeichen",
+                pattern: {
+                  value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/,
+                  message:
+                    "Mindestens 1 Zahl, 1 Großbuchstabe, 1 Kleinbuchstabe",
+                },
+              },
+            })}
+          />
+        </FormRow>
+
         <FormRow
-          label="Name"
-          type="text"
-          id="name"
-          registerProp={{ register, required: "Dieses Feld ist erforderlich" }}
-          error={errors?.name?.message}
-        />
-        <FormRow
-          label="E-Mail:"
-          type="text"
-          id="email"
-          registerProp={{
-            register,
-            required: "Dieses Feld ist erforderlich",
-            pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: "Bitte gebe ein gültige Passwort ein",
-            },
-          }}
-          error={errors?.email?.message}
-        />
-        <FormRow
-          label="Passwort (min. 8 Zeichen):"
-          type="password"
-          id="password"
-          registerProp={{
-            register,
-            required: "Dieses Feld ist erforderlich",
-            minLength: {
-              value: 8,
-              message: "mindestens 8 Zeichen eingeben",
-            },
-          }}
-          error={errors?.password?.message}
-        />
-        <FormRow
-          label="Passwort wiederholen"
-          type="password"
+          label={"Passwort wiederholen"}
           id="passwordConfirm"
-          registerProp={{
-            register,
-            required: "This field is required",
-            validate: (value) =>
-              value === getValues().password || "Passwort stimmt nicht überein",
-          }}
-          error={errors?.passwordConfirm?.message}
-        />
+          error={errors}
+        >
+          <input
+            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            type="password"
+            id="passwordConfirm"
+            // disabled={isWorking}
+            {...register("passwordConfirm", {
+              required: "Eintrag erforderlich",
+              validate: (value) =>
+                value === getValues().password ||
+                "Passwort stimmt nicht überein",
+            })}
+          />
+        </FormRow>
+
         <div className="flex justify-end gap-2">
           <div className="w-[full] flex justify-center md:justify-end mt-4">
             <Button

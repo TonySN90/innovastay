@@ -1,13 +1,13 @@
 import { format } from "date-fns";
+import { FaRegEdit } from "react-icons/fa";
+import { TfiTrash } from "react-icons/tfi";
+import { PiInfoBold } from "react-icons/pi";
 import { IBookingTypes, BookingStatusTypes } from "../../types/BookingTypes";
 import Modal from "../../ui/Modal";
 import Menu from "../../ui/Menu";
-import { IoDuplicateOutline } from "react-icons/io5";
-import ConfirmAction from "../guests/ConfirmActionGuests";
 import CreateBookingForm from "./CreateBookingForm";
-import { FaRegEdit } from "react-icons/fa";
-import { TfiTrash } from "react-icons/tfi";
 import BookingInfoBox from "./bookingInfoBox";
+import ConfirmDelete from "./confirmDelete";
 
 function BookingsRow({
   bookings,
@@ -87,7 +87,7 @@ function BookingsRow({
           <Menu.List id={bookingId}>
             <Modal.Open opens="view">
               <Menu.Item>
-                <IoDuplicateOutline />
+                <PiInfoBold />
                 Details ansehen
               </Menu.Item>
             </Modal.Open>
@@ -116,11 +116,10 @@ function BookingsRow({
           </Modal.Window>
 
           <Modal.Window name="delete">
-            <ConfirmAction
+            <ConfirmDelete
               booking={bookings}
               bookingId={bookingId}
               onCloseModal={() => {}} //Children prop
-              action="delete"
             />
           </Modal.Window>
 

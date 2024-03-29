@@ -7,7 +7,7 @@ import { IoDuplicateOutline } from "react-icons/io5";
 
 import { TfiTrash } from "react-icons/tfi";
 import CreateCabinForm from "./CreateCabinForm";
-import ConfirmAction from "../../ui/ConfirmAction";
+import ConfirmAction from "./ConfirmAction";
 
 function TableRow({
   cabins,

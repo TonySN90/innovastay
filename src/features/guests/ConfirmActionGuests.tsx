@@ -22,8 +22,6 @@ function ConfirmAction({
   const duplicateAction = action === "duplicate";
   const deleteAction = action === "delete";
 
-  console.log(action);
-
   return (
     <div>
       <h2 className="font-semibold text-lg ">
