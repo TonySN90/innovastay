@@ -8,6 +8,8 @@ import Menu from "../../ui/Menu";
 import CreateBookingForm from "./CreateBookingForm";
 import BookingInfoBox from "./bookingInfoBox";
 import ConfirmDelete from "./confirmDelete";
+import { useNavigate } from "react-router";
+import { MdOutlineCheckCircleOutline } from "react-icons/md";
 
 function BookingsRow({
   bookings,
@@ -23,6 +25,8 @@ function BookingsRow({
     totalPrice,
     id: bookingId,
   } = bookings;
+
+  const navigate = useNavigate();
 
   return (
     <tr className="bg-gray-50 min-h-16 grid grid-cols-1 md:grid-cols-12 text-left hyphens-manual py-3 px-5 md:px-7 gap-2 border-t-[1px] rounded-md shadow-lg shadow-indigo-100 my-1.5 hover:bg-indigo-100">
@@ -99,6 +103,11 @@ function BookingsRow({
               </Menu.Item>
             </Modal.Open>
 
+            <Menu.Item onClick={() => navigate(`/checkin/${bookingId}`)}>
+              <MdOutlineCheckCircleOutline />
+              Einchecken
+            </Menu.Item>
+
             <Modal.Open opens="delete">
               <Menu.Item>
                 <TfiTrash />
@@ -114,6 +123,10 @@ function BookingsRow({
           <Modal.Window name="edit">
             <CreateBookingForm bookingToUpdate={bookings} />
           </Modal.Window>
+
+          {/* <Modal.Window name="check-in">
+            <div>Edit</div>
+          </Modal.Window> */}
 
           <Modal.Window name="delete">
             <ConfirmDelete

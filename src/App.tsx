@@ -8,6 +8,7 @@ import Settings from "./pages/Settings";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
 import Guests from "./pages/Guests";
+import Checkin from "./pages/Checkin";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route index element={<Navigate replace to="dashboard" />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="bookings" element={<Bookings />} />
+          <Route path="checkin/:bookingId" element={<Checkin />} />
           <Route path="cabins" element={<Cabins />} />
           <Route path="guests" element={<Guests />} />
           <Route path="users" element={<Users />} />
