@@ -51,13 +51,13 @@ function BookingsRow({
         <div
           className={`md:col-span-4 p-1.5 md:w-[120px] text-center rounded-md text-xs ${
             (status === BookingStatusTypes.unconfirmed && "bg-blue-200") ||
-            (status === BookingStatusTypes.confirmed && "bg-green-200") ||
+            (status === BookingStatusTypes.checkedIn && "bg-green-200") ||
             (status === BookingStatusTypes.checkedOut && "bg-gray-200")
           }`}
         >
           {status === BookingStatusTypes.unconfirmed && "Ausstehend"}
-          {status === BookingStatusTypes.confirmed && "Bestätigt"}
           {status === BookingStatusTypes.checkedOut && "Ausgechecked"}
+          {status === BookingStatusTypes.checkedIn && "Eingechecked"}
         </div>
       </td>
       <td className="flex items-center md:col-span-2">
@@ -96,17 +96,28 @@ function BookingsRow({
               </Menu.Item>
             </Modal.Open>
 
-            <Modal.Open opens="edit">
-              <Menu.Item>
-                <FaRegEdit />
-                Bearbeiten
-              </Menu.Item>
-            </Modal.Open>
+            {status !== BookingStatusTypes.checkedOut && (
+              <Modal.Open opens="edit">
+                <Menu.Item>
+                  <FaRegEdit />
+                  Bearbeiten
+                </Menu.Item>
+              </Modal.Open>
+            )}
 
-            <Menu.Item onClick={() => navigate(`/checkin/${bookingId}`)}>
-              <MdOutlineCheckCircleOutline />
-              Einchecken
-            </Menu.Item>
+            {status === BookingStatusTypes.unconfirmed && (
+              <Menu.Item onClick={() => navigate(`/checkin/${bookingId}`)}>
+                <MdOutlineCheckCircleOutline />
+                Einchecken
+              </Menu.Item>
+            )}
+
+            {status === BookingStatusTypes.checkedIn && (
+              <Menu.Item onClick={() => navigate(`/checkout/${bookingId}`)}>
+                <MdOutlineCheckCircleOutline />
+                Auschecken
+              </Menu.Item>
+            )}
 
             <Modal.Open opens="delete">
               <Menu.Item>
@@ -123,10 +134,6 @@ function BookingsRow({
           <Modal.Window name="edit">
             <CreateBookingForm bookingToUpdate={bookings} />
           </Modal.Window>
-
-          {/* <Modal.Window name="check-in">
-            <div>Edit</div>
-          </Modal.Window> */}
 
           <Modal.Window name="delete">
             <ConfirmDelete

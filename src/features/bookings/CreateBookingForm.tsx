@@ -295,7 +295,7 @@ function CreateBookingForm({
                 onChange={onChange}
                 value={value}
                 options={[
-                  { value: "confirmed", label: "Bestätigt" },
+                  { value: "checked-in", label: "Eingechecked" },
                   { value: "unconfirmed", label: "Ausstehend" },
                   { value: "checked-out", label: "Ausgechecked" },
                 ]}

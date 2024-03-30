@@ -21,6 +21,22 @@ export async function getBookings(): Promise<IBookingTypes[] | null> {
 
   return bookings;
 }
+export async function getBooking(bookingId: number) {
+  const { data: booking, error } = await supabase
+    .from("bookings")
+    .select("*, cabins(*), guests(*)")
+    .eq("id", bookingId)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error(
+      `Buchung konnte nicht geladen werden ${error.message}: ${error.details}`
+    );
+  }
+
+  return booking;
+}
 
 export async function createUpdateBooking(
   newBooking: IBookingTypes | FormValues,

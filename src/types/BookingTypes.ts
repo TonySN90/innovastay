@@ -25,9 +25,9 @@ export interface IBookingStateTypes {
 }
 
 export enum BookingStatusTypes {
-  checkedOut = "checked-out",
+  checkedOut = "checkedOut",
+  checkedIn = "checkedIn",
   unconfirmed = "unconfirmed",
-  confirmed = "confirmed",
 }
 
 export enum BookingsViewType {
