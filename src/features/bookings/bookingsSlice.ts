@@ -3,6 +3,7 @@ import { BookingsViewType, IBookingStateTypes } from "../../types/BookingTypes";
 import {
   createUpdateBooking,
   deleteBooking,
+  getBooking,
   getBookings,
 } from "../../services/apiBookings";
 import { FormValues } from "../../types/FormTypes";
@@ -28,6 +29,14 @@ export const fetchBookings = createAsyncThunk(
 
     const newBookings = await getBookings();
     return newBookings;
+  }
+);
+
+export const getBookingThunk = createAsyncThunk(
+  "bookings/getBooking",
+  async (bookingId: number) => {
+    const booking = await getBooking(bookingId);
+    return booking;
   }
 );
 
@@ -69,6 +78,7 @@ const initialState: IBookingStateTypes = {
   deletingStatus: "idle",
   error: "",
   bookings: [],
+  booking: {},
 } as IBookingStateTypes;
 
 const bookingsSlice = createSlice({
@@ -101,6 +111,18 @@ const bookingsSlice = createSlice({
         state.bookings = action.payload || [];
       })
       .addCase(fetchBookings.rejected, (state) => {
+        state.loadingStatus = "error";
+        state.error =
+          "Es gab ein Problem bei dem Abruf der Buchungsdaten. Bitte versuchen Sie es erneut.";
+      })
+      .addCase(getBookingThunk.pending, (state) => {
+        state.loadingStatus = "loading";
+      })
+      .addCase(getBookingThunk.fulfilled, (state, action) => {
+        state.loadingStatus = "idle";
+        state.booking = action.payload;
+      })
+      .addCase(getBookingThunk.rejected, (state) => {
         state.loadingStatus = "error";
         state.error =
           "Es gab ein Problem bei dem Abruf der Buchungsdaten. Bitte versuchen Sie es erneut.";

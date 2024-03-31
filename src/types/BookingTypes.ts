@@ -22,6 +22,7 @@ export interface IBookingStateTypes {
   loadingStatus: "idle" | "loading" | "error";
   error: string;
   bookings: IBookingTypes[];
+  booking: object | null;
 }
 
 export enum BookingStatusTypes {

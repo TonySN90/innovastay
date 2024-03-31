@@ -7,12 +7,37 @@ import { GiMeal } from "react-icons/gi";
 import Button from "../../ui/Button";
 import { useNavigate, useParams } from "react-router";
 import { useState } from "react";
+import useBooking from "./useBooking";
+import Spinner from "../../ui/Spinner";
+import formatDate from "../../utils/datesHelper";
+import { StatusTypes } from "../../types/GlobalTypes";
+import Empty from "../../ui/Empty";
 
 function CheckInBooking() {
   const { bookingId } = useParams();
   const navigate = useNavigate();
 
   const [confirmPaid, setConfirmPaid] = useState(false);
+  const { booking, loadingStatus } = useBooking(bookingId);
+
+  const {
+    numNights,
+    numGuests,
+    cabins,
+    startDate,
+    endDate,
+    hasBreakfast,
+    guests: { fullName, email },
+    cabinPrice,
+    totalPrice,
+    extrasPrice,
+  } = booking;
+
+  if (loadingStatus === StatusTypes.LOADING) return <Spinner />;
+
+  if (!Object.keys(booking).length) return <Empty resourceName="Die Buchung" />;
+
+  console.log(booking);
 
   return (
     <>
@@ -21,9 +46,13 @@ function CheckInBooking() {
         <header className="md:flex items-center mt-5 justify-between text-gray-50 py-4 bg-indigo-500 px-8 text-xl rounded-t-md ">
           <div className="md:flex gap-2 w-[270px]">
             <MdOutlineHotel className="text-2xl" />
-            <div>15 Nächte in Zimmer 2</div>
+            <div>
+              {numNights} Nächte in {cabins.name}
+            </div>
           </div>
-          <div>Mo. 14.04.2022 - Fr. 15.04.2022</div>
+          <div>
+            {formatDate(new Date(startDate))} - {formatDate(new Date(endDate))}
+          </div>
         </header>
         <section>
           <div className="px-8 py-8 ">
@@ -31,11 +60,11 @@ function CheckInBooking() {
               <div className="md:flex md:items-center">
                 <MdFamilyRestroom className="text-xl text-indigo-500" />
               </div>
-              <p className=" font-semibold">Daniel Güntherino</p>
+              <p className=" font-semibold">{fullName}</p>
               <span>•</span>
-              <p>2 Gäste</p>
+              <p>{numGuests === 1 ? "1 Gäste" : `${numGuests} Gäste`}</p>
               <span>•</span>
-              <p>daniel.guntherino@me.com</p>
+              <p>{email}</p>
             </div>
             <div className="md:flex gap-4 mb-6">
               <div className="flex items-center">
@@ -43,7 +72,7 @@ function CheckInBooking() {
               </div>
               <div>Frühstück inkl.</div>
               <div className="font-semibold bg-indigo-50 px-2 w-10 rounded-md">
-                Ja
+                {hasBreakfast ? "Ja" : "Nein"}
               </div>
             </div>
             <div className="flex gap-4 p-6 bg-yellow-100 mb-6">
@@ -53,8 +82,8 @@ function CheckInBooking() {
                 </div>
                 <p>Gesamtpreis</p>
                 <p>
-                  <span className=" font-semibold">2000 €</span> (1500 €
-                  Übernachtungskosten + 500 € Frühstück)
+                  <span className=" font-semibold">{totalPrice} €</span> (
+                  {cabinPrice}€ Übernachtungskosten + {extrasPrice}€ Frühstück)
                 </p>
               </div>
             </div>
@@ -66,7 +95,9 @@ function CheckInBooking() {
               />
               <p>
                 Ich <span className="font-semibold">bestätige</span>, dass
-                (Gastname) den Gesamtpreis von 2000 € beglichen hat.
+                (Gastname) den Gesamtpreis von{" "}
+                <span className="font-semibold">{totalPrice}€</span> beglichen
+                hat.
               </p>
             </div>
           </div>
