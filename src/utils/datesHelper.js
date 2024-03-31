@@ -1,4 +1,4 @@
-function formatDate(date) {
+export function formatDate(date) {
   const daysOfWeek = ["So.", "Mo.", "Di.", "Mi.", "Do.", "Fr.", "Sa."];
   const months = [
     "Jan.",
@@ -27,4 +27,11 @@ function formatDate(date) {
   }.${year}`;
 }
 
-export default formatDate;
+export function formatTime(date) {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  return `${hours < 10 ? "0" + hours : hours}:${
+    minutes < 10 ? "0" + minutes : minutes
+  } Uhr`;
+}

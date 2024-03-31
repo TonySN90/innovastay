@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import { IBookingTypes } from "../../types/BookingTypes";
 import TotalsBox from "./TotalsBox";
+import { formatDate, formatTime } from "../../utils/datesHelper";
 
 function BookingInfoBox({
   windowWidth,
@@ -22,7 +23,11 @@ function BookingInfoBox({
       )}
       <InfoRow
         label="Buchung angelegt am"
-        info={format(new Date(booking.created_at), "dd.MM.yyyy")}
+        info={
+          formatDate(new Date(booking.created_at)) +
+          " - " +
+          formatTime(new Date(booking.created_at))
+        }
       />
 
       <div className="my-4">
