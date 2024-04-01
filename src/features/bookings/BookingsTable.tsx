@@ -12,6 +12,8 @@ function BookingsTable() {
   const { bookings, loadingStatus } = useBookings();
   const windowWidth = useWindowWidth();
 
+  // console.log(loadingStatus);
+
   if (loadingStatus === StatusTypes.LOADING) return <Spinner />;
 
   if (!bookings.length) return <Empty resourceName="bookings" />;

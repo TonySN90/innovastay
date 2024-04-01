@@ -1,5 +1,9 @@
 import { useAppDispatch, useAppSelector } from "../../store";
-import { getBookingThunk, updateBookingThunk } from "../bookings/bookingsSlice";
+import {
+  fetchBookings,
+  resetUpdatingStatus,
+  updateBookingThunk,
+} from "../bookings/bookingsSlice";
 import toast from "react-hot-toast";
 import { FormValues } from "../../types/FormTypes";
 import { useEffect } from "react";
@@ -12,12 +16,13 @@ function useCheckIn(navigate) {
   );
 
   useEffect(() => {
-    console.log(updatingStatus);
     if (updatingStatus === StatusTypes.SUCCESS) {
-      toast.success("Buchung erfolgreich eingecheckt.");
+      dispatch(fetchBookings());
+      dispatch(resetUpdatingStatus());
       navigate(-1);
+      toast.success("Buchung erfolgreich eingecheckt.");
     }
-  }, [dispatch, updatingStatus]);
+  }, [dispatch, updatingStatus, navigate]);
 
   function checkIn(id: number, toUpdatedBooking: FormValues) {
     console.log(toUpdatedBooking);

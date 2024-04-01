@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router";
 import {
   MdFamilyRestroom,
   MdOutlineEuroSymbol,
@@ -5,8 +7,6 @@ import {
 } from "react-icons/md";
 import { GiMeal } from "react-icons/gi";
 import Button from "../../ui/Button";
-import { useNavigate, useParams } from "react-router";
-import { useState } from "react";
 import useBooking from "./useBooking";
 import Spinner from "../../ui/Spinner";
 import { formatDate, formatTime } from "../../utils/datesHelper";
@@ -24,11 +24,13 @@ function CheckInBooking() {
 
   const [confirmPaid, setConfirmPaid] = useState(false);
   const { booking, loadingStatus } = useBooking(bookingId);
-  const { checkIn, updatingStatus: checkInStatus } = useCheckIn(navigate);
+  const { checkIn, updatingStatus } = useCheckIn(navigate);
 
-  const isWorking = loadingStatus || checkInStatus;
+  const isLoading = loadingStatus === StatusTypes.LOADING;
+  const isUpdating = updatingStatus === StatusTypes.LOADING;
+  const isWorking = isUpdating || isLoading;
 
-  if (isWorking === StatusTypes.LOADING) return <Spinner />;
+  if (isWorking) return <Spinner />;
   if (!Object.keys(booking).length) return <Empty resourceName="Die Buchung" />;
 
   const {
@@ -179,8 +181,11 @@ function BookingInformation({ booking }: { booking: IBookingTypes }) {
 }
 
 function PricesBox({ booking, setConfirmPaid }: { booking: IBookingTypes }) {
-  const { numNights, numGuests, cabinPrice, totalPrice, extrasPrice, isPaid } =
-    booking;
+  const {
+    totalPrice,
+    isPaid,
+    guests: { fullName },
+  } = booking;
 
   const windowWidth = useWindowWidth();
 
@@ -225,8 +230,8 @@ function PricesBox({ booking, setConfirmPaid }: { booking: IBookingTypes }) {
             onChange={(paid) => setConfirmPaid(paid.target.checked)}
           />
           <p>
-            Ich <span className="font-semibold">bestätige</span>, dass
-            (Gastname) den Gesamtpreis von{" "}
+            Ich <span className="font-semibold">bestätige</span>, dass{" "}
+            {fullName} den Gesamtpreis von{" "}
             <span className="font-semibold">{totalPrice}€</span> beglichen hat.
           </p>
         </div>

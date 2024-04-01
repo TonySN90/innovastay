@@ -21,10 +21,10 @@ export function getOption(value) {
 
 export function getStatus(status) {
   switch (status) {
-    case "confirmed":
-      return { value: status, label: "Bestätigt" };
-    case "checked-out":
-      return { value: status, label: "Ausgechecked" };
+    case "checkedIn":
+      return { value: status, label: "Eingechecket" };
+    // case "checkedOut":
+    //   return { value: status, label: "Ausgechecket" };
     default:
       return { value: status, label: "Ausstehend" };
   }

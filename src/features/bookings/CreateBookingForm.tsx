@@ -43,6 +43,8 @@ function CreateBookingForm({
   const { cabins } = useCabins();
   const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
 
+  console.log(bookingToUpdate);
+
   const {
     register,
     handleSubmit,
@@ -295,9 +297,9 @@ function CreateBookingForm({
                 onChange={onChange}
                 value={value}
                 options={[
-                  { value: "checked-in", label: "Eingechecked" },
+                  { value: "checkedIn", label: "Eingechecket" },
                   { value: "unconfirmed", label: "Ausstehend" },
-                  { value: "checked-out", label: "Ausgechecked" },
+                  // { value: "checkedOut", label: "Ausgechecket" },
                 ]}
                 placeholder="Wähle..."
               />
@@ -346,7 +348,7 @@ function CreateBookingForm({
           </div>
         </div>
       </form>
-      <DevTool control={control} />
+      {/* <DevTool control={control} /> */}
     </>
   );
 }
