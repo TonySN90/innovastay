@@ -1,20 +1,35 @@
-import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { getBookingThunk } from "../bookings/bookingsSlice";
+import { getBookingThunk, updateBookingThunk } from "../bookings/bookingsSlice";
+import toast from "react-hot-toast";
+import { FormValues } from "../../types/FormTypes";
+import { useEffect } from "react";
+import { StatusTypes } from "../../types/GlobalTypes";
 
-function useCheckIn() {
+function useCheckIn(navigate) {
   const dispatch = useAppDispatch();
-  const { booking, loadingStatus, error } = useAppSelector(
-    (state: { booking: IBookingStateTypes }) => state.booking
+  const { updatingStatus, error } = useAppSelector(
+    (state: { bookings: IBookingStatesTypes }) => state.bookings
   );
 
-  useEffect(() => {}, [dispatch, booking]);
+  useEffect(() => {
+    console.log(updatingStatus);
+    if (updatingStatus === StatusTypes.SUCCESS) {
+      toast.success("Buchung erfolgreich eingecheckt.");
+      navigate(-1);
+    }
+  }, [dispatch, updatingStatus]);
 
-  function checkIn(bookingId: number) {
-    dispatch(getBookingThunk(bookingId));
+  function checkIn(id: number, toUpdatedBooking: FormValues) {
+    console.log(toUpdatedBooking);
+    dispatch(updateBookingThunk({ id, toUpdatedBooking }));
   }
 
-  return { checkIn, loadingStatus, error };
+  if (error) {
+    console.error(error);
+    toast.error(`Fehler beim Check in.`);
+    throw new Error(`Fehler beim check in`);
+  }
+  return { checkIn, updatingStatus };
 }
 
 export default useCheckIn;

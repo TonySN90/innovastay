@@ -16,6 +16,7 @@ import { IBookingTypes } from "../../types/BookingTypes";
 import Modal from "../../ui/Modal";
 import BookingInfoBox from "../bookings/bookingInfoBox";
 import useWindowWidth from "../../hooks/UseWindowWidth";
+import useCheckIn from "./useCheckIn";
 
 function CheckInBooking() {
   const { bookingId } = useParams();
@@ -23,13 +24,41 @@ function CheckInBooking() {
 
   const [confirmPaid, setConfirmPaid] = useState(false);
   const { booking, loadingStatus } = useBooking(bookingId);
+  const { checkIn, updatingStatus: checkInStatus } = useCheckIn(navigate);
 
-  if (loadingStatus === StatusTypes.LOADING) return <Spinner />;
+  const isWorking = loadingStatus || checkInStatus;
+
+  if (isWorking === StatusTypes.LOADING) return <Spinner />;
   if (!Object.keys(booking).length) return <Empty resourceName="Die Buchung" />;
 
-  const { isPaid } = booking;
+  const {
+    cabinId,
+    startDate,
+    endDate,
+    numGuests,
+    hasBreakfast,
+    extrasPrice,
+    totalPrice,
+    guestId,
+    created_at,
+    isPaid,
+  } = booking;
 
-  console.log(isPaid);
+  const handleCheckIn = () => {
+    checkIn(bookingId, {
+      isPaid: true,
+      status: "checkedIn",
+      cabinId,
+      startDate,
+      endDate,
+      numGuests,
+      hasBreakfast,
+      extrasPrice,
+      totalPrice,
+      guestId,
+      created_at,
+    });
+  };
 
   return (
     <>
@@ -43,7 +72,9 @@ function CheckInBooking() {
       <Buttons>
         <Button
           type="submit"
-          onClick={() => {}}
+          onClick={() => {
+            handleCheckIn();
+          }}
           variation="standard"
           size="lg"
           extras="mr-2 rounded-lg"
@@ -155,9 +186,11 @@ function PricesBox({ booking, setConfirmPaid }: { booking: IBookingTypes }) {
 
   return (
     <>
-      <div className={`gap-4 p-6 bg-${isPaid ? "green" : "yellow"}-100`}>
+      <div className={`gap-4 p-6 ${isPaid ? "bg-green-100" : "bg-yellow-100"}`}>
         <div
-          className={`md:flex gap-4 text-${isPaid ? "green" : "yellow"}-800`}
+          className={`md:flex gap-4 ${
+            isPaid ? "text-green-800" : "text-yellow-800"
+          }`}
         >
           <div>
             <MdOutlineEuroSymbol className="text-xl" />
