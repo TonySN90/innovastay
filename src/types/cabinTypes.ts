@@ -5,7 +5,7 @@ export interface ICabinTypes {
   category: string;
   capacity: number;
   price: number;
-  discount: number;
+  discount?: number;
   img: string;
   image: string;
   description: string;

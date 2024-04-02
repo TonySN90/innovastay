@@ -1,11 +1,16 @@
 export interface IBookingTypes {
   cabins: { name: string; category: string; image: string; id: string };
   cabin: {
+    id: number;
+    cabinName: string;
     name: string;
     category: string;
-    image: string;
-    id: string;
+    capacity: number;
+    price: number;
     discount: number;
+    img: string;
+    image: string;
+    description: string;
   };
   cabinId: number;
   created_at: string;
@@ -37,6 +42,17 @@ export interface IBookingTypes {
   guestId: number;
 }
 
+export interface IBookingToUpdateTypes {
+  id: number;
+  guests: number;
+  startDate: Date;
+  endDate: Date;
+  numGuests: number;
+  hasBreakfast: boolean;
+  status: string;
+  isPaid: boolean;
+}
+
 export interface IBookingStateTypes {
   bookingsView: BookingsViewType;
   uploadingStatus: "idle" | "loading" | "success" | "error";
@@ -45,6 +61,24 @@ export interface IBookingStateTypes {
   loadingStatus: "idle" | "loading" | "error";
   error: string;
   bookings: IBookingTypes[];
+  booking: IBookingTypes;
+}
+
+export interface ITotalsBoxProps {
+  cabin: {
+    discount?: boolean;
+    name: string;
+    category: string;
+    image: string;
+    id: string;
+  };
+  numNights: number;
+  pricePerNight: number;
+  allDaysPrice: number;
+  extrasPrice: number;
+  hasBreakfast: boolean;
+  numGuests: number;
+  totalPrice: number;
 }
 
 export enum BookingStatusTypes {

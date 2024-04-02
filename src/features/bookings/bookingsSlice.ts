@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BookingsViewType, IBookingStateTypes } from "../../types/BookingTypes";
+import {
+  BookingsViewType,
+  IBookingStateTypes,
+  IBookingTypes,
+} from "../../types/BookingTypes";
 import {
   createUpdateBooking,
   deleteBooking,
@@ -78,8 +82,8 @@ const initialState: IBookingStateTypes = {
   deletingStatus: "idle",
   error: "",
   bookings: [],
-  booking: {},
-} as IBookingStateTypes;
+  booking: {} as IBookingTypes,
+};
 
 const bookingsSlice = createSlice({
   name: "bookings",

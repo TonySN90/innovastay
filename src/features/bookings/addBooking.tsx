@@ -1,3 +1,4 @@
+import { IBookingTypes } from "../../types/BookingTypes";
 import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
 import CreateBookingForm from "./CreateBookingForm";
@@ -16,7 +17,7 @@ function AddBooking() {
           />
         </Modal.Open>
         <Modal.Window name="booking-form">
-          <CreateBookingForm bookingToUpdate={{}} />
+          <CreateBookingForm bookingToUpdate={{} as IBookingTypes} />
         </Modal.Window>
       </Modal>
     </div>

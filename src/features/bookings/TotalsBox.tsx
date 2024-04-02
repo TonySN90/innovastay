@@ -1,12 +1,12 @@
-import { IBookingTypes } from "../../types/BookingTypes";
+import { ITotalsBoxProps } from "../../types/BookingTypes";
 
-function TotalsBox(props: IBookingTypes) {
+function TotalsBox({ cabin, ...props }: ITotalsBoxProps) {
   return (
     <div className="mt-4 md:w-full p-3 border border-indigo-200 rounded-lg bg-indigo-100">
       <div className="flex">
         <p className="flex-1">
           Übernachtung: ({props.numNights} Nächte) à{" "}
-          <span className={`${props.cabin?.discount && "text-green-500"}`}>
+          <span className={`${cabin?.discount && "text-green-500"}`}>
             {props.pricePerNight} €
           </span>
           :

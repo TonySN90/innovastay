@@ -3,7 +3,7 @@ import Select from "react-select";
 
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../ui/Button";
-import { FormValues, IFormRawValues } from "../../types/FormTypes";
+import { IFormRawValues } from "../../types/FormTypes";
 import { StatusTypes } from "../../types/GlobalTypes";
 
 import SearchBar from "../bookings/SearchBar";
@@ -29,17 +29,18 @@ import {
 } from "../../utils/helper";
 import FormRow from "../../ui/FormRow";
 import { Link } from "react-router-dom";
+import { IBookingTypes } from "../../types/BookingTypes";
 
 interface Props {
   onCloseModal?: () => void;
-  bookingToUpdate: FormValues | null;
+  bookingToUpdate: IBookingTypes;
 }
 
 const CreateBookingForm: React.FC<Props> = function ({
   onCloseModal,
   bookingToUpdate,
 }) {
-  const { id: updateId } = bookingToUpdate as FormValues;
+  const { id: updateId } = bookingToUpdate;
 
   const { cabins } = useCabins();
   const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
