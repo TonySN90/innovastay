@@ -1,9 +1,9 @@
-import { SubmitHandler, useForm, Controller } from "react-hook-form";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import Select from "react-select";
 
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../ui/Button";
-import { IFormRawValues } from "../../types/FormTypes";
+import { FormValues, IFormRawValues } from "../../types/FormTypes";
 import { StatusTypes } from "../../types/GlobalTypes";
 
 import SearchBar from "../bookings/SearchBar";
@@ -30,6 +30,7 @@ import {
 import FormRow from "../../ui/FormRow";
 import { Link } from "react-router-dom";
 import { IBookingTypes } from "../../types/BookingTypes";
+import { IGuestTypes } from "../../types/GuestTypes";
 
 interface Props {
   onCloseModal?: () => void;
@@ -52,7 +53,7 @@ const CreateBookingForm: React.FC<Props> = function ({
     watch,
     formState: { errors },
     control,
-  } = useForm({
+  } = useForm<IFormRawValues>({
     defaultValues: {
       cabinId: isUpdatingSession ? getCabinData(bookingToUpdate) : null,
       guest: isUpdatingSession ? bookingToUpdate?.guests : null,
@@ -87,18 +88,16 @@ const CreateBookingForm: React.FC<Props> = function ({
 
   const watchedValues = watch();
 
-  const onSubmit: SubmitHandler<IFormRawValues> = (
-    formData: IFormRawValues
-  ) => {
+  const onSubmit: SubmitHandler<IFormRawValues> = (formData) => {
     const newBooking = {
-      cabinId: formData.cabinId.value,
-      guestId: formData.guest.id,
+      cabinId: formData.cabinId?.value,
+      guestId: formData.guest?.id,
       startDate: new Date(formData.startDate).toISOString(),
       endDate: new Date(formData.endDate).toISOString(),
       numGuests: +formData.numGuests,
-      status: formData.status.value,
-      hasBreakfast: formData.hasBreakfast.value,
-      isPaid: formData.isPaid.value,
+      status: formData.status?.value,
+      hasBreakfast: formData.hasBreakfast?.value,
+      isPaid: formData.isPaid?.value,
       cabinPrice: getPricePerNight(watchedValues, cabins),
       numNights: getNumNights(watchedValues),
       extrasPrice: getExtrasPrice(watchedValues),
@@ -106,12 +105,12 @@ const CreateBookingForm: React.FC<Props> = function ({
     };
 
     if (isUpdatingSession) {
-      updateBooking(updateId as number, newBooking);
+      updateBooking(updateId as number, newBooking as FormValues);
       console.log(newBooking);
       return;
     }
 
-    uploadNewBooking(newBooking);
+    uploadNewBooking(newBooking as FormValues);
     console.log(newBooking);
   };
 
@@ -181,7 +180,7 @@ const CreateBookingForm: React.FC<Props> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                styles={selectStyles}
+                styles={selectStyles as object}
                 onChange={onChange}
                 value={value}
                 options={cabins.map((cabin) => ({
@@ -289,7 +288,7 @@ const CreateBookingForm: React.FC<Props> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                styles={selectStyles}
+                styles={selectStyles as object}
                 onChange={onChange}
                 value={value}
                 options={[
@@ -313,7 +312,7 @@ const CreateBookingForm: React.FC<Props> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                styles={selectStyles}
+                styles={selectStyles as object}
                 onChange={onChange}
                 value={value}
                 options={[
@@ -337,7 +336,7 @@ const CreateBookingForm: React.FC<Props> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                styles={selectStyles}
+                styles={selectStyles as object}
                 onChange={onChange}
                 value={value}
                 options={[
@@ -392,7 +391,6 @@ const CreateBookingForm: React.FC<Props> = function ({
           </div>
         </div>
       </form>
-      {/* <DevTool control={control} /> */}
     </>
   );
 };

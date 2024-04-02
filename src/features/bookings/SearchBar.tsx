@@ -4,16 +4,8 @@ import useGuests from "../guests/useGuests";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import Modal from "../../ui/Modal";
 import GuestInfoBox from "../guests/GuestInfoBox";
-import { Control } from "react-hook-form";
 import { IGuestTypes } from "../../types/GuestTypes";
-
-export interface ISearchBarProps {
-  defaultValue: IGuestTypes | null | undefined;
-  isUpdatingSession: boolean;
-  onChange: (guest: IGuestTypes | null) => void;
-  control: Control;
-  name: string;
-}
+import { ISearchBarProps } from "../../types/UiTypes";
 
 function SearchBar({
   defaultValue,

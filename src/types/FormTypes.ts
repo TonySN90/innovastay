@@ -1,5 +1,4 @@
 import { FieldValues, UseFormRegister } from "react-hook-form";
-import { StatusTypes } from "./GlobalTypes";
 
 export interface FormValues {
   id?: number;
@@ -46,24 +45,26 @@ export interface FormValues {
 }
 
 export interface IFormRawValues {
-  cabinId: {
-    value: number;
-  };
+  cabinId: { value: number; label: string } | null;
   guest: {
     id: number;
-  };
-  startDate: string;
-  endDate: string;
+    email: string;
+    fullName: string;
+    address: string;
+    postalCode: string;
+    city: string;
+    country: string;
+    phone: string;
+    guestSince: string;
+    maxStays: number;
+    information: string;
+  } | null;
+  startDate: Date;
+  endDate: Date;
   numGuests: number;
-  hasBreakfast: {
-    value: boolean;
-  };
-  isPaid: {
-    value: boolean;
-  };
-  status: {
-    value: StatusTypes;
-  };
+  hasBreakfast: { value: boolean; label: string } | null;
+  isPaid: { value: boolean; label: string } | null;
+  status: { value: string; label: string } | null;
 }
 
 export interface IFormRowProps<T extends keyof FormValues> {
