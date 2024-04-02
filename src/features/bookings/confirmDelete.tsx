@@ -9,7 +9,6 @@ function ConfirmDelete({
 }: {
   onCloseModal: () => void;
   bookingId: number;
-  action: "delete";
   booking: IBookingTypes;
 }) {
   const { deleteBooking }: { deleteBooking: (id: number) => void } =

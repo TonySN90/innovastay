@@ -4,18 +4,25 @@ import useGuests from "../guests/useGuests";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import Modal from "../../ui/Modal";
 import GuestInfoBox from "../guests/GuestInfoBox";
-import { Link } from "react-router-dom";
+import { Control } from "react-hook-form";
+import { IGuestTypes } from "../../types/GuestTypes";
+
+export interface ISearchBarProps {
+  defaultValue: IGuestTypes | null | undefined;
+  isUpdatingSession: boolean;
+  onChange: (guest: IGuestTypes | null) => void;
+  control: Control;
+  name: string;
+}
 
 function SearchBar({
   defaultValue,
   isUpdatingSession,
   onChange,
-}: {
-  label: string;
-}) {
+}: ISearchBarProps) {
   const [inputValue, setInputValue] = useState("");
-  const [filteredGuests, setFilteredGuests] = useState([]);
-  const [selectedGuest, setSelectedGuest] = useState(null);
+  const [filteredGuests, setFilteredGuests] = useState<IGuestTypes[]>([]);
+  const [selectedGuest, setSelectedGuest] = useState<IGuestTypes | null>(null);
   const { guests } = useGuests();
   const windowWidth = useWindowWidth();
 
@@ -25,10 +32,11 @@ function SearchBar({
       setSelectedGuest(defaultValue);
     } else {
       setInputValue("");
+      setSelectedGuest(null);
     }
   }, [defaultValue]);
 
-  function handleChange(e) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const inputText = e.target.value.toLowerCase();
     setInputValue(inputText);
     const filterResult = guests.filter((guest) =>
@@ -39,7 +47,7 @@ function SearchBar({
     setSelectedGuest(null);
   }
 
-  function handleClick(guest) {
+  function handleClick(guest: IGuestTypes) {
     setSelectedGuest(guest);
     onChange(guest);
     setInputValue(guest.fullName);

@@ -19,11 +19,11 @@ import useWindowWidth from "../../hooks/UseWindowWidth";
 import useCheckIn from "./useCheckIn";
 
 function CheckInBooking() {
-  const { bookingId } = useParams();
+  const bookingId = Number(useParams().bookingId);
   const navigate = useNavigate();
 
   const [confirmPaid, setConfirmPaid] = useState(false);
-  const { booking, loadingStatus } = useBooking(bookingId);
+  const { booking, loadingStatus } = useBooking(Number(bookingId));
   const { checkIn, updatingStatus } = useCheckIn(navigate);
 
   const isLoading = loadingStatus === StatusTypes.LOADING;
@@ -31,7 +31,8 @@ function CheckInBooking() {
   const isWorking = isUpdating || isLoading;
 
   if (isWorking) return <Spinner />;
-  if (!Object.keys(booking).length) return <Empty resourceName="Die Buchung" />;
+  if (!Object.keys(booking as IBookingTypes).length)
+    return <Empty resourceName="Die Buchung" />;
 
   const {
     cabinId,
@@ -44,7 +45,7 @@ function CheckInBooking() {
     guestId,
     created_at,
     isPaid,
-  } = booking;
+  } = booking as IBookingTypes;
 
   const handleCheckIn = () => {
     checkIn(bookingId, {
@@ -67,7 +68,7 @@ function CheckInBooking() {
       <h2 className="text-3xl font-semibold">Check-In Buchung #{bookingId}</h2>
 
       <CheckInSection>
-        <CheckInHeader booking={booking} />
+        {booking && <CheckInHeader booking={booking} />}
         <CheckInBody booking={booking} setConfirmPaid={setConfirmPaid} />
         <CheckInFooter booking={booking} />
       </CheckInSection>
@@ -99,7 +100,7 @@ function CheckInBooking() {
 
 export default CheckInBooking;
 
-function CheckInHeader({ booking }) {
+function CheckInHeader({ booking }: { booking: IBookingTypes }) {
   const {
     numNights,
     cabins: { name },
@@ -122,7 +123,13 @@ function CheckInHeader({ booking }) {
   );
 }
 
-function CheckInBody({ booking, setConfirmPaid }) {
+function CheckInBody({
+  booking,
+  setConfirmPaid,
+}: {
+  booking: IBookingTypes;
+  setConfirmPaid: (value: boolean) => void;
+}) {
   return (
     <section>
       <div className="px-8 py-8 ">
@@ -145,7 +152,7 @@ function CheckInFooter({ booking }: { booking: IBookingTypes }) {
   );
 }
 
-function CheckInSection({ children }) {
+function CheckInSection({ children }: { children: React.ReactNode }) {
   return <section className="bg-gray-50">{children}</section>;
 }
 
@@ -180,7 +187,13 @@ function BookingInformation({ booking }: { booking: IBookingTypes }) {
   );
 }
 
-function PricesBox({ booking, setConfirmPaid }: { booking: IBookingTypes }) {
+function PricesBox({
+  booking,
+  setConfirmPaid,
+}: {
+  booking: IBookingTypes;
+  setConfirmPaid: (value: boolean) => void;
+}) {
   const {
     totalPrice,
     isPaid,
@@ -240,6 +253,6 @@ function PricesBox({ booking, setConfirmPaid }: { booking: IBookingTypes }) {
   );
 }
 
-function Buttons({ children }) {
+function Buttons({ children }: { children: React.ReactNode }) {
   return <div className="flex justify-end mt-4">{children}</div>;
 }

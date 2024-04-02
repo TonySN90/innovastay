@@ -14,10 +14,9 @@ function AddBooking() {
             extras="rounded-lg"
             content="Neue Buchung anlegen"
           />
-          {/* Guest and Cabins mit vorab geladen werden */}
         </Modal.Open>
         <Modal.Window name="booking-form">
-          <CreateBookingForm />
+          <CreateBookingForm bookingToUpdate={{}} />
         </Modal.Window>
       </Modal>
     </div>

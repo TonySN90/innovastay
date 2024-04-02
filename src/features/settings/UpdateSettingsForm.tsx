@@ -26,7 +26,11 @@ function UpdateSettingsForm() {
           Update Hoteleinstellungen
         </h2>
 
-        <FormRow label={"Mindestübernachtungen"} id="nights" error={errors}>
+        <FormRow
+          label={"Mindestübernachtungen"}
+          id="nights"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="text"
@@ -41,7 +45,7 @@ function UpdateSettingsForm() {
         <FormRow
           label={"Maximale Gastanzahl pro Buchung"}
           id="maxGuestsPerBooking"
-          error={errors}
+          error={errors as { [key: string]: { message: string } }}
         >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
@@ -57,7 +61,7 @@ function UpdateSettingsForm() {
         <FormRow
           label={"Frühstückspreis pro Tag"}
           id="breakfastPrice"
-          error={errors}
+          error={errors as { [key: string]: { message: string } }}
         >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"

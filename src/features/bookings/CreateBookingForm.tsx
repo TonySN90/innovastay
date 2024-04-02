@@ -1,10 +1,9 @@
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import Select from "react-select";
-import { DevTool } from "@hookform/devtools";
 
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../ui/Button";
-import { FormValues } from "../../types/FormTypes";
+import { FormValues, IFormRawValues } from "../../types/FormTypes";
 import { StatusTypes } from "../../types/GlobalTypes";
 
 import SearchBar from "../bookings/SearchBar";
@@ -31,19 +30,19 @@ import {
 import FormRow from "../../ui/FormRow";
 import { Link } from "react-router-dom";
 
-function CreateBookingForm({
-  onCloseModal,
-  bookingToUpdate = {},
-}: {
+interface Props {
   onCloseModal?: () => void;
-  bookingToUpdate?: FormValues | object;
+  bookingToUpdate: FormValues | null;
+}
+
+const CreateBookingForm: React.FC<Props> = function ({
+  onCloseModal,
+  bookingToUpdate,
 }) {
   const { id: updateId } = bookingToUpdate as FormValues;
 
   const { cabins } = useCabins();
   const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
-
-  console.log(bookingToUpdate);
 
   const {
     register,
@@ -52,7 +51,7 @@ function CreateBookingForm({
     watch,
     formState: { errors },
     control,
-  } = useForm<FormValues>({
+  } = useForm({
     defaultValues: {
       cabinId: isUpdatingSession ? getCabinData(bookingToUpdate) : null,
       guest: isUpdatingSession ? bookingToUpdate?.guests : null,
@@ -87,7 +86,9 @@ function CreateBookingForm({
 
   const watchedValues = watch();
 
-  const onSubmit: SubmitHandler<FormValues> = (formData) => {
+  const onSubmit: SubmitHandler<IFormRawValues> = (
+    formData: IFormRawValues
+  ) => {
     const newBooking = {
       cabinId: formData.cabinId.value,
       guestId: formData.guest.id,
@@ -113,13 +114,27 @@ function CreateBookingForm({
     console.log(newBooking);
   };
 
-  const selectStyles = {
+  interface SelectProps {
+    primaryColor: string;
+    secondaryColor: string;
+
+    control: (
+      base: React.CSSProperties,
+      state: { isFocused: boolean }
+    ) => React.CSSProperties;
+    option: (
+      styles: React.CSSProperties,
+      state: { isSelected: boolean }
+    ) => React.CSSProperties;
+  }
+
+  const selectStyles: SelectProps = {
     primaryColor: "#6366f1",
     secondaryColor: "#a5b4fc",
     control: (base, state) => ({
       ...base,
       minWidth: "300px",
-      borderColor: state.isFocused && selectStyles.primaryColor,
+      borderColor: state.isFocused ? selectStyles.primaryColor : undefined,
       borderRadius: "0.5rem",
       "&:hover": {
         borderColor: selectStyles.primaryColor,
@@ -136,7 +151,7 @@ function CreateBookingForm({
     }),
     option: (styles, state) => ({
       ...styles,
-      backgroundColor: state.isSelected && selectStyles.primaryColor,
+      backgroundColor: state.isSelected ? selectStyles.primaryColor : undefined,
       "&:hover": {
         backgroundColor: selectStyles.secondaryColor,
         color: "#fff",
@@ -154,17 +169,19 @@ function CreateBookingForm({
           {isUpdatingSession ? "Buchung bearbeiten" : "Buchung erstellen"}
         </h2>
 
-        <FormRow label="Zimmer" id="cabinId" error={errors}>
+        <FormRow
+          label="Zimmer"
+          id="cabinId"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <Controller
             control={control}
             name="cabinId"
             rules={{ required: "Eintrag erforderlich" }}
-            render={({ field: { onChange, onBlur, value, ref } }) => (
+            render={({ field: { onChange, value } }) => (
               <Select
                 styles={selectStyles}
-                onChange={onChange} // send value to hook form
-                onBlur={onBlur} // notify when input is touched/blur
-                ref={ref}
+                onChange={onChange}
                 value={value}
                 options={cabins.map((cabin) => ({
                   value: cabin.id,
@@ -176,7 +193,11 @@ function CreateBookingForm({
           />
         </FormRow>
 
-        <FormRow label="Gast" id="guest" error={errors}>
+        <FormRow
+          label="Gast"
+          id="guest"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <Controller
             control={control}
             name="guest"
@@ -184,20 +205,23 @@ function CreateBookingForm({
             render={({ field: { onChange, value } }) => (
               <SearchBar
                 onChange={onChange}
-                id="guest"
-                defaultValue={value}
+                defaultValue={value as IGuestTypes | null | undefined}
                 isUpdatingSession={isUpdatingSession}
               />
             )}
           />
         </FormRow>
 
-        <FormRow label="Anreisedatum" id="startDate" error={errors}>
+        <FormRow
+          label="Anreisedatum"
+          id="startDate"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <Controller
             rules={{ required: "Eintrag erforderlich" }}
             control={control}
             name="startDate"
-            render={({ field: { onChange, onBlur, value, ref } }) => (
+            render={({ field: { onChange, value } }) => (
               <DatePicker
                 locale={de}
                 minDate={new Date()}
@@ -205,7 +229,6 @@ function CreateBookingForm({
                 disabled={isWorking}
                 onChange={onChange}
                 selected={value}
-                ref={ref}
                 dateFormat={"dd.MM.yyyy"}
                 placeholderText="tt.mm.jjjj"
               />
@@ -213,12 +236,16 @@ function CreateBookingForm({
           />
         </FormRow>
 
-        <FormRow label="Abreisedatum" id="endDate" error={errors}>
+        <FormRow
+          label="Abreisedatum"
+          id="endDate"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <Controller
             rules={{ required: "Eintrag erforderlich" }}
             control={control}
             name="endDate"
-            render={({ field: { onChange, onBlur, value, ref } }) => (
+            render={({ field: { onChange, value } }) => (
               <DatePicker
                 locale={de}
                 minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
@@ -233,7 +260,11 @@ function CreateBookingForm({
           />
         </FormRow>
 
-        <FormRow label={"Anzahl der Gäste"} id="numGuests" error={errors}>
+        <FormRow
+          label={"Anzahl der Gäste"}
+          id="numGuests"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="number"
@@ -246,12 +277,16 @@ function CreateBookingForm({
           />
         </FormRow>
 
-        <FormRow label={"Frühstück"} id="hasBreakfast" error={errors}>
+        <FormRow
+          label={"Frühstück"}
+          id="hasBreakfast"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <Controller
             name="hasBreakfast"
             control={control}
             rules={{ required: "Eintrag erforderlich" }}
-            render={({ field: { onChange, onBlur, value, ref } }) => (
+            render={({ field: { onChange, value } }) => (
               <Select
                 styles={selectStyles}
                 onChange={onChange}
@@ -266,7 +301,11 @@ function CreateBookingForm({
           />
         </FormRow>
 
-        <FormRow label={"Bereits bezahlt"} id="isPaid" error={errors}>
+        <FormRow
+          label={"Bereits bezahlt"}
+          id="isPaid"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <Controller
             name="isPaid"
             control={control}
@@ -286,7 +325,11 @@ function CreateBookingForm({
           />
         </FormRow>
 
-        <FormRow label={"Status"} id="status" error={errors}>
+        <FormRow
+          label={"Status"}
+          id="status"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <Controller
             name="status"
             control={control}
@@ -351,6 +394,6 @@ function CreateBookingForm({
       {/* <DevTool control={control} /> */}
     </>
   );
-}
+};
 
 export default CreateBookingForm;

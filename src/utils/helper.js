@@ -23,8 +23,6 @@ export function getStatus(status) {
   switch (status) {
     case "checkedIn":
       return { value: status, label: "Eingechecket" };
-    // case "checkedOut":
-    //   return { value: status, label: "Ausgechecket" };
     default:
       return { value: status, label: "Ausstehend" };
   }

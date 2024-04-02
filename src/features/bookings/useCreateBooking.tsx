@@ -9,12 +9,13 @@ import {
   resetUploadingStatus,
   uploadBookingThunk,
 } from "./bookingsSlice";
+import { IBookingStateTypes } from "../../types/BookingTypes";
 
 function useCreateBooking(reset?: () => void, onCloseModal?: () => void) {
   const dispatch = useAppDispatch();
 
   const { uploadingStatus, error } = useAppSelector(
-    (state: { bookings: IBookingStatesTypes }) => state.bookings
+    (state: { bookings: IBookingStateTypes }) => state.bookings
   );
 
   useEffect(() => {

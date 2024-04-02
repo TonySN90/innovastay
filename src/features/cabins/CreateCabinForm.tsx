@@ -54,7 +54,11 @@ function CreateCabinForm({
       >
         <h2 className="font-semibold text-lg mb-3">Neues Zimmer hinzufügen</h2>
 
-        <FormRow label={"Zimmername"} id="name" error={errors}>
+        <FormRow
+          label={"Zimmername"}
+          id="name"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="text"
@@ -70,7 +74,11 @@ function CreateCabinForm({
           />
         </FormRow>
 
-        <FormRow label={"Kategorie"} id="category" error={errors}>
+        <FormRow
+          label={"Kategorie"}
+          id="category"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="text"
@@ -86,7 +94,11 @@ function CreateCabinForm({
           />
         </FormRow>
 
-        <FormRow label={"Max. Personen"} id="capacity" error={errors}>
+        <FormRow
+          label={"Max. Personen"}
+          id="capacity"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="number"
@@ -102,7 +114,11 @@ function CreateCabinForm({
           />
         </FormRow>
 
-        <FormRow label={"Regulärer Preis"} id="price" error={errors}>
+        <FormRow
+          label={"Regulärer Preis"}
+          id="price"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="number"
@@ -118,7 +134,11 @@ function CreateCabinForm({
           />
         </FormRow>
 
-        <FormRow label={"Angebots-Preis"} id="discount" error={errors}>
+        <FormRow
+          label={"Angebots-Preis"}
+          id="discount"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="number"
@@ -134,7 +154,11 @@ function CreateCabinForm({
           />
         </FormRow>
 
-        <FormRow label={"Beschreibung"} id="description" error={errors}>
+        <FormRow
+          label={"Beschreibung"}
+          id="description"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <textarea
             className="w-full md:w-[300px] border border-gray-300 rounded-sm h-24 pl-2"
             id="description"
@@ -149,7 +173,11 @@ function CreateCabinForm({
           />
         </FormRow>
 
-        <FormRow label={"Bild"} id="image" error={errors}>
+        <FormRow
+          label={"Bild"}
+          id="image"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             type="file"
             className="fileInputStyle flex items-center justify-center w-full md:w-[300px]"

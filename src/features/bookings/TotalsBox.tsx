@@ -1,4 +1,6 @@
-function TotalsBox(props) {
+import { IBookingTypes } from "../../types/BookingTypes";
+
+function TotalsBox(props: IBookingTypes) {
   return (
     <div className="mt-4 md:w-full p-3 border border-indigo-200 rounded-lg bg-indigo-100">
       <div className="flex">

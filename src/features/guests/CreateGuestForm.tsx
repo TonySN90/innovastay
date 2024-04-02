@@ -54,7 +54,11 @@ function CreateGuestForm({
       >
         <h2 className="font-semibold text-lg mb-3">Neuen Gast hinzufügen</h2>
 
-        <FormRow label={"Vorname, Nachname"} id="fullName" error={errors}>
+        <FormRow
+          label={"Vorname, Nachname"}
+          id="fullName"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="text"
@@ -70,7 +74,11 @@ function CreateGuestForm({
           />
         </FormRow>
 
-        <FormRow label={"Adresse"} id="address" error={errors}>
+        <FormRow
+          label={"Adresse"}
+          id="address"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="text"
@@ -86,7 +94,11 @@ function CreateGuestForm({
           />
         </FormRow>
 
-        <FormRow label={"Postleitzahl"} id="postalCode" error={errors}>
+        <FormRow
+          label={"Postleitzahl"}
+          id="postalCode"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="number"
@@ -102,7 +114,11 @@ function CreateGuestForm({
           />
         </FormRow>
 
-        <FormRow label={"Stadt/Ort"} id="city" error={errors}>
+        <FormRow
+          label={"Stadt/Ort"}
+          id="city"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="text"
@@ -118,7 +134,11 @@ function CreateGuestForm({
           />
         </FormRow>
 
-        <FormRow label={"Land"} id="country" error={errors}>
+        <FormRow
+          label={"Land"}
+          id="country"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="text"
@@ -134,7 +154,11 @@ function CreateGuestForm({
           />
         </FormRow>
 
-        <FormRow label={"E-Mail-Adresse"} id="email" error={errors}>
+        <FormRow
+          label={"E-Mail-Adresse"}
+          id="email"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="email"
@@ -143,14 +167,18 @@ function CreateGuestForm({
             {...register("email", {
               required: "Eintrag erforderlich",
               pattern: {
-                value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                message: "Bitte gebe ein gültige Email ein",
+                value: /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/,
+                message: "Bitte gib eine gültige E-Mail-Adresse ein",
               },
             })}
           />
         </FormRow>
 
-        <FormRow label={"Telefonnummer"} id="phone" error={errors}>
+        <FormRow
+          label={"Telefonnummer"}
+          id="phone"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="number"
@@ -166,11 +194,10 @@ function CreateGuestForm({
         <FormRow
           label={"Informationen über den Gast"}
           id="information"
-          error={errors}
+          error={errors as { [key: string]: { message: string } }}
         >
           <textarea
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
-            type="text"
+            className="w-full md:w-[300px] border border-gray-300 rounded-md pl-2 text-gray-500"
             id="information"
             disabled={isWorking}
             {...register("information", {

@@ -1,4 +1,5 @@
 import { FieldValues, UseFormRegister } from "react-hook-form";
+import { StatusTypes } from "./GlobalTypes";
 
 export interface FormValues {
   id?: number;
@@ -15,7 +16,7 @@ export interface FormValues {
   email?: string;
   register?: UseFormRegister<FieldValues>;
   nights?: number;
-  guests?: number;
+  guests?: object | null;
   maxGuestsPerBooking?: number;
   breakfastPrice?: number;
   isUploading?: boolean;
@@ -38,6 +39,31 @@ export interface FormValues {
   isPaid?: boolean;
   cabin?: string;
   cabinId?: number;
+  status?: string;
+  totalPrice?: number;
+  guestId?: number;
+  created_at?: string;
+}
+
+export interface IFormRawValues {
+  cabinId: {
+    value: number;
+  };
+  guest: {
+    id: number;
+  };
+  startDate: string;
+  endDate: string;
+  numGuests: number;
+  hasBreakfast: {
+    value: boolean;
+  };
+  isPaid: {
+    value: boolean;
+  };
+  status: {
+    value: StatusTypes;
+  };
 }
 
 export interface IFormRowProps<T extends keyof FormValues> {

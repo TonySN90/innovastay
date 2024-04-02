@@ -8,11 +8,13 @@ import toast from "react-hot-toast";
 import { FormValues } from "../../types/FormTypes";
 import { useEffect } from "react";
 import { StatusTypes } from "../../types/GlobalTypes";
+import { IBookingStateTypes } from "../../types/BookingTypes";
+import { NavigateFunction } from "react-router";
 
-function useCheckIn(navigate) {
+function useCheckIn(navigate: NavigateFunction) {
   const dispatch = useAppDispatch();
   const { updatingStatus, error } = useAppSelector(
-    (state: { bookings: IBookingStatesTypes }) => state.bookings
+    (state: { bookings: IBookingStateTypes }) => state.bookings
   );
 
   useEffect(() => {

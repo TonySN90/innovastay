@@ -27,7 +27,11 @@ function SignupForm() {
           Neuen Mitarbeiter hinzufügen
         </h2>
 
-        <FormRow label={"Name"} id="name" error={errors}>
+        <FormRow
+          label={"Name"}
+          id="name"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="text"
@@ -43,7 +47,11 @@ function SignupForm() {
           />
         </FormRow>
 
-        <FormRow label={"E-Mail"} id="email" error={errors}>
+        <FormRow
+          label={"E-Mail"}
+          id="email"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="email"
@@ -51,15 +59,19 @@ function SignupForm() {
             // disabled={isWorking}
             {...register("email", {
               required: "Eintrag erforderlich",
-              pattern: {
-                value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                message: "Bitte gebe ein gültige Email ein",
-              },
+              // pattern: {
+              //   value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+              //   message: "Bitte gebe ein gültige Email ein",
+              // },
             })}
           />
         </FormRow>
 
-        <FormRow label={"Passwort"} id="password" error={errors}>
+        <FormRow
+          label={"Passwort"}
+          id="password"
+          error={errors as { [key: string]: { message: string } }}
+        >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="password"
@@ -70,11 +82,11 @@ function SignupForm() {
               minLength: {
                 value: 5,
                 message: "Mindestens 5 Zeichen",
-                pattern: {
-                  value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/,
-                  message:
-                    "Mindestens 1 Zahl, 1 Großbuchstabe, 1 Kleinbuchstabe",
-                },
+                // pattern: {
+                //   value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/,
+                //   message:
+                //     "Mindestens 1 Zahl, 1 Großbuchstabe, 1 Kleinbuchstabe",
+                // },
               },
             })}
           />
@@ -83,7 +95,7 @@ function SignupForm() {
         <FormRow
           label={"Passwort wiederholen"}
           id="passwordConfirm"
-          error={errors}
+          error={errors as { [key: string]: { message: string } }}
         >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
