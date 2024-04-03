@@ -25,7 +25,7 @@ function useCheckInOut(checkedIn: boolean, navigate?: NavigateFunction) {
         !checkedIn && navigate ? navigate(-1) : null;
       }
       toast.success(
-        `Buchung erfolgreich ${checkedIn ? "eingecheckt" : "abgecheckt"}.`
+        `Buchung erfolgreich ${!checkedIn ? "eingecheckt" : "ausgecheckt"}.`
       );
     }
   }, [dispatch, updatingStatus, navigate, checkedIn]);
