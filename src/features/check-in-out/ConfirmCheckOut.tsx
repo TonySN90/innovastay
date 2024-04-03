@@ -49,10 +49,9 @@ function ConfirmCheckOut({
       <h2 className="font-semibold text-lg ">{`Gast auschecken`}</h2>
 
       <div className="py-2">
-        Soll der Gast{" "}
-        <span className="font-semibold">{booking.guests.fullName}</span> zu der
-        Buchung <span className="font-semibold">#{booking.id}</span> wirklich
-        ausgecheckt werden?
+        Soll <span className="font-semibold">{booking.guests.fullName}</span> zu
+        der Buchung <span className="font-semibold">#{booking.id}</span>{" "}
+        wirklich ausgecheckt werden?
       </div>
 
       <div className="flex justify-end">

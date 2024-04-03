@@ -15,7 +15,7 @@ function ToggleButtons({
   const buttonClass = "px-4 py-1 w-[100px] border-2 border-indigo-600";
 
   return (
-    <div className="mb-4">
+    <div className="mb-4 inline">
       <button
         data-type="schedule"
         onClick={() => handleClick(BookingsViewType.schedule)}

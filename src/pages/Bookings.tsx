@@ -6,6 +6,7 @@ import { updateBookingsView } from "../features/bookings/bookingsSlice";
 import { BookingsViewType } from "../types/BookingTypes";
 import { useAppDispatch, useAppSelector } from "../store";
 import AddBooking from "../features/bookings/addBooking";
+import FilterBar from "../ui/FilterBar";
 
 function Bookings() {
   const bookingsView = useAppSelector((state) => state.bookings.bookingsView);
@@ -18,12 +19,15 @@ function Bookings() {
   return (
     <>
       <Heading title="Buchungsübersicht" />
-      <ToggleButtons
-        onClick={handleClick}
-        buttonLeft="Kalender"
-        buttonRight="Tabelle"
-        bookingsView={bookingsView}
-      />
+      <div className="md:flex justify-between">
+        <ToggleButtons
+          onClick={handleClick}
+          buttonLeft="Kalender"
+          buttonRight="Tabelle"
+          bookingsView={bookingsView}
+        />
+        <FilterBar />
+      </div>
 
       {bookingsView === BookingsViewType.schedule && (
         <Hint>
