@@ -41,7 +41,7 @@ function SortButtons() {
   }
 
   return (
-    <div className="flex gap-4 ml-4 py-1 px-4 overflow-hidden rounded-full border-2 border-indigo-500 bg-indigo-500">
+    <div className="flex ml-4 h-9 overflow-hidden rounded-full border-2 border-indigo-500">
       <SortButton
         handleClick={handleClick}
         clickedFilter={clickedFilter}
@@ -78,8 +78,10 @@ function SortButton({
   return (
     <button
       onClick={() => handleClick(filterType)}
-      className={`cursor-pointer w-[3rem] text-gray-50 ${
-        filterType === clickedFilter ? " underline underline-offset-4" : null
+      className={`cursor-pointer w-[5rem]  ${
+        filterType === clickedFilter
+          ? " underline underline-offset-[7px] bg-indigo-500 text-gray-50"
+          : null
       }`}
     >
       {sortBy}
