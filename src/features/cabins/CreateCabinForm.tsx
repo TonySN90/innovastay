@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import { FormValues } from "../../types/FormTypes";
 import useCreateCabin from "./useCreateCabin";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 import useUpdateCabin from "./useUpdateCabin";
 import FormRow from "../../ui/FormRow";
 
@@ -35,8 +35,8 @@ function CreateCabinForm({
     onCloseModal || (() => {})
   );
 
-  const isUploading = uploadingStatus === StatusTypes.LOADING;
-  const isUpdating = updatingStatus === StatusTypes.LOADING;
+  const isUploading = uploadingStatus === LoadingTypes.LOADING;
+  const isUpdating = updatingStatus === LoadingTypes.LOADING;
   const isWorking = isUploading || isUpdating;
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {

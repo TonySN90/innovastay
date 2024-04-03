@@ -11,7 +11,7 @@ import {
   getBookings,
 } from "../../services/apiBookings";
 import { FormValues } from "../../types/FormTypes";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 
 export const fetchBookings = createAsyncThunk(
   "bookings/fetchBookings",
@@ -21,9 +21,9 @@ export const fetchBookings = createAsyncThunk(
     };
 
     if (
-      bookings.uploadingStatus === StatusTypes.SUCCESS ||
-      bookings.updatingStatus === StatusTypes.SUCCESS ||
-      bookings.deletingStatus === StatusTypes.SUCCESS
+      bookings.uploadingStatus === LoadingTypes.SUCCESS ||
+      bookings.updatingStatus === LoadingTypes.SUCCESS ||
+      bookings.deletingStatus === LoadingTypes.SUCCESS
     )
       return await getBookings();
 

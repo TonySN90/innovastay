@@ -82,9 +82,9 @@ export interface ITotalsBoxProps {
 }
 
 export enum BookingStatusTypes {
-  checkedOut = "checkedOut",
-  checkedIn = "checkedIn",
-  unconfirmed = "unconfirmed",
+  CHECKEDOUT = "checkedOut",
+  CHECKEDIN = "checkedIn",
+  UNCONFIRMED = "unconfirmed",
 }
 
 export enum BookingsViewType {

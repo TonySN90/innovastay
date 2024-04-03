@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import useCreateGuest from "./useCreateGuest";
 import { FormValues } from "../../types/FormTypes";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 import useUpdateGuest from "./useUpdateGuest";
 import FormRow from "../../ui/FormRow";
 
@@ -35,8 +35,8 @@ function CreateGuestForm({
     onCloseModal || (() => {})
   );
 
-  const isUploading = uploadingStatus === StatusTypes.LOADING;
-  const isUpdating = updatingStatus === StatusTypes.LOADING;
+  const isUploading = uploadingStatus === LoadingTypes.LOADING;
+  const isUpdating = updatingStatus === LoadingTypes.LOADING;
   const isWorking = isUploading || isUpdating;
 
   const onSubmit: SubmitHandler<FormValues> = (formData) => {

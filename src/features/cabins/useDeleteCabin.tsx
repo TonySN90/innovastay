@@ -6,7 +6,7 @@ import {
   fetchCabins,
   resetDeletingStatus,
 } from "./cabinsSlice";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 
@@ -17,7 +17,7 @@ function useDeleteCabin(onCloseModal: () => void) {
   );
 
   useEffect(() => {
-    if (deletingStatus === StatusTypes.SUCCESS) {
+    if (deletingStatus === LoadingTypes.SUCCESS) {
       onCloseModal();
       dispatch(fetchCabins());
       dispatch(resetDeletingStatus());

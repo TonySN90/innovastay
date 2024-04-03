@@ -10,13 +10,13 @@ import Button from "../../ui/Button";
 import useBooking from "./useBooking";
 import Spinner from "../../ui/Spinner";
 import { formatDate, formatTime } from "../../utils/datesHelper";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 import Empty from "../../ui/Empty";
-import { IBookingTypes } from "../../types/BookingTypes";
+import { BookingStatusTypes, IBookingTypes } from "../../types/BookingTypes";
 import Modal from "../../ui/Modal";
 import BookingInfoBox from "../bookings/bookingInfoBox";
 import useWindowWidth from "../../hooks/UseWindowWidth";
-import useCheckIn from "./useCheckIn";
+import useCheckInOut from "./useCheckInOut";
 
 function CheckInBooking() {
   const bookingId = Number(useParams().bookingId);
@@ -24,10 +24,10 @@ function CheckInBooking() {
 
   const [confirmPaid, setConfirmPaid] = useState(false);
   const { booking, loadingStatus } = useBooking(Number(bookingId));
-  const { checkIn, updatingStatus } = useCheckIn(navigate);
+  const { checkInOut, updatingStatus } = useCheckInOut(false, navigate);
 
-  const isLoading = loadingStatus === StatusTypes.LOADING;
-  const isUpdating = updatingStatus === StatusTypes.LOADING;
+  const isLoading = loadingStatus === LoadingTypes.LOADING;
+  const isUpdating = updatingStatus === LoadingTypes.LOADING;
   const isWorking = isUpdating || isLoading;
 
   if (isWorking) return <Spinner />;
@@ -48,9 +48,9 @@ function CheckInBooking() {
   } = booking as IBookingTypes;
 
   const handleCheckIn = () => {
-    checkIn(bookingId, {
+    checkInOut(bookingId, {
       isPaid: true,
-      status: "checkedIn",
+      status: BookingStatusTypes.CHECKEDIN,
       cabinId,
       startDate,
       endDate,

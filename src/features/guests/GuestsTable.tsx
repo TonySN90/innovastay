@@ -1,5 +1,5 @@
 import useWindowWidth from "../../hooks/UseWindowWidth";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 import Empty from "../../ui/Empty";
 import Menu from "../../ui/Menu";
 import Spinner from "../../ui/Spinner";
@@ -11,7 +11,7 @@ function CabinsTable() {
   const windowWidth = useWindowWidth();
   const { guests, loadingStatus } = useGuests();
 
-  if (loadingStatus === StatusTypes.LOADING) return <Spinner />;
+  if (loadingStatus === LoadingTypes.LOADING) return <Spinner />;
 
   if (!guests.length) return <Empty resourceName="guests" />;
 

@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { ICabinStatesTypes } from "../../types/cabinTypes";
 import { editCabin, fetchCabins, resetUpdatingStatus } from "./cabinsSlice";
 import { FormValues } from "../../types/FormTypes";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 
@@ -15,7 +15,7 @@ function useUpdateCabin(reset: () => void, onCloseModal: () => void) {
   );
 
   useEffect(() => {
-    if (updatingStatus === StatusTypes.SUCCESS) {
+    if (updatingStatus === LoadingTypes.SUCCESS) {
       reset();
       onCloseModal();
       dispatch(fetchCabins());

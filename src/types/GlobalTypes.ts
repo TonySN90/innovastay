@@ -1,6 +1,6 @@
 import { BookingsViewType } from "./BookingTypes";
 
-export enum StatusTypes {
+export enum LoadingTypes {
   IDLE = "idle",
   LOADING = "loading",
   ERROR = "error",

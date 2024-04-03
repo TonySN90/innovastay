@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { FormValues } from "../../types/FormTypes";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 import { IGuestStatesTypes } from "../../types/GuestTypes";
@@ -15,7 +15,7 @@ function useUpdateGuest(reset: () => void, onCloseModal: () => void) {
   );
 
   useEffect(() => {
-    if (updatingStatus === StatusTypes.SUCCESS) {
+    if (updatingStatus === LoadingTypes.SUCCESS) {
       reset();
       onCloseModal();
       dispatch(fetchGuests());

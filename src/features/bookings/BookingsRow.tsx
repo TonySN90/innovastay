@@ -8,8 +8,9 @@ import Menu from "../../ui/Menu";
 import CreateBookingForm from "./CreateBookingForm";
 import BookingInfoBox from "./bookingInfoBox";
 import ConfirmDelete from "./confirmDelete";
-import { useNavigate } from "react-router";
 import { MdOutlineCheckCircleOutline } from "react-icons/md";
+import ConfirmCheckOut from "../check-in-out/ConfirmCheckOut";
+import { useNavigate } from "react-router";
 
 function BookingsRow({
   bookings,
@@ -50,14 +51,14 @@ function BookingsRow({
       <td className={`flex items-center md:col-span-2`}>
         <div
           className={`md:col-span-4 p-1.5 md:w-[120px] text-center rounded-md text-xs ${
-            (status === BookingStatusTypes.unconfirmed && "bg-blue-200") ||
-            (status === BookingStatusTypes.checkedIn && "bg-green-200") ||
-            (status === BookingStatusTypes.checkedOut && "bg-gray-200")
+            (status === BookingStatusTypes.UNCONFIRMED && "bg-blue-200") ||
+            (status === BookingStatusTypes.CHECKEDIN && "bg-green-200") ||
+            (status === BookingStatusTypes.CHECKEDOUT && "bg-gray-200")
           }`}
         >
-          {status === BookingStatusTypes.unconfirmed && "Ausstehend"}
-          {status === BookingStatusTypes.checkedOut && "Ausgechecked"}
-          {status === BookingStatusTypes.checkedIn && "Eingechecked"}
+          {status === BookingStatusTypes.UNCONFIRMED && "Ausstehend"}
+          {status === BookingStatusTypes.CHECKEDIN && "Eingechecked"}
+          {status === BookingStatusTypes.CHECKEDOUT && "Ausgechecked"}
         </div>
       </td>
       <td className="flex items-center md:col-span-2">
@@ -96,7 +97,7 @@ function BookingsRow({
               </Menu.Item>
             </Modal.Open>
 
-            {status !== BookingStatusTypes.checkedOut && (
+            {status !== BookingStatusTypes.CHECKEDOUT && (
               <Modal.Open opens="edit">
                 <Menu.Item>
                   <FaRegEdit />
@@ -105,18 +106,20 @@ function BookingsRow({
               </Modal.Open>
             )}
 
-            {status === BookingStatusTypes.unconfirmed && (
+            {status === BookingStatusTypes.UNCONFIRMED && (
               <Menu.Item onClick={() => navigate(`/checkin/${bookingId}`)}>
                 <MdOutlineCheckCircleOutline />
                 Einchecken
               </Menu.Item>
             )}
 
-            {status === BookingStatusTypes.checkedIn && (
-              <Menu.Item onClick={() => navigate(`/checkout/${bookingId}`)}>
-                <MdOutlineCheckCircleOutline />
-                Auschecken
-              </Menu.Item>
+            {status === BookingStatusTypes.CHECKEDIN && (
+              <Modal.Open opens="checkOut">
+                <Menu.Item>
+                  <MdOutlineCheckCircleOutline />
+                  Auschecken
+                </Menu.Item>
+              </Modal.Open>
             )}
 
             <Modal.Open opens="delete">
@@ -137,6 +140,14 @@ function BookingsRow({
 
           <Modal.Window name="delete">
             <ConfirmDelete
+              booking={bookings}
+              bookingId={bookingId}
+              onCloseModal={() => {}} //Children prop
+            />
+          </Modal.Window>
+
+          <Modal.Window name="checkOut">
+            <ConfirmCheckOut
               booking={bookings}
               bookingId={bookingId}
               onCloseModal={() => {}} //Children prop

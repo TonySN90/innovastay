@@ -6,7 +6,7 @@ import {
   getGuests,
 } from "../../services/apiGuests";
 import { FormValues } from "../../types/FormTypes";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 
 export const fetchGuests = createAsyncThunk(
   "guests/fetchGuests",
@@ -16,9 +16,9 @@ export const fetchGuests = createAsyncThunk(
     };
 
     if (
-      guests.uploadingStatus === StatusTypes.SUCCESS ||
-      guests.updatingStatus === StatusTypes.SUCCESS ||
-      guests.deletingStatus === StatusTypes.SUCCESS
+      guests.uploadingStatus === LoadingTypes.SUCCESS ||
+      guests.updatingStatus === LoadingTypes.SUCCESS ||
+      guests.deletingStatus === LoadingTypes.SUCCESS
     )
       return await getGuests();
 

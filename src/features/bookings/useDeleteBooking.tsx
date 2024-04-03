@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { IBookingStateTypes } from "../../types/BookingTypes";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 import {
@@ -17,7 +17,7 @@ function useDeleteBooking(onCloseModal: () => void) {
   );
 
   useEffect(() => {
-    if (deletingStatus === StatusTypes.SUCCESS) {
+    if (deletingStatus === LoadingTypes.SUCCESS) {
       onCloseModal();
       dispatch(fetchBookings());
       dispatch(resetDeletingStatus());

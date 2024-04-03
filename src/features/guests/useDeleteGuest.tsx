@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 import { IGuestStatesTypes } from "../../types/GuestTypes";
@@ -17,7 +17,7 @@ function useDeleteGuest(onCloseModal: () => void) {
   );
 
   useEffect(() => {
-    if (deletingStatus === StatusTypes.SUCCESS) {
+    if (deletingStatus === LoadingTypes.SUCCESS) {
       onCloseModal();
       dispatch(fetchGuests());
       dispatch(resetDeletingStatus());

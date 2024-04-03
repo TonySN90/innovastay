@@ -5,7 +5,7 @@ import {
   getCabins,
 } from "../../services/apiCabins";
 import { ICabinStatesTypes } from "../../types/cabinTypes";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 import { FormValues } from "../../types/FormTypes";
 
 export const fetchCabins = createAsyncThunk(
@@ -16,9 +16,9 @@ export const fetchCabins = createAsyncThunk(
     };
 
     if (
-      cabins.uploadingStatus === StatusTypes.SUCCESS ||
-      cabins.updatingStatus === StatusTypes.SUCCESS ||
-      cabins.deletingStatus === StatusTypes.SUCCESS
+      cabins.uploadingStatus === LoadingTypes.SUCCESS ||
+      cabins.updatingStatus === LoadingTypes.SUCCESS ||
+      cabins.deletingStatus === LoadingTypes.SUCCESS
     )
       return await getCabins();
     if (cabins?.cabins.length > 0) return cabins.cabins;

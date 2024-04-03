@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { FormValues } from "../../types/FormTypes";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 import { IGuestStatesTypes } from "../../types/GuestTypes";
@@ -15,7 +15,7 @@ function useCreateGuest(reset?: () => void, onCloseModal?: () => void) {
   );
 
   useEffect(() => {
-    if (uploadingStatus === StatusTypes.SUCCESS) {
+    if (uploadingStatus === LoadingTypes.SUCCESS) {
       if (reset) reset();
       if (onCloseModal) onCloseModal();
       dispatch(fetchGuests());

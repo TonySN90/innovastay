@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { ICabinStatesTypes } from "../../types/cabinTypes";
 import { fetchCabins, resetStatus, uploadCabin } from "./cabinsSlice";
 import { FormValues } from "../../types/FormTypes";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 
@@ -15,7 +15,7 @@ function useCreateCabin(reset?: () => void, onCloseModal?: () => void) {
   );
 
   useEffect(() => {
-    if (uploadingStatus === StatusTypes.SUCCESS) {
+    if (uploadingStatus === LoadingTypes.SUCCESS) {
       if (reset) reset();
       if (onCloseModal) onCloseModal();
       dispatch(fetchCabins());

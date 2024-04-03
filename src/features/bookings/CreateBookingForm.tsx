@@ -4,7 +4,7 @@ import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../ui/Button";
 import { FormValues, IFormRawValues } from "../../types/FormTypes";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 
 import SearchBar from "../bookings/SearchBar";
 import useCabins from "../cabins/useCabins";
@@ -82,8 +82,8 @@ const CreateBookingForm: React.FC<Props> = function ({
     onCloseModal || (() => {})
   );
 
-  const isUploading = uploadingStatus === StatusTypes.LOADING;
-  const isUpdating = updatingStatus === StatusTypes.LOADING;
+  const isUploading = uploadingStatus === LoadingTypes.LOADING;
+  const isUpdating = updatingStatus === LoadingTypes.LOADING;
   const isWorking = isUploading || isUpdating;
 
   const watchedValues = watch();

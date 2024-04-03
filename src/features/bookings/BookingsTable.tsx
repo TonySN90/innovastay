@@ -4,7 +4,7 @@ import { IBookingTypes } from "../../types/BookingTypes";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import useBookings from "./useBookings";
 import Empty from "../../ui/Empty";
-import { StatusTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 import Spinner from "../../ui/Spinner";
 import Menu from "../../ui/Menu";
 
@@ -12,9 +12,7 @@ function BookingsTable() {
   const { bookings, loadingStatus } = useBookings();
   const windowWidth = useWindowWidth();
 
-  // console.log(loadingStatus);
-
-  if (loadingStatus === StatusTypes.LOADING) return <Spinner />;
+  if (loadingStatus === LoadingTypes.LOADING) return <Spinner />;
 
   if (!bookings.length) return <Empty resourceName="bookings" />;
 
