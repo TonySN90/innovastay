@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { BookingStatusTypes } from "../types/BookingTypes";
+import Select from "react-select";
 
 function FilterBar() {
   return (
-    <div className="flex justify-end items-center h-[2.2rem] mb-4">
+    <div className="flex md:justify-end items-center h-[2.2rem] mb-4 flex-wrap">
       <SearchInput />
       <SortButtons />
+      <SortSelectInput />
     </div>
   );
 }
@@ -45,19 +48,19 @@ function SortButtons() {
       <SortButton
         handleClick={handleClick}
         clickedFilter={clickedFilter}
-        filterType="date"
-        sortBy="Datum"
+        filterType={BookingStatusTypes.CHECKEDIN}
+        filterBy="Eingecheckt"
       />
       <SortButton
         handleClick={handleClick}
-        filterType="status"
-        sortBy="Status"
+        filterType={BookingStatusTypes.CHECKEDOUT}
+        filterBy="Ausgecheckt"
         clickedFilter={clickedFilter}
       />
       <SortButton
         handleClick={handleClick}
-        filterType="guests"
-        sortBy="Gast"
+        filterType={BookingStatusTypes.UNCONFIRMED}
+        filterBy="Austehend"
         clickedFilter={clickedFilter}
       />
     </div>
@@ -65,12 +68,12 @@ function SortButtons() {
 }
 
 function SortButton({
-  sortBy,
+  filterBy,
   filterType,
   handleClick,
   clickedFilter,
 }: {
-  sortBy: string;
+  filterBy: string;
   filterType: string;
   handleClick: (filterType: string) => void;
   clickedFilter: string;
@@ -78,13 +81,83 @@ function SortButton({
   return (
     <button
       onClick={() => handleClick(filterType)}
-      className={`cursor-pointer w-[5rem]  ${
-        filterType === clickedFilter
-          ? " underline underline-offset-[7px] bg-indigo-500 text-gray-50"
-          : null
+      className={`cursor-pointer text-sm w-[6.5rem]  ${
+        filterType === clickedFilter ? " bg-indigo-600 text-gray-50" : null
       }`}
     >
-      {sortBy}
+      {filterBy}
     </button>
+  );
+}
+
+interface Option {
+  value: string;
+  label: string;
+}
+
+function SortSelectInput() {
+  const [sortBy, setSortBy] = useState({
+    value: "dateRecentFirst",
+    label: "Datum (Älteste zuerst)",
+  });
+
+  const options = [
+    { value: "dateRecentFirst", label: "Datum (Älteste zuerst)" },
+    { value: "dateEarlierFirst", label: "Datum (Jüngste zuerst)" },
+    { value: "AmountHighFirst", label: "Betrag (Aufsteigend)" },
+    { value: "AmountLowFirst", label: "Betrag (Absteigend)" },
+  ];
+
+  const selectStyles: SelectProps = {
+    primaryColor: "#6366f1",
+    secondaryColor: "#a5b4fc",
+    control: (base) => ({
+      ...base,
+      fontSize: ".9rem",
+      minWidth: "230px",
+      height: "2.2rem",
+      borderRadius: "2rem",
+      border: `2px solid ${selectStyles.primaryColor}`,
+      borderColor: selectStyles.primaryColor,
+      backgroundColor: "transparent",
+      "&:hover": {
+        borderColor: selectStyles.primaryColor,
+        color: "#333",
+      },
+
+      ":active": {
+        color: selectStyles.primaryColor,
+      },
+
+      ":disabled": {
+        backgroundColor: selectStyles.primaryColor,
+      },
+      ":focus": {
+        focusBorderColor: selectStyles.primaryColor,
+      },
+    }),
+    option: (styles, state) => ({
+      ...styles,
+      backgroundColor: state.isSelected ? selectStyles.primaryColor : undefined,
+      "&:hover": {
+        backgroundColor: selectStyles.secondaryColor,
+        color: "#fff",
+      },
+    }),
+  };
+
+  const handleChange = (selectedOption: Option | null) => {
+    if (selectedOption) setSortBy(selectedOption as Option);
+  };
+
+  return (
+    <div className="ml-4">
+      <Select<Option>
+        styles={selectStyles}
+        value={sortBy}
+        onChange={handleChange}
+        options={options}
+      />
+    </div>
   );
 }

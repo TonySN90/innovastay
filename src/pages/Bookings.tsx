@@ -16,6 +16,8 @@ function Bookings() {
     dispatch(updateBookingsView(buttonType));
   }
 
+  const isTableView = bookingsView === BookingsViewType.table;
+
   return (
     <>
       <Heading title="Buchungsübersicht" />
@@ -26,15 +28,15 @@ function Bookings() {
           buttonRight="Tabelle"
           bookingsView={bookingsView}
         />
-        <FilterBar />
+        {isTableView && <FilterBar />}
       </div>
 
-      {bookingsView === BookingsViewType.schedule && (
+      {!isTableView && (
         <Hint>
           <BookingTimeline />
         </Hint>
       )}
-      {bookingsView === BookingsViewType.table && (
+      {isTableView && (
         <>
           <BookingsTable />
           <AddBooking />
