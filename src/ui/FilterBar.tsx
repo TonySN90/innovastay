@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { BookingStatusTypes } from "../types/BookingTypes";
 import Select from "react-select";
+import { Option, SelectProps } from "../types/GlobalTypes";
 
 function FilterBar() {
   return (
-    <div className="flex md:justify-end items-center h-[2.2rem] mb-4 flex-wrap">
+    <div className="flex md:justify-end items-center mb-4 flex-wrap">
       <SearchInput />
       <FilterButtons />
       <SortSelectInput />
@@ -44,7 +45,7 @@ function FilterButtons() {
   }
 
   return (
-    <div className="flex ml-4 h-9 overflow-hidden rounded-lg border-2 border-indigo-500">
+    <div className="flex ml-4 h-[2.2rem] overflow-hidden rounded-lg border-2 border-indigo-500">
       <FilterButton
         handleClick={handleClick}
         clickedFilter={clickedFilter}
@@ -96,36 +97,32 @@ function FilterButton({
   );
 }
 
-interface Option {
-  value: string;
-  label: string;
-}
-
 function SortSelectInput() {
   const [sortBy, setSortBy] = useState({
     value: "dateRecentFirst",
-    label: "Datum (Älteste zuerst)",
+    label: "Datum (Aktuelle zuerst)",
   });
 
-  const options = [
+  const options: Option[] = [
     { value: "dateRecentFirst", label: "Datum (Älteste zuerst)" },
-    { value: "dateEarlierFirst", label: "Datum (Jüngste zuerst)" },
+    { value: "dateEarlierFirst", label: "Datum (Frühere zuerst)" },
     { value: "AmountHighFirst", label: "Betrag (Aufsteigend)" },
     { value: "AmountLowFirst", label: "Betrag (Absteigend)" },
   ];
 
-  const selectStyles = {
+  const selectStyles: SelectProps = {
     primaryColor: "#6366f1",
     secondaryColor: "#a5b4fc",
     control: (base) => ({
       ...base,
       fontSize: ".9rem",
       minWidth: "230px",
-      height: "2.1rem",
       borderRadius: ".5rem",
       border: `2px solid ${selectStyles.primaryColor}`,
       borderColor: selectStyles.primaryColor,
       backgroundColor: "transparent",
+      minHeight: "2.2rem",
+      height: "2.2rem",
       "&:hover": {
         borderColor: selectStyles.primaryColor,
         color: "#333",
@@ -144,6 +141,8 @@ function SortSelectInput() {
     }),
     option: (styles, state) => ({
       ...styles,
+      minHeight: "2.2rem",
+      height: "2.2rem",
       backgroundColor: state.isSelected ? selectStyles.primaryColor : undefined,
       "&:hover": {
         backgroundColor: selectStyles.secondaryColor,
@@ -158,8 +157,8 @@ function SortSelectInput() {
 
   return (
     <div className="ml-4">
-      <Select<Option>
-        styles={selectStyles}
+      <Select
+        styles={selectStyles as object}
         value={sortBy}
         onChange={handleChange}
         options={options}

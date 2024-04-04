@@ -4,7 +4,7 @@ import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../ui/Button";
 import { FormValues, IFormRawValues } from "../../types/FormTypes";
-import { LoadingTypes } from "../../types/GlobalTypes";
+import { LoadingTypes, SelectProps } from "../../types/GlobalTypes";
 
 import SearchBar from "../bookings/SearchBar";
 import useCabins from "../cabins/useCabins";
@@ -113,20 +113,6 @@ const CreateBookingForm: React.FC<Props> = function ({
     uploadNewBooking(newBooking as FormValues);
     console.log(newBooking);
   };
-
-  interface SelectProps {
-    primaryColor: string;
-    secondaryColor: string;
-
-    control: (
-      base: React.CSSProperties,
-      state: { isFocused: boolean }
-    ) => React.CSSProperties;
-    option: (
-      styles: React.CSSProperties,
-      state: { isSelected: boolean }
-    ) => React.CSSProperties;
-  }
 
   const selectStyles: SelectProps = {
     primaryColor: "#6366f1",

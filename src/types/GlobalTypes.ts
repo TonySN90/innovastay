@@ -30,3 +30,22 @@ export interface IToggleButtonsTypes {
   onClick: (type: BookingsViewType) => void;
   bookingsView: BookingsViewType;
 }
+
+export interface SelectProps {
+  primaryColor: string;
+  secondaryColor: string;
+
+  control: (
+    base: React.CSSProperties,
+    state: { isFocused: boolean }
+  ) => React.CSSProperties;
+  option: (
+    styles: React.CSSProperties,
+    state: { isSelected: boolean }
+  ) => React.CSSProperties;
+}
+
+export interface Option {
+  value: string;
+  label: string;
+}
