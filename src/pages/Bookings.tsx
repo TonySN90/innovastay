@@ -20,16 +20,11 @@ function Bookings() {
 
   return (
     <>
-      <Heading title="Buchungsübersicht" />
-      <div className="md:flex justify-between">
-        <ToggleButtons
-          onClick={handleClick}
-          buttonLeft="Kalender"
-          buttonRight="Tabelle"
-          bookingsView={bookingsView}
-        />
-        {isTableView && <FilterBar />}
+      <div className="md:flex items-center gap-4 mb-4">
+        <Heading title="Buchungsübersicht" />
+        <ToggleButtons onClick={handleClick} bookingsView={bookingsView} />
       </div>
+      {isTableView && <FilterBar />}
 
       {!isTableView && (
         <Hint>

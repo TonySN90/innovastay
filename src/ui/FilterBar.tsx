@@ -6,7 +6,7 @@ function FilterBar() {
   return (
     <div className="flex md:justify-end items-center h-[2.2rem] mb-4 flex-wrap">
       <SearchInput />
-      <SortButtons />
+      <FilterButtons />
       <SortSelectInput />
     </div>
   );
@@ -19,7 +19,7 @@ function SearchInput() {
     <div className="relative">
       <input
         type="text"
-        className="w-[35px] h-[2.2rem] pl-8 rounded-full border-2 border-indigo-500 bg-transparent transition-all focus:outline-none focus:w-[250px]"
+        className="w-[35px] h-[2.2rem] pl-8 rounded-full border-2 border-indigo-500 bg-transparent transition-all focus:outline-none focus:w-[180px] focus:rounded-lg"
       />
       <span className="absolute top-[5px] left-[5px] -z-10">
         <svg
@@ -37,27 +37,33 @@ function SearchInput() {
   );
 }
 
-function SortButtons() {
-  const [clickedFilter, setClickedFilter] = useState("");
+function FilterButtons() {
+  const [clickedFilter, setClickedFilter] = useState("all");
   function handleClick(filterType: string) {
     setClickedFilter(filterType);
   }
 
   return (
-    <div className="flex ml-4 h-9 overflow-hidden rounded-full border-2 border-indigo-500">
-      <SortButton
+    <div className="flex ml-4 h-9 overflow-hidden rounded-lg border-2 border-indigo-500">
+      <FilterButton
+        handleClick={handleClick}
+        clickedFilter={clickedFilter}
+        filterType="all"
+        filterBy="Alle"
+      />
+      <FilterButton
         handleClick={handleClick}
         clickedFilter={clickedFilter}
         filterType={BookingStatusTypes.CHECKEDIN}
         filterBy="Eingecheckt"
       />
-      <SortButton
+      <FilterButton
         handleClick={handleClick}
         filterType={BookingStatusTypes.CHECKEDOUT}
         filterBy="Ausgecheckt"
         clickedFilter={clickedFilter}
       />
-      <SortButton
+      <FilterButton
         handleClick={handleClick}
         filterType={BookingStatusTypes.UNCONFIRMED}
         filterBy="Austehend"
@@ -67,7 +73,7 @@ function SortButtons() {
   );
 }
 
-function SortButton({
+function FilterButton({
   filterBy,
   filterType,
   handleClick,
@@ -81,7 +87,7 @@ function SortButton({
   return (
     <button
       onClick={() => handleClick(filterType)}
-      className={`cursor-pointer text-sm w-[6.5rem]  ${
+      className={`cursor-pointer text-sm px-2  ${
         filterType === clickedFilter ? " bg-indigo-600 text-gray-50" : null
       }`}
     >
@@ -108,15 +114,15 @@ function SortSelectInput() {
     { value: "AmountLowFirst", label: "Betrag (Absteigend)" },
   ];
 
-  const selectStyles: SelectProps = {
+  const selectStyles = {
     primaryColor: "#6366f1",
     secondaryColor: "#a5b4fc",
     control: (base) => ({
       ...base,
       fontSize: ".9rem",
       minWidth: "230px",
-      height: "2.2rem",
-      borderRadius: "2rem",
+      height: "2.1rem",
+      borderRadius: ".5rem",
       border: `2px solid ${selectStyles.primaryColor}`,
       borderColor: selectStyles.primaryColor,
       backgroundColor: "transparent",

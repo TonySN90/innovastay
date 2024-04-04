@@ -27,8 +27,6 @@ export type ButtonTypes = {
 };
 
 export interface IToggleButtonsTypes {
-  buttonLeft: string;
-  buttonRight: string;
   onClick: (type: BookingsViewType) => void;
   bookingsView: BookingsViewType;
 }

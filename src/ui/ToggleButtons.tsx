@@ -1,39 +1,37 @@
+import { MdOutlineCalendarMonth } from "react-icons/md";
 import { BookingsViewType } from "../types/BookingTypes";
 import { IToggleButtonsTypes } from "../types/GlobalTypes";
+import { CiViewTable } from "react-icons/ci";
 
-function ToggleButtons({
-  buttonLeft,
-  buttonRight,
-  onClick,
-  bookingsView,
-}: IToggleButtonsTypes) {
+function ToggleButtons({ onClick, bookingsView }: IToggleButtonsTypes) {
   function handleClick(type: BookingsViewType) {
     onClick(type);
   }
 
   const activeClasses = "bg-indigo-600 text-stone-50";
-  const buttonClass = "px-4 py-1 w-[100px] border-2 border-indigo-600";
+  const buttonClass =
+    "px-4 border-2 border-indigo-600 h-7 text-lg flex items-center justify-center";
 
   return (
-    <div className="mb-4 inline">
-      <button
+    <div className="flex">
+      <div
         data-type="schedule"
         onClick={() => handleClick(BookingsViewType.schedule)}
         className={`rounded-l-md ${buttonClass} ${
           bookingsView === BookingsViewType.schedule ? activeClasses : ""
         }`}
       >
-        {buttonLeft}
-      </button>
-      <button
+        <MdOutlineCalendarMonth />
+      </div>
+      <div
         data-type="table"
         onClick={() => handleClick(BookingsViewType.table)}
         className={`rounded-r-md ${buttonClass} ${
           bookingsView === BookingsViewType.table ? activeClasses : ""
         }`}
       >
-        {buttonRight}
-      </button>
+        <CiViewTable />
+      </div>
     </div>
   );
 }
