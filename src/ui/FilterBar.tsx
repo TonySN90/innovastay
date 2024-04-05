@@ -17,11 +17,24 @@ function FilterBar({ filterField }: { filterField: string }) {
 export default FilterBar;
 
 function SearchInput() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value.toLowerCase();
+
+    searchParams.delete("status");
+    if (inputValue === "") searchParams.delete("search");
+    else searchParams.set("search", inputValue);
+
+    setSearchParams(searchParams.toString());
+  };
+
   return (
     <div className="relative">
       <input
+        onChange={(e) => handleChange(e)}
         type="text"
-        className="w-[35px] h-[2.2rem] pl-8 rounded-full border-2 border-indigo-500 bg-transparent transition-all focus:outline-none focus:w-[180px] focus:rounded-lg"
+        className="w-[35px] h-[2.2rem] pl-8 rounded-full border-2 border-indigo-300 bg-transparent transition-all focus:outline-none focus:w-[180px] focus:rounded-lg"
       />
       <span className="absolute top-[5px] left-[5px] -z-10">
         <svg
@@ -44,12 +57,12 @@ function FilterButtons({ filterField }: { filterField: string }) {
   const currentFilter = searchParams.get(filterField) || "all";
 
   function handleClick(filterType: string) {
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set(filterField, filterType);
-    setSearchParams(newSearchParams.toString());
+    searchParams.set(filterField, filterType);
+    searchParams.delete("search");
+    setSearchParams(searchParams.toString());
   }
   return (
-    <div className="flex ml-4 h-[2.2rem] overflow-hidden rounded-lg border-2 border-indigo-500">
+    <div className="flex ml-4 h-[2.2rem] overflow-hidden rounded-lg border-2 border-indigo-100">
       <FilterButton
         handleClick={handleClick}
         clickedFilter={currentFilter}
@@ -92,8 +105,8 @@ function FilterButton({
   return (
     <button
       onClick={() => handleClick(filterType)}
-      className={`cursor-pointer text-sm px-2  ${
-        filterType === clickedFilter && " bg-indigo-600 text-gray-50"
+      className={`cursor-pointer text-sm px-2 transition-all hover:text-indigo-500 ${
+        filterType === clickedFilter && " bg-indigo-300 text-gray-50"
       }`}
     >
       {filterBy}
@@ -116,13 +129,13 @@ function SortSelectInput() {
 
   const selectStyles: SelectProps = {
     primaryColor: "#6366f1",
-    secondaryColor: "#a5b4fc",
+    secondaryColor: "#E0E7FF",
     control: (base) => ({
       ...base,
       fontSize: ".9rem",
       minWidth: "230px",
       borderRadius: ".5rem",
-      border: `2px solid ${selectStyles.primaryColor}`,
+      border: `2px solid ${selectStyles.secondaryColor}`,
       borderColor: selectStyles.primaryColor,
       backgroundColor: "transparent",
       minHeight: "2.2rem",
