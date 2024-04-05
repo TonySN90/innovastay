@@ -6,11 +6,11 @@ import {
 import { IBookingTypes } from "../types/BookingTypes";
 import supabase from "./supabase";
 import { FormValues } from "../types/FormTypes";
+import { IFilterTypes } from "../types/GlobalTypes";
 
-export async function getBookings(filter: {
-  field: string;
-  value: string;
-}): Promise<IBookingTypes[] | null> {
+export async function getBookings(
+  filter: IFilterTypes
+): Promise<IBookingTypes[] | null> {
   // Query
   let query = supabase
     .from("bookings")
@@ -21,8 +21,14 @@ export async function getBookings(filter: {
 
   // Filter
   if (filter) {
-    const { field, value } = filter;
-    query = query.eq(value === "all" ? "" : field, value);
+    const { field, value, operator } = filter;
+
+    if (operator === "eq") query = query.eq(field, value);
+    if (operator === "in" && Array.isArray(value))
+      query = query.in(
+        field,
+        value.map((guest) => guest.id)
+      );
   }
 
   const { data: bookings, error }: PostgrestSingleResponse<IBookingTypes[]> =

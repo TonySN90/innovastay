@@ -6,11 +6,11 @@ import {
   getGuests,
 } from "../../services/apiGuests";
 import { FormValues } from "../../types/FormTypes";
-import { LoadingTypes } from "../../types/GlobalTypes";
+import { IFilterTypes, LoadingTypes } from "../../types/GlobalTypes";
 
 export const fetchGuests = createAsyncThunk(
   "guests/fetchGuests",
-  async (_, { getState }) => {
+  async (filter: IFilterTypes, { getState }) => {
     const { guests } = getState() as {
       guests: IGuestStatesTypes;
     };
@@ -20,12 +20,12 @@ export const fetchGuests = createAsyncThunk(
       guests.updatingStatus === LoadingTypes.SUCCESS ||
       guests.deletingStatus === LoadingTypes.SUCCESS
     )
-      return await getGuests();
+      return await getGuests(filter as IFilterTypes);
 
-    if (guests?.guests.length > 0) {
-      return guests.guests;
-    }
-    return await getGuests();
+    // if (guests?.guests.length > 0) {
+    //   return guests.guests;
+    // }
+    return await getGuests(filter as IFilterTypes);
   }
 );
 

@@ -3,6 +3,7 @@ import { BookingStatusTypes } from "../types/BookingTypes";
 import Select from "react-select";
 import { Option, SelectProps } from "../types/GlobalTypes";
 import { useSearchParams } from "react-router-dom";
+import useGuests from "../features/guests/useGuests";
 
 function FilterBar({ filterField }: { filterField: string }) {
   return (
@@ -18,6 +19,7 @@ export default FilterBar;
 
 function SearchInput() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { filterGuests } = useGuests();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.toLowerCase();
@@ -27,6 +29,7 @@ function SearchInput() {
     else searchParams.set("search", inputValue);
 
     setSearchParams(searchParams.toString());
+    filterGuests(inputValue);
   };
 
   return (

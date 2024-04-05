@@ -4,24 +4,37 @@ import { IBookingStateTypes } from "../../types/BookingTypes";
 import { fetchBookings } from "./bookingsSlice";
 import { SchedulerData } from "@bitnoi.se/react-scheduler";
 import { useSearchParams } from "react-router-dom";
+import { IGuestStatesTypes } from "../../types/GuestTypes";
 
 function useBookings() {
   const dispatch = useAppDispatch();
-  const { bookings, loadingStatus, error } = useAppSelector(
+  const { bookings, loadingStatus } = useAppSelector(
     (state: { bookings: IBookingStateTypes }) => state.bookings
+  );
+
+  const { guests } = useAppSelector(
+    (state: { guests: IGuestStatesTypes }) => state.guests
   );
 
   const [searchParams] = useSearchParams();
   const filterValue = searchParams.get("status");
+  const searchValue = searchParams.get("search");
 
   useEffect(() => {
-    const filter =
+    const statusFilter =
       !filterValue || filterValue === "all"
         ? null
-        : { field: "status", value: filterValue };
+        : { field: "status", value: filterValue, operator: "eq" };
 
-    dispatch(fetchBookings(filter));
-  }, [dispatch, filterValue]);
+    const guestFilter =
+      !searchValue || searchValue === ""
+        ? null
+        : { field: "guestId", value: guests, operator: "in" };
+
+    const filter = guestFilter || statusFilter;
+
+    dispatch(fetchBookings(filter as { field: string; value: string }));
+  }, [filterValue, searchValue, dispatch]);
 
   function convertData() {
     const roomBookingsMap = new Map();
@@ -62,7 +75,7 @@ function useBookings() {
 
   const mockedSchedulerData: SchedulerData = convertData();
 
-  return { bookings, loadingStatus, error, mockedSchedulerData };
+  return { bookings, loadingStatus, mockedSchedulerData };
 }
 
 export default useBookings;

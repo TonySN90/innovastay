@@ -49,3 +49,9 @@ export interface Option {
   value: string;
   label: string;
 }
+
+export interface IFilterTypes {
+  field: string;
+  value: string | [];
+  operator?: string;
+}

@@ -1,10 +1,19 @@
 import { FormValues } from "../types/FormTypes";
+import { IFilterTypes } from "../types/GlobalTypes";
 import { IGuestTypes } from "../types/GuestTypes";
 import supabase from "./supabase";
 
 // Get Guests ----------------------------------------
-export async function getGuests() {
-  const { data: guests, error } = await supabase.from("guests").select("*");
+export async function getGuests(filter: IFilterTypes) {
+  let query = supabase.from("guests").select("*");
+
+  // Filter
+  if (filter) {
+    const { field, value } = filter;
+    query = query.ilike(field, `%${value}%`);
+  }
+
+  const { data: guests, error } = await query;
 
   if (error) {
     throw new Error(
