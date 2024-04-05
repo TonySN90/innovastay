@@ -2,12 +2,13 @@ import { useState } from "react";
 import { BookingStatusTypes } from "../types/BookingTypes";
 import Select from "react-select";
 import { Option, SelectProps } from "../types/GlobalTypes";
+import { useSearchParams } from "react-router-dom";
 
-function FilterBar() {
+function FilterBar({ filterField }: { filterField: string }) {
   return (
     <div className="flex md:justify-end items-center mb-4 flex-wrap">
       <SearchInput />
-      <FilterButtons />
+      <FilterButtons filterField={filterField} />
       <SortSelectInput />
     </div>
   );
@@ -38,23 +39,26 @@ function SearchInput() {
   );
 }
 
-function FilterButtons() {
-  const [clickedFilter, setClickedFilter] = useState("all");
-  function handleClick(filterType: string) {
-    setClickedFilter(filterType);
-  }
+function FilterButtons({ filterField }: { filterField: string }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentFilter = searchParams.get(filterField) || "all";
 
+  function handleClick(filterType: string) {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set(filterField, filterType);
+    setSearchParams(newSearchParams.toString());
+  }
   return (
     <div className="flex ml-4 h-[2.2rem] overflow-hidden rounded-lg border-2 border-indigo-500">
       <FilterButton
         handleClick={handleClick}
-        clickedFilter={clickedFilter}
+        clickedFilter={currentFilter}
         filterType="all"
         filterBy="Alle"
       />
       <FilterButton
         handleClick={handleClick}
-        clickedFilter={clickedFilter}
+        clickedFilter={currentFilter}
         filterType={BookingStatusTypes.CHECKEDIN}
         filterBy="Eingecheckt"
       />
@@ -62,13 +66,13 @@ function FilterButtons() {
         handleClick={handleClick}
         filterType={BookingStatusTypes.CHECKEDOUT}
         filterBy="Ausgecheckt"
-        clickedFilter={clickedFilter}
+        clickedFilter={currentFilter}
       />
       <FilterButton
         handleClick={handleClick}
         filterType={BookingStatusTypes.UNCONFIRMED}
         filterBy="Austehend"
-        clickedFilter={clickedFilter}
+        clickedFilter={currentFilter}
       />
     </div>
   );
@@ -89,7 +93,7 @@ function FilterButton({
     <button
       onClick={() => handleClick(filterType)}
       className={`cursor-pointer text-sm px-2  ${
-        filterType === clickedFilter ? " bg-indigo-600 text-gray-50" : null
+        filterType === clickedFilter && " bg-indigo-600 text-gray-50"
       }`}
     >
       {filterBy}

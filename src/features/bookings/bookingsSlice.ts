@@ -15,7 +15,7 @@ import { LoadingTypes } from "../../types/GlobalTypes";
 
 export const fetchBookings = createAsyncThunk(
   "bookings/fetchBookings",
-  async (_, { getState }) => {
+  async (filter: { field: string; value: string }, { getState }) => {
     const { bookings } = getState() as {
       bookings: IBookingStateTypes;
     };
@@ -25,13 +25,13 @@ export const fetchBookings = createAsyncThunk(
       bookings.updatingStatus === LoadingTypes.SUCCESS ||
       bookings.deletingStatus === LoadingTypes.SUCCESS
     )
-      return await getBookings();
+      return await getBookings(filter);
 
-    if (bookings?.bookings.length > 0) {
-      return bookings.bookings;
-    }
+    // if (bookings?.bookings.length > 0) {
+    //   return bookings.bookings;
+    // }
 
-    const newBookings = await getBookings();
+    const newBookings = await getBookings(filter);
     return newBookings;
   }
 );
@@ -83,6 +83,7 @@ const initialState: IBookingStateTypes = {
   error: "",
   bookings: [],
   booking: {} as IBookingTypes,
+  selectedFilter: "all",
 };
 
 const bookingsSlice = createSlice({

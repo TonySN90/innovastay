@@ -62,6 +62,7 @@ export interface IBookingStateTypes {
   error: string;
   bookings: IBookingTypes[];
   booking: IBookingTypes;
+  selectedFilter: string;
 }
 
 export interface ITotalsBoxProps {

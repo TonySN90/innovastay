@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { IBookingStateTypes } from "../../types/BookingTypes";
 import { fetchBookings } from "./bookingsSlice";
 import { SchedulerData } from "@bitnoi.se/react-scheduler";
+import { useSearchParams } from "react-router-dom";
 
 function useBookings() {
   const dispatch = useAppDispatch();
@@ -10,9 +11,17 @@ function useBookings() {
     (state: { bookings: IBookingStateTypes }) => state.bookings
   );
 
+  const [searchParams] = useSearchParams();
+  const filterValue = searchParams.get("status");
+
   useEffect(() => {
-    dispatch(fetchBookings());
-  }, [dispatch]);
+    const filter =
+      !filterValue || filterValue === "all"
+        ? null
+        : { field: "status", value: filterValue };
+
+    dispatch(fetchBookings(filter));
+  }, [dispatch, filterValue]);
 
   function convertData() {
     const roomBookingsMap = new Map();

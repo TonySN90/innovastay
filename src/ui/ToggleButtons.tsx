@@ -10,7 +10,7 @@ function ToggleButtons({ onClick, bookingsView }: IToggleButtonsTypes) {
 
   const activeClasses = "bg-indigo-600 text-stone-50";
   const buttonClass =
-    "px-4 border-2 border-indigo-600 h-7 text-lg flex items-center justify-center";
+    "flex items-center justify-center px-4 border-2 border-indigo-600 h-7 text-lg cursor-pointer";
 
   return (
     <div className="flex">

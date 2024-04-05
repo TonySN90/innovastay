@@ -24,7 +24,7 @@ function Bookings() {
         <Heading title="Buchungsübersicht" />
         <ToggleButtons onClick={handleClick} bookingsView={bookingsView} />
       </div>
-      {isTableView && <FilterBar />}
+      {isTableView && <FilterBar filterField="status" />}
 
       {!isTableView && (
         <Hint>
