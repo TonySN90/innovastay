@@ -105,6 +105,10 @@ const bookingsSlice = createSlice({
     resetDeletingStatus: (state) => {
       state.deletingStatus = "idle";
     },
+
+    setBookings: (state, action: PayloadAction<IBookingTypes[]>) => {
+      state.bookings = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -170,5 +174,6 @@ export const {
   resetUploadingStatus,
   resetDeletingStatus,
   resetUpdatingStatus,
+  setBookings,
 } = bookingsSlice.actions;
 export default bookingsSlice.reducer;

@@ -1,15 +1,18 @@
 import Table from "../../ui/Table";
 import BookingsRow from "./BookingsRow";
-import { IBookingTypes } from "../../types/BookingTypes";
+import { IBookingStateTypes, IBookingTypes } from "../../types/BookingTypes";
 import useWindowWidth from "../../hooks/UseWindowWidth";
-import useBookings from "./useBookings";
 import Empty from "../../ui/Empty";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import Spinner from "../../ui/Spinner";
 import Menu from "../../ui/Menu";
+import { useAppSelector } from "../../store";
+import { useEffect } from "react";
 
 function BookingsTable() {
-  const { bookings, loadingStatus } = useBookings();
+  const { bookings, loadingStatus } = useAppSelector(
+    (state: { bookings: IBookingStateTypes }) => state.bookings
+  );
   const windowWidth = useWindowWidth();
 
   if (loadingStatus === LoadingTypes.LOADING) return <Spinner />;

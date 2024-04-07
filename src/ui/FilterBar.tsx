@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BookingStatusTypes } from "../types/BookingTypes";
 import Select from "react-select";
 import { Option, SelectProps } from "../types/GlobalTypes";
 import { useSearchParams } from "react-router-dom";
 import useGuests from "../features/guests/useGuests";
+import useBookings from "../features/bookings/useBookings";
+import useFilter from "../hooks/useFilter";
 
 function FilterBar({ filterField }: { filterField: string }) {
   return (
@@ -19,7 +21,8 @@ export default FilterBar;
 
 function SearchInput() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { filterGuests } = useGuests();
+  const timerRef = useRef(null);
+  const { filterGuests } = useFilter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.toLowerCase();
@@ -27,10 +30,15 @@ function SearchInput() {
     searchParams.delete("status");
     if (inputValue === "") searchParams.delete("search");
     else searchParams.set("search", inputValue);
-
     setSearchParams(searchParams.toString());
-    filterGuests(inputValue);
+
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => filterGuests(inputValue), 700);
   };
+
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   return (
     <div className="relative">
@@ -58,11 +66,14 @@ function SearchInput() {
 function FilterButtons({ filterField }: { filterField: string }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentFilter = searchParams.get(filterField) || "all";
+  const { filterBookings } = useFilter();
 
   function handleClick(filterType: string) {
     searchParams.set(filterField, filterType);
     searchParams.delete("search");
     setSearchParams(searchParams.toString());
+
+    filterBookings(filterType);
   }
   return (
     <div className="flex ml-4 h-[2.2rem] overflow-hidden rounded-lg border-2 border-indigo-100">
