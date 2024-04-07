@@ -7,12 +7,12 @@ import { LoadingTypes } from "../../types/GlobalTypes";
 import Spinner from "../../ui/Spinner";
 import Menu from "../../ui/Menu";
 import { useAppSelector } from "../../store";
-import { useEffect } from "react";
 
 function BookingsTable() {
   const { bookings, loadingStatus } = useAppSelector(
     (state: { bookings: IBookingStateTypes }) => state.bookings
   );
+
   const windowWidth = useWindowWidth();
 
   if (loadingStatus === LoadingTypes.LOADING) return <Spinner />;

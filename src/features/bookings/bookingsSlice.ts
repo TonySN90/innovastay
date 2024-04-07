@@ -109,6 +109,10 @@ const bookingsSlice = createSlice({
     setBookings: (state, action: PayloadAction<IBookingTypes[]>) => {
       state.bookings = action.payload;
     },
+
+    setLoadingStatus: (state, action) => {
+      state.loadingStatus = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -175,5 +179,6 @@ export const {
   resetDeletingStatus,
   resetUpdatingStatus,
   setBookings,
+  setLoadingStatus,
 } = bookingsSlice.actions;
 export default bookingsSlice.reducer;
