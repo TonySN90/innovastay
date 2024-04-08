@@ -10,7 +10,8 @@ import { IFilterTypes, LoadingTypes } from "../../types/GlobalTypes";
 
 export const fetchGuests = createAsyncThunk(
   "guests/fetchGuests",
-  async (filter: IFilterTypes, { getState }) => {
+  // @ts-expect-error getState may not be used after optional argument
+  async (filter?: IFilterTypes, { getState }) => {
     const { guests } = getState() as {
       guests: IGuestStatesTypes;
     };

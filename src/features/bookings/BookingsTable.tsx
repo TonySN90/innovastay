@@ -17,7 +17,7 @@ function BookingsTable() {
 
   if (loadingStatus === LoadingTypes.LOADING) return <Spinner />;
 
-  if (!bookings.length) return <Empty resourceName="bookings" />;
+  if (!bookings.length) return <Empty resourceName="Buchungen" />;
 
   return (
     <>

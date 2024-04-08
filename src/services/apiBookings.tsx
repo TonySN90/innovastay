@@ -9,7 +9,8 @@ import { FormValues } from "../types/FormTypes";
 import { IFilterTypes } from "../types/GlobalTypes";
 
 export async function getBookings(
-  filter: IFilterTypes
+  filter: IFilterTypes,
+  sortBy: { field: string; direction: "asc" | "desc" }
 ): Promise<IBookingTypes[] | null> {
   // Query
   let query = supabase
@@ -27,9 +28,14 @@ export async function getBookings(
     if (operator === "in" && Array.isArray(value))
       query = query.in(
         field,
-        value.map((guest) => guest.id)
+        value.map((guest: { id: number }) => guest.id)
       );
   }
+
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
 
   const { data: bookings, error }: PostgrestSingleResponse<IBookingTypes[]> =
     await query;

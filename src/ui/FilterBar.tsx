@@ -4,6 +4,7 @@ import Select from "react-select";
 import { Option, SelectProps } from "../types/GlobalTypes";
 import { useSearchParams } from "react-router-dom";
 import useFilter from "../hooks/useFilter";
+import useSort from "../hooks/useSort";
 
 const FilterContext = createContext({} as object);
 
@@ -18,7 +19,7 @@ function FilterBar({ filterField }: { filterField: string }) {
       <div className="flex md:justify-end items-center mb-4 flex-wrap">
         <SearchInput />
         <FilterButtons />
-        <SortSelectInput />
+        <SortInput />
       </div>
     </FilterContext.Provider>
   );
@@ -117,7 +118,8 @@ function FilterButtons() {
     setInputValue("");
     setIsOpen(false);
     setParams(filterType);
-    filterBookings(filterType);
+    const sortParam = searchParams.get("sort");
+    filterBookings(filterType, sortParam);
   }
   return (
     <div className="flex ml-4 h-[2.2rem] overflow-hidden rounded-lg border-2 border-indigo-100">
@@ -172,17 +174,24 @@ function FilterButton({
   );
 }
 
-function SortSelectInput() {
-  const [sortBy, setSortBy] = useState({
-    value: "dateRecentFirst",
-    label: "Datum (Aktuelle zuerst)",
-  });
+function SortInput() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { sortBookings } = useFilter();
+
+  const handleChange = (selectedOption: Option | null) => {
+    if (!selectedOption) return;
+    searchParams.set("sort", selectedOption.value);
+    const filter = searchParams.get("status");
+    console.log(filter);
+    setSearchParams(searchParams.toString());
+    sortBookings(selectedOption.value, filter);
+  };
 
   const options: Option[] = [
-    { value: "dateRecentFirst", label: "Datum (Älteste zuerst)" },
-    { value: "dateEarlierFirst", label: "Datum (Frühere zuerst)" },
-    { value: "AmountHighFirst", label: "Betrag (Aufsteigend)" },
-    { value: "AmountLowFirst", label: "Betrag (Absteigend)" },
+    { value: "startDate-desc", label: "Datum (Aufsteigend)" },
+    { value: "startDate-asc", label: "Datum (Absteigend)" },
+    { value: "totalPrice-desc", label: "Betrag (Aufsteigend)" },
+    { value: "totalPrice-asc", label: "Betrag (Absteigend)" },
   ];
 
   const selectStyles: SelectProps = {
@@ -226,17 +235,13 @@ function SortSelectInput() {
     }),
   };
 
-  const handleChange = (selectedOption: Option | null) => {
-    if (selectedOption) setSortBy(selectedOption as Option);
-  };
-
   return (
     <div className="ml-4">
       <Select
         styles={selectStyles as object}
-        value={sortBy}
         onChange={handleChange}
         options={options}
+        placeholder="Sortieren nach"
       />
     </div>
   );
