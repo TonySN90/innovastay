@@ -21,6 +21,7 @@ export async function getBookings(
     ) as PostgrestQueryBuilder<IBookingTypes[]>;
 
   // Filter
+
   if (filter) {
     const { field, value, operator } = filter;
 
@@ -30,6 +31,7 @@ export async function getBookings(
         field,
         value.map((guest: { id: number }) => guest.id)
       );
+    if (operator === "ilike") query = query.ilike(field, `%${value}%`);
   }
 
   if (sortBy)
@@ -113,19 +115,19 @@ export async function deleteBooking(bookingId: number) {
   return data;
 }
 
-export async function getBookingsByFilter(filter: string, status: string) {
-  const { data: bookings, error } = await supabase
-    .from("bookings")
-    .select(
-      "id, created_at, startDate, endDate, numNights, numGuests, status, cabinPrice, extrasPrice, totalPrice, isPaid, hasBreakfast, cabins(name, id, image, category, price), guests(id, fullName, address, postalCode, city, country, email, phone, information)",
-      { count: "exact" }
-    )
-    .eq(filter, status);
+// export async function getBookingsByFilter(filter: string, status: string) {
+//   const { data: bookings, error } = await supabase
+//     .from("bookings")
+//     .select(
+//       "id, created_at, startDate, endDate, numNights, numGuests, status, cabinPrice, extrasPrice, totalPrice, isPaid, hasBreakfast, cabins(name, id, image, category, price), guests(id, fullName, address, postalCode, city, country, email, phone, information)",
+//       { count: "exact" }
+//     )
+//     .eq(filter, status);
 
-  if (error) {
-    throw new Error(
-      `Fehler beim Abrufen der gefilterten Buchungen. ${error.message}: ${error.details}`
-    );
-  }
-  return bookings;
-}
+//   if (error) {
+//     throw new Error(
+//       `Fehler beim Abrufen der gefilterten Buchungen. ${error.message}: ${error.details}`
+//     );
+//   }
+//   return bookings;
+// }

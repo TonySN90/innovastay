@@ -28,6 +28,7 @@ function useSort() {
       }
     });
 
+    console.log(sortBy);
     dispatch(setBookings(sortedBookings as IBookingTypes[]));
   }
 

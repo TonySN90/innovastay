@@ -1,14 +1,5 @@
 import { useAppDispatch } from "../store";
-import { IFilterTypes } from "../types/GlobalTypes";
-import { getGuests } from "../services/apiGuests";
-import {
-  fetchBookings,
-  setBookings,
-  setLoadingStatus,
-} from "../features/bookings/bookingsSlice";
-import { getBookings } from "../services/apiBookings";
-import toast from "react-hot-toast";
-import { IBookingTypes } from "../types/BookingTypes";
+import { fetchBookings } from "../features/bookings/bookingsSlice";
 
 function useFilter() {
   const dispatch = useAppDispatch();
@@ -33,41 +24,35 @@ function useFilter() {
     dispatch(fetchBookings({ filter, sortBy }));
   }
 
-  function sortBookings(sortParam: string, filterValue) {
-    const filter =
-      !filterValue || filterValue === "all"
-        ? null
-        : { field: "status", value: filterValue, operator: "eq" };
+  function sortBookings(
+    sortParam: string,
+    filterParam: {
+      field: string;
+      value: string;
+      operator: string;
+    }
+  ) {
+    const { value } = filterParam;
+    const filter = !value || value === "all" ? null : filterParam;
+
     const [field, direction] = sortParam.split("-");
     const sortBy = { field, direction };
 
     dispatch(fetchBookings({ filter, sortBy }));
   }
 
-  async function filterGuests(searchValue: string | null) {
-    try {
-      if (searchValue !== null && searchValue !== undefined) {
-        dispatch(setLoadingStatus("loading"));
+  function filterGuests(searchValue: string | null, sortParam: string) {
+    const filter = {
+      field: "fullName",
+      value: searchValue,
+      operator: "ilike",
+    };
 
-        const searchFilter = { field: "fullName", value: searchValue };
-        const guests = await getGuests(searchFilter as IFilterTypes);
-        const filter = {
-          field: "guestId",
-          value: guests,
-          operator: "in",
-        };
-        const bookings = await getBookings(filter as IFilterTypes);
-        dispatch(setBookings(bookings as IBookingTypes[]));
-        dispatch(setLoadingStatus("idle"));
-      }
-    } catch (error) {
-      toast.error("Ein Fehler beim filtern der Buchungsdaten ist aufgetreten:");
-      console.error(
-        "Ein Fehler beim filtern der Buchungsdaten ist aufgetreten:",
-        error
-      );
-      dispatch(setLoadingStatus("idle"));
-    }
+    sortParam = sortParam ? sortParam : "startDate-desc";
+    const [field, direction] = sortParam.split("-");
+    const sortBy = { field, direction };
+
+    dispatch(fetchBookings({ filter, sortBy }));
   }
 
   return { filterGuests, filterBookings, sortBookings };

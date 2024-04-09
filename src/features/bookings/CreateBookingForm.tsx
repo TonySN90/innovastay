@@ -92,6 +92,7 @@ const CreateBookingForm: React.FC<Props> = function ({
     const newBooking = {
       cabinId: formData.cabinId?.value,
       guestId: formData.guest?.id,
+      fullName: formData.guest?.fullName,
       startDate: new Date(formData.startDate).toISOString(),
       endDate: new Date(formData.endDate).toISOString(),
       numGuests: +formData.numGuests,
@@ -111,6 +112,7 @@ const CreateBookingForm: React.FC<Props> = function ({
     }
 
     uploadNewBooking(newBooking as FormValues);
+    // console.log(formData);
     console.log(newBooking);
   };
 

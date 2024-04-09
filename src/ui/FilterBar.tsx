@@ -57,11 +57,15 @@ function SearchInput() {
     searchInput === "" && setIsOpen(true);
 
     setParams(searchInput);
+    const sortParam = searchParams.get("sort");
 
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
-    timerRef.current = setTimeout(() => filterGuests(searchInput), 600);
+    timerRef.current = setTimeout(
+      () => filterGuests(searchInput, sortParam),
+      600
+    );
   };
 
   useEffect(() => {
@@ -115,10 +119,10 @@ function FilterButtons() {
   }
 
   function handleClick(filterType: string) {
+    const sortParam = searchParams.get("sort");
     setInputValue("");
     setIsOpen(false);
     setParams(filterType);
-    const sortParam = searchParams.get("sort");
     filterBookings(filterType, sortParam);
   }
   return (
@@ -181,10 +185,14 @@ function SortInput() {
   const handleChange = (selectedOption: Option | null) => {
     if (!selectedOption) return;
     searchParams.set("sort", selectedOption.value);
-    const filter = searchParams.get("status");
-    console.log(filter);
     setSearchParams(searchParams.toString());
-    sortBookings(selectedOption.value, filter);
+
+    const filterSearch = searchParams.get("search");
+    const filterStatus = searchParams.get("status");
+    const filterParam = filterSearch
+      ? { field: "fullName", value: filterSearch, operator: "ilike" }
+      : { field: "status", value: filterStatus, operator: "eq" };
+    sortBookings(selectedOption.value, filterParam);
   };
 
   const options: Option[] = [
