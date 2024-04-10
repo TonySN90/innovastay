@@ -1,6 +1,7 @@
 import Select from "react-select";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import {
+  IFilterBaseTypes,
   IFilterButtonsTypes,
   IFilterContext,
   Option,
@@ -17,12 +18,8 @@ function FilterBar({
   filterButtons,
   options,
 }: {
-  filterBase: {
-    category: string;
-    field: string;
-    defaultSortField: string;
-  };
-  filterButtons: IFilterButtonsTypes[];
+  filterBase: IFilterBaseTypes;
+  filterButtons?: IFilterButtonsTypes[];
   options: Option[];
 }) {
   const [inputValue, setInputValue] = useState("");
@@ -41,8 +38,8 @@ function FilterBar({
       }}
     >
       <div className="flex md:justify-end items-center mb-4 flex-wrap">
-        {filterBase.category === "bookings" && <SearchInput />}
-        <FilterButtons />
+        {filterBase.category !== "cabins" && <SearchInput />}
+        {filterBase.category !== "guests" && <FilterButtons />}
         <SortInput />
       </div>
     </FilterContext.Provider>
@@ -52,9 +49,8 @@ function FilterBar({
 export default FilterBar;
 
 function SearchInput() {
-  const { inputValue, setInputValue, isOpen, setIsOpen } = useContext(
-    FilterContext
-  ) as IFilterContext;
+  const { inputValue, setInputValue, isOpen, setIsOpen, filterBase } =
+    useContext(FilterContext) as IFilterContext;
 
   const [searchParams, setSearchParams] = useSearchParams();
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -79,7 +75,7 @@ function SearchInput() {
       clearTimeout(timerRef.current);
     }
     timerRef.current = setTimeout(
-      () => filterGuests(searchInput, sortParam),
+      () => filterGuests(filterBase, searchInput, sortParam),
       600
     );
   };

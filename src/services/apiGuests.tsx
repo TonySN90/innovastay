@@ -1,17 +1,32 @@
 import { FormValues } from "../types/FormTypes";
-import { IFilterTypes } from "../types/GlobalTypes";
+import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
 import { IGuestTypes } from "../types/GuestTypes";
 import supabase from "./supabase";
 
 // Get Guests ----------------------------------------
-export async function getGuests(filter: IFilterTypes) {
+export async function getGuests(
+  filter: IFilterTypes,
+  sortBy: ISortTypes | undefined
+) {
   let query = supabase.from("guests").select("*");
 
   // Filter
   if (filter) {
-    const { field, value } = filter;
-    query = query.ilike(field, `%${value}%`);
+    const { field, value, operator } = filter;
+
+    if (operator === "eq") query = query.eq(field, value);
+    if (operator === "in" && Array.isArray(value))
+      query = query.in(
+        field,
+        value.map((guest: { id: number }) => guest.id)
+      );
+    if (operator === "ilike") query = query.ilike(field, `%${value}%`);
   }
+
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
 
   const { data: guests, error } = await query;
 

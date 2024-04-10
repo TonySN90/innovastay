@@ -13,7 +13,7 @@ function CabinsFilter() {
   //   };
   // });
 
-  // HIER SPÄTER NOCHMAL ANPASSEN. KATEGORIEN SOLLEN DYNAMISCH ERZEUGT WERDEN:
+  // ADJUST HERE AGAIN LATER. CATEGORIES SHOULD BE CREATED DYNAMICALLY:
   const filterButtons = [
     { filterBy: "Alle", filterType: "all" },
     { filterBy: "Einzelzimmer", filterType: "Einzelzimmer" },

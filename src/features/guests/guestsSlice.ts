@@ -6,27 +6,17 @@ import {
   getGuests,
 } from "../../services/apiGuests";
 import { FormValues } from "../../types/FormTypes";
-import { IFilterTypes, LoadingTypes } from "../../types/GlobalTypes";
+import { IFilterTypes, ISortTypes } from "../../types/GlobalTypes";
 
 export const fetchGuests = createAsyncThunk(
   "guests/fetchGuests",
-  // @ts-expect-error getState may not be used after optional argument
-  async (filter?: IFilterTypes, { getState }) => {
-    const { guests } = getState() as {
-      guests: IGuestStatesTypes;
-    };
+  async (filterSortOptions?: {
+    sortBy: ISortTypes;
+    filter: IFilterTypes | null;
+  }) => {
+    const { sortBy, filter } = filterSortOptions || {};
 
-    if (
-      guests.uploadingStatus === LoadingTypes.SUCCESS ||
-      guests.updatingStatus === LoadingTypes.SUCCESS ||
-      guests.deletingStatus === LoadingTypes.SUCCESS
-    )
-      return await getGuests(filter as IFilterTypes);
-
-    // if (guests?.guests.length > 0) {
-    //   return guests.guests;
-    // }
-    return await getGuests(filter as IFilterTypes);
+    return await getGuests(filter as IFilterTypes, sortBy);
   }
 );
 
@@ -53,9 +43,9 @@ export const editGuest = createAsyncThunk(
 );
 
 export const deleteGuestThunk = createAsyncThunk(
-  "guest/deleteCabin",
-  async (cabinId: number) => {
-    const deletedGuest = await deleteGuest(cabinId);
+  "guest/deleteGuest",
+  async (guestId: number) => {
+    const deletedGuest = await deleteGuest(guestId);
     return deletedGuest;
   }
 );

@@ -12,8 +12,8 @@ function BookingsFilter() {
   const options = [
     { value: "startDate-desc", label: "Datum (Aufsteigend)" },
     { value: "startDate-asc", label: "Datum (Absteigend)" },
-    { value: "totalPrice-desc", label: "Betrag (Aufsteigend)" },
-    { value: "totalPrice-asc", label: "Betrag (Absteigend)" },
+    { value: "totalPrice-desc", label: "Endbetrag (Aufsteigend)" },
+    { value: "totalPrice-asc", label: "Endbetrag (Absteigend)" },
   ];
 
   const filterBase = {

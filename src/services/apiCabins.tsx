@@ -11,8 +11,6 @@ export async function getCabins(
   filter: IFilterTypes,
   sortBy: ISortTypes | undefined
 ) {
-  // const { data: cabins, error } = await supabase.from("cabins").select("*");
-
   let query = supabase.from("cabins").select("*");
 
   if (filter) {
@@ -24,7 +22,6 @@ export async function getCabins(
         field,
         value.map((guest: { id: number }) => guest.id)
       );
-    if (operator === "ilike") query = query.ilike(field, `%${value}%`);
   }
 
   if (sortBy)

@@ -3,6 +3,7 @@ import { fetchBookings } from "../features/bookings/bookingsSlice";
 import { fetchCabins } from "../features/cabins/cabinsSlice";
 import { useAppDispatch } from "../store";
 import { IFilterBaseTypes } from "../types/GlobalTypes";
+import { fetchGuests } from "../features/guests/guestsSlice";
 
 function useSort() {
   const dispatch = useAppDispatch();
@@ -50,6 +51,7 @@ function useSort() {
 
     if (category === "bookings") dispatch(fetchBookings({ filter, sortBy }));
     if (category === "cabins") dispatch(fetchCabins({ filter, sortBy }));
+    if (category === "guests") dispatch(fetchGuests({ filter, sortBy }));
   }
 
   return { sortBookings };

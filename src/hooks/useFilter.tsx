@@ -2,6 +2,7 @@ import { useAppDispatch } from "../store";
 import { fetchBookings } from "../features/bookings/bookingsSlice";
 import { fetchCabins } from "../features/cabins/cabinsSlice";
 import { IFilterBaseTypes } from "../types/GlobalTypes";
+import { fetchGuests } from "../features/guests/guestsSlice";
 
 function useFilter() {
   const dispatch = useAppDispatch();
@@ -31,18 +32,25 @@ function useFilter() {
     category === "cabins" && dispatch(fetchCabins({ filter, sortBy }));
   }
 
-  function filterGuests(searchValue: string, sortParam: string | null) {
+  function filterGuests(
+    filterBase: IFilterBaseTypes,
+    searchValue: string,
+    sortParam: string | null
+  ) {
     const filter = {
       field: "fullName",
       value: searchValue,
       operator: "ilike",
     };
+    const { category } = filterBase;
 
-    sortParam = sortParam ? sortParam : "startDate-desc";
+    sortParam = sortParam ? sortParam : "created_at-desc";
+
     const [field, direction] = sortParam.split("-");
     const sortBy = { field, direction };
 
-    dispatch(fetchBookings({ filter, sortBy }));
+    if (category === "bookings") dispatch(fetchBookings({ filter, sortBy }));
+    if (category === "guests") dispatch(fetchGuests({ filter, sortBy }));
   }
 
   return { filterGuests, filterTable };
