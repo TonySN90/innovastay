@@ -52,6 +52,33 @@ export interface Option {
 
 export interface IFilterTypes {
   field: string;
-  value: string | [];
-  operator?: string;
+  value: string | null;
+  operator: string;
+}
+
+export interface ISortTypes {
+  field: string;
+  direction: string;
+}
+
+export interface IFilterButtonsTypes {
+  filterBy: string;
+  filterType: string;
+}
+export interface IFilterBaseTypes {
+  category: string;
+  field: string;
+  defaultSortField: string;
+}
+
+export interface IFilterContext {
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  filterField: string;
+
+  filterBase: IFilterBaseTypes;
+  filterButtons: IFilterButtonsTypes[];
+  options: Option[];
 }

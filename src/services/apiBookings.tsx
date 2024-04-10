@@ -6,11 +6,11 @@ import {
 import { IBookingTypes } from "../types/BookingTypes";
 import supabase from "./supabase";
 import { FormValues } from "../types/FormTypes";
-import { IFilterTypes } from "../types/GlobalTypes";
+import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
 
 export async function getBookings(
   filter: IFilterTypes,
-  sortBy: { field: string; direction: "asc" | "desc" }
+  sortBy: ISortTypes | undefined
 ): Promise<IBookingTypes[] | null> {
   // Query
   let query = supabase

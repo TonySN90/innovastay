@@ -1,23 +1,47 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { BookingStatusTypes } from "../types/BookingTypes";
 import Select from "react-select";
-import { Option, SelectProps } from "../types/GlobalTypes";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import {
+  IFilterButtonsTypes,
+  IFilterContext,
+  Option,
+  SelectProps,
+} from "../types/GlobalTypes";
 import { useSearchParams } from "react-router-dom";
 import useFilter from "../hooks/useFilter";
 import useSort from "../hooks/useSort";
 
 const FilterContext = createContext({} as object);
 
-function FilterBar({ filterField }: { filterField: string }) {
+function FilterBar({
+  filterBase,
+  filterButtons,
+  options,
+}: {
+  filterBase: {
+    category: string;
+    field: string;
+    defaultSortField: string;
+  };
+  filterButtons: IFilterButtonsTypes[];
+  options: Option[];
+}) {
   const [inputValue, setInputValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <FilterContext.Provider
-      value={{ inputValue, setInputValue, isOpen, setIsOpen, filterField }}
+      value={{
+        inputValue,
+        setInputValue,
+        isOpen,
+        setIsOpen,
+        filterBase,
+        filterButtons,
+        options,
+      }}
     >
       <div className="flex md:justify-end items-center mb-4 flex-wrap">
-        <SearchInput />
+        {filterBase.category === "bookings" && <SearchInput />}
         <FilterButtons />
         <SortInput />
       </div>
@@ -26,14 +50,6 @@ function FilterBar({ filterField }: { filterField: string }) {
 }
 
 export default FilterBar;
-
-export interface IFilterContext {
-  inputValue: string;
-  setInputValue: React.Dispatch<React.SetStateAction<string>>;
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  filterField: string;
-}
 
 function SearchInput() {
   const { inputValue, setInputValue, isOpen, setIsOpen } = useContext(
@@ -54,7 +70,7 @@ function SearchInput() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchInput = e.target.value.toLowerCase();
     setInputValue(searchInput);
-    searchInput === "" && setIsOpen(true);
+    if (searchInput === "") setIsOpen(true);
 
     setParams(searchInput);
     const sortParam = searchParams.get("sort");
@@ -105,15 +121,15 @@ function SearchInput() {
 }
 
 function FilterButtons() {
-  const { filterField, setInputValue, setIsOpen } = useContext(
+  const { setInputValue, setIsOpen, filterBase, filterButtons } = useContext(
     FilterContext
   ) as IFilterContext;
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentFilter = searchParams.get(filterField) || "all";
-  const { filterBookings } = useFilter();
+  const currentFilter = searchParams.get(filterBase.field) || "all";
+  const { filterTable } = useFilter();
 
   function setParams(filterType: string) {
-    searchParams.set(filterField, filterType);
+    searchParams.set(filterBase.field, filterType);
     searchParams.delete("search");
     setSearchParams(searchParams.toString());
   }
@@ -123,34 +139,20 @@ function FilterButtons() {
     setInputValue("");
     setIsOpen(false);
     setParams(filterType);
-    filterBookings(filterType, sortParam);
+    filterTable(filterBase, filterType, sortParam);
   }
+
   return (
     <div className="flex ml-4 h-[2.2rem] overflow-hidden rounded-lg border-2 border-indigo-100">
-      <FilterButton
-        handleClick={handleClick}
-        clickedFilter={currentFilter}
-        filterType="all"
-        filterBy="Alle"
-      />
-      <FilterButton
-        handleClick={handleClick}
-        clickedFilter={currentFilter}
-        filterType={BookingStatusTypes.CHECKEDIN}
-        filterBy="Eingecheckt"
-      />
-      <FilterButton
-        handleClick={handleClick}
-        filterType={BookingStatusTypes.CHECKEDOUT}
-        filterBy="Ausgecheckt"
-        clickedFilter={currentFilter}
-      />
-      <FilterButton
-        handleClick={handleClick}
-        filterType={BookingStatusTypes.UNCONFIRMED}
-        filterBy="Austehend"
-        clickedFilter={currentFilter}
-      />
+      {filterButtons.map((button: { filterBy: string; filterType: string }) => (
+        <FilterButton
+          key={button.filterType}
+          filterBy={button.filterBy}
+          filterType={button.filterType}
+          handleClick={handleClick}
+          clickedFilter={currentFilter}
+        />
+      ))}
     </div>
   );
 }
@@ -179,28 +181,16 @@ function FilterButton({
 }
 
 function SortInput() {
+  const { options, filterBase } = useContext(FilterContext) as IFilterContext;
   const [searchParams, setSearchParams] = useSearchParams();
-  const { sortBookings } = useFilter();
+  const { sortBookings } = useSort();
 
   const handleChange = (selectedOption: Option | null) => {
     if (!selectedOption) return;
     searchParams.set("sort", selectedOption.value);
     setSearchParams(searchParams.toString());
-
-    const filterSearch = searchParams.get("search");
-    const filterStatus = searchParams.get("status");
-    const filterParam = filterSearch
-      ? { field: "fullName", value: filterSearch, operator: "ilike" }
-      : { field: "status", value: filterStatus, operator: "eq" };
-    sortBookings(selectedOption.value, filterParam);
+    sortBookings(filterBase, selectedOption.value);
   };
-
-  const options: Option[] = [
-    { value: "startDate-desc", label: "Datum (Aufsteigend)" },
-    { value: "startDate-asc", label: "Datum (Absteigend)" },
-    { value: "totalPrice-desc", label: "Betrag (Aufsteigend)" },
-    { value: "totalPrice-asc", label: "Betrag (Absteigend)" },
-  ];
 
   const selectStyles: SelectProps = {
     primaryColor: "#6366f1",

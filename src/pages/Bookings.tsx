@@ -6,7 +6,7 @@ import { updateBookingsView } from "../features/bookings/bookingsSlice";
 import { BookingsViewType } from "../types/BookingTypes";
 import { useAppDispatch, useAppSelector } from "../store";
 import AddBooking from "../features/bookings/addBooking";
-import FilterBar from "../ui/FilterBar";
+import BookingsFilter from "../features/bookings/BookingsFilter";
 
 function Bookings() {
   const bookingsView = useAppSelector((state) => state.bookings.bookingsView);
@@ -24,7 +24,7 @@ function Bookings() {
         <Heading title="Buchungsübersicht" />
         <ToggleButtons onClick={handleClick} bookingsView={bookingsView} />
       </div>
-      {isTableView && <FilterBar filterField="status" />}
+      {isTableView && <BookingsFilter />}
 
       {!isTableView && (
         <Hint>

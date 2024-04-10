@@ -5,25 +5,41 @@ import {
   getCabins,
 } from "../../services/apiCabins";
 import { ICabinStatesTypes } from "../../types/cabinTypes";
-import { LoadingTypes } from "../../types/GlobalTypes";
+import {
+  IFilterTypes,
+  ISortTypes,
+  LoadingTypes,
+} from "../../types/GlobalTypes";
 import { FormValues } from "../../types/FormTypes";
 
 export const fetchCabins = createAsyncThunk(
   "cabins/fetchCabins",
-  async (_, { getState }) => {
+  async (
+    filterSortOptions?: {
+      sortBy: ISortTypes;
+      filter: IFilterTypes | null;
+    },
+    // @ts-expect-error getState may not be used after optional argument
+    { getState }
+  ) => {
     const { cabins } = getState() as {
       cabins: ICabinStatesTypes;
     };
+
+    const { sortBy, filter } = filterSortOptions || {};
 
     if (
       cabins.uploadingStatus === LoadingTypes.SUCCESS ||
       cabins.updatingStatus === LoadingTypes.SUCCESS ||
       cabins.deletingStatus === LoadingTypes.SUCCESS
     )
-      return await getCabins();
-    if (cabins?.cabins.length > 0) return cabins.cabins;
+      return await getCabins(filter as IFilterTypes, sortBy);
 
-    return await getCabins();
+    // if (bookings?.bookings.length > 0) {
+    //   return bookings.bookings;
+    // }
+
+    return await getCabins(filter as IFilterTypes, sortBy);
   }
 );
 

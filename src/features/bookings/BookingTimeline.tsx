@@ -17,15 +17,12 @@ export default function Component() {
       <Scheduler
         data={mockedSchedulerData}
         isLoading={isLoadingBookings}
-        // onRangeChange={(newRange) => console.log(newRange)}
         onTileClick={(clickedResource) => console.log(clickedResource)}
         onItemClick={(item) => console.log(item)}
         onFilterData={() => {
-          // Some filtering logic...
           setFilterButtonState(1);
         }}
         onClearFilterData={() => {
-          // Some clearing filters logic...
           setFilterButtonState(0);
         }}
         config={{

@@ -1,17 +1,16 @@
 import Table from "../../ui/Table";
 import BookingsRow from "./BookingsRow";
-import { IBookingStateTypes, IBookingTypes } from "../../types/BookingTypes";
+import { IBookingTypes } from "../../types/BookingTypes";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import Empty from "../../ui/Empty";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import Spinner from "../../ui/Spinner";
 import Menu from "../../ui/Menu";
-import { useAppSelector } from "../../store";
+
+import useBookings from "./useBookings";
 
 function BookingsTable() {
-  const { bookings, loadingStatus } = useAppSelector(
-    (state: { bookings: IBookingStateTypes }) => state.bookings
-  );
+  const { bookings, loadingStatus } = useBookings();
 
   const windowWidth = useWindowWidth();
 

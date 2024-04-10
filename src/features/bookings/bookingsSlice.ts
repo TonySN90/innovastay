@@ -11,12 +11,23 @@ import {
   getBookings,
 } from "../../services/apiBookings";
 import { FormValues } from "../../types/FormTypes";
-import { IFilterTypes, LoadingTypes } from "../../types/GlobalTypes";
+import {
+  IFilterTypes,
+  ISortTypes,
+  LoadingTypes,
+} from "../../types/GlobalTypes";
 
 export const fetchBookings = createAsyncThunk(
   "bookings/fetchBookings",
-  // @ts-expect-error getState may not be used after optional argument
-  async (filterSortOptions?, { getState }) => {
+
+  async (
+    filterSortOptions?: {
+      sortBy: ISortTypes;
+      filter: IFilterTypes | null;
+    },
+    // @ts-expect-error getState may not be used after optional argument
+    { getState }
+  ) => {
     const { bookings } = getState() as {
       bookings: IBookingStateTypes;
     };
@@ -34,8 +45,7 @@ export const fetchBookings = createAsyncThunk(
     //   return bookings.bookings;
     // }
 
-    const newBookings = await getBookings(filter as IFilterTypes, sortBy);
-    return newBookings;
+    return await getBookings(filter as IFilterTypes, sortBy);
   }
 );
 
@@ -78,7 +88,7 @@ export const deleteBookingThunk = createAsyncThunk(
 );
 
 const initialState: IBookingStateTypes = {
-  bookingsView: BookingsViewType.schedule,
+  bookingsView: BookingsViewType.table,
   loadingStatus: "idle",
   uploadingStatus: "idle",
   updatingStatus: "idle",

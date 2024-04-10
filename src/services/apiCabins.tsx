@@ -1,10 +1,39 @@
-import { PostgrestQueryBuilder } from "@supabase/postgrest-js";
+import {
+  PostgrestQueryBuilder,
+  PostgrestSingleResponse,
+} from "@supabase/postgrest-js";
 import { FormValues } from "../types/FormTypes";
 import supabase, { supabaseUrl } from "./supabase";
 import { ICabinTypes } from "../types/cabinTypes";
+import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
 
-export async function getCabins() {
-  const { data: cabins, error } = await supabase.from("cabins").select("*");
+export async function getCabins(
+  filter: IFilterTypes,
+  sortBy: ISortTypes | undefined
+) {
+  // const { data: cabins, error } = await supabase.from("cabins").select("*");
+
+  let query = supabase.from("cabins").select("*");
+
+  if (filter) {
+    const { field, value, operator } = filter;
+
+    if (operator === "eq") query = query.eq(field, value);
+    if (operator === "in" && Array.isArray(value))
+      query = query.in(
+        field,
+        value.map((guest: { id: number }) => guest.id)
+      );
+    if (operator === "ilike") query = query.ilike(field, `%${value}%`);
+  }
+
+  if (sortBy)
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
+
+  const { data: cabins, error }: PostgrestSingleResponse<ICabinTypes[]> =
+    await query;
 
   if (error) {
     console.error(error);
