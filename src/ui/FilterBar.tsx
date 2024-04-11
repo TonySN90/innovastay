@@ -58,6 +58,7 @@ function SearchInput() {
 
   function setParams(searchInput: string) {
     searchParams.delete("status");
+    searchParams.delete("page");
     if (searchInput === "") searchParams.delete("search");
     else searchParams.set("search", searchInput);
     setSearchParams(searchParams.toString());
@@ -127,6 +128,7 @@ function FilterButtons() {
   function setParams(filterType: string) {
     searchParams.set(filterBase.field, filterType);
     searchParams.delete("search");
+    searchParams.delete("page");
     setSearchParams(searchParams.toString());
   }
 
@@ -184,6 +186,7 @@ function SortInput() {
   const handleChange = (selectedOption: Option | null) => {
     if (!selectedOption) return;
     searchParams.set("sort", selectedOption.value);
+    searchParams.delete("page");
     setSearchParams(searchParams.toString());
     sortBookings(filterBase, selectedOption.value);
   };

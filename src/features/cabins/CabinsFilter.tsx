@@ -23,10 +23,10 @@ function CabinsFilter() {
   ];
 
   const options = [
-    { value: "price-desc", label: "Preis (Aufsteigend)" },
-    { value: "price-asc", label: "Preis (Absteigend)" },
-    { value: "discount-desc", label: "Angebote (Aufsteigend)" },
-    { value: "discount-asc", label: "Angebote (Absteigend)" },
+    { value: "price-desc", label: "Preis (Absteigend)" },
+    { value: "price-asc", label: "Preis (Aufsteigend)" },
+    { value: "discount-desc", label: "Angebote (Absteigend)" },
+    { value: "discount-asc", label: "Angebote (Aufsteigend)" },
   ];
 
   const filterBase = {

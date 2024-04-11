@@ -10,10 +10,10 @@ function BookingsFilter() {
   ];
 
   const options = [
-    { value: "startDate-desc", label: "Datum (Aufsteigend)" },
-    { value: "startDate-asc", label: "Datum (Absteigend)" },
-    { value: "totalPrice-desc", label: "Endbetrag (Aufsteigend)" },
-    { value: "totalPrice-asc", label: "Endbetrag (Absteigend)" },
+    { value: "startDate-desc", label: "Datum (Absteigend)" },
+    { value: "startDate-asc", label: "Datum (Aufsteigend)" },
+    { value: "totalPrice-desc", label: "Endbetrag (Absteigend)" },
+    { value: "totalPrice-asc", label: "Endbetrag (Aufsteigend)" },
   ];
 
   const filterBase = {

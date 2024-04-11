@@ -63,6 +63,7 @@ export interface IBookingStateTypes {
   bookings: IBookingTypes[];
   booking: IBookingTypes;
   selectedFilter: string;
+  count: number;
 }
 
 export interface ITotalsBoxProps {

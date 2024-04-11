@@ -38,7 +38,7 @@ export const fetchCabins = createAsyncThunk(
     // if (bookings?.bookings.length > 0) {
     //   return bookings.bookings;
     // }
-
+    console.log(sortBy, filter);
     return await getCabins(filter as IFilterTypes, sortBy);
   }
 );

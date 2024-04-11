@@ -8,9 +8,14 @@ import Spinner from "../../ui/Spinner";
 import Menu from "../../ui/Menu";
 
 import useBookings from "./useBookings";
+import Pagination from "../../ui/Pagination";
+import { useAppSelector } from "../../store";
 
 function BookingsTable() {
   const { bookings, loadingStatus } = useBookings();
+  const { count, currentFilter, currentSort } = useAppSelector(
+    (state) => state.bookings
+  );
 
   const windowWidth = useWindowWidth();
 
@@ -56,6 +61,14 @@ function BookingsTable() {
             )}
           />
         </Table>
+        <Table.Footer>
+          <Pagination
+            count={count}
+            filter={currentFilter}
+            sortBy={currentSort}
+            rowsPerPage={bookings.length}
+          />
+        </Table.Footer>
       </Menu>
     </>
   );

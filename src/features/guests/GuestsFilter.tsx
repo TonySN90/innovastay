@@ -9,8 +9,8 @@ function GuestsFilter() {
   const options = [
     { value: "fullName-asc", label: "Name (Alphabetisch)" },
     { value: "city-asc", label: "Stadt (Alphabetisch)" },
-    { value: "created_at-asc", label: "Gast seit (Absteigend)" },
-    { value: "created_at-desc", label: "Gast seit (Aufsteigend)" },
+    { value: "created_at-asc", label: "Gast seit (Aufsteigend)" },
+    { value: "created_at-desc", label: "Gast seit (Absteigend)" },
   ];
 
   const filterBase = {

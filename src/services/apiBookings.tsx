@@ -7,12 +7,15 @@ import { IBookingTypes } from "../types/BookingTypes";
 import supabase from "./supabase";
 import { FormValues } from "../types/FormTypes";
 import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
+import { PAGE_SIZE } from "../utils/contants";
 
 export async function getBookings(
   filter: IFilterTypes,
-  sortBy: ISortTypes | undefined
+  sortBy: ISortTypes | undefined,
+  page = 1
 ): Promise<IBookingTypes[] | null> {
   // Query
+
   let query = supabase
     .from("bookings")
     .select(
@@ -39,8 +42,20 @@ export async function getBookings(
       ascending: sortBy.direction === "asc",
     });
 
-  const { data: bookings, error }: PostgrestSingleResponse<IBookingTypes[]> =
-    await query;
+  // Pagination
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    console.log(from, to);
+
+    query = query.range(from, to);
+  }
+
+  const {
+    data: bookings,
+    error,
+    count,
+  }: PostgrestSingleResponse<IBookingTypes[]> = await query;
 
   if (error) {
     console.error(error);
@@ -49,7 +64,7 @@ export async function getBookings(
     );
   }
 
-  return bookings;
+  return { bookings, count };
 }
 export async function getBooking(bookingId: number) {
   const { data: booking, error } = await supabase

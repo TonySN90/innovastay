@@ -28,7 +28,8 @@ function useFilter() {
         direction: "desc",
       };
     }
-    category === "bookings" && dispatch(fetchBookings({ filter, sortBy }));
+    category === "bookings" &&
+      dispatch(fetchBookings({ filter, sortBy, page: 1 }));
     category === "cabins" && dispatch(fetchCabins({ filter, sortBy }));
   }
 
@@ -49,7 +50,8 @@ function useFilter() {
     const [field, direction] = sortParam.split("-");
     const sortBy = { field, direction };
 
-    if (category === "bookings") dispatch(fetchBookings({ filter, sortBy }));
+    if (category === "bookings")
+      dispatch(fetchBookings({ filter, sortBy, page: 1 }));
     if (category === "guests") dispatch(fetchGuests({ filter, sortBy }));
   }
 

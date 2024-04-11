@@ -16,6 +16,7 @@ import {
   ISortTypes,
   LoadingTypes,
 } from "../../types/GlobalTypes";
+import { setCount } from "./bookingsSlice";
 
 export const fetchBookings = createAsyncThunk(
   "bookings/fetchBookings",
@@ -24,28 +25,36 @@ export const fetchBookings = createAsyncThunk(
     filterSortOptions?: {
       sortBy: ISortTypes;
       filter: IFilterTypes | null;
+      page: number;
     },
     // @ts-expect-error getState may not be used after optional argument
-    { getState }
+    { getState, dispatch }
   ) => {
-    const { bookings } = getState() as {
+    const { bookings: bookingsState } = getState() as {
       bookings: IBookingStateTypes;
     };
 
-    const { sortBy, filter } = filterSortOptions || {};
+    const { sortBy, filter, page } = filterSortOptions || {};
 
     if (
-      bookings.uploadingStatus === LoadingTypes.SUCCESS ||
-      bookings.updatingStatus === LoadingTypes.SUCCESS ||
-      bookings.deletingStatus === LoadingTypes.SUCCESS
-    )
-      return await getBookings(filter as IFilterTypes, sortBy);
+      bookingsState.uploadingStatus === LoadingTypes.SUCCESS ||
+      bookingsState.updatingStatus === LoadingTypes.SUCCESS ||
+      bookingsState.deletingStatus === LoadingTypes.SUCCESS
+    ) {
+      dispatch(setCount(count));
+      return await getBookings(filter as IFilterTypes, sortBy, page);
+    }
 
-    // if (bookings?.bookings.length > 0) {
-    //   return bookings.bookings;
-    // }
+    const { bookings, count } = await getBookings(
+      filter as IFilterTypes,
+      sortBy,
+      page
+    );
+    dispatch(setCurrentFilter(filter ? filter : null));
+    dispatch(setCurrentSort(sortBy ? sortBy : null));
+    dispatch(setCount(count));
 
-    return await getBookings(filter as IFilterTypes, sortBy);
+    return bookings;
   }
 );
 
@@ -97,6 +106,10 @@ const initialState: IBookingStateTypes = {
   bookings: [],
   booking: {} as IBookingTypes,
   selectedFilter: "all",
+  currentFilter: {},
+  currentSort: {},
+  page: 1,
+  count: 0,
 };
 
 const bookingsSlice = createSlice({
@@ -121,6 +134,18 @@ const bookingsSlice = createSlice({
 
     setBookings: (state, action: PayloadAction<IBookingTypes[]>) => {
       state.bookings = action.payload;
+    },
+
+    setCount: (state, action: PayloadAction<IBookingStateTypes>) => {
+      state.count = action.payload;
+    },
+
+    setCurrentFilter: (state, action: PayloadAction<IFilterTypes>) => {
+      state.currentFilter = action.payload;
+    },
+
+    setCurrentSort: (state, action: PayloadAction<ISortTypes>) => {
+      state.currentSort = action.payload;
     },
 
     setLoadingStatus: (state, action) => {
@@ -192,6 +217,9 @@ export const {
   resetDeletingStatus,
   resetUpdatingStatus,
   setBookings,
+  setCount,
+  setCurrentFilter,
+  setCurrentSort,
   setLoadingStatus,
 } = bookingsSlice.actions;
 export default bookingsSlice.reducer;
