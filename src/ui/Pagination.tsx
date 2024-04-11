@@ -1,22 +1,8 @@
 import { useSearchParams } from "react-router-dom";
-import { fetchBookings } from "../features/bookings/bookingsSlice";
-import { useAppDispatch } from "../store";
-import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
 import Button from "./Button";
 import { PAGE_SIZE } from "../utils/contants";
 
-function Pagination({
-  count,
-  filter,
-  sortBy,
-  rowsPerPage,
-}: {
-  count: number;
-  filter: IFilterTypes;
-  sortBy: ISortTypes;
-  rowsPerPage: number;
-}) {
-  const dispatch = useAppDispatch();
+function Pagination({ count }: { count: number }) {
   const [searchParams, setSearchParams] = useSearchParams();
   let page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
   const pages = Math.ceil(count / PAGE_SIZE);
@@ -30,14 +16,12 @@ function Pagination({
     if (page === 1) return;
     page--;
     setParams(page);
-    dispatch(fetchBookings({ filter, sortBy, page }));
   }
 
   function handleClickNext() {
     if (page === pages) return;
     page++;
     setParams(page);
-    dispatch(fetchBookings({ filter, sortBy, page }));
   }
 
   const from = page * PAGE_SIZE - 2;

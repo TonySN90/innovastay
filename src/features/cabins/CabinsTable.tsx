@@ -7,6 +7,7 @@ import Empty from "../../ui/Empty";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import Spinner from "../../ui/Spinner";
 import Menu from "../../ui/Menu";
+import Pagination from "../../ui/Pagination";
 
 function CabinsTable() {
   const windowWidth = useWindowWidth();
@@ -46,6 +47,9 @@ function CabinsTable() {
           )}
         />
       </Table>
+      <Table.Footer>
+        <Pagination count={8} />
+      </Table.Footer>
     </Menu>
   );
 }

@@ -8,8 +8,6 @@ import {
   SelectProps,
 } from "../types/GlobalTypes";
 import { useSearchParams } from "react-router-dom";
-import useFilter from "../hooks/useFilter";
-import useSort from "../hooks/useSort";
 
 const FilterContext = createContext({} as object);
 
@@ -49,12 +47,12 @@ function FilterBar({
 export default FilterBar;
 
 function SearchInput() {
-  const { inputValue, setInputValue, isOpen, setIsOpen, filterBase } =
-    useContext(FilterContext) as IFilterContext;
+  const { inputValue, setInputValue, isOpen, setIsOpen } = useContext(
+    FilterContext
+  ) as IFilterContext;
 
   const [searchParams, setSearchParams] = useSearchParams();
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const { filterGuests } = useFilter();
 
   function setParams(searchInput: string) {
     searchParams.delete("status");
@@ -69,16 +67,11 @@ function SearchInput() {
     setInputValue(searchInput);
     if (searchInput === "") setIsOpen(true);
 
-    setParams(searchInput);
-    const sortParam = searchParams.get("sort");
-
+    // Timeout
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
-    timerRef.current = setTimeout(
-      () => filterGuests(filterBase, searchInput, sortParam),
-      600
-    );
+    timerRef.current = setTimeout(() => setParams(searchInput), 600);
   };
 
   useEffect(() => {
@@ -123,7 +116,6 @@ function FilterButtons() {
   ) as IFilterContext;
   const [searchParams, setSearchParams] = useSearchParams();
   const currentFilter = searchParams.get(filterBase.field) || "all";
-  const { filterTable } = useFilter();
 
   function setParams(filterType: string) {
     searchParams.set(filterBase.field, filterType);
@@ -133,11 +125,9 @@ function FilterButtons() {
   }
 
   function handleClick(filterType: string) {
-    const sortParam = searchParams.get("sort");
     setInputValue("");
     setIsOpen(false);
     setParams(filterType);
-    filterTable(filterBase, filterType, sortParam);
   }
 
   return (
@@ -179,16 +169,14 @@ function FilterButton({
 }
 
 function SortInput() {
-  const { options, filterBase } = useContext(FilterContext) as IFilterContext;
+  const { options } = useContext(FilterContext) as IFilterContext;
   const [searchParams, setSearchParams] = useSearchParams();
-  const { sortBookings } = useSort();
 
   const handleChange = (selectedOption: Option | null) => {
     if (!selectedOption) return;
     searchParams.set("sort", selectedOption.value);
     searchParams.delete("page");
     setSearchParams(searchParams.toString());
-    sortBookings(filterBase, selectedOption.value);
   };
 
   const selectStyles: SelectProps = {

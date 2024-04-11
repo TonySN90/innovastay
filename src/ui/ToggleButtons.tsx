@@ -2,9 +2,18 @@ import { MdOutlineCalendarMonth } from "react-icons/md";
 import { BookingsViewType } from "../types/BookingTypes";
 import { IToggleButtonsTypes } from "../types/GlobalTypes";
 import { CiViewTable } from "react-icons/ci";
+import { useSearchParams } from "react-router-dom";
 
 function ToggleButtons({ onClick, bookingsView }: IToggleButtonsTypes) {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   function handleClick(type: BookingsViewType) {
+    if (type === BookingsViewType.schedule) {
+      searchParams.delete("search");
+      searchParams.delete("status");
+      searchParams.delete("sort");
+      setSearchParams(searchParams.toString());
+    }
     onClick(type);
   }
 

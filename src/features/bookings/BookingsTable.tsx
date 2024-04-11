@@ -13,9 +13,7 @@ import { useAppSelector } from "../../store";
 
 function BookingsTable() {
   const { bookings, loadingStatus } = useBookings();
-  const { count, currentFilter, currentSort } = useAppSelector(
-    (state) => state.bookings
-  );
+  const { count } = useAppSelector((state) => state.bookings);
 
   const windowWidth = useWindowWidth();
 
@@ -62,12 +60,7 @@ function BookingsTable() {
           />
         </Table>
         <Table.Footer>
-          <Pagination
-            count={count}
-            filter={currentFilter}
-            sortBy={currentSort}
-            rowsPerPage={bookings.length}
-          />
+          <Pagination count={count} />
         </Table.Footer>
       </Menu>
     </>

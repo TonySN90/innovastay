@@ -3,16 +3,40 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { IBookingStateTypes } from "../../types/BookingTypes";
 import { fetchBookings } from "./bookingsSlice";
 import { SchedulerData } from "@bitnoi.se/react-scheduler";
+import { useSearchParams } from "react-router-dom";
 
 function useBookings() {
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
   const { bookings, loadingStatus } = useAppSelector(
     (state: { bookings: IBookingStateTypes }) => state.bookings
   );
 
   useEffect(() => {
-    dispatch(fetchBookings());
-  }, [dispatch]);
+    // Filter
+    const statusValue = searchParams.get("status");
+    const searchValue = searchParams.get("search");
+
+    let filter;
+    if (searchValue)
+      filter = { field: "fullName", value: searchValue, operator: "ilike" };
+    if (statusValue && statusValue !== "all")
+      filter = { field: "status", value: statusValue, operator: "eq" };
+
+    // Sort
+    const sortValue = searchParams.get("sort") || "startDate-desc";
+    const [field, direction] = sortValue.split("-");
+    const sortBy = { field, direction };
+
+    // Page
+    // const page = !searchParams.get("page")
+    //   ? 1
+    //   : Number(searchParams.get("page"));
+    const page = null;
+    // console.log(filter);
+
+    dispatch(fetchBookings({ filter, sortBy, page }));
+  }, [dispatch, searchParams]);
 
   function convertData() {
     const roomBookingsMap = new Map();

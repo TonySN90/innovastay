@@ -12,7 +12,7 @@ import { PAGE_SIZE } from "../utils/contants";
 export async function getBookings(
   filter: IFilterTypes,
   sortBy: ISortTypes | undefined,
-  page = 1
+  page
 ): Promise<IBookingTypes[] | null> {
   // Query
 

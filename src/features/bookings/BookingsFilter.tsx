@@ -19,7 +19,6 @@ function BookingsFilter() {
   const filterBase = {
     category: "bookings",
     field: "status",
-    defaultSortField: "startDate",
   };
 
   return (
