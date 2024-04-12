@@ -5,7 +5,7 @@ import useBookings from "./useBookings";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import Spinner from "../../ui/Spinner";
 
-export default function Component() {
+function BookingTimeline() {
   const [filterButtonState, setFilterButtonState] = useState(0);
   const { mockedSchedulerData, loadingStatus } = useBookings();
   const isLoadingBookings = loadingStatus === LoadingTypes.LOADING;
@@ -33,3 +33,4 @@ export default function Component() {
     </section>
   );
 }
+export default BookingTimeline;

@@ -12,6 +12,13 @@ function ToggleButtons({ onClick, bookingsView }: IToggleButtonsTypes) {
       searchParams.delete("search");
       searchParams.delete("status");
       searchParams.delete("sort");
+      searchParams.set("schedular", "all");
+      setSearchParams(searchParams.toString());
+    }
+
+    if (type === BookingsViewType.table) {
+      searchParams.delete("schedular");
+      searchParams.set("status", "all");
       setSearchParams(searchParams.toString());
     }
     onClick(type);

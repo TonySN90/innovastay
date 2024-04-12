@@ -14,6 +14,7 @@ function useBookings() {
 
   useEffect(() => {
     // Filter
+    const schedularView = searchParams.get("schedular");
     const statusValue = searchParams.get("status");
     const searchValue = searchParams.get("search");
 
@@ -39,7 +40,8 @@ function useBookings() {
       ? 1
       : Number(searchParams.get("page"));
 
-    dispatch(fetchBookings({ filter, sortBy, page }));
+    if (!schedularView) dispatch(fetchBookings({ filter, sortBy, page }));
+    else dispatch(fetchBookings());
   }, [dispatch, searchParams]);
 
   function convertData() {
