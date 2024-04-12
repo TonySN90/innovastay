@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IGuestStatesTypes } from "../../types/GuestTypes";
 import {
   createUpdateGuest,
@@ -6,17 +6,55 @@ import {
   getGuests,
 } from "../../services/apiGuests";
 import { FormValues } from "../../types/FormTypes";
-import { IFilterTypes, ISortTypes } from "../../types/GlobalTypes";
+import {
+  IFilterTypes,
+  ISortTypes,
+  LoadingTypes,
+} from "../../types/GlobalTypes";
 
 export const fetchGuests = createAsyncThunk(
   "guests/fetchGuests",
-  async (filterSortOptions?: {
-    sortBy: ISortTypes;
-    filter: IFilterTypes | null;
-  }) => {
-    const { sortBy, filter } = filterSortOptions || {};
+  async (
+    filterSortOptions?: {
+      sortBy: ISortTypes;
+      filter: IFilterTypes | null;
+      page: number | null;
+    },
+    // @ts-expect-error getState may not be used after optional argument
+    { getState, dispatch }
+  ) => {
+    const { sortBy, filter, page } = filterSortOptions || {};
+    const { guests: guestsState } = getState() as {
+      guests: IGuestStatesTypes;
+    };
 
-    return await getGuests(filter as IFilterTypes, sortBy);
+    if (
+      guestsState.uploadingStatus === LoadingTypes.SUCCESS ||
+      guestsState.updatingStatus === LoadingTypes.SUCCESS ||
+      guestsState.deletingStatus === LoadingTypes.SUCCESS
+    ) {
+      const { guests, count } = await getGuests(
+        filter as IFilterTypes,
+        sortBy,
+        page as number
+      );
+
+      if (count !== null) {
+        dispatch(setCount(count));
+      }
+      return guests;
+    }
+
+    const { guests, count } = await getGuests(
+      filter as IFilterTypes,
+      sortBy,
+      page as number
+    );
+
+    if (count !== null) {
+      dispatch(setCount(count));
+    }
+    return guests;
   }
 );
 
@@ -57,6 +95,7 @@ const initialState = {
   deletingStatus: "idle",
   error: "",
   guests: [],
+  count: 0,
 } as IGuestStatesTypes;
 
 const guestsSlice = createSlice({
@@ -73,6 +112,9 @@ const guestsSlice = createSlice({
 
     resetDeletingStatus: (state) => {
       state.deletingStatus = "idle";
+    },
+    setCount: (state, action: PayloadAction<number>) => {
+      state.count = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -131,4 +173,5 @@ export const {
   resetUploadingStatus,
   resetDeletingStatus,
   resetUpdatingStatus,
+  setCount,
 } = guestsSlice.actions;

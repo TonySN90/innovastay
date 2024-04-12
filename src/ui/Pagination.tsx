@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import Button from "./Button";
-import { PAGE_SIZE } from "../utils/contants";
+import { PAGE_SIZE } from "../utils/constants";
 
 function Pagination({ count }: { count: number }) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,8 +17,6 @@ function Pagination({ count }: { count: number }) {
     else page++;
     setParams(page);
   }
-
-  console.log(count);
 
   const from = (page - 1) * PAGE_SIZE + 1;
   const to = from + PAGE_SIZE - 1;

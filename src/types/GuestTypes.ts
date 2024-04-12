@@ -20,4 +20,5 @@ export interface IGuestStatesTypes {
   updatingStatus: "idle" | "success" | "loading" | "error";
   error: string;
   guests: IGuestTypes[];
+  count: number;
 }

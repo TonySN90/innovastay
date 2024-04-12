@@ -1,34 +1,43 @@
+import { PostgrestResponse } from "@supabase/supabase-js";
 import { FormValues } from "../types/FormTypes";
 import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
 import { IGuestTypes } from "../types/GuestTypes";
+import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 
-// Get Guests ----------------------------------------
+// Get Guests --------------------------------------------
 export async function getGuests(
   filter: IFilterTypes,
-  sortBy: ISortTypes | undefined
+  sortBy: ISortTypes | undefined,
+  page: number | null
 ) {
-  let query = supabase.from("guests").select("*");
+  let query = supabase.from("guests").select("*", { count: "exact" });
 
   // Filter
   if (filter) {
     const { field, value, operator } = filter;
-
-    if (operator === "eq") query = query.eq(field, value);
-    if (operator === "in" && Array.isArray(value))
-      query = query.in(
-        field,
-        value.map((guest: { id: number }) => guest.id)
-      );
     if (operator === "ilike") query = query.ilike(field, `%${value}%`);
+    if (operator === "eq") query = query.eq(field, value);
   }
 
+  // Sort
   if (sortBy)
     query = query.order(sortBy.field, {
       ascending: sortBy.direction === "asc",
     });
 
-  const { data: guests, error } = await query;
+  // Page
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const {
+    data: guests,
+    error,
+    count,
+  } = (await query) as PostgrestResponse<IGuestTypes>;
 
   if (error) {
     throw new Error(
@@ -36,7 +45,7 @@ export async function getGuests(
     );
   }
 
-  return guests;
+  return { guests, count };
 }
 
 // Create or Update Guest --------------------------------

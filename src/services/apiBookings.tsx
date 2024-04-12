@@ -2,7 +2,7 @@ import { IBookingTypes } from "../types/BookingTypes";
 import supabase from "./supabase";
 import { FormValues } from "../types/FormTypes";
 import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
-import { PAGE_SIZE } from "../utils/contants";
+import { PAGE_SIZE } from "../utils/constants";
 import {
   // @ts-expect-error type error from supabase
   PostgrestQueryBuilder,
@@ -27,11 +27,6 @@ export async function getBookings(
     const { field, value, operator } = filter;
 
     if (operator === "eq") query = query.eq(field, value);
-    if (operator === "in" && Array.isArray(value))
-      query = query.in(
-        field,
-        value.map((guest: { id: number }) => guest.id)
-      );
     if (operator === "ilike") query = query.ilike(field, `%${value}%`);
   }
 

@@ -14,29 +14,26 @@ function useGuests() {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    // Filter
-    const searchValue = searchParams.get("search");
-
+    const filterValue = searchParams.get("search");
     let filter;
-    if (searchValue)
-      filter = { field: "fullName", value: searchValue, operator: "ilike" };
+    if (filterValue) {
+      filter = { field: "fullName", value: "dan", operator: "ilike" };
+    } else {
+      filter = null;
+    }
 
     // Sort
-    const sortValue = searchParams.get("sort") || "fullName-asc";
+    const sortValue = searchParams.get("sort") || "fullName-desc";
     const [field, direction] = sortValue.split("-");
     const sortBy = { field, direction };
 
     // Page
-    // const page = !searchParams.get("page")
-    //   ? 1
-    //   : Number(searchParams.get("page"));
-    const page = null;
-    dispatch(fetchGuests({ filter, sortBy }));
-  }, [dispatch, searchParams]);
+    const page = !searchParams.get("page")
+      ? 1
+      : Number(searchParams.get("page"));
 
-  // useEffect(() => {
-  //   dispatch(fetchGuests());
-  // }, [dispatch]);
+    dispatch(fetchGuests({ filter, sortBy, page }));
+  }, [dispatch, searchParams]);
 
   if (error) {
     toast.error(`Fehler beim Laden der Gastdaten.`);
