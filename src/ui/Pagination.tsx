@@ -18,6 +18,8 @@ function Pagination({ count }: { count: number }) {
     setParams(page);
   }
 
+  console.log(count);
+
   const from = (page - 1) * PAGE_SIZE + 1;
   const to = from + PAGE_SIZE - 1;
 

@@ -1,18 +1,22 @@
 import {
   PostgrestQueryBuilder,
-  PostgrestSingleResponse,
+  PostgrestResponse,
 } from "@supabase/postgrest-js";
 import { FormValues } from "../types/FormTypes";
 import supabase, { supabaseUrl } from "./supabase";
 import { ICabinTypes } from "../types/cabinTypes";
 import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
+import { PAGE_SIZE } from "../utils/contants";
 
 export async function getCabins(
   filter: IFilterTypes,
-  sortBy: ISortTypes | undefined
+  sortBy: ISortTypes | undefined,
+  page: number | null
 ) {
-  let query = supabase.from("cabins").select("*");
+  // Query
+  let query = supabase.from("cabins").select("*", { count: "exact" });
 
+  // Filter
   if (filter) {
     const { field, value, operator } = filter;
 
@@ -24,13 +28,24 @@ export async function getCabins(
       );
   }
 
+  // Sort
   if (sortBy)
     query = query.order(sortBy.field, {
       ascending: sortBy.direction === "asc",
     });
 
-  const { data: cabins, error }: PostgrestSingleResponse<ICabinTypes[]> =
-    await query;
+  // Page
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const {
+    data: cabins,
+    error,
+    count,
+  } = (await query) as PostgrestResponse<ICabinTypes>;
 
   if (error) {
     console.error(error);
@@ -39,7 +54,7 @@ export async function getCabins(
     );
   }
 
-  return cabins;
+  return { cabins, count };
 }
 
 export async function createUpdateCabin(

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   createUpdateCabin,
   deleteCabin,
@@ -16,29 +16,40 @@ export const fetchCabins = createAsyncThunk(
   "cabins/fetchCabins",
   async (
     filterSortOptions?: {
-      sortBy: ISortTypes;
       filter: IFilterTypes | null;
+      sortBy: ISortTypes;
+      page: number | null;
     },
     // @ts-expect-error getState may not be used after optional argument
-    { getState }
+    { getState, dispatch }
   ) => {
-    const { cabins } = getState() as {
+    const { cabins: cabinsState } = getState() as {
       cabins: ICabinStatesTypes;
     };
 
-    const { sortBy, filter } = filterSortOptions || {};
+    const { sortBy, filter, page } = filterSortOptions || {};
 
     if (
-      cabins.uploadingStatus === LoadingTypes.SUCCESS ||
-      cabins.updatingStatus === LoadingTypes.SUCCESS ||
-      cabins.deletingStatus === LoadingTypes.SUCCESS
-    )
-      return await getCabins(filter as IFilterTypes, sortBy);
+      cabinsState.uploadingStatus === LoadingTypes.SUCCESS ||
+      cabinsState.updatingStatus === LoadingTypes.SUCCESS ||
+      cabinsState.deletingStatus === LoadingTypes.SUCCESS
+    ) {
+      const { cabins, count } = await getCabins(
+        filter as IFilterTypes,
+        sortBy,
+        page as number
+      );
+      if (count !== null) dispatch(setCount(count));
+      return cabins;
+    }
+    const { cabins, count } = await getCabins(
+      filter as IFilterTypes,
+      sortBy,
+      page as number
+    );
 
-    // if (bookings?.bookings.length > 0) {
-    //   return bookings.bookings;
-    // }
-    return await getCabins(filter as IFilterTypes, sortBy);
+    if (count !== null) dispatch(setCount(count));
+    return cabins;
   }
 );
 
@@ -79,6 +90,7 @@ const initialState = {
   deletingStatus: "idle",
   error: "",
   cabins: [],
+  count: 0,
 } as ICabinStatesTypes;
 
 const cabinsSlice = createSlice({
@@ -95,6 +107,10 @@ const cabinsSlice = createSlice({
 
     resetDeletingStatus: (state) => {
       state.deletingStatus = "idle";
+    },
+
+    setCount: (state, action: PayloadAction<number>) => {
+      state.count = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -148,5 +164,9 @@ const cabinsSlice = createSlice({
 });
 
 export default cabinsSlice.reducer;
-export const { resetStatus, resetUpdatingStatus, resetDeletingStatus } =
-  cabinsSlice.actions;
+export const {
+  resetStatus,
+  resetUpdatingStatus,
+  resetDeletingStatus,
+  setCount,
+} = cabinsSlice.actions;

@@ -8,13 +8,14 @@ import { LoadingTypes } from "../../types/GlobalTypes";
 import Spinner from "../../ui/Spinner";
 import Menu from "../../ui/Menu";
 import Pagination from "../../ui/Pagination";
+import { useAppSelector } from "../../store";
 
 function CabinsTable() {
   const windowWidth = useWindowWidth();
   const { cabins, loadingStatus } = useCabins();
+  const { count } = useAppSelector((state) => state.cabins);
 
   if (loadingStatus === LoadingTypes.LOADING) return <Spinner />;
-
   if (!cabins.length) return <Empty resourceName="cabins" />;
 
   return (
@@ -48,7 +49,7 @@ function CabinsTable() {
         />
       </Table>
       <Table.Footer>
-        <Pagination count={8} />
+        <Pagination count={count} />
       </Table.Footer>
     </Menu>
   );

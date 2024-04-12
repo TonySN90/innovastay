@@ -18,4 +18,5 @@ export interface ICabinStatesTypes {
   deletingStatus: "idle" | "success" | "loading" | "error";
   error: string;
   cabins: ICabinTypes[];
+  count: number;
 }

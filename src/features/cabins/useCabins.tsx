@@ -13,11 +13,12 @@ function useCabins() {
 
   useEffect(() => {
     // Filter
-    const statusValue = searchParams.get("category");
+    const filterValue = searchParams.get("category");
 
     let filter;
-    if (statusValue && statusValue !== "all")
-      filter = { field: "category", value: statusValue, operator: "eq" };
+    if (filterValue && filterValue !== "all")
+      filter = { field: "category", value: filterValue, operator: "eq" };
+    else filter = null;
 
     // Sort
     const sortValue = searchParams.get("sort") || "name-asc";
@@ -25,11 +26,9 @@ function useCabins() {
     const sortBy = { field, direction };
 
     // Page
-    // const page = !searchParams.get("page")
-    //   ? 1
-    //   : Number(searchParams.get("page"));
-    const page = null;
-    // console.log(filter);
+    const page = !searchParams.get("page")
+      ? 1
+      : Number(searchParams.get("page"));
 
     dispatch(fetchCabins({ filter, sortBy, page }));
   }, [dispatch, searchParams]);

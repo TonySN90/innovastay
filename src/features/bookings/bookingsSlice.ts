@@ -44,7 +44,10 @@ export const fetchBookings = createAsyncThunk(
         sortBy,
         page as number
       );
-      dispatch(setCount(count));
+
+      if (count !== null) {
+        dispatch(setCount(count));
+      }
       return bookings;
     }
 
@@ -53,8 +56,9 @@ export const fetchBookings = createAsyncThunk(
       sortBy,
       page as number
     );
-    dispatch(setCount(count));
-
+    if (count !== null) {
+      dispatch(setCount(count));
+    }
     return bookings;
   }
 );

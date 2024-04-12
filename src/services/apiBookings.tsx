@@ -1,12 +1,13 @@
-import {
-  // @ts-expect-error type error from supabase
-  PostgrestQueryBuilder,
-} from "@supabase/supabase-js";
 import { IBookingTypes } from "../types/BookingTypes";
 import supabase from "./supabase";
 import { FormValues } from "../types/FormTypes";
 import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
 import { PAGE_SIZE } from "../utils/contants";
+import {
+  // @ts-expect-error type error from supabase
+  PostgrestQueryBuilder,
+  PostgrestResponse,
+} from "@supabase/supabase-js";
 
 export async function getBookings(
   filter: IFilterTypes | undefined,
@@ -14,16 +15,14 @@ export async function getBookings(
   page: number
 ) {
   // Query
-
   let query = supabase
     .from("bookings")
     .select(
       "id, created_at, startDate, endDate, numNights, numGuests, status, cabinPrice, extrasPrice, totalPrice, isPaid, hasBreakfast, cabins(name, id, image, category, price), guests(id, fullName, address, postalCode, city, country, email, phone, information)",
       { count: "exact" }
-    ) as PostgrestQueryBuilder<IBookingTypes[]>;
+    );
 
   // Filter
-
   if (filter) {
     const { field, value, operator } = filter;
 
@@ -36,6 +35,7 @@ export async function getBookings(
     if (operator === "ilike") query = query.ilike(field, `%${value}%`);
   }
 
+  // Sort
   if (sortBy)
     query = query.order(sortBy.field, {
       ascending: sortBy.direction === "asc",
@@ -48,7 +48,11 @@ export async function getBookings(
     query = query.range(from, to);
   }
 
-  const { data: bookings, error, count } = await query;
+  const {
+    data: bookings,
+    error,
+    count,
+  } = (await query) as PostgrestResponse<IBookingTypes>;
 
   if (error) {
     console.error(error);
@@ -59,6 +63,7 @@ export async function getBookings(
 
   return { bookings, count };
 }
+
 export async function getBooking(bookingId: number) {
   const { data: booking, error } = await supabase
     .from("bookings")
@@ -82,14 +87,12 @@ export async function createUpdateBooking(
 ) {
   // Create Query
 
-  let query = supabase.from("bookings") as PostgrestQueryBuilder<
-    IBookingTypes[]
-  >;
+  let query = supabase.from("bookings") as PostgrestQueryBuilder<IBookingTypes>;
 
-  // if create new booking
+  // create new booking
   if (!bookingId) query = query.insert([newBooking]);
 
-  // if update existing booking
+  // update existing booking
   if (bookingId) query = query.update({ ...newBooking }).eq("id", bookingId);
 
   // Execute Query
@@ -122,20 +125,3 @@ export async function deleteBooking(bookingId: number) {
 
   return data;
 }
-
-// export async function getBookingsByFilter(filter: string, status: string) {
-//   const { data: bookings, error } = await supabase
-//     .from("bookings")
-//     .select(
-//       "id, created_at, startDate, endDate, numNights, numGuests, status, cabinPrice, extrasPrice, totalPrice, isPaid, hasBreakfast, cabins(name, id, image, category, price), guests(id, fullName, address, postalCode, city, country, email, phone, information)",
-//       { count: "exact" }
-//     )
-//     .eq(filter, status);
-
-//   if (error) {
-//     throw new Error(
-//       `Fehler beim Abrufen der gefilterten Buchungen. ${error.message}: ${error.details}`
-//     );
-//   }
-//   return bookings;
-// }
