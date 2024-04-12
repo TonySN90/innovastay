@@ -8,7 +8,7 @@ import Table from "../../ui/Table";
 import GuestsRow from "./GuestsRow";
 import useGuests from "./useGuests";
 
-function CabinsTable() {
+function GuestsTable() {
   const windowWidth = useWindowWidth();
   const { guests, loadingStatus } = useGuests();
 
@@ -49,4 +49,4 @@ function CabinsTable() {
   );
 }
 
-export default CabinsTable;
+export default GuestsTable;

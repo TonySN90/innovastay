@@ -4,29 +4,41 @@ import { FormValues } from "../../types/FormTypes";
 import { LoadingTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
-import {
-  fetchBookings,
-  resetUploadingStatus,
-  uploadBookingThunk,
-} from "./bookingsSlice";
+import { resetUploadingStatus, uploadBookingThunk } from "./bookingsSlice";
 import { IBookingStateTypes } from "../../types/BookingTypes";
+import { useSearchParams } from "react-router-dom";
 
 function useCreateBooking(reset?: () => void, onCloseModal?: () => void) {
   const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { uploadingStatus, error } = useAppSelector(
     (state: { bookings: IBookingStateTypes }) => state.bookings
   );
 
   useEffect(() => {
+    function setParams() {
+      searchParams.delete("search");
+      searchParams.delete("pages");
+      searchParams.set("status", "all");
+      setSearchParams(searchParams.toString());
+    }
+
     if (uploadingStatus === LoadingTypes.SUCCESS) {
       if (reset) reset();
       if (onCloseModal) onCloseModal();
-      dispatch(fetchBookings());
+      setParams();
       dispatch(resetUploadingStatus());
       toast.success("Buchungsdaten erfolgreich hochgeladen.");
     }
-  }, [uploadingStatus, reset, onCloseModal, dispatch]);
+  }, [
+    uploadingStatus,
+    reset,
+    onCloseModal,
+    dispatch,
+    setSearchParams,
+    searchParams,
+  ]);
 
   function uploadNewBooking(newBooking: FormValues) {
     dispatch(uploadBookingThunk(newBooking));

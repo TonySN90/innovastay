@@ -1,5 +1,4 @@
 import {
-  PostgrestSingleResponse,
   // @ts-expect-error type error from supabase
   PostgrestQueryBuilder,
 } from "@supabase/supabase-js";
@@ -10,10 +9,10 @@ import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
 import { PAGE_SIZE } from "../utils/contants";
 
 export async function getBookings(
-  filter: IFilterTypes,
+  filter: IFilterTypes | undefined,
   sortBy: ISortTypes | undefined,
-  page
-): Promise<IBookingTypes[] | null> {
+  page: number
+) {
   // Query
 
   let query = supabase
@@ -51,11 +50,7 @@ export async function getBookings(
     query = query.range(from, to);
   }
 
-  const {
-    data: bookings,
-    error,
-    count,
-  }: PostgrestSingleResponse<IBookingTypes[]> = await query;
+  const { data: bookings, error, count } = await query;
 
   if (error) {
     console.error(error);

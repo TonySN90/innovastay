@@ -16,16 +16,15 @@ import {
   ISortTypes,
   LoadingTypes,
 } from "../../types/GlobalTypes";
-import { setCount } from "./bookingsSlice";
 
 export const fetchBookings = createAsyncThunk(
   "bookings/fetchBookings",
 
   async (
     filterSortOptions?: {
-      sortBy: ISortTypes;
       filter: IFilterTypes | null;
-      page: number;
+      sortBy: ISortTypes;
+      page: number | null;
     },
     // @ts-expect-error getState may not be used after optional argument
     { getState, dispatch }
@@ -33,7 +32,6 @@ export const fetchBookings = createAsyncThunk(
     const { bookings: bookingsState } = getState() as {
       bookings: IBookingStateTypes;
     };
-
     const { sortBy, filter, page } = filterSortOptions || {};
 
     if (
@@ -41,17 +39,20 @@ export const fetchBookings = createAsyncThunk(
       bookingsState.updatingStatus === LoadingTypes.SUCCESS ||
       bookingsState.deletingStatus === LoadingTypes.SUCCESS
     ) {
+      const { bookings, count } = await getBookings(
+        filter as IFilterTypes,
+        sortBy,
+        page as number
+      );
       dispatch(setCount(count));
-      return await getBookings(filter as IFilterTypes, sortBy, page);
+      return bookings;
     }
 
     const { bookings, count } = await getBookings(
       filter as IFilterTypes,
       sortBy,
-      page
+      page as number
     );
-    dispatch(setCurrentFilter(filter ? filter : null));
-    dispatch(setCurrentSort(sortBy ? sortBy : null));
     dispatch(setCount(count));
 
     return bookings;
@@ -106,9 +107,6 @@ const initialState: IBookingStateTypes = {
   bookings: [],
   booking: {} as IBookingTypes,
   selectedFilter: "all",
-  currentFilter: {},
-  currentSort: {},
-  page: 1,
   count: 0,
 };
 
@@ -136,16 +134,8 @@ const bookingsSlice = createSlice({
       state.bookings = action.payload;
     },
 
-    setCount: (state, action: PayloadAction<IBookingStateTypes>) => {
+    setCount: (state, action: PayloadAction<number>) => {
       state.count = action.payload;
-    },
-
-    setCurrentFilter: (state, action: PayloadAction<IFilterTypes>) => {
-      state.currentFilter = action.payload;
-    },
-
-    setCurrentSort: (state, action: PayloadAction<ISortTypes>) => {
-      state.currentSort = action.payload;
     },
 
     setLoadingStatus: (state, action) => {
@@ -218,8 +208,6 @@ export const {
   resetUpdatingStatus,
   setBookings,
   setCount,
-  setCurrentFilter,
-  setCurrentSort,
   setLoadingStatus,
 } = bookingsSlice.actions;
 export default bookingsSlice.reducer;

@@ -1,11 +1,6 @@
 import FilterBar from "../../ui/FilterBar";
-import useGuests from "./useGuests";
 
 function GuestsFilter() {
-  const { guests } = useGuests();
-
-  if (!guests.length) return null;
-
   const options = [
     { value: "fullName-asc", label: "Name (Alphabetisch)" },
     { value: "city-asc", label: "Stadt (Alphabetisch)" },

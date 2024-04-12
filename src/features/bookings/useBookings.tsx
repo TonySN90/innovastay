@@ -18,10 +18,14 @@ function useBookings() {
     const searchValue = searchParams.get("search");
 
     let filter;
-    if (searchValue)
-      filter = { field: "fullName", value: searchValue, operator: "ilike" };
-    if (statusValue && statusValue !== "all")
-      filter = { field: "status", value: statusValue, operator: "eq" };
+    filter = searchValue
+      ? { field: "fullName", value: searchValue, operator: "ilike" }
+      : null;
+
+    filter =
+      statusValue && statusValue !== "all"
+        ? { field: "status", value: statusValue, operator: "eq" }
+        : null;
 
     // Sort
     const sortValue = searchParams.get("sort") || "startDate-desc";
