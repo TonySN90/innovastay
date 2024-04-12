@@ -365,7 +365,7 @@ const CreateBookingForm: React.FC<Props> = function ({
               size="md"
               extras="mr-2 rounded-lg"
               content="Zurücksetzen"
-              loading={isWorking}
+              disabled={isWorking}
             />
             <Button
               type="submit"
@@ -374,7 +374,7 @@ const CreateBookingForm: React.FC<Props> = function ({
               size="md"
               extras="rounded-lg"
               content={isUpdatingSession ? "Aktualisieren" : "Hinzufügen"}
-              loading={isWorking}
+              disabled={isWorking}
             />
           </div>
         </div>

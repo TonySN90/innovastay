@@ -12,43 +12,37 @@ function Pagination({ count }: { count: number }) {
     setSearchParams(searchParams.toString());
   }
 
-  function handleClickPrev() {
-    if (page === 1) return;
-    page--;
+  function handleClick(operator: string) {
+    if (operator === "-") page--;
+    else page++;
     setParams(page);
   }
 
-  function handleClickNext() {
-    if (page === pages) return;
-    page++;
-    setParams(page);
-  }
-
-  const from = page * PAGE_SIZE - 2;
-  const to = from + PAGE_SIZE;
+  const from = (page - 1) * PAGE_SIZE + 1;
+  const to = from + PAGE_SIZE - 1;
 
   return (
     <div className="pb-3 px-2 flex mb-2 justify-between border-b-2 border-indigo-100 text-sm">
       <div className="flex items-center gap-1">
-        Buchung <span className="font-semibold">{page === 1 ? 1 : from}</span>
+        Ergebnisse <span className="font-semibold">{from}</span>
         bis
-        <span className="font-semibold">{to}</span> von
+        <span className="font-semibold">{count > to ? to : count}</span> von
         <span className="font-semibold">{count}</span> Ergebnissen
       </div>
       <div>
         <Button
-          variation="inverted"
           content="< Zurück"
-          extras="rounded-lg mr-1"
+          extras="rounded-lg mr-1 text-indigo-500 hover:text-indigo-700 transition-all"
           size="sm"
-          onClick={() => handleClickPrev()}
+          onClick={() => handleClick("-")}
+          disabled={page === 1}
         />
         <Button
-          variation="inverted"
           content="Weiter >"
-          extras="rounded-lg"
+          extras="rounded-lg text-indigo-500 hover:text-indigo-700 transition-all"
           size="sm"
-          onClick={() => handleClickNext()}
+          onClick={() => handleClick("+")}
+          disabled={page === pages}
         />
       </div>
     </div>

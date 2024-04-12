@@ -9,13 +9,14 @@ export enum LoadingTypes {
 
 export interface IButtonPropsTypes {
   onClick?: () => void;
-  variation: string;
+  variation?: string;
 
   type?: "reset" | "submit" | "button";
   size: string;
   content: string | React.ReactNode;
   extras: string;
   loading?: boolean;
+  disabled?: boolean;
 }
 export type ButtonTypes = {
   basics: string;

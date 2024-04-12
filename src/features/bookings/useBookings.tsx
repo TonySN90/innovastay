@@ -18,14 +18,16 @@ function useBookings() {
     const searchValue = searchParams.get("search");
 
     let filter;
-    filter = searchValue
-      ? { field: "fullName", value: searchValue, operator: "ilike" }
-      : null;
-
-    filter =
-      statusValue && statusValue !== "all"
-        ? { field: "status", value: statusValue, operator: "eq" }
-        : null;
+    switch (true) {
+      case statusValue && statusValue !== "all":
+        filter = { field: "status", value: statusValue, operator: "eq" };
+        break;
+      case typeof searchValue !== "undefined" && searchValue !== null:
+        filter = { field: "fullName", value: searchValue, operator: "ilike" };
+        break;
+      default:
+        filter = null;
+    }
 
     // Sort
     const sortValue = searchParams.get("sort") || "startDate-desc";
@@ -33,11 +35,9 @@ function useBookings() {
     const sortBy = { field, direction };
 
     // Page
-    // const page = !searchParams.get("page")
-    //   ? 1
-    //   : Number(searchParams.get("page"));
-    const page = null;
-    // console.log(filter);
+    const page = !searchParams.get("page")
+      ? 1
+      : Number(searchParams.get("page"));
 
     dispatch(fetchBookings({ filter, sortBy, page }));
   }, [dispatch, searchParams]);
