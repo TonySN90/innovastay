@@ -17,7 +17,7 @@ function useGuests() {
     const filterValue = searchParams.get("search");
     let filter;
     if (filterValue) {
-      filter = { field: "fullName", value: "dan", operator: "ilike" };
+      filter = { field: "fullName", value: filterValue, operator: "ilike" };
     } else {
       filter = null;
     }

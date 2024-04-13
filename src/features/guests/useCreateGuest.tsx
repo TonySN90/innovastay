@@ -5,24 +5,42 @@ import { LoadingTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 import { IGuestStatesTypes } from "../../types/GuestTypes";
-import { fetchGuests, resetUploadingStatus, uploadGuest } from "./guestsSlice";
+import { resetUploadingStatus, uploadGuest } from "./guestsSlice";
+import { useSearchParams } from "react-router-dom";
 
 function useCreateGuest(reset?: () => void, onCloseModal?: () => void) {
   const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { uploadingStatus, error } = useAppSelector(
     (state: { guests: IGuestStatesTypes }) => state.guests
   );
 
   useEffect(() => {
+    const pageValue = searchParams.get("page");
+
+    function setParams() {
+      searchParams.delete("search");
+      if (pageValue) searchParams.delete("page");
+      else searchParams.set("page", "1");
+      setSearchParams(searchParams.toString());
+    }
+
     if (uploadingStatus === LoadingTypes.SUCCESS) {
+      setParams();
       if (reset) reset();
       if (onCloseModal) onCloseModal();
-      dispatch(fetchGuests());
       dispatch(resetUploadingStatus());
       toast.success("Gastdaten wurden erfolgreich hochgeladen.");
     }
-  }, [uploadingStatus, reset, onCloseModal, dispatch]);
+  }, [
+    uploadingStatus,
+    reset,
+    onCloseModal,
+    dispatch,
+    setSearchParams,
+    searchParams,
+  ]);
 
   function uploadNewGuest(newGuest: FormValues) {
     dispatch(uploadGuest(newGuest));

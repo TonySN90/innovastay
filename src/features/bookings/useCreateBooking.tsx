@@ -17,10 +17,11 @@ function useCreateBooking(reset?: () => void, onCloseModal?: () => void) {
   );
 
   useEffect(() => {
+    const statusValue = searchParams.get("status");
     function setParams() {
       searchParams.delete("search");
-      searchParams.delete("pages");
-      searchParams.set("status", "all");
+      if (statusValue == "all") searchParams.delete("status");
+      else searchParams.set("status", "all");
       setSearchParams(searchParams.toString());
     }
 

@@ -2,7 +2,7 @@ import { PostgrestResponse } from "@supabase/supabase-js";
 import { FormValues } from "../types/FormTypes";
 import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
 import { IGuestTypes } from "../types/GuestTypes";
-import { PAGE_SIZE } from "../utils/constants";
+import { PAGE_SIZE_GUESTS } from "../utils/constants";
 import supabase from "./supabase";
 
 // Get Guests --------------------------------------------
@@ -28,8 +28,8 @@ export async function getGuests(
 
   // Page
   if (page) {
-    const from = (page - 1) * PAGE_SIZE;
-    const to = from + PAGE_SIZE - 1;
+    const from = (page - 1) * PAGE_SIZE_GUESTS;
+    const to = from + PAGE_SIZE_GUESTS - 1;
     query = query.range(from, to);
   }
 
@@ -62,7 +62,6 @@ export async function createUpdateGuest(
   if (!guestId) query = query.insert([newGuest]);
 
   // if update existing guest
-  console.log(newGuest);
   if (guestId) query = query.update({ ...newGuest }).eq("id", guestId);
 
   // Execute Query

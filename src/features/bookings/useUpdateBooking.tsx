@@ -5,11 +5,12 @@ import { LoadingTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 import {
-  fetchBookings,
+  // fetchBookings,
   resetUpdatingStatus,
   updateBookingThunk,
 } from "./bookingsSlice";
 import { IBookingStateTypes } from "../../types/BookingTypes";
+import { useSearchParams } from "react-router-dom";
 
 function useUpdateBooking(reset: () => void, onCloseModal: () => void) {
   const dispatch = useAppDispatch();
@@ -18,16 +19,33 @@ function useUpdateBooking(reset: () => void, onCloseModal: () => void) {
     (state: { bookings: IBookingStateTypes }) => state.bookings
   );
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   useEffect(() => {
+    const statusValue = searchParams.get("status");
+
+    function setParams() {
+      if (statusValue == "all") searchParams.delete("status");
+      else searchParams.set("status", "all");
+      setSearchParams(searchParams.toString());
+    }
+
     if (updatingStatus === LoadingTypes.SUCCESS) {
       reset();
       onCloseModal();
-      dispatch(fetchBookings());
+      setParams();
       dispatch(resetUpdatingStatus());
 
       toast.success("Buchungsdaten erfolgreich aktualisiert.");
     }
-  }, [updatingStatus, reset, onCloseModal, dispatch]);
+  }, [
+    updatingStatus,
+    reset,
+    onCloseModal,
+    dispatch,
+    searchParams,
+    setSearchParams,
+  ]);
 
   function updateBooking(id: number, toUpdatedBooking: FormValues) {
     dispatch(updateBookingThunk({ id, toUpdatedBooking }));

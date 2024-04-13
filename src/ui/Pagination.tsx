@@ -1,11 +1,16 @@
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import Button from "./Button";
-import { PAGE_SIZE } from "../utils/constants";
+import { PAGE_SIZE, PAGE_SIZE_GUESTS } from "../utils/constants";
 
 function Pagination({ count }: { count: number }) {
+  let pageSize = PAGE_SIZE;
+  const location = useLocation();
+  const pathName = location.pathname;
+  if (pathName === "/guests") pageSize = PAGE_SIZE_GUESTS;
+
   const [searchParams, setSearchParams] = useSearchParams();
   let page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
-  const pages = Math.ceil(count / PAGE_SIZE);
+  const pages = Math.ceil(count / pageSize);
 
   function setParams(page: number) {
     searchParams.set("page", page.toString());
@@ -18,8 +23,8 @@ function Pagination({ count }: { count: number }) {
     setParams(page);
   }
 
-  const from = (page - 1) * PAGE_SIZE + 1;
-  const to = from + PAGE_SIZE - 1;
+  const from = (page - 1) * pageSize + 1;
+  const to = from + pageSize - 1;
 
   return (
     <div className="pb-3 px-2 flex mb-2 justify-between border-b-2 border-indigo-100 text-sm">

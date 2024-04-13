@@ -1,4 +1,5 @@
 import useWindowWidth from "../../hooks/UseWindowWidth";
+import { useAppSelector } from "../../store";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import Empty from "../../ui/Empty";
 import Menu from "../../ui/Menu";
@@ -11,9 +12,9 @@ import useGuests from "./useGuests";
 function GuestsTable() {
   const windowWidth = useWindowWidth();
   const { guests, loadingStatus } = useGuests();
+  const { count } = useAppSelector((state) => state.guests);
 
   if (loadingStatus === LoadingTypes.LOADING) return <Spinner />;
-
   if (!guests.length) return <Empty resourceName="guests" />;
 
   return (
@@ -43,7 +44,7 @@ function GuestsTable() {
         />
       </Table>
       <Table.Footer>
-        <Pagination count={6} />
+        <Pagination count={count} />
       </Table.Footer>
     </Menu>
   );

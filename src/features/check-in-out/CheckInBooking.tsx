@@ -82,7 +82,7 @@ function CheckInBooking() {
           size="lg"
           extras="mr-2 rounded-lg"
           content={"Buchung #" + bookingId + " einchecken"}
-          loading={!confirmPaid && !isPaid}
+          disabled={!confirmPaid && !isPaid}
         />
         <Button
           onClick={() => {

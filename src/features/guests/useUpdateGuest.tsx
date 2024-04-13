@@ -5,25 +5,40 @@ import { LoadingTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 import { IGuestStatesTypes } from "../../types/GuestTypes";
-import { editGuest, fetchGuests, resetUpdatingStatus } from "./guestsSlice";
+import { editGuest, resetUpdatingStatus } from "./guestsSlice";
+import { useSearchParams } from "react-router-dom";
 
 function useUpdateGuest(reset: () => void, onCloseModal: () => void) {
   const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { updatingStatus, error } = useAppSelector(
     (state: { guests: IGuestStatesTypes }) => state.guests
   );
 
   useEffect(() => {
+    const pageValue = searchParams.get("page");
+
+    function setParams() {
+      if (pageValue == "all") searchParams.delete("page");
+      else searchParams.set("page", "1");
+      setSearchParams(searchParams.toString());
+    }
     if (updatingStatus === LoadingTypes.SUCCESS) {
       reset();
       onCloseModal();
-      dispatch(fetchGuests());
+      setParams();
       dispatch(resetUpdatingStatus());
-
       toast.success("Gastdaten erfolgreich aktualisiert.");
     }
-  }, [updatingStatus, reset, onCloseModal, dispatch]);
+  }, [
+    updatingStatus,
+    reset,
+    onCloseModal,
+    dispatch,
+    searchParams,
+    setSearchParams,
+  ]);
 
   function updateGuest(id: number, toUpdatedGuest: FormValues) {
     dispatch(editGuest({ id, toUpdatedGuest }));

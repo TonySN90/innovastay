@@ -4,11 +4,8 @@ import { IBookingStateTypes } from "../../types/BookingTypes";
 import { LoadingTypes } from "../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
-import {
-  deleteBookingThunk,
-  fetchBookings,
-  resetDeletingStatus,
-} from "./bookingsSlice";
+import { deleteBookingThunk, resetDeletingStatus } from "./bookingsSlice";
+import { useSearchParams } from "react-router-dom";
 
 function useDeleteBooking(onCloseModal: () => void) {
   const dispatch = useAppDispatch();
@@ -16,14 +13,25 @@ function useDeleteBooking(onCloseModal: () => void) {
     (state: { bookings: IBookingStateTypes }) => state.bookings
   );
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   useEffect(() => {
+    const statusValue = searchParams.get("status");
+
+    function setParams() {
+      searchParams.delete("search");
+      if (statusValue === "all") searchParams.delete("status");
+      else searchParams.set("status", "all");
+      setSearchParams(searchParams.toString());
+    }
+
     if (deletingStatus === LoadingTypes.SUCCESS) {
+      setParams();
       onCloseModal();
-      dispatch(fetchBookings());
       dispatch(resetDeletingStatus());
       toast.success("Buchungsdaten erfolgreich gelöscht.");
     }
-  }, [dispatch, deletingStatus, onCloseModal]);
+  }, [dispatch, deletingStatus, onCloseModal, searchParams, setSearchParams]);
 
   function deleteBooking(id: number) {
     dispatch(deleteBookingThunk(id));
