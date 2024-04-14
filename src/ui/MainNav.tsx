@@ -22,7 +22,7 @@ function MainNav() {
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/dashboard">
             <RxDashboard className="w-6 h-6 mr-2" />
-            <span>Cockpit</span>
+            <span>Dashboard</span>
           </NavLink>
         </li>
         <hr className="mb-3" />
