@@ -3,12 +3,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import bookingsReducer from "./features/bookings/bookingsSlice";
 import cabinsReducer from "./features/cabins/cabinsSlice";
 import guestsReducer from "./features/guests/guestsSlice";
+import dashboardReducer from "./features/dashboard/dashboardSlice";
 
 const store = configureStore({
   reducer: {
     bookings: bookingsReducer,
     cabins: cabinsReducer,
     guests: guestsReducer,
+    dashboard: dashboardReducer,
   },
 });
 

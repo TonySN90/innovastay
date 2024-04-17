@@ -1,9 +1,18 @@
 import { TbDoorEnter } from "react-icons/tb";
-import { formatDate } from "../utils/datesHelper";
+import { formatDate, getToday } from "../utils/datesHelper";
 import { BsPeopleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import Spinner from "../ui/Spinner";
+import useRecentBookings from "../features/dashboard/useRecentBookings";
 
 function Dashboard() {
+  const { recentBookings, loadingStatus } = useRecentBookings();
+  console.log(recentBookings);
+
+  // console.log(getToday() >== );
+
+  if (loadingStatus === "loading") return <Spinner />;
+
   return (
     <>
       <DbHeader />
