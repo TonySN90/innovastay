@@ -8,7 +8,6 @@ import {
   PostgrestQueryBuilder,
   PostgrestResponse,
 } from "@supabase/supabase-js";
-import { getToday, getYesterday } from "../utils/datesHelper";
 
 export async function getBookings(
   filter: IFilterTypes | undefined,
@@ -123,13 +122,15 @@ export async function deleteBooking(bookingId: number) {
 }
 
 export async function getBookingsAfterDate(filterColumn, startDate, endDate) {
-  console.log(startDate, endDate);
-  const { data: recentBookings, error } = await supabase
-    .from("bookings")
-    .select("*, cabins(name)")
-    .gte(filterColumn, startDate)
-    .lte(filterColumn, endDate)
-    .order(filterColumn, { ascending: false });
+
+  let query = supabase.from("bookings").select("fullName, id, numNights, cabins(name)")
+
+  if (startDate && endDate) query = query.gte(filterColumn, startDate).lte(filterColumn, endDate)
+  if(!startDate && !endDate) query = query.eq("status", "checkedIn")
+
+  .order('fullName', { ascending: false });
+  
+  const { data: recentBookings, error } = await query;
 
   if (error) {
     console.error(error);
@@ -137,7 +138,6 @@ export async function getBookingsAfterDate(filterColumn, startDate, endDate) {
       `Die Buchungen konnten nicht geladen werden ${error.message}: ${error.details}`
     );
   }
-
 
   return recentBookings;
 }

@@ -27,6 +27,7 @@ export interface IBookingTypes {
     maxStays: number;
     information: string;
   };
+  fullName: string;
   startDate: string;
   endDate: string;
   numNights: number;

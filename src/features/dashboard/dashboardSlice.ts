@@ -2,19 +2,33 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import { getBookingsAfterDate } from "../../services/apiBookings";
 
+export interface IDashboardStateTypes {
+  startDate: string;
+  endDate: string;
+  filterColumn: string;
+}
+
 export const getArrivalBookingsThunk = createAsyncThunk(
   "dashboard/getArrivalBookingsThunk",
-  async ({filterColumn, startFilterDate, endFilterDate}: {startFilterDate: Date, endFilterDate: Date, filterColumn: string}) => {
-    const arrivalBookings = await getBookingsAfterDate(filterColumn, startFilterDate, endFilterDate);
+  async ({filterColumn, startDate, endDate}: IDashboardStateTypes |null) => {
+    const arrivalBookings = await getBookingsAfterDate(filterColumn, startDate, endDate);
     return arrivalBookings;
   }
 );
 
 export const getDepartureBookingsThunk = createAsyncThunk(
   "dashboard/getDepartureBookingsThunk",
-  async ({filterColumn, startFilterDate, endFilterDate}: {filterColumn: string, startFilterDate: Date, endFilterDate: Date}) => {
-    const dapartureBookings = await getBookingsAfterDate(filterColumn, startFilterDate, endFilterDate);
+  async ({filterColumn, startDate, endDate}: IDashboardStateTypes |null) => {
+    const dapartureBookings = await getBookingsAfterDate(filterColumn, startDate, endDate);
     return dapartureBookings;
+  }
+);
+
+export const getRecentGuestsThunk = createAsyncThunk(
+  "dashboard/getRecentGuestsThunk",
+  async () => {
+    const recentGuests = await getBookingsAfterDate();
+    return recentGuests;
   }
 );
 
@@ -23,8 +37,11 @@ const dashboardSlice = createSlice({
   initialState: {
     arrivalBookings: [],
     departureBookings: [],
+    recentGuests: [],
+
     arrivalLoadingStatus: LoadingTypes.IDLE,
     departureLoadingStatus: LoadingTypes.IDLE,
+    guestsLoadingStatus: LoadingTypes.IDLE,
   },
   reducers: {
     setLoadingStatus: (state, action: PayloadAction<LoadingTypes>) => {
@@ -54,6 +71,17 @@ const dashboardSlice = createSlice({
       })
       .addCase(getDepartureBookingsThunk.rejected, (state) => {
         state.departureLoadingStatus = LoadingTypes.ERROR;
+      })
+    // recent Guests
+      .addCase(getRecentGuestsThunk.pending, (state) => {
+        state.guestsLoadingStatus = LoadingTypes.LOADING;
+      })
+      .addCase(getRecentGuestsThunk.fulfilled, (state, action) => {
+        state.guestsLoadingStatus = LoadingTypes.IDLE;
+        state.recentGuests = action.payload;
+      })
+      .addCase(getRecentGuestsThunk.rejected, (state) => {
+        state.guestsLoadingStatus = LoadingTypes.ERROR;
       });
   },
 });

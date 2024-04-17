@@ -1,19 +1,19 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { getArrivalBookingsThunk, getDepartureBookingsThunk } from "./dashboardSlice";
+import { getArrivalBookingsThunk, getDepartureBookingsThunk, getRecentGuestsThunk } from "./dashboardSlice";
 import { getToday } from "../../utils/datesHelper";
 
 function useArrivalBookings(hospitalityType : string) {
   const dispatch = useAppDispatch();
-  const { arrivalBookings, departureBookings, arrivalLoadingStatus, departureLoadingStatus } = useAppSelector(
+  const { arrivalBookings, departureBookings, arrivalLoadingStatus, departureLoadingStatus, recentGuests, guestsLoadingStatus } = useAppSelector(
     (state) => state.dashboard
   );
 
   useEffect(() => {
     
-    let startFilterDate, endFilterDate, filterColumn;	
-    startFilterDate = getToday();
-    endFilterDate = getToday({end: true});
+    let filterColumn;	
+    const startDate = getToday();
+    const endDate = getToday({end: true});
 
     if (hospitalityType === "arrival") {
       filterColumn = "startDate"
@@ -23,11 +23,12 @@ function useArrivalBookings(hospitalityType : string) {
       filterColumn = "endDate"
     }
 
-    if (hospitalityType === "arrival") dispatch(getArrivalBookingsThunk({filterColumn, startFilterDate, endFilterDate}));
-    if (hospitalityType === "departure") dispatch(getDepartureBookingsThunk({filterColumn, startFilterDate, endFilterDate}));
+    if (hospitalityType === "arrival") dispatch(getArrivalBookingsThunk({filterColumn, startDate, endDate}));
+    if (hospitalityType === "departure") dispatch(getDepartureBookingsThunk({filterColumn, startDate, endDate}));
+    if (hospitalityType === "recentGuests") dispatch(getRecentGuestsThunk());
   }, [dispatch, hospitalityType]);
 
-  return { arrivalBookings, departureBookings, arrivalLoadingStatus, departureLoadingStatus };
+  return { arrivalBookings, departureBookings, arrivalLoadingStatus, departureLoadingStatus, recentGuests, guestsLoadingStatus };
 }
 
 export default useArrivalBookings;

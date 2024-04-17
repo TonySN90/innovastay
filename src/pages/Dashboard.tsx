@@ -5,14 +5,13 @@ import { Link } from "react-router-dom";
 import useArrivalBookings from "../features/dashboard/useArrivalBookings";
 import MiniSpinner from "../ui/MiniSpinner";
 import { IBookingTypes } from "../types/BookingTypes";
+import { LoadingTypes } from "../types/GlobalTypes";
 
 function Dashboard() {
   const { arrivalBookings, arrivalLoadingStatus } = useArrivalBookings('arrival');
   const { departureBookings, departureLoadingStatus } = useArrivalBookings('departure');
+  const { recentGuests, guestsLoadingStatus } = useArrivalBookings('recentGuests');
 
-  console.log(departureLoadingStatus);
-
-  // console.log(getToday() >== );
 
   return (
     <>
@@ -21,36 +20,18 @@ function Dashboard() {
         <DbInfoCard
           id="arrival"
           title="Anreisen"
-          rowContent={arrivalLoadingStatus === "loading" ? 'loading' : arrivalBookings}
+          rowContent={arrivalLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : arrivalBookings}
         />
         <DbInfoCard
           id="departure"
           title="Abreisen"
-          rowContent={departureLoadingStatus === "loading" ? 'loading' : departureBookings}
+          rowContent={departureLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : departureBookings}
         />
         <DbInfoCard
           id="presentGuests"
           title="Gäste im Haus"
-          rowContent={[
-            // {
-            //   name: "Danielo Güntherino",
-            //   id: "25",
-            //   cabin: "Zimmer 1",
-            //   nights: "7",
-            // },
-            // {
-            //   name: "Danielo Güntherino",
-            //   id: "25",
-            //   cabin: "Zimmer 1",
-            //   nights: "7",
-            // },
-            // {
-            //   name: "Danielo Güntherino",
-            //   id: "25",
-            //   cabin: "Zimmer 1",
-            //   nights: "7",
-            // },
-          ]}
+          rowContent={guestsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : recentGuests}
+
         />
       </DbSection>
     </>
@@ -78,7 +59,7 @@ function DbSection({
   title: string;
 }) {
   return (
-    <section className="p-8 bg-gray-50 rounded-lg shadow-xl shadow-indigo-100">
+    <section className="p-8 bg-gray-50 rounded-lg shadow-xl shadow-indigo-100 h-[500px] overflow-scroll">
       <div className="flex items-center mb-4 justify-between">
         <h3 className="text-xl font-semibold">{title}</h3>
         <Link to="/bookings">
@@ -92,7 +73,7 @@ function DbSection({
   );
 }
 
-function DbInfoCard({ id, title, rowContent }: { id: string; title: string }) {
+function DbInfoCard({ id, title, rowContent }: { id: string; title: string, rowContent: IBookingTypes[] | LoadingTypes}) {
   let border = "";
   let backgroundColor = "";
   let textColor = "";
@@ -125,7 +106,12 @@ function DbInfoCard({ id, title, rowContent }: { id: string; title: string }) {
       </thead>
 
       <tbody className="bg-gray-50 shadow-lg">
-      {rowContent === "loading" ? <tr><td><MiniSpinner /></td></tr> : rowContent.length === 0 ? <tr><td className="text-sm p-4">Keine Daten vorhanden</td></tr> : rowContent.map((el : IBookingTypes) => (
+      {rowContent === LoadingTypes.LOADING
+      ? <tr><td><MiniSpinner /></td></tr> 
+      : rowContent.length === 0 
+      ? 
+        <tr><td className="text-sm p-4">Keine Daten vorhanden</td></tr> 
+        : Array.isArray(rowContent) && rowContent.map((el: IBookingTypes) => (
           <InfoCardRow
             name={el.fullName}
             bookingId={el.id}
@@ -150,14 +136,14 @@ function InfoCardRow({
   backgroundColor,
 }: {
   name: string;
-  bookingId: string;
+  bookingId: number;
   cabin: string;
   nights: number;
   textColor: string;
   backgroundColor: string;
 }) {
   return (
-    <tr className="">
+    <tr>
       <td className="flex justify-between p-4">
         <div className="flex flex-col">
           <div className="flex gap-3">
