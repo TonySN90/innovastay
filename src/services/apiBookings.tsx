@@ -122,18 +122,14 @@ export async function deleteBooking(bookingId: number) {
   return data;
 }
 
-export async function getBookingsAfterDate(oldDate) {
+export async function getBookingsAfterDate(filterColumn, startDate, endDate) {
+  console.log(startDate, endDate);
   const { data: recentBookings, error } = await supabase
     .from("bookings")
-    .select("startDate, endDate")
-    // Last 5 days
-    // .gte("startDate", oldDate)
-    // .lte("startDate", getToday())
-    // Today
-    .gte("startDate", getYesterday())
-    .lte("startDate", getToday({ end: true }))
-
-    .order("startDate", { ascending: false });
+    .select("*, cabins(name)")
+    .gte(filterColumn, startDate)
+    .lte(filterColumn, endDate)
+    .order(filterColumn, { ascending: false });
 
   if (error) {
     console.error(error);
@@ -141,6 +137,7 @@ export async function getBookingsAfterDate(oldDate) {
       `Die Buchungen konnten nicht geladen werden ${error.message}: ${error.details}`
     );
   }
+
 
   return recentBookings;
 }

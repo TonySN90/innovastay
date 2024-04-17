@@ -2,36 +2,58 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import { getBookingsAfterDate } from "../../services/apiBookings";
 
-export const getBookingsAfterDateThunk = createAsyncThunk(
-  "dashboard/getBookingsAfterDateThunk",
-  async (date: Date) => {
-    const recentBookings = await getBookingsAfterDate(date);
-    return recentBookings;
+export const getArrivalBookingsThunk = createAsyncThunk(
+  "dashboard/getArrivalBookingsThunk",
+  async ({filterColumn, startFilterDate, endFilterDate}: {startFilterDate: Date, endFilterDate: Date, filterColumn: string}) => {
+    const arrivalBookings = await getBookingsAfterDate(filterColumn, startFilterDate, endFilterDate);
+    return arrivalBookings;
+  }
+);
+
+export const getDepartureBookingsThunk = createAsyncThunk(
+  "dashboard/getDepartureBookingsThunk",
+  async ({filterColumn, startFilterDate, endFilterDate}: {filterColumn: string, startFilterDate: Date, endFilterDate: Date}) => {
+    const dapartureBookings = await getBookingsAfterDate(filterColumn, startFilterDate, endFilterDate);
+    return dapartureBookings;
   }
 );
 
 const dashboardSlice = createSlice({
   name: "dashboard",
   initialState: {
-    recentBookings: [],
-    loadingStatus: LoadingTypes.IDLE,
+    arrivalBookings: [],
+    departureBookings: [],
+    arrivalLoadingStatus: LoadingTypes.IDLE,
+    departureLoadingStatus: LoadingTypes.IDLE,
   },
   reducers: {
     setLoadingStatus: (state, action: PayloadAction<LoadingTypes>) => {
-      state.loadingStatus = action.payload;
+      state.arrivalLoadingStatus = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getBookingsAfterDateThunk.pending, (state) => {
-        state.loadingStatus = LoadingTypes.LOADING;
+    // Arrival
+      .addCase(getArrivalBookingsThunk.pending, (state) => {
+        state.arrivalLoadingStatus = LoadingTypes.LOADING;
       })
-      .addCase(getBookingsAfterDateThunk.fulfilled, (state, action) => {
-        state.loadingStatus = LoadingTypes.IDLE;
-        state.recentBookings = action.payload;
+      .addCase(getArrivalBookingsThunk.fulfilled, (state, action) => {
+        state.arrivalLoadingStatus = LoadingTypes.IDLE;
+        state.arrivalBookings = action.payload;
       })
-      .addCase(getBookingsAfterDateThunk.rejected, (state) => {
-        state.loadingStatus = LoadingTypes.ERROR;
+      .addCase(getArrivalBookingsThunk.rejected, (state) => {
+        state.arrivalLoadingStatus = LoadingTypes.ERROR;
+      })
+    // Departure
+      .addCase(getDepartureBookingsThunk.pending, (state) => {
+        state.departureLoadingStatus = LoadingTypes.LOADING;
+      })
+      .addCase(getDepartureBookingsThunk.fulfilled, (state, action) => {
+        state.departureLoadingStatus = LoadingTypes.IDLE;
+        state.departureBookings = action.payload;
+      })
+      .addCase(getDepartureBookingsThunk.rejected, (state) => {
+        state.departureLoadingStatus = LoadingTypes.ERROR;
       });
   },
 });

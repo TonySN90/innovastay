@@ -1,17 +1,18 @@
 import { TbDoorEnter } from "react-icons/tb";
-import { formatDate, getToday } from "../utils/datesHelper";
+import { formatDate} from "../utils/datesHelper";
 import { BsPeopleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import Spinner from "../ui/Spinner";
-import useRecentBookings from "../features/dashboard/useRecentBookings";
+import useArrivalBookings from "../features/dashboard/useArrivalBookings";
+import MiniSpinner from "../ui/MiniSpinner";
+import { IBookingTypes } from "../types/BookingTypes";
 
 function Dashboard() {
-  const { recentBookings, loadingStatus } = useRecentBookings();
-  console.log(recentBookings);
+  const { arrivalBookings, arrivalLoadingStatus } = useArrivalBookings('arrival');
+  const { departureBookings, departureLoadingStatus } = useArrivalBookings('departure');
+
+  console.log(departureLoadingStatus);
 
   // console.log(getToday() >== );
-
-  if (loadingStatus === "loading") return <Spinner />;
 
   return (
     <>
@@ -20,73 +21,35 @@ function Dashboard() {
         <DbInfoCard
           id="arrival"
           title="Anreisen"
-          rowContent={[
-            {
-              name: "Daniel Güntherino",
-              bookingId: "25",
-              cabin: "Zimmer 1",
-              nights: "7 Nächte",
-            },
-            {
-              name: "Daniel Güntherino",
-              bookingId: "25",
-              cabin: "Zimmer 1",
-              nights: "7 Nächte",
-            },
-            {
-              name: "Daniel Güntherino",
-              bookingId: "25",
-              cabin: "Zimmer 1",
-              nights: "7 Nächte",
-            },
-            {
-              name: "Daniel Güntherino",
-              bookingId: "25",
-              cabin: "Zimmer 1",
-              nights: "7 Nächte",
-            },
-          ]}
+          rowContent={arrivalLoadingStatus === "loading" ? 'loading' : arrivalBookings}
         />
         <DbInfoCard
           id="departure"
           title="Abreisen"
-          rowContent={[
-            {
-              name: "Daniela Güntherino",
-              bookingId: "25",
-              cabin: "Zimmer 1",
-              nights: "7 Nächte",
-            },
-            {
-              name: "Daniela Güntherino",
-              bookingId: "25",
-              cabin: "Zimmer 1",
-              nights: "7 Nächte",
-            },
-          ]}
+          rowContent={departureLoadingStatus === "loading" ? 'loading' : departureBookings}
         />
         <DbInfoCard
           id="presentGuests"
           title="Gäste im Haus"
           rowContent={[
-            {
-              name: "Danielo Güntherino",
-              bookingId: "25",
-              cabin: "Zimmer 1",
-              nights: "7 Nächte",
-            },
-            {
-              name: "Danielo Güntherino",
-              bookingId: "25",
-              cabin: "Zimmer 1",
-              nights: "7 Nächte",
-            },
-            {
-              name: "Danielo Güntherino",
-              bookingId: "25",
-              cabin: "Zimmer 1",
-              nights: "7 Nächte",
-            },
+            // {
+            //   name: "Danielo Güntherino",
+            //   id: "25",
+            //   cabin: "Zimmer 1",
+            //   nights: "7",
+            // },
+            // {
+            //   name: "Danielo Güntherino",
+            //   id: "25",
+            //   cabin: "Zimmer 1",
+            //   nights: "7",
+            // },
+            // {
+            //   name: "Danielo Güntherino",
+            //   id: "25",
+            //   cabin: "Zimmer 1",
+            //   nights: "7",
+            // },
           ]}
         />
       </DbSection>
@@ -151,6 +114,7 @@ function DbInfoCard({ id, title, rowContent }: { id: string; title: string }) {
   }
 
   return (
+    
     <table
       className={`w-full lg:min-w-[270px] lg:w-[30%] h-[75px] border-b-4 ${border}`}
     >
@@ -159,16 +123,17 @@ function DbInfoCard({ id, title, rowContent }: { id: string; title: string }) {
           <th className="text-left h-8">{title}</th>
         </tr>
       </thead>
+
       <tbody className="bg-gray-50 shadow-lg">
-        {rowContent.map((el) => (
+      {rowContent === "loading" ? <tr><td><MiniSpinner /></td></tr> : rowContent.length === 0 ? <tr><td className="text-sm p-4">Keine Daten vorhanden</td></tr> : rowContent.map((el : IBookingTypes) => (
           <InfoCardRow
-            name={el.name}
-            bookingId={el.bookingId}
-            cabin={el.cabin}
-            nights={el.nights}
+            name={el.fullName}
+            bookingId={el.id}
+            cabin={el.cabins.name}	
+            nights={el.numNights}
             textColor={textColor}
             backgroundColor={backgroundColor}
-            key={Math.random()}
+            key={el.id}
           />
         ))}
       </tbody>
@@ -187,7 +152,7 @@ function InfoCardRow({
   name: string;
   bookingId: string;
   cabin: string;
-  nights: string;
+  nights: number;
   textColor: string;
   backgroundColor: string;
 }) {
@@ -205,7 +170,7 @@ function InfoCardRow({
             <span className="mr-3">
               #{bookingId} - {cabin}
             </span>
-            <span> {nights}</span>
+            <span> {nights > 1 ? `${nights} Nächte` : `${nights} Nacht`}</span>
           </div>
         </div>
         <div
