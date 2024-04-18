@@ -112,7 +112,6 @@ const CreateBookingForm: React.FC<Props> = function ({
     }
 
     uploadNewBooking(newBooking as FormValues);
-    // console.log(formData);
     console.log(newBooking);
   };
 

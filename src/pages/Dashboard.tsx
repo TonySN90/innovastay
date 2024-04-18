@@ -1,4 +1,4 @@
-import { TbDoorEnter } from "react-icons/tb";
+import { TbDoorEnter, TbDoorExit } from "react-icons/tb";
 import { formatDate} from "../utils/datesHelper";
 import { BsPeopleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -6,12 +6,12 @@ import useArrivalBookings from "../features/dashboard/useArrivalBookings";
 import MiniSpinner from "../ui/MiniSpinner";
 import { IBookingTypes } from "../types/BookingTypes";
 import { LoadingTypes } from "../types/GlobalTypes";
+import { PiInfoBold } from "react-icons/pi";
 
 function Dashboard() {
   const { arrivalBookings, arrivalLoadingStatus } = useArrivalBookings('arrival');
   const { departureBookings, departureLoadingStatus } = useArrivalBookings('departure');
   const { recentGuests, guestsLoadingStatus } = useArrivalBookings('recentGuests');
-
 
   return (
     <>
@@ -66,7 +66,7 @@ function DbSection({
   return (
     <section className=" my-4">
     {/* <section className="p-8 my-4 bg-gray-50 rounded-lg shadow-xl shadow-indigo-100 overflow-scroll"> */}
-      <div className="mb-4 justify-between">
+      <div className="mb-4 flex justify-between">
         <h3 className="text-xl font-semibold">{title}</h3>
         <Link to="/bookings">
           <p className="text-indigo-500 font-semibold">zu den Buchungen</p>
@@ -119,6 +119,8 @@ function DbInfoCard({ id, title, rowContent }: { id: string; title: string, rowC
         <tr><td className="text-sm p-4">Keine Daten vorhanden</td></tr> 
         : Array.isArray(rowContent) && rowContent.map((el: IBookingTypes) => (
           <InfoCardRow
+            id={id}
+            status={el.status}
             name={el.fullName}
             bookingId={el.id}
             cabin={el.cabins.name}	
@@ -134,6 +136,8 @@ function DbInfoCard({ id, title, rowContent }: { id: string; title: string, rowC
 }
 
 function InfoCardRow({
+  id,
+  status,
   name,
   bookingId,
   cabin,
@@ -141,6 +145,8 @@ function InfoCardRow({
   textColor,
   backgroundColor,
 }: {
+  id: number
+  status: string;
   name: string;
   bookingId: number;
   cabin: string;
@@ -148,6 +154,7 @@ function InfoCardRow({
   textColor: string;
   backgroundColor: string;
 }) {
+
   return (
     <tr>
       <td className="flex justify-between py-3 px-4">
@@ -159,18 +166,56 @@ function InfoCardRow({
             <span className="font-semibold text-sm">{name}</span>
           </div>
           <div className="font text-sm">
-            <span className="mr-3">
+            <span >
               #{bookingId} - {cabin}
             </span>
-            <span> {nights > 1 ? `${nights} Nächte` : `${nights} Nacht`}</span>
+            <span> {nights > 1 ? ` - ${nights} Nächte` : ` - ${nights} Nacht`}</span>
+
           </div>
         </div>
-        <div
-          className={`flex items-center justify-center h-10 w-10 ${backgroundColor} rounded-full`}
-        >
-          <TbDoorEnter className={`${textColor} text-lg cursor-pointer`} />
-        </div>
+
+        {id === 'arrival' && status === "unconfirmed" &&
+        <RowButton backgroundColor={backgroundColor}>
+          <TbDoorEnter className={`${textColor} text-lg`} />
+        </RowButton>}
+
+        {id === 'departure' && status === "checkedOut" && <RowInfoText text="bereits ausgecheckt"/>}
+        {id === 'departure' && status === "checkedIn" && 
+        <RowButton backgroundColor={backgroundColor} >
+          <TbDoorExit className={`${textColor} text-lg`} />
+        </RowButton>
+        }
+
+        {id === 'presentGuests' && status === "checkedIn" && 
+        <RowButton backgroundColor={backgroundColor} >
+          <PiInfoBold className={`${textColor} text-lg`} /> 
+        </RowButton>
+        }
+
+        
+        
+
+        {/* {status === 'checkedOut' ? <p className="text-sm flex items-center italic">bereits ausgecheckt</p> : 
+          <RowButton backgroundColor={backgroundColor} >
+            {status === 'checkedOut' && <TbDoorEnter className={`${textColor} text-lg cursor-pointer`} />}
+            {status === 'checkedIn' && <PiInfoBold className={`${textColor} text-lg cursor-pointer`} />}
+            
+          </RowButton>
+} */}
+        
       </td>
     </tr>
   );
+}
+
+function RowInfoText({text}) {
+  return <p className="text-sm flex items-center italic ">{text}</p>
+}
+
+function RowButton({children, backgroundColor}: {children: React.ReactNode, backgroundColor: string}) {
+  return (
+    <div className={`flex justify-center items-center ${backgroundColor} rounded-full w-10 h-10 cursor-pointer`}>
+      {children}
+    </div>
+  )
 }

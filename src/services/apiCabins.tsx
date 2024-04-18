@@ -27,13 +27,15 @@ export async function getCabins(
     query = query.order(sortBy.field, {
       ascending: sortBy.direction === "asc",
     });
+    console.log(page)
 
   // Page
-  if (page) {
-    const from = (page - 1) * PAGE_SIZE;
-    const to = from + PAGE_SIZE - 1;
-    query = query.range(from, to);
-  }
+  // if (page) {
+  //   const from = (page - 1) * PAGE_SIZE;
+  //   const to = from + PAGE_SIZE - 1;
+  //   query = query.range(from, to);
+  // }
+
 
   const {
     data: cabins,

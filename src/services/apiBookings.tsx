@@ -123,7 +123,7 @@ export async function deleteBooking(bookingId: number) {
 
 export async function getBookingsAfterDate(filterColumn, startDate, endDate) {
 
-  let query = supabase.from("bookings").select("fullName, id, numNights, cabins(name)")
+  let query = supabase.from("bookings").select("fullName, id, numNights, status, cabins(name)")
 
   if (startDate && endDate) query = query.gte(filterColumn, startDate).lte(filterColumn, endDate)
   if(!startDate && !endDate) query = query.eq("status", "checkedIn")

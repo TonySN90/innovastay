@@ -11,7 +11,6 @@ import ConfirmDelete from "./confirmDelete";
 import { MdOutlineCheckCircleOutline } from "react-icons/md";
 import ConfirmCheckOut from "../check-in-out/ConfirmCheckOut";
 import { useNavigate } from "react-router";
-import { formatDate } from "../../utils/datesHelper";
 
 function BookingsRow({
   bookings,
@@ -29,10 +28,6 @@ function BookingsRow({
   } = bookings;
 
   const navigate = useNavigate();
-  console.log(endDate.split("T")[0]);
-
-  console.log(formatDate(new Date(endDate.split("T")[0])));
-
   return (
     <tr className="bg-gray-50 min-h-16 grid grid-cols-1 md:grid-cols-12 text-left hyphens-manual py-3 px-5 md:px-7 gap-2 border-t-[1px] rounded-md shadow-lg shadow-indigo-100 my-1.5 hover:bg-indigo-100">
       <td className="flex items-center font-semibold ">
