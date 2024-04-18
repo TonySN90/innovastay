@@ -16,23 +16,28 @@ function Dashboard() {
   return (
     <>
       <DbHeader />
-      <DbSection title={`Heute - ${formatDate(new Date(Date.now()))}`}>
-        <DbInfoCard
-          id="arrival"
-          title="Anreisen"
-          rowContent={arrivalLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : arrivalBookings}
-        />
-        <DbInfoCard
-          id="departure"
-          title="Abreisen"
-          rowContent={departureLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : departureBookings}
-        />
-        <DbInfoCard
-          id="presentGuests"
-          title="Gäste im Haus"
-          rowContent={guestsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : recentGuests}
+      <DbSection title="Aktuelle Buchungen">test</DbSection>
 
-        />
+      <DbSection title={`Heute - ${formatDate(new Date(Date.now()))}`}>
+        <div className=" flex flex-col gap-4 w-full md:w-[48%]">
+          <DbInfoCard
+            id="arrival"
+            title="Anreisen"
+            rowContent={arrivalLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : arrivalBookings}
+          />
+          <DbInfoCard
+            id="departure"
+            title="Abreisen"
+            rowContent={departureLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : departureBookings}
+          />
+        </div>
+        <div className="flex flex-col w-full md:w-[48%]">
+          <DbInfoCard
+            id="presentGuests"
+            title="Gäste im Haus"
+            rowContent={guestsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : recentGuests}  
+            />
+        </div>
       </DbSection>
     </>
   );
@@ -59,8 +64,9 @@ function DbSection({
   title: string;
 }) {
   return (
-    <section className="p-8 bg-gray-50 rounded-lg shadow-xl shadow-indigo-100 h-[500px] overflow-scroll">
-      <div className="flex items-center mb-4 justify-between">
+    <section className=" my-4">
+    {/* <section className="p-8 my-4 bg-gray-50 rounded-lg shadow-xl shadow-indigo-100 overflow-scroll"> */}
+      <div className="mb-4 justify-between">
         <h3 className="text-xl font-semibold">{title}</h3>
         <Link to="/bookings">
           <p className="text-indigo-500 font-semibold">zu den Buchungen</p>
@@ -97,7 +103,7 @@ function DbInfoCard({ id, title, rowContent }: { id: string; title: string, rowC
   return (
     
     <table
-      className={`w-full lg:min-w-[270px] lg:w-[30%] h-[75px] border-b-4 ${border}`}
+      className={`${border}`}
     >
       <thead className={`block rounded-t-lg py-2 px-4 ${backgroundColor} `}>
         <tr>
@@ -144,13 +150,13 @@ function InfoCardRow({
 }) {
   return (
     <tr>
-      <td className="flex justify-between p-4">
+      <td className="flex justify-between py-3 px-4">
         <div className="flex flex-col">
           <div className="flex gap-3">
             <div>
               <BsPeopleFill className={`${textColor} text-lg`} />
             </div>
-            <span className="font-semibold">{name}</span>
+            <span className="font-semibold text-sm">{name}</span>
           </div>
           <div className="font text-sm">
             <span className="mr-3">
