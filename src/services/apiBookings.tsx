@@ -9,6 +9,7 @@ import {
   PostgrestResponse,
 } from "@supabase/supabase-js";
 
+
 export async function getBookings(
   filter: IFilterTypes | undefined,
   sortBy: ISortTypes | undefined,
@@ -121,15 +122,17 @@ export async function deleteBooking(bookingId: number) {
   return data;
 }
 
-export async function getBookingsAfterDate(filterColumn, startDate, endDate) {
+export async function getBookingsAfterDate(filterColumn: string | null, startDate: string | null, endDate: string | null) {
 
   let query = supabase.from("bookings").select("fullName, id, numNights, status, cabins(name)")
 
-  if (startDate && endDate) query = query.gte(filterColumn, startDate).lte(filterColumn, endDate)
-  if(!startDate && !endDate) query = query.eq("status", "checkedIn")
+  if (startDate && endDate && filterColumn) query = query.gte(filterColumn, startDate).lte(filterColumn, endDate)
+  if(!startDate && !endDate && !filterColumn) query = query.eq("status", "checkedIn")
+
+
 
   .order('fullName', { ascending: false });
-  
+
   const { data: recentBookings, error } = await query;
 
   if (error) {

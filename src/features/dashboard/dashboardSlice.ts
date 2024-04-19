@@ -1,16 +1,12 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import { getBookingsAfterDate } from "../../services/apiBookings";
+import { IDashboardStateTypes } from "../../types/DashboardTypes";
 
-export interface IDashboardStateTypes {
-  startDate: string;
-  endDate: string;
-  filterColumn: string;
-}
 
 export const getArrivalBookingsThunk = createAsyncThunk(
   "dashboard/getArrivalBookingsThunk",
-  async ({filterColumn, startDate, endDate}: IDashboardStateTypes |null) => {
+  async ({filterColumn, startDate, endDate}: IDashboardStateTypes) => {
     const arrivalBookings = await getBookingsAfterDate(filterColumn, startDate, endDate);
     return arrivalBookings;
   }
@@ -18,7 +14,7 @@ export const getArrivalBookingsThunk = createAsyncThunk(
 
 export const getDepartureBookingsThunk = createAsyncThunk(
   "dashboard/getDepartureBookingsThunk",
-  async ({filterColumn, startDate, endDate}: IDashboardStateTypes |null) => {
+  async ({filterColumn, startDate, endDate}: IDashboardStateTypes) => {
     const dapartureBookings = await getBookingsAfterDate(filterColumn, startDate, endDate);
     return dapartureBookings;
   }

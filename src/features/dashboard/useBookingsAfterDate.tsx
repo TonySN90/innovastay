@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { getArrivalBookingsThunk, getDepartureBookingsThunk, getRecentGuestsThunk } from "./dashboardSlice";
 import { getToday } from "../../utils/datesHelper";
 
-function useArrivalBookings(hospitalityType : string) {
+function useBookingsAfterDate(hospitalityType : string) {
   const dispatch = useAppDispatch();
   const { arrivalBookings, departureBookings, arrivalLoadingStatus, departureLoadingStatus, recentGuests, guestsLoadingStatus } = useAppSelector(
     (state) => state.dashboard
@@ -14,6 +14,7 @@ function useArrivalBookings(hospitalityType : string) {
     let filterColumn;	
     const startDate = getToday();
     const endDate = getToday({end: true});
+
 
     if (hospitalityType === "arrival") {
       filterColumn = "startDate"
@@ -31,6 +32,6 @@ function useArrivalBookings(hospitalityType : string) {
   return { arrivalBookings, departureBookings, arrivalLoadingStatus, departureLoadingStatus, recentGuests, guestsLoadingStatus };
 }
 
-export default useArrivalBookings;
+export default useBookingsAfterDate;
 
 

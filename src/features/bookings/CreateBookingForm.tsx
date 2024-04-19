@@ -58,10 +58,10 @@ const CreateBookingForm: React.FC<Props> = function ({
       cabinId: isUpdatingSession ? getCabinData(bookingToUpdate) : null,
       guest: isUpdatingSession ? bookingToUpdate?.guests : null,
       startDate: isUpdatingSession
-        ? getDate(bookingToUpdate?.startDate)
+        ? getDate(bookingToUpdate?.startDate.split("T")[0])
         : new Date(),
       endDate: isUpdatingSession
-        ? getDate(bookingToUpdate?.endDate)
+        ? getDate(bookingToUpdate?.endDate.split("T")[0])
         : getNextDay(),
       numGuests: isUpdatingSession ? bookingToUpdate?.numGuests : 1,
       hasBreakfast: isUpdatingSession

@@ -2,21 +2,40 @@ import { TbDoorEnter, TbDoorExit } from "react-icons/tb";
 import { formatDate} from "../utils/datesHelper";
 import { BsPeopleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import useArrivalBookings from "../features/dashboard/useArrivalBookings";
+import useBookingsAfterDate from "../features/dashboard/useBookingsAfterDate";
 import MiniSpinner from "../ui/MiniSpinner";
 import { IBookingTypes } from "../types/BookingTypes";
 import { LoadingTypes } from "../types/GlobalTypes";
 import { PiInfoBold } from "react-icons/pi";
+import { HiOutlineCalendarDays } from "react-icons/hi2";
+import { LuBarChart4 } from "react-icons/lu";
+import { MdOutlineHotel } from "react-icons/md";
 
 function Dashboard() {
-  const { arrivalBookings, arrivalLoadingStatus } = useArrivalBookings('arrival');
-  const { departureBookings, departureLoadingStatus } = useArrivalBookings('departure');
-  const { recentGuests, guestsLoadingStatus } = useArrivalBookings('recentGuests');
+  const { arrivalBookings, arrivalLoadingStatus } = useBookingsAfterDate('arrival');
+  const { departureBookings, departureLoadingStatus } = useBookingsAfterDate('departure');
+  const { recentGuests, guestsLoadingStatus } = useBookingsAfterDate('recentGuests');
 
   return (
     <>
       <DbHeader />
-      <DbSection title="Aktuelle Buchungen">test</DbSection>
+      <DbSection title="Auf einem Blick">
+        <div className="w-full gap-2 flex justify-between flex-wrap">
+          <DbInfoBox color="bg-indigo-200" title='Buchungen' content="12">
+            <HiOutlineCalendarDays className="w-6 h-6" />
+          </DbInfoBox>  
+          <DbInfoBox color="bg-green-200" title='Umsatz' content="24,456 €" >
+            <TbDoorEnter className="w-6 h-6" />
+          </DbInfoBox> 
+          <DbInfoBox color="bg-red-200" title='Auslastung' content="86 %">
+            <LuBarChart4 className="w-6 h-6" />
+          </DbInfoBox>  
+          <DbInfoBox color="bg-indigo-200" title='Freie Zimmer' content="1">
+            <MdOutlineHotel className="w-6 h-6" />
+          </DbInfoBox>  
+        </div>
+
+      </DbSection>
 
       <DbSection title={`Heute - ${formatDate(new Date(Date.now()))}`}>
         <div className=" flex flex-col gap-4 w-full md:w-[48%]">
@@ -64,8 +83,8 @@ function DbSection({
   title: string;
 }) {
   return (
-    <section className=" my-4">
-    {/* <section className="p-8 my-4 bg-gray-50 rounded-lg shadow-xl shadow-indigo-100 overflow-scroll"> */}
+    <section className=" my-10">
+   {/* <section className="p-8 my-4 rounded-lg shadow-xl shadow-indigo-100 overflow-y-scroll"> */}
       <div className="mb-4 flex justify-between">
         <h3 className="text-xl font-semibold">{title}</h3>
         <Link to="/bookings">
@@ -77,6 +96,20 @@ function DbSection({
       </div>
     </section>
   );
+}
+
+function DbInfoBox({children, color, title, content}: {children: React.ReactNode, color: string, title: string, content: string}) {
+  return (
+    <div className="h-24 w-[48%] sm:w-[48%] md:w-[23%] bg-gray-50 rounded-md shadow-indigo-200 shadow-lg flex flex-wrap ">
+      <div className="w-[40%] h-full flex justify-center items-center">
+        <div className={`${color} w-14 h-14 rounded-full flex justify-center items-center`}>{children}</div>
+      </div>
+      <div className="w-[60%] flex flex-col justify-center">
+        <div className="text-sm text-gray-500 font-semibold uppercase break-words">{title}</div>
+        <div className="text-2xl">{content}</div>
+      </div>
+    </div>
+  )
 }
 
 function DbInfoCard({ id, title, rowContent }: { id: string; title: string, rowContent: IBookingTypes[] | LoadingTypes}) {
@@ -91,7 +124,7 @@ function DbInfoCard({ id, title, rowContent }: { id: string; title: string, rowC
   }
   if (id === "departure") {
     border = "border-yellow-200";
-    backgroundColor = "bg-yellow-200";
+    backgroundColor = "bg-red-200";
     textColor = "text-yellow-800";
   }
   if (id === "presentGuests") {
@@ -111,7 +144,7 @@ function DbInfoCard({ id, title, rowContent }: { id: string; title: string, rowC
         </tr>
       </thead>
 
-      <tbody className="bg-gray-50 shadow-lg">
+      <tbody className="bg-gray-50 shadow-indigo-200 shadow-lg ">
       {rowContent === LoadingTypes.LOADING
       ? <tr><td><MiniSpinner /></td></tr> 
       : rowContent.length === 0 
@@ -145,7 +178,7 @@ function InfoCardRow({
   textColor,
   backgroundColor,
 }: {
-  id: number
+  id: string
   status: string;
   name: string;
   bookingId: number;
@@ -174,12 +207,13 @@ function InfoCardRow({
           </div>
         </div>
 
+        {id === 'arrival' && status === "checkedIn" && <RowInfoText info="bereits eingecheckt"/>}
         {id === 'arrival' && status === "unconfirmed" &&
         <RowButton backgroundColor={backgroundColor}>
           <TbDoorEnter className={`${textColor} text-lg`} />
         </RowButton>}
 
-        {id === 'departure' && status === "checkedOut" && <RowInfoText text="bereits ausgecheckt"/>}
+        {id === 'departure' && status === "checkedOut" && <RowInfoText info="bereits ausgecheckt"/>}
         {id === 'departure' && status === "checkedIn" && 
         <RowButton backgroundColor={backgroundColor} >
           <TbDoorExit className={`${textColor} text-lg`} />
@@ -191,25 +225,13 @@ function InfoCardRow({
           <PiInfoBold className={`${textColor} text-lg`} /> 
         </RowButton>
         }
-
-        
-        
-
-        {/* {status === 'checkedOut' ? <p className="text-sm flex items-center italic">bereits ausgecheckt</p> : 
-          <RowButton backgroundColor={backgroundColor} >
-            {status === 'checkedOut' && <TbDoorEnter className={`${textColor} text-lg cursor-pointer`} />}
-            {status === 'checkedIn' && <PiInfoBold className={`${textColor} text-lg cursor-pointer`} />}
-            
-          </RowButton>
-} */}
-        
       </td>
     </tr>
   );
 }
 
-function RowInfoText({text}) {
-  return <p className="text-sm flex items-center italic ">{text}</p>
+function RowInfoText({info}: {info: string}) {
+  return <p className="text-sm flex items-center italic ">{info}</p>
 }
 
 function RowButton({children, backgroundColor}: {children: React.ReactNode, backgroundColor: string}) {

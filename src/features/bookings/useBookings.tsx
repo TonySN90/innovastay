@@ -66,8 +66,9 @@ function useBookings() {
 
       const bookingData = {
         id: booking.id,
-        startDate: new Date(booking.startDate),
-        endDate: new Date(booking.endDate),
+        startDate: new Date(booking.startDate.split("T")[0] + "T15:00:00"),
+        endDate: new Date(booking.endDate.split("T")[0] + "T10:00:00"),
+
         occupancy: 0,
         title: booking.guests.fullName,
         subtitle: booking.numGuests + " Gast/Gäste",

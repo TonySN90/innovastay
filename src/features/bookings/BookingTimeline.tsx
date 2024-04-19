@@ -26,8 +26,19 @@ function BookingTimeline() {
           setFilterButtonState(0);
         }}
         config={{
-          zoom: 1,
+          /* 
+            change filter button state based on your filters
+            < 0 - filter button invisible,
+            0 - filter button visible, no filter applied, clear filters button invisible,
+            > 0 - filter button visible, filters applied (clear filters button will be visible)
+          */
           filterButtonState,
+          // decide start zoom variant (0 - weeks, 1 - days)
+          zoom: 1,
+          // select language for scheduler
+          lang: "en",
+          // decide how many resources show per one page
+          maxRecordsPerPage: 20,
         }}
       />
     </section>

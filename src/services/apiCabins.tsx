@@ -6,7 +6,6 @@ import { FormValues } from "../types/FormTypes";
 import supabase, { supabaseUrl } from "./supabase";
 import { ICabinTypes } from "../types/cabinTypes";
 import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
-import { PAGE_SIZE } from "../utils/constants";
 
 export async function getCabins(
   filter: IFilterTypes,
