@@ -100,7 +100,7 @@ function DbSection({
 
 function DbInfoBox({children, color, title, content}: {children: React.ReactNode, color: string, title: string, content: string}) {
   return (
-    <div className="h-24 w-[48%] sm:w-[48%] md:w-[23%] bg-gray-50 rounded-md shadow-indigo-200 shadow-lg flex flex-wrap ">
+    <div className="h-24 w-[48%] sm:w-[48%] md:w-[23%] bg-gray-50 rounded-md shadow-indigo-100 shadow-xl flex flex-wrap border-b-2 border-indigo-200">
       <div className="w-[40%] h-full flex justify-center items-center">
         <div className={`${color} w-14 h-14 rounded-full flex justify-center items-center`}>{children}</div>
       </div>
@@ -144,7 +144,7 @@ function DbInfoCard({ id, title, rowContent }: { id: string; title: string, rowC
         </tr>
       </thead>
 
-      <tbody className="bg-gray-50 shadow-indigo-200 shadow-lg ">
+      <tbody className="bg-gray-50 border-b-2 border-indigo-200 shadow-indigo-100 shadow-xl">
       {rowContent === LoadingTypes.LOADING
       ? <tr><td><MiniSpinner /></td></tr> 
       : rowContent.length === 0 
