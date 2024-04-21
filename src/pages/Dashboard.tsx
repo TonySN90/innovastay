@@ -9,7 +9,8 @@ import { LoadingTypes } from "../types/GlobalTypes";
 import { PiInfoBold } from "react-icons/pi";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
 import { LuBarChart4 } from "react-icons/lu";
-import { MdOutlineHotel } from "react-icons/md";
+import DashboardFilter from "../features/dashboard/DashboardFilter";
+import { LiaMoneyBillWaveAltSolid } from "react-icons/lia";
 
 function Dashboard() {
   const { arrivalBookings, arrivalLoadingStatus } = useBookingsAfterDate('arrival');
@@ -19,43 +20,43 @@ function Dashboard() {
   return (
     <>
       <DbHeader />
-      <DbSection title="Auf einem Blick">
-        <div className="w-full gap-2 flex justify-between flex-wrap">
+      <DashboardFilter />
+      <DbSection>
           <DbInfoBox color="bg-indigo-200" title='Buchungen' content="12">
             <HiOutlineCalendarDays className="w-6 h-6" />
           </DbInfoBox>  
           <DbInfoBox color="bg-green-200" title='Umsatz' content="24,456 €" >
-            <TbDoorEnter className="w-6 h-6" />
+            <LiaMoneyBillWaveAltSolid className="w-6 h-6" />
           </DbInfoBox> 
           <DbInfoBox color="bg-red-200" title='Auslastung' content="86 %">
             <LuBarChart4 className="w-6 h-6" />
           </DbInfoBox>  
-          <DbInfoBox color="bg-indigo-200" title='Freie Zimmer' content="1">
-            <MdOutlineHotel className="w-6 h-6" />
+          <DbInfoBox color="bg-indigo-200" title='Check.Ins' content="1">
+            <TbDoorEnter className="w-6 h-6" />
           </DbInfoBox>  
-        </div>
-
       </DbSection>
 
-      <DbSection title={`Heute - ${formatDate(new Date(Date.now()))}`}>
-        <div className=" flex flex-col gap-4 w-full md:w-[48%]">
-          <DbInfoCard
-            id="arrival"
-            title="Anreisen"
-            rowContent={arrivalLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : arrivalBookings}
-          />
-          <DbInfoCard
-            id="departure"
-            title="Abreisen"
-            rowContent={departureLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : departureBookings}
-          />
-        </div>
-        <div className="flex flex-col w-full md:w-[48%]">
-          <DbInfoCard
-            id="presentGuests"
-            title="Gäste im Haus"
-            rowContent={guestsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : recentGuests}  
+      <DbSection title={`Heute - ${formatDate(new Date(Date.now()))}`} linkText="zu den Buchungen">
+        <div className="w-full gap-2 flex justify-between flex-wrap">
+          <div className=" flex flex-col gap-4 w-full md:w-[48%]">
+            <DbInfoCard
+              id="arrival"
+              title="Anreisen"
+              rowContent={arrivalLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : arrivalBookings}
             />
+            <DbInfoCard
+              id="departure"
+              title="Abreisen"
+              rowContent={departureLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : departureBookings}
+            />
+          </div>
+          <div className="flex flex-col w-full md:w-[48%]">
+            <DbInfoCard
+              id="presentGuests"
+              title="Gäste im Haus"
+              rowContent={guestsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : recentGuests}  
+              />
+          </div>
         </div>
       </DbSection>
     </>
@@ -78,17 +79,18 @@ function DbHeader() {
 function DbSection({
   children,
   title,
+  linkText
 }: {
   children: React.ReactNode;
-  title: string;
+  title?: string;
+  linkText?: string;
 }) {
   return (
-    <section className=" my-10">
-   {/* <section className="p-8 my-4 rounded-lg shadow-xl shadow-indigo-100 overflow-y-scroll"> */}
-      <div className="mb-4 flex justify-between">
+    <section className="mb-10">
+      <div className="flex justify-between">
         <h3 className="text-xl font-semibold">{title}</h3>
         <Link to="/bookings">
-          <p className="text-indigo-500 font-semibold">zu den Buchungen</p>
+          <p className="text-indigo-500 font-semibold">{linkText}</p>
         </Link>
       </div>
       <div className="flex justify-between flex-wrap gap-4 m-auto">
@@ -136,7 +138,7 @@ function DbInfoCard({ id, title, rowContent }: { id: string; title: string, rowC
   return (
     
     <table
-      className={`${border}`}
+      className={`${border} mt-2`}
     >
       <thead className={`block rounded-t-lg py-2 px-4 ${backgroundColor} `}>
         <tr>

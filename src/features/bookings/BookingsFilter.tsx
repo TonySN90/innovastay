@@ -19,6 +19,8 @@ function BookingsFilter() {
   const filterBase = {
     category: "bookings",
     field: "status",
+    defaultFilter: "all"
+
   };
 
   return (

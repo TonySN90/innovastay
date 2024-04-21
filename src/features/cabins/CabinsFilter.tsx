@@ -32,6 +32,7 @@ function CabinsFilter() {
   const filterBase = {
     category: "cabins",
     field: "category",
+    defaultFilter: "all",
     defaultSortField: "price",
   };
 

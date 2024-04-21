@@ -18,7 +18,7 @@ function FilterBar({
 }: {
   filterBase: IFilterBaseTypes;
   filterButtons?: IFilterButtonsTypes[];
-  options: Option[];
+  options?: Option[];
 }) {
   const [inputValue, setInputValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -36,9 +36,10 @@ function FilterBar({
       }}
     >
       <div className="flex md:justify-end items-center mb-4 flex-wrap">
-        {filterBase.category !== "cabins" && <SearchInput />}
+        {filterBase.category !== "cabins" && filterBase.category !== "dashboard" &&  <SearchInput />}
         {filterBase.category !== "guests" && <FilterButtons />}
-        <SortInput />
+        {filterBase.category !== "dashboard" && <SortInput />}
+        
       </div>
     </FilterContext.Provider>
   );
@@ -110,12 +111,16 @@ function SearchInput() {
   );
 }
 
-function FilterButtons() {
+export function FilterButtons() {
   const { setInputValue, setIsOpen, filterBase, filterButtons } = useContext(
     FilterContext
   ) as IFilterContext;
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentFilter = searchParams.get(filterBase.field) || "all";
+  const currentFilter = searchParams.get(filterBase.field) || filterBase.defaultFilter;
+
+  console.log(currentFilter)
+  
+  // console.log(filterBase.field)
 
   function setParams(filterType: string) {
     searchParams.set(filterBase.field, filterType);
