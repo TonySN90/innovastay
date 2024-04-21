@@ -17,7 +17,7 @@ function Dashboard() {
   const { arrivalBookings, arrivalLoadingStatus } = useBookingsAfterDate('arrival');
   const { departureBookings, departureLoadingStatus } = useBookingsAfterDate('departure');
   const { recentGuests, guestsLoadingStatus } = useBookingsAfterDate('recentGuests');
-  const { quantityBookings, sales, occupancy, checkIns, periodBookingsLoadingStatus } = useStats();
+  const { quantityBookings, sales, occupancy, checkIns, periodBookingsLoadingStatus, quantityBookingsLoadingStatus } = useStats();
 
 
   return (
@@ -25,16 +25,20 @@ function Dashboard() {
       <DbHeader />
       <DashboardFilter />
       <DbSection>
-          <DbInfoBox color="bg-indigo-200" title='Buchungen' content={quantityBookings}>
+          <DbInfoBox color="bg-indigo-200" title='Buchungen' 
+            content={quantityBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : quantityBookings}>
             <HiOutlineCalendarDays className="w-6 h-6" />
           </DbInfoBox>  
-          <DbInfoBox color="bg-green-200" title='Umsatz' content={`${sales} €`} >
+          <DbInfoBox color="bg-green-200" title='Umsatz' 
+            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : sales} >
             <LiaMoneyBillWaveAltSolid className="w-6 h-6" />
           </DbInfoBox> 
-          <DbInfoBox color="bg-red-200" title='Auslastung' content={`${occupancy} %`}>
+          <DbInfoBox color="bg-red-200" title='Auslastung' 
+            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : occupancy}>
             <LuBarChart4 className="w-6 h-6" />
           </DbInfoBox>  
-          <DbInfoBox color="bg-indigo-200" title='Check-Ins' content={checkIns}>
+          <DbInfoBox color="bg-indigo-200" title='Check-Ins' 
+            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : checkIns}>
             <TbDoorEnter className="w-6 h-6" />
           </DbInfoBox>  
       </DbSection>
@@ -111,7 +115,8 @@ function DbInfoBox({children, color, title, content}: {children: React.ReactNode
       </div>
       <div className="w-[60%] flex flex-col justify-center">
         <div className="text-sm text-gray-500 font-semibold uppercase break-words">{title}</div>
-        <div className="text-2xl">{content}</div>
+        {content === LoadingTypes.LOADING ? <MiniSpinner /> : <div className="text-2xl">{content}</div>}
+        
       </div>
     </div>
   )
@@ -151,7 +156,7 @@ function DbInfoCard({ id, title, rowContent }: { id: string; title: string, rowC
 
       <tbody className="bg-gray-50 border-b-2 border-indigo-200 shadow-indigo-100 shadow-xl">
       {rowContent === LoadingTypes.LOADING
-      ? <tr><td><MiniSpinner /></td></tr> 
+      ? <tr><td><MiniSpinner alignment="center" /></td></tr> 
       : rowContent.length === 0 
       ? 
         <tr><td className="text-sm p-4">Keine Daten vorhanden</td></tr> 

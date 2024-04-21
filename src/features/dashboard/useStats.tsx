@@ -4,7 +4,7 @@ import useBookingsAfterDate from "./useBookingsAfterDate";
 
 function useStats() {
     const { periodBookings, periodBookingsLoadingStatus } = useBookingsAfterDate('timePeriod');
-    const { createdBookings, createdBookingsLoadingStatus } = useBookingsAfterDate('createdAt');
+    const { createdBookings, createdBookingsLoadingStatus: quantityBookingsLoadingStatus } = useBookingsAfterDate('createdAt');
 
     const { cabins } = useCabins();
 
@@ -48,7 +48,7 @@ function useStats() {
         occupancy,
         checkIns,
         periodBookingsLoadingStatus,
-        createdBookingsLoadingStatus
+        quantityBookingsLoadingStatus
 
     }
 }

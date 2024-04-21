@@ -5,7 +5,8 @@ import { getPastDay, getToday } from "../../utils/datesHelper";
 
 function useBookingsAfterDate(hospitalityType : string) {
   const dispatch = useAppDispatch();
-  const { arrivalBookings, departureBookings, periodBookings, arrivalLoadingStatus, departureLoadingStatus, periodBookingsLoadingStatus, recentGuests, guestsLoadingStatus, createdBookings, createdBookingsLoadingStatus } = useAppSelector(
+  const { arrivalBookings, departureBookings, periodBookings, arrivalLoadingStatus, departureLoadingStatus, 
+    periodBookingsLoadingStatus, recentGuests, guestsLoadingStatus, createdBookings, createdBookingsLoadingStatus } = useAppSelector(
     (state) => state.dashboard
   );
 
@@ -34,14 +35,15 @@ function useBookingsAfterDate(hospitalityType : string) {
       filterColumn = "created_at"
     }
 
-    // if (hospitalityType === "arrival") dispatch(getArrivalBookingsThunk({filterColumn, startDate, endDate}));
-    // if (hospitalityType === "departure") dispatch(getDepartureBookingsThunk({filterColumn, startDate, endDate}));
+    if (hospitalityType === "arrival") dispatch(getArrivalBookingsThunk({filterColumn, startDate, endDate}));
+    if (hospitalityType === "departure") dispatch(getDepartureBookingsThunk({filterColumn, startDate, endDate}));
     if (hospitalityType === "timePeriod") dispatch(getPeriodBookingsThunk({filterColumn, startDate, endDate}));
     if (hospitalityType === "createdAt") dispatch(getCreatedBookingsThunk({filterColumn, startDate, endDate}));
-    // if (hospitalityType === "recentGuests") dispatch(getRecentGuestsThunk());
+    if (hospitalityType === "recentGuests") dispatch(getRecentGuestsThunk());
   }, [dispatch, hospitalityType]);
 
-  return { arrivalBookings, departureBookings, arrivalLoadingStatus, departureLoadingStatus, recentGuests, guestsLoadingStatus, periodBookings, periodBookingsLoadingStatus, createdBookings, createdBookingsLoadingStatus };
+  return { arrivalBookings, departureBookings, arrivalLoadingStatus, departureLoadingStatus, recentGuests, 
+    guestsLoadingStatus, periodBookings, periodBookingsLoadingStatus, createdBookings, createdBookingsLoadingStatus };
 }
 
 export default useBookingsAfterDate;
