@@ -15,6 +15,7 @@ export async function getBookings(
   sortBy: ISortTypes | undefined,
   page: number
 ) {
+
   // Query
   let query = supabase
     .from("bookings")
@@ -124,12 +125,10 @@ export async function deleteBooking(bookingId: number) {
 
 export async function getBookingsAfterDate(filterColumn: string | null, startDate: string | null, endDate: string | null) {
 
-  let query = supabase.from("bookings").select("fullName, id, numNights, status, cabins(name)")
+  let query = supabase.from("bookings").select("startDate, endDate, totalPrice, fullName, id, numNights, status, cabins(name)")
 
   if (startDate && endDate && filterColumn) query = query.gte(filterColumn, startDate).lte(filterColumn, endDate)
   if(!startDate && !endDate && !filterColumn) query = query.eq("status", "checkedIn")
-
-
 
   .order('fullName', { ascending: false });
 

@@ -1,18 +1,18 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { getArrivalBookingsThunk, getDepartureBookingsThunk, getRecentGuestsThunk } from "./dashboardSlice";
-import { getToday } from "../../utils/datesHelper";
+import { getArrivalBookingsThunk, getDepartureBookingsThunk, getPeriodBookingsThunk, getCreatedBookingsThunk, getRecentGuestsThunk } from "./dashboardSlice";
+import { getPastDay, getToday } from "../../utils/datesHelper";
 
 function useBookingsAfterDate(hospitalityType : string) {
   const dispatch = useAppDispatch();
-  const { arrivalBookings, departureBookings, arrivalLoadingStatus, departureLoadingStatus, recentGuests, guestsLoadingStatus } = useAppSelector(
+  const { arrivalBookings, departureBookings, periodBookings, arrivalLoadingStatus, departureLoadingStatus, periodBookingsLoadingStatus, recentGuests, guestsLoadingStatus, createdBookings, createdBookingsLoadingStatus } = useAppSelector(
     (state) => state.dashboard
   );
 
   useEffect(() => {
     
-    let filterColumn;	
-    const startDate = getToday();
+    let filterColumn, startDate;	
+    startDate = getToday();
     const endDate = getToday({end: true});
 
 
@@ -24,12 +24,24 @@ function useBookingsAfterDate(hospitalityType : string) {
       filterColumn = "endDate"
     }
 
-    if (hospitalityType === "arrival") dispatch(getArrivalBookingsThunk({filterColumn, startDate, endDate}));
-    if (hospitalityType === "departure") dispatch(getDepartureBookingsThunk({filterColumn, startDate, endDate}));
-    if (hospitalityType === "recentGuests") dispatch(getRecentGuestsThunk());
+    if (hospitalityType === "timePeriod") {
+      startDate = getPastDay(7); // 7 days ago
+      filterColumn = "startDate"
+    }
+
+    if (hospitalityType === "createdAt") {
+      startDate = getPastDay(7); // 7 days ago
+      filterColumn = "created_at"
+    }
+
+    // if (hospitalityType === "arrival") dispatch(getArrivalBookingsThunk({filterColumn, startDate, endDate}));
+    // if (hospitalityType === "departure") dispatch(getDepartureBookingsThunk({filterColumn, startDate, endDate}));
+    if (hospitalityType === "timePeriod") dispatch(getPeriodBookingsThunk({filterColumn, startDate, endDate}));
+    if (hospitalityType === "createdAt") dispatch(getCreatedBookingsThunk({filterColumn, startDate, endDate}));
+    // if (hospitalityType === "recentGuests") dispatch(getRecentGuestsThunk());
   }, [dispatch, hospitalityType]);
 
-  return { arrivalBookings, departureBookings, arrivalLoadingStatus, departureLoadingStatus, recentGuests, guestsLoadingStatus };
+  return { arrivalBookings, departureBookings, arrivalLoadingStatus, departureLoadingStatus, recentGuests, guestsLoadingStatus, periodBookings, periodBookingsLoadingStatus, createdBookings, createdBookingsLoadingStatus };
 }
 
 export default useBookingsAfterDate;

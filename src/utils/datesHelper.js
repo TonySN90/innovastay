@@ -44,13 +44,11 @@ export const getToday = function (options = {}) {
   return today.toISOString();
 };
 
-export const getYesterday = function (options = {}) {
-  const yesterday = new Date();
+export const getPastDay = function (pastDays) {
+  const PastDay = new Date();
 
-  yesterday.setDate(yesterday.getDate() - 1);
+  PastDay.setDate(PastDay.getDate() - pastDays);
+  PastDay.setUTCHours(0, 0, 0, 0);
 
-  if (options?.end) yesterday.setHours(23, 59, 59, 999);
-  else yesterday.setHours(0, 0, 0, 0);
-
-  return yesterday.toISOString();
+  return PastDay.toISOString();
 };

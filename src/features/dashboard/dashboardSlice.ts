@@ -20,6 +20,21 @@ export const getDepartureBookingsThunk = createAsyncThunk(
   }
 );
 
+export const getPeriodBookingsThunk = createAsyncThunk(
+  "dashboard/getPeriodBookingsThunk",
+  async ({filterColumn, startDate, endDate}: IDashboardStateTypes) => {
+    const periodBookings = await getBookingsAfterDate(filterColumn, startDate, endDate);
+    return periodBookings;
+  }
+);
+export const getCreatedBookingsThunk = createAsyncThunk(
+  "dashboard/getCreatedBookingsThunk",
+  async ({filterColumn, startDate, endDate}: IDashboardStateTypes) => {
+    const createdBookings = await getBookingsAfterDate(filterColumn, startDate, endDate);
+    return createdBookings;
+  }
+);
+
 export const getRecentGuestsThunk = createAsyncThunk(
   "dashboard/getRecentGuestsThunk",
   async () => {
@@ -28,16 +43,21 @@ export const getRecentGuestsThunk = createAsyncThunk(
   }
 );
 
+
 const dashboardSlice = createSlice({
   name: "dashboard",
   initialState: {
     arrivalBookings: [],
     departureBookings: [],
     recentGuests: [],
+    periodBookings: [],
+    createdBookings: [],
 
     arrivalLoadingStatus: LoadingTypes.IDLE,
     departureLoadingStatus: LoadingTypes.IDLE,
     guestsLoadingStatus: LoadingTypes.IDLE,
+    periodBookingsLoadingStatus: LoadingTypes.IDLE,
+    createdBookingsLoadingStatus: LoadingTypes.IDLE,
   },
   reducers: {
     setLoadingStatus: (state, action: PayloadAction<LoadingTypes>) => {
@@ -78,6 +98,28 @@ const dashboardSlice = createSlice({
       })
       .addCase(getRecentGuestsThunk.rejected, (state) => {
         state.guestsLoadingStatus = LoadingTypes.ERROR;
+      })
+    // period Bookings
+      .addCase(getPeriodBookingsThunk.pending, (state) => {
+        state.periodBookingsLoadingStatus = LoadingTypes.LOADING;
+      })
+      .addCase(getPeriodBookingsThunk.fulfilled, (state, action) => {
+        state.periodBookingsLoadingStatus = LoadingTypes.SUCCESS;
+        state.periodBookings = action.payload;
+      })
+      .addCase(getPeriodBookingsThunk.rejected, (state) => {
+        state.periodBookingsLoadingStatus = LoadingTypes.ERROR;
+      })
+    // created Bookings
+      .addCase(getCreatedBookingsThunk.pending, (state) => {
+        state.createdBookingsLoadingStatus = LoadingTypes.LOADING;
+      })
+      .addCase(getCreatedBookingsThunk.fulfilled, (state, action) => {
+        state.createdBookingsLoadingStatus = LoadingTypes.SUCCESS;
+        state.createdBookings = action.payload;
+      })
+      .addCase(getCreatedBookingsThunk.rejected, (state) => {
+        state.createdBookingsLoadingStatus = LoadingTypes.ERROR;
       });
   },
 });

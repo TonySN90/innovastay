@@ -69,6 +69,7 @@ export interface IFilterButtonsTypes {
 export interface IFilterBaseTypes {
   category: string;
   field: string;
+  defaultFilter: string;
 }
 
 export interface IFilterContext {

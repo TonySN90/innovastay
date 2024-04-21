@@ -11,27 +11,30 @@ import { HiOutlineCalendarDays } from "react-icons/hi2";
 import { LuBarChart4 } from "react-icons/lu";
 import DashboardFilter from "../features/dashboard/DashboardFilter";
 import { LiaMoneyBillWaveAltSolid } from "react-icons/lia";
+import useStats from "../features/dashboard/useStats";
 
 function Dashboard() {
   const { arrivalBookings, arrivalLoadingStatus } = useBookingsAfterDate('arrival');
   const { departureBookings, departureLoadingStatus } = useBookingsAfterDate('departure');
   const { recentGuests, guestsLoadingStatus } = useBookingsAfterDate('recentGuests');
+  const { quantityBookings, sales, occupancy, checkIns, periodBookingsLoadingStatus } = useStats();
+
 
   return (
     <>
       <DbHeader />
       <DashboardFilter />
       <DbSection>
-          <DbInfoBox color="bg-indigo-200" title='Buchungen' content="12">
+          <DbInfoBox color="bg-indigo-200" title='Buchungen' content={quantityBookings}>
             <HiOutlineCalendarDays className="w-6 h-6" />
           </DbInfoBox>  
-          <DbInfoBox color="bg-green-200" title='Umsatz' content="24,456 €" >
+          <DbInfoBox color="bg-green-200" title='Umsatz' content={`${sales} €`} >
             <LiaMoneyBillWaveAltSolid className="w-6 h-6" />
           </DbInfoBox> 
-          <DbInfoBox color="bg-red-200" title='Auslastung' content="86 %">
+          <DbInfoBox color="bg-red-200" title='Auslastung' content={`${occupancy} %`}>
             <LuBarChart4 className="w-6 h-6" />
           </DbInfoBox>  
-          <DbInfoBox color="bg-indigo-200" title='Check.Ins' content="1">
+          <DbInfoBox color="bg-indigo-200" title='Check-Ins' content={checkIns}>
             <TbDoorEnter className="w-6 h-6" />
           </DbInfoBox>  
       </DbSection>

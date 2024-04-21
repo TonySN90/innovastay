@@ -118,10 +118,6 @@ export function FilterButtons() {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentFilter = searchParams.get(filterBase.field) || filterBase.defaultFilter;
 
-  console.log(currentFilter)
-  
-  // console.log(filterBase.field)
-
   function setParams(filterType: string) {
     searchParams.set(filterBase.field, filterType);
     searchParams.delete("search");
