@@ -1,25 +1,29 @@
-import moment from "moment";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import { getPastDay, getToday } from "../../utils/datesHelper";
 import useCabins from "../cabins/useCabins";
 import useBookingsAfterDate from "./useBookingsAfterDate";
 
 function useStats() {
+    const filter = 2;
     const { periodBookings, periodBookingsLoadingStatus } = useBookingsAfterDate('timePeriod');
-    const { createdBookings, createdBookingsLoadingStatus: quantityBookingsLoadingStatus } = useBookingsAfterDate('createdAt');
+    const { createdBookings, createdBookingsLoadingStatus: quantityBookingsLoadingStatus } = useBookingsAfterDate('createdAt', filter);
     const { cabins } = useCabins();
+
+    const startDate = new Date(getPastDay(filter));
+    const endDate = new Date(getToday());
+    const count = {};
 
     // quantity bookings
     const quantityBookings = createdBookings.length;
 
     // sales
-    const sales = periodBookings.reduce((total, booking) => total + booking.totalPrice, 0);
+    const sales  = periodBookings
+    .filter((booking) => new Date(booking.startDate).toDateString() !== new Date(endDate).toDateString())
+    .filter((booking) => new Date(booking.startDate).getTime() > new Date(startDate).getTime())
+    .reduce((total, booking) => total + booking.totalPrice, 0);
 
-    // occupancy
-    const startDate = new Date(getPastDay(7));
-    const endDate = new Date(getToday());
-    const count = {};
-    
+    // occupancy 
+
     while (startDate < endDate) {
         count[startDate.toDateString()] = 0;
         startDate.setDate(startDate.getDate() + 1);
@@ -31,7 +35,6 @@ function useStats() {
         
         while (bookingStartDate < bookingEndDate && bookingStartDate < endDate) {
             const dateString = bookingStartDate.toDateString();
-            
     
             // Überprüfen, ob der Wert NaN ist
             if (isNaN(count[dateString])) {
@@ -43,10 +46,8 @@ function useStats() {
         }   
     });
 
-    console.log(count);
-    
-
     let occupancy = 0;
+
 
     if(cabins.length > 0 && periodBookingsLoadingStatus === LoadingTypes.SUCCESS) {
         occupancy = Math.round(Object.values(count)
@@ -66,7 +67,6 @@ function useStats() {
         checkIns,
         periodBookingsLoadingStatus,
         quantityBookingsLoadingStatus
-
     }
 }
 
