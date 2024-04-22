@@ -7,7 +7,6 @@ import useBookingsAfterDate from "./useBookingsAfterDate";
 function useStats() {
 
     const [searchParams] = useSearchParams();
-
     const filter = Number(searchParams.get("stats") || 7);
 
     const { periodBookings, periodBookingsLoadingStatus } = useBookingsAfterDate('timePeriod');
@@ -37,8 +36,6 @@ function useStats() {
     // sales
     const sales = filteredPeriodBookings
     .reduce((total, booking) => total + booking.totalPrice, 0);
-
-    console.log(filteredPeriodBookings);
 
     // occupancy 
     while (startDate < endDate) {
@@ -74,13 +71,26 @@ function useStats() {
     // check-ins
     const checkIns = filteredPeriodBookings.length;
 
+    const result = [
+        {"21 April": 1500},
+        {"20 April": 200},
+        {"19 April": 1300},
+        {"18 Dezember": 200},
+        {"17 April": 650},
+        {"16 April": 250},
+        {"15 April": 1200},
+
+    ]
+    
+
     return {
         quantityBookings,
         sales,
         occupancy,
         checkIns,
         periodBookingsLoadingStatus,
-        quantityBookingsLoadingStatus
+        quantityBookingsLoadingStatus,
+        result
     }
 }
 

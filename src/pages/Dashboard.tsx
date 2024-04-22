@@ -18,13 +18,13 @@ function Dashboard() {
   const { arrivalBookings, arrivalLoadingStatus } = useBookingsAfterDate('arrival');
   const { departureBookings, departureLoadingStatus } = useBookingsAfterDate('departure');
   const { recentGuests, guestsLoadingStatus } = useBookingsAfterDate('recentGuests');
-  const { quantityBookings, sales, occupancy, checkIns, periodBookingsLoadingStatus, quantityBookingsLoadingStatus } = useStats();
+  const { quantityBookings, sales, occupancy, checkIns, periodBookingsLoadingStatus, quantityBookingsLoadingStatus, result } = useStats();
 
   return (
     <>
-      <DbHeader />
+      {/* <DbHeader />
       <DashboardFilter />
-      <DbSection>
+      <DbSection title="Auf einem Blick">
           <DbInfoBox color="bg-indigo-200" title='Buchungen' 
             content={quantityBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : quantityBookings}>
             <HiOutlineCalendarDays className="w-6 h-6" />
@@ -65,11 +65,11 @@ function Dashboard() {
               />
           </div>
         </div>
-      </DbSection>
+      </DbSection> */}
 
       <DbSection title="Umsatz-Statistiken">
         <div className="w-full">
-          <SalesCharts />
+          <SalesCharts chartData={result} />
         </div>
       </DbSection>
     </>
@@ -99,7 +99,7 @@ function DbSection({
   linkText?: string;
 }) {
   return (
-    <section className="mb-10 p-4 bg-slate-50 rounded-lg shadow-md shadow-indigo-100">
+    <section className="mb-6 px-12 py-6 bg-slate-50 rounded-lg shadow-md shadow-indigo-100">
       <div className="flex justify-between">
         <h3 className="text-xl font-semibold">{title}</h3>
         <Link to="/bookings">
