@@ -48,7 +48,7 @@ export const getPastDay = function (pastDays) {
   const PastDay = new Date();
 
   PastDay.setDate(PastDay.getDate() - pastDays);
-  PastDay.setUTCHours(0, 0, 0, 0);
+  PastDay.setHours(0, 0, 0, 0);
 
   return PastDay.toISOString();
 };

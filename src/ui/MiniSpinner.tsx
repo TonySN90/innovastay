@@ -1,6 +1,6 @@
 import { CgSpinnerTwoAlt } from "react-icons/cg";
 
-function MiniSpinner({alignment}) {
+function MiniSpinner({alignment}: {alignment: string}) {
 
   if (alignment === "left") alignment = "justify-start";
   if (alignment === "center") alignment = "justify-center py-6";

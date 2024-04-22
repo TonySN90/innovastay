@@ -44,8 +44,10 @@ function BookingsRow({
         </div>
       </td>
       <td className="flex items-center md:col-span-2">
-        {format(new Date(startDate.split("T")[0]), "dd.MM.yyyy")} -{" "}
-        {format(new Date(endDate.split("T")[0]), "dd.MM.yyyy")}
+        {format(new Date(startDate), "dd.MM.yyyy")} -{" "}
+        {format(new Date(endDate), "dd.MM.yyyy")}
+        {/* {format(new Date(startDate.split("T")[0]), "dd.MM.yyyy")} -{" "}
+        {format(new Date(endDate.split("T")[0]), "dd.MM.yyyy")} */}
       </td>
       <td className={`flex items-center md:col-span-2`}>
         <div

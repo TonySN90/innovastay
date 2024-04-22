@@ -26,7 +26,6 @@ export async function getCabins(
     query = query.order(sortBy.field, {
       ascending: sortBy.direction === "asc",
     });
-    console.log(page)
 
   // Page
   // if (page) {

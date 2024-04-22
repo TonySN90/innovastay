@@ -14,7 +14,7 @@ function BookingInfoBox({
   const guest = booking.guests;
   const cabin = booking.cabins;
 
-  console.log(cabin);
+  console.log(booking.created_at);
 
   return (
     <div className="p-2">
@@ -23,6 +23,8 @@ function BookingInfoBox({
       {windowWidth < 500 && (
         <h2 className="font-semibold">Buchung angelegt am</h2>
       )}
+
+
       <InfoRow
         label="Buchung angelegt am"
         info={

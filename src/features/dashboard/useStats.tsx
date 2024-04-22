@@ -1,11 +1,12 @@
+import moment from "moment";
 import { LoadingTypes } from "../../types/GlobalTypes";
+import { getPastDay, getToday } from "../../utils/datesHelper";
 import useCabins from "../cabins/useCabins";
 import useBookingsAfterDate from "./useBookingsAfterDate";
 
 function useStats() {
     const { periodBookings, periodBookingsLoadingStatus } = useBookingsAfterDate('timePeriod');
     const { createdBookings, createdBookingsLoadingStatus: quantityBookingsLoadingStatus } = useBookingsAfterDate('createdAt');
-
     const { cabins } = useCabins();
 
     // quantity bookings
@@ -15,19 +16,35 @@ function useStats() {
     const sales = periodBookings.reduce((total, booking) => total + booking.totalPrice, 0);
 
     // occupancy
+    const startDate = new Date(getPastDay(7));
+    const endDate = new Date(getToday());
     const count = {};
-
+    
+    while (startDate < endDate) {
+        count[startDate.toDateString()] = 0;
+        startDate.setDate(startDate.getDate() + 1);
+    }
+    
     periodBookings.forEach((booking) => {
-        let startDate = new Date(booking.startDate).getDate();
-        let endDate = new Date(booking.endDate).getDate();
-
-        if(startDate < 14) startDate = 14;
-        if(endDate >= 21) endDate = 21;
-
-        for (let i = startDate; i <= endDate; i++) {
-            count[i] = (count[i] || 0) + 1
-        }
+        const bookingStartDate = new Date(booking.startDate);
+        const bookingEndDate = new Date(booking.endDate);
+        
+        while (bookingStartDate < bookingEndDate && bookingStartDate < endDate) {
+            const dateString = bookingStartDate.toDateString();
+            
+    
+            // Überprüfen, ob der Wert NaN ist
+            if (isNaN(count[dateString])) {
+                delete count[dateString]; // Lösche den Eintrag
+            } else {
+                count[dateString]++;
+            }
+            bookingStartDate.setDate(bookingStartDate.getDate() + 1);
+        }   
     });
+
+    console.log(count);
+    
 
     let occupancy = 0;
 

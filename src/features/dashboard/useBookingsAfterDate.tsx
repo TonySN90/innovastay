@@ -26,8 +26,9 @@ function useBookingsAfterDate(hospitalityType : string) {
     }
 
     if (hospitalityType === "timePeriod") {
-      startDate = getPastDay(7); // 7 days ago
+      startDate = getPastDay(60); // High date range to ensure that bookings are also recorded before the start date.
       filterColumn = "startDate"
+      console.log(startDate)
     }
 
     if (hospitalityType === "createdAt") {

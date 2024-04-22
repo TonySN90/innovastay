@@ -30,11 +30,11 @@ function Dashboard() {
             <HiOutlineCalendarDays className="w-6 h-6" />
           </DbInfoBox>  
           <DbInfoBox color="bg-green-200" title='Umsatz' 
-            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : sales} >
+            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : `${sales.toFixed(2)} €`} >
             <LiaMoneyBillWaveAltSolid className="w-6 h-6" />
           </DbInfoBox> 
           <DbInfoBox color="bg-red-200" title='Auslastung' 
-            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : occupancy}>
+            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : `${occupancy} %`}>
             <LuBarChart4 className="w-6 h-6" />
           </DbInfoBox>  
           <DbInfoBox color="bg-indigo-200" title='Check-Ins' 
@@ -107,7 +107,7 @@ function DbSection({
   );
 }
 
-function DbInfoBox({children, color, title, content}: {children: React.ReactNode, color: string, title: string, content: string}) {
+function DbInfoBox({children, color, title, content}: {children: React.ReactNode, color: string, title: string, content: number | LoadingTypes}) {
   return (
     <div className="h-24 w-[48%] sm:w-[48%] md:w-[23%] bg-gray-50 rounded-md shadow-indigo-100 shadow-xl flex flex-wrap border-b-2 border-indigo-200">
       <div className="w-[40%] h-full flex justify-center items-center">
@@ -115,7 +115,7 @@ function DbInfoBox({children, color, title, content}: {children: React.ReactNode
       </div>
       <div className="w-[60%] flex flex-col justify-center">
         <div className="text-sm text-gray-500 font-semibold uppercase break-words">{title}</div>
-        {content === LoadingTypes.LOADING ? <MiniSpinner /> : <div className="text-2xl">{content}</div>}
+        {content === LoadingTypes.LOADING ? <MiniSpinner alignment={"left"} /> : <div className="text-2xl">{content}</div>}
         
       </div>
     </div>
