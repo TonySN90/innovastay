@@ -31,7 +31,7 @@ function useBookingsAfterDate(hospitalityType : string) {
     }
 
     if (hospitalityType === "createdAt") {
-      startDate = getPastDay(40); 
+      startDate = getPastDay(40); // Too
       filterColumn = "created_at"
     }
 

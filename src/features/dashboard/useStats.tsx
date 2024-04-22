@@ -38,8 +38,9 @@ function useStats() {
     const sales = filteredPeriodBookings
     .reduce((total, booking) => total + booking.totalPrice, 0);
 
-    // occupancy 
+    console.log(filteredPeriodBookings);
 
+    // occupancy 
     while (startDate < endDate) {
         count[startDate.toDateString()] = 0;
         startDate.setDate(startDate.getDate() + 1);

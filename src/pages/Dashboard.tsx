@@ -12,13 +12,13 @@ import { LuBarChart4 } from "react-icons/lu";
 import DashboardFilter from "../features/dashboard/DashboardFilter";
 import { LiaMoneyBillWaveAltSolid } from "react-icons/lia";
 import useStats from "../features/dashboard/useStats";
+import SalesCharts from "../features/dashboard/SalesChart";
 
 function Dashboard() {
   const { arrivalBookings, arrivalLoadingStatus } = useBookingsAfterDate('arrival');
   const { departureBookings, departureLoadingStatus } = useBookingsAfterDate('departure');
   const { recentGuests, guestsLoadingStatus } = useBookingsAfterDate('recentGuests');
   const { quantityBookings, sales, occupancy, checkIns, periodBookingsLoadingStatus, quantityBookingsLoadingStatus } = useStats();
-
 
   return (
     <>
@@ -66,6 +66,12 @@ function Dashboard() {
           </div>
         </div>
       </DbSection>
+
+      <DbSection title="Umsatz-Statistiken">
+        <div className="w-full">
+          <SalesCharts />
+        </div>
+      </DbSection>
     </>
   );
 }
@@ -93,7 +99,7 @@ function DbSection({
   linkText?: string;
 }) {
   return (
-    <section className="mb-10">
+    <section className="mb-10 p-4 bg-slate-50 rounded-lg shadow-md shadow-indigo-100">
       <div className="flex justify-between">
         <h3 className="text-xl font-semibold">{title}</h3>
         <Link to="/bookings">
