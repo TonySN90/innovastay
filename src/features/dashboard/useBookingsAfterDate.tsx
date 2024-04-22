@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { getArrivalBookingsThunk, getDepartureBookingsThunk, getPeriodBookingsThunk, getCreatedBookingsThunk, getRecentGuestsThunk } from "./dashboardSlice";
 import { getPastDay, getToday } from "../../utils/datesHelper";
 
-function useBookingsAfterDate(hospitalityType : string, filter?: number) {
+function useBookingsAfterDate(hospitalityType : string) {
   const dispatch = useAppDispatch();
   const { arrivalBookings, departureBookings, periodBookings, arrivalLoadingStatus, departureLoadingStatus, 
     periodBookingsLoadingStatus, recentGuests, guestsLoadingStatus, createdBookings, createdBookingsLoadingStatus } = useAppSelector(
@@ -28,11 +28,10 @@ function useBookingsAfterDate(hospitalityType : string, filter?: number) {
     if (hospitalityType === "timePeriod") {
       startDate = getPastDay(40); // High date range to ensure that bookings are also recorded before the start date.
       filterColumn = "startDate"
-      console.log(startDate)
     }
 
     if (hospitalityType === "createdAt") {
-      startDate = getPastDay(filter); // 7 days ago
+      startDate = getPastDay(40); 
       filterColumn = "created_at"
     }
 

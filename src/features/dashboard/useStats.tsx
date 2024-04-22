@@ -1,25 +1,41 @@
+import { useSearchParams } from "react-router-dom";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import { getPastDay, getToday } from "../../utils/datesHelper";
 import useCabins from "../cabins/useCabins";
 import useBookingsAfterDate from "./useBookingsAfterDate";
 
 function useStats() {
-    const filter = 2;
+
+    const [searchParams] = useSearchParams();
+
+    const filter = Number(searchParams.get("stats") || 7);
+
     const { periodBookings, periodBookingsLoadingStatus } = useBookingsAfterDate('timePeriod');
-    const { createdBookings, createdBookingsLoadingStatus: quantityBookingsLoadingStatus } = useBookingsAfterDate('createdAt', filter);
+    const { createdBookings, createdBookingsLoadingStatus: quantityBookingsLoadingStatus } = useBookingsAfterDate('createdAt');
     const { cabins } = useCabins();
 
     const startDate = new Date(getPastDay(filter));
     const endDate = new Date(getToday());
     const count = {};
 
+    // Filter period-bookings 
+    function filterBookings(bookings, startDate, endDate) {
+        return bookings.filter(booking => {
+            const bookingDate = new Date(booking.startDate);
+            return bookingDate.toDateString() !== endDate.toDateString() &&
+                bookingDate.getTime() > startDate.getTime();
+        });
+    }
+    
+    // Filter period-bookings 
+    const filteredPeriodBookings = filterBookings(periodBookings, startDate, endDate);
+    
     // quantity bookings
-    const quantityBookings = createdBookings.length;
+    const quantityBookings = filterBookings(createdBookings, startDate, endDate).length;
+    
 
     // sales
-    const sales  = periodBookings
-    .filter((booking) => new Date(booking.startDate).toDateString() !== new Date(endDate).toDateString())
-    .filter((booking) => new Date(booking.startDate).getTime() > new Date(startDate).getTime())
+    const sales = filteredPeriodBookings
     .reduce((total, booking) => total + booking.totalPrice, 0);
 
     // occupancy 
@@ -48,17 +64,14 @@ function useStats() {
 
     let occupancy = 0;
 
-
     if(cabins.length > 0 && periodBookingsLoadingStatus === LoadingTypes.SUCCESS) {
         occupancy = Math.round(Object.values(count)
         .map((c) => c / cabins.length * 100)
         .reduce((a, b) => a + b, 0) / Object.values(count).length);
-        
     }
 
     // check-ins
-
-    const checkIns = periodBookings.length;
+    const checkIns = filteredPeriodBookings.length;
 
     return {
         quantityBookings,

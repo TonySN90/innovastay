@@ -2,15 +2,15 @@ import FilterBar from "../../ui/FilterBar";
 
 function DashboardFilter() {
   const filterButtons = [
-    { filterBy: "letzen 7 Tage", filterType: 'last7days' },
-    { filterBy: "letzten 30 Tage", filterType: 'last30days' },
-    { filterBy: "letzten 90 Tage", filterType: 'last90days' },
+    { filterBy: "letzen 7 Tage", filterType: "7" },
+    { filterBy: "letzten 30 Tage", filterType: "30" },
+    { filterBy: "letzten 90 Tage", filterType: "90" },
   ];
 
   const filterBase = {
     category: "dashboard",
     field: "stats",
-    defaultFilter: "last7days",
+    defaultFilter: "7",
   };
 
   return (
