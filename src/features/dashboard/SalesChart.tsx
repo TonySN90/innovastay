@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 
-const SalesCharts = ({chartData}: object[]) => {
+const SalesCharts = ({salesData} : {salesData: {date: string, sales: number}})  => {
 
     const [options, setOptions] = useState({
       chart: {
@@ -47,8 +47,9 @@ const SalesCharts = ({chartData}: object[]) => {
 
     useEffect(() => {
       // Update chart options when chartData changes
-      const yData = chartData.map((item) => Object.values(item)[0]);
-      const xData = chartData.map((item) => Object.keys(item)[0]);
+      let chartData = salesData.map((item) => item.sales);
+      chartData.reverse();
+      const xData = salesData.map((item) => item.date);
   
       setOptions(prevOptions => ({
         ...prevOptions,
@@ -60,10 +61,9 @@ const SalesCharts = ({chartData}: object[]) => {
   
       setSeries(prevSeries => ([{
         ...prevSeries[0],
-        data: yData,
+        data: chartData,
       }]));
-    }, [chartData]);
-
+    }, [salesData]);
   
     return (
       <div className="app">

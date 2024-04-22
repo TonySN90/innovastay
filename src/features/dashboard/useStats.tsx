@@ -3,11 +3,12 @@ import { LoadingTypes } from "../../types/GlobalTypes";
 import { getPastDay, getToday } from "../../utils/datesHelper";
 import useCabins from "../cabins/useCabins";
 import useBookingsAfterDate from "./useBookingsAfterDate";
+import moment from "moment";
 
 function useStats() {
 
     const [searchParams] = useSearchParams();
-    const filter = Number(searchParams.get("stats") || 7);
+    const filter = Number(searchParams.get("stats") || 11);
 
     const { periodBookings, periodBookingsLoadingStatus } = useBookingsAfterDate('timePeriod');
     const { createdBookings, createdBookingsLoadingStatus: quantityBookingsLoadingStatus } = useBookingsAfterDate('createdAt');
@@ -71,17 +72,22 @@ function useStats() {
     // check-ins
     const checkIns = filteredPeriodBookings.length;
 
-    const result = [
-        {"21 April": 1500},
-        {"20 April": 200},
-        {"19 April": 1300},
-        {"18 Dezember": 200},
-        {"17 April": 650},
-        {"16 April": 250},
-        {"15 April": 1200},
+    // sale-chart
+    const salesData = [];
 
-    ]
-    
+
+    for(let i = filter; i >= 0; i--) {
+        const date = moment(getPastDay(i)).format('DD. MMMM');
+        const dateObj = {date: date, sales: 0};
+        salesData.push(dateObj);
+    }
+
+    filteredPeriodBookings.forEach((booking, i) => {
+        const date1 = moment(getPastDay(i)).format('DD. MMMM');
+        // salesData[]
+        salesData[salesData.findIndex((d) => d.date === date1)].sales += booking.totalPrice;
+    })
+      
 
     return {
         quantityBookings,
@@ -90,7 +96,7 @@ function useStats() {
         checkIns,
         periodBookingsLoadingStatus,
         quantityBookingsLoadingStatus,
-        result
+        salesData
     }
 }
 

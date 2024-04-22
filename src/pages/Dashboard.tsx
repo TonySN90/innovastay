@@ -18,11 +18,11 @@ function Dashboard() {
   const { arrivalBookings, arrivalLoadingStatus } = useBookingsAfterDate('arrival');
   const { departureBookings, departureLoadingStatus } = useBookingsAfterDate('departure');
   const { recentGuests, guestsLoadingStatus } = useBookingsAfterDate('recentGuests');
-  const { quantityBookings, sales, occupancy, checkIns, periodBookingsLoadingStatus, quantityBookingsLoadingStatus, result } = useStats();
+  const { quantityBookings, sales, occupancy, checkIns, periodBookingsLoadingStatus, quantityBookingsLoadingStatus, salesData } = useStats();
 
   return (
     <>
-      {/* <DbHeader />
+      <DbHeader />
       <DashboardFilter />
       <DbSection title="Auf einem Blick">
           <DbInfoBox color="bg-indigo-200" title='Buchungen' 
@@ -65,11 +65,11 @@ function Dashboard() {
               />
           </div>
         </div>
-      </DbSection> */}
+      </DbSection>
 
       <DbSection title="Umsatz-Statistiken">
         <div className="w-full">
-          <SalesCharts chartData={result} />
+          <SalesCharts salesData={salesData} />
         </div>
       </DbSection>
     </>
