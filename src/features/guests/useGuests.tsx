@@ -30,7 +30,9 @@ function useGuests() {
     const sortBy = { field, direction };
 
     // Page
-    const page = pathName === "/guests"
+    let page;
+    if(pathName === "/bookings") page = null;
+    else page = !searchParams.get("page")
       ? 1
       : Number(searchParams.get("page"));
 

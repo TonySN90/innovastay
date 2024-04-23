@@ -26,6 +26,7 @@ export async function getGuests(
       ascending: sortBy.direction === "asc",
     });
 
+    console.log(page);
   // Page
   if (page) {
     const from = (page - 1) * PAGE_SIZE_GUESTS;

@@ -28,7 +28,9 @@ function useCabins() {
     const sortBy = { field, direction };
 
     // Page
-    const page = pathName === "/cabins"
+    let page;
+    if(pathName === "/bookings") page = null;
+    else page = !searchParams.get("page")
       ? 1
       : Number(searchParams.get("page"));
 
