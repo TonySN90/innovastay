@@ -21,7 +21,7 @@ function Bookings() {
   return (
     <>
       <div className="md:flex items-center gap-4 mb-4">
-        <Heading title="Buchungsübersicht" />
+        <Heading title="Buchungsübersicht" size="text-3xl" />
         <ToggleButtons onClick={handleClick} bookingsView={bookingsView} />
       </div>
       {isTableView && <BookingsFilter />}

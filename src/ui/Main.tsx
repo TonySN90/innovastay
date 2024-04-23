@@ -3,7 +3,7 @@ import { Toaster } from "react-hot-toast";
 
 function Main({ children }: { children: React.ReactNode }) {
   return (
-    <main className="h-[92vh] lg:h-full">
+    <main className="overflow-y-scroll" style={{ height: "calc(100vh - 56px)" }}>
       <div>
         <Toaster />
       </div>

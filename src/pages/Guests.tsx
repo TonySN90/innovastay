@@ -6,7 +6,7 @@ import GuestsFilter from "../features/guests/GuestsFilter";
 function Guests() {
   return (
     <>
-      <Heading title="Gäste" />
+      <Heading title="Gäste" size="text-3xl" />
       <GuestsFilter />
       <GuestsTable />
       <AddGuest />
