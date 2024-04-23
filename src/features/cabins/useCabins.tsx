@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { fetchCabins } from "./cabinsSlice";
 import { ICabinStatesTypes } from "../../types/cabinTypes";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 function useCabins() {
   const dispatch = useAppDispatch();
@@ -10,6 +10,8 @@ function useCabins() {
     (state: { cabins: ICabinStatesTypes }) => state.cabins
   );
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const pathName = location.pathname;
 
   useEffect(() => {
     // Filter
@@ -26,12 +28,12 @@ function useCabins() {
     const sortBy = { field, direction };
 
     // Page
-    const page = !searchParams.get("page")
+    const page = pathName === "/cabins"
       ? 1
       : Number(searchParams.get("page"));
 
     dispatch(fetchCabins({ filter, sortBy, page }));
-  }, [dispatch, searchParams]);
+  }, [dispatch, searchParams, pathName]);
 
   return { cabins, loadingStatus, error };
 }

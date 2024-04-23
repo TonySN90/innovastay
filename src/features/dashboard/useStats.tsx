@@ -8,7 +8,7 @@ import moment from "moment";
 function useStats() {
 
     const [searchParams] = useSearchParams();
-    const filter = Number(searchParams.get("stats") || 11);
+    const filter = Number(searchParams.get("stats") || 7);
 
     const { periodBookings, periodBookingsLoadingStatus } = useBookingsAfterDate('timePeriod');
     const { createdBookings, createdBookingsLoadingStatus: quantityBookingsLoadingStatus } = useBookingsAfterDate('createdAt');

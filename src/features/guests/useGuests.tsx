@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { IGuestStatesTypes } from "../../types/GuestTypes";
 import { fetchGuests } from "./guestsSlice";
 import toast from "react-hot-toast";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 function useGuests() {
   const dispatch = useAppDispatch();
@@ -12,6 +12,8 @@ function useGuests() {
   );
 
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const pathName = location.pathname;
 
   useEffect(() => {
     const filterValue = searchParams.get("search");
@@ -28,12 +30,12 @@ function useGuests() {
     const sortBy = { field, direction };
 
     // Page
-    const page = !searchParams.get("page")
+    const page = pathName === "/guests"
       ? 1
       : Number(searchParams.get("page"));
 
     dispatch(fetchGuests({ filter, sortBy, page }));
-  }, [dispatch, searchParams]);
+  }, [dispatch, searchParams, pathName]);
 
   if (error) {
     toast.error(`Fehler beim Laden der Gastdaten.`);

@@ -6,6 +6,7 @@ import { FormValues } from "../types/FormTypes";
 import supabase, { supabaseUrl } from "./supabase";
 import { ICabinTypes } from "../types/cabinTypes";
 import { IFilterTypes, ISortTypes } from "../types/GlobalTypes";
+import { PAGE_SIZE } from "../utils/constants";
 
 export async function getCabins(
   filter: IFilterTypes,
@@ -28,11 +29,11 @@ export async function getCabins(
     });
 
   // Page
-  // if (page) {
-  //   const from = (page - 1) * PAGE_SIZE;
-  //   const to = from + PAGE_SIZE - 1;
-  //   query = query.range(from, to);
-  // }
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
 
 
   const {

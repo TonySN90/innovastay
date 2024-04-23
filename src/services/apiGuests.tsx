@@ -27,11 +27,11 @@ export async function getGuests(
     });
 
   // Page
-  // if (page) {
-  //   const from = (page - 1) * PAGE_SIZE_GUESTS;
-  //   const to = from + PAGE_SIZE_GUESTS - 1;
-  //   query = query.range(from, to);
-  // }
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE_GUESTS;
+    const to = from + PAGE_SIZE_GUESTS - 1;
+    query = query.range(from, to);
+  }
 
   const {
     data: guests,

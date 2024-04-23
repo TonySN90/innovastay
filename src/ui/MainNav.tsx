@@ -15,7 +15,7 @@ const listElStyles =
 function MainNav() {
   return (
     <nav className="m-auto">
-      <ul className=" p-7">
+      <ul className="px-7">
         <li className={listElStyles}>
           <HotelCard />
         </li>

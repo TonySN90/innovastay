@@ -11,7 +11,7 @@ const tableContext = createContext<ITableContextTypes | undefined>(undefined);
 function Table({ children, columns, columnSpace }: TableProps) {
   return (
     <tableContext.Provider value={{ columns, columnSpace }}>
-      <div className="overflow-auto max-h-[71vh]">
+      <div>
         <table className="w-full mb-2 text-sm">{children}</table>
       </div>
     </tableContext.Provider>
