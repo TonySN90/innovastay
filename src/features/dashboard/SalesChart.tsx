@@ -23,7 +23,8 @@ const SalesCharts = ({salesData} : {salesData: {date: string, sales: number}})  
             formatter: (value) => {
                 return `${value}`
               },
-        }
+        },
+        tickPlacement: 'on',
       },
       yaxis: {
         labels: {
@@ -47,8 +48,7 @@ const SalesCharts = ({salesData} : {salesData: {date: string, sales: number}})  
 
     useEffect(() => {
       // Update chart options when chartData changes
-      let chartData = salesData.map((item) => item.sales);
-      chartData.reverse();
+      const chartData = salesData.map((item) => item.sales);
       const xData = salesData.map((item) => item.date);
   
       setOptions(prevOptions => ({
@@ -66,13 +66,15 @@ const SalesCharts = ({salesData} : {salesData: {date: string, sales: number}})  
     }, [salesData]);
   
     return (
-      <div className="app">
-        <div className="row">
-          <div className="mixed-chart">
-            <Chart options={options} series={series} type="area" width={"100%"} height={"300px"} />
+      <div className="w-full">
+        <div className="app">
+          <div className="row">
+            <div className="mixed-chart">
+              <Chart options={options} series={series} type="area" width={"100%"} height={"300px"} />
+            </div>
           </div>
         </div>
-      </div>
+      </div> 
     );
   }
   

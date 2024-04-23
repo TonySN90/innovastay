@@ -13,6 +13,7 @@ import DashboardFilter from "../features/dashboard/DashboardFilter";
 import { LiaMoneyBillWaveAltSolid } from "react-icons/lia";
 import useStats from "../features/dashboard/useStats";
 import SalesCharts from "../features/dashboard/SalesChart";
+import Heading from "../ui/Heading";
 
 function Dashboard() {
   const { arrivalBookings, arrivalLoadingStatus } = useBookingsAfterDate('arrival');
@@ -22,26 +23,7 @@ function Dashboard() {
 
   return (
     <>
-      <DbHeader />
-      <DashboardFilter />
-      <DbSection title="Auf einem Blick">
-          <DbInfoBox color="bg-indigo-200" title='Buchungen' 
-            content={quantityBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : quantityBookings}>
-            <HiOutlineCalendarDays className="w-6 h-6" />
-          </DbInfoBox>  
-          <DbInfoBox color="bg-green-200" title='Umsatz' 
-            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : `${sales.toFixed(2)} €`} >
-            <LiaMoneyBillWaveAltSolid className="w-6 h-6" />
-          </DbInfoBox> 
-          <DbInfoBox color="bg-red-200" title='Auslastung' 
-            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : `${occupancy} %`}>
-            <LuBarChart4 className="w-6 h-6" />
-          </DbInfoBox>  
-          <DbInfoBox color="bg-indigo-200" title='Check-Ins' 
-            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : checkIns}>
-            <TbDoorEnter className="w-6 h-6" />
-          </DbInfoBox>  
-      </DbSection>
+      <Heading title="Dashboard" size="text-3xl"/>
 
       <DbSection title={`Heute - ${formatDate(new Date(Date.now()))}`} linkText="zu den Buchungen">
         <div className="w-full gap-2 flex justify-between flex-wrap">
@@ -67,27 +49,39 @@ function Dashboard() {
         </div>
       </DbSection>
 
+      <div className="flex justify-between py-4">
+        <Heading title="Auf einem Blick" size="text-xl" />
+        <DashboardFilter />
+      </div>
+
+      <DbSection>
+          <DbInfoBox color="bg-indigo-200" title='Buchungen' 
+            content={quantityBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : quantityBookings}>
+            <HiOutlineCalendarDays className="w-6 h-6" />
+          </DbInfoBox>  
+          <DbInfoBox color="bg-green-200" title='Umsatz' 
+            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : `${sales.toFixed(2)} €`} >
+            <LiaMoneyBillWaveAltSolid className="w-6 h-6" />
+          </DbInfoBox> 
+          <DbInfoBox color="bg-red-200" title='Auslastung' 
+            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : `${occupancy} %`}>
+            <LuBarChart4 className="w-6 h-6" />
+          </DbInfoBox>  
+          <DbInfoBox color="bg-indigo-200" title='Check-Ins' 
+            content={periodBookingsLoadingStatus === LoadingTypes.LOADING ? LoadingTypes.LOADING : checkIns}>
+            <TbDoorEnter className="w-6 h-6" />
+          </DbInfoBox>  
+      </DbSection>
+
       <DbSection title="Umsatz-Statistiken">
-        <div className="w-full">
+        <span className="text-gray-400">Tage, an denen Einnahmen erzielt wurden</span>
           <SalesCharts salesData={salesData} />
-        </div>
       </DbSection>
     </>
   );
 }
 
 export default Dashboard;
-
-function DbHeader() {
-  return (
-    <header className="w-[60%]">
-      <h1 className="text-3xl font-bold">Hey Tony Heider,</h1>
-      <h2 className="font-semibold text-lg mb-3 text-indigo-500">
-        Willkommen in Panorama Inn´s Dashboard
-      </h2>
-    </header>
-  );
-}
 
 function DbSection({
   children,
@@ -206,7 +200,7 @@ function InfoCardRow({
 
   return (
     <tr>
-      <td className="flex justify-between py-3 px-4">
+      <td className="flex justify-between py-2 px-4">
         <div className="flex flex-col">
           <div className="flex gap-3">
             <div>

@@ -73,20 +73,27 @@ function useStats() {
     const checkIns = filteredPeriodBookings.length;
 
     // sale-chart
-    const salesData = [];
 
+    const salesDataMap = new Map();
 
-    for(let i = filter; i >= 0; i--) {
-        const date = moment(getPastDay(i)).format('DD. MMMM');
-        const dateObj = {date: date, sales: 0};
-        salesData.push(dateObj);
-    }
+    // for (let i = filter; i >= 0; i--) {
+    //     const date = moment(getPastDay(i)).format('DD. MMMM');
+    //     salesDataMap.set(date, { date: date, sales: 0 });
+    // }
 
-    filteredPeriodBookings.forEach((booking, i) => {
-        const date1 = moment(getPastDay(i)).format('DD. MMMM');
-        // salesData[]
-        salesData[salesData.findIndex((d) => d.date === date1)].sales += booking.totalPrice;
-    })
+    filteredPeriodBookings.forEach((booking) => {
+        const date = moment(booking.startDate).format('DD. MMMM');
+        if (salesDataMap.has(date)) {
+            salesDataMap.get(date).sales += booking.totalPrice;
+        } else {
+            // Füge das Datum hinzu, falls es nicht im salesDataMap vorhanden ist
+            salesDataMap.set(date, { date: date, sales: booking.totalPrice });
+        }
+    });
+
+    const salesData = Array
+    .from(salesDataMap.values())
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       
 
     return {
