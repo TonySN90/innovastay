@@ -1,6 +1,8 @@
 import { BsPeopleFill } from "react-icons/bs";
 import { PiInfoBold } from "react-icons/pi";
 import { TbDoorEnter, TbDoorExit } from "react-icons/tb";
+import { Link } from "react-router-dom";
+import Modal from "../../ui/Modal";
 
 function InfoCardRow({
     id,
@@ -43,21 +45,47 @@ function InfoCardRow({
   
           {id === 'arrival' && status === "checkedIn" && <RowInfoText info="bereits eingecheckt"/>}
           {id === 'arrival' && status === "unconfirmed" &&
-          <RowButton backgroundColor={backgroundColor}>
-            <TbDoorEnter className={`${textColor} text-lg`} />
-          </RowButton>}
+            <Link to={`/bookings/${bookingId}`}>
+                <RowButton backgroundColor={backgroundColor} onClick={() => {}}>
+                    <TbDoorEnter className={`${textColor} text-lg`} />
+                </RowButton>
+            </Link>
+          
+          }
   
           {id === 'departure' && status === "checkedOut" && <RowInfoText info="bereits ausgecheckt"/>}
           {id === 'departure' && status === "checkedIn" && 
-          <RowButton backgroundColor={backgroundColor} >
-            <TbDoorExit className={`${textColor} text-lg`} />
-          </RowButton>
+
+            <Modal>
+                <Modal.Open opens="booking-form">
+                    <RowButton backgroundColor={backgroundColor} onClick={() => {}}>
+                        <TbDoorExit className={`${textColor} text-lg`} />
+                    </RowButton>
+                    </Modal.Open>
+                <Modal.Window name="booking-form">
+                    <div className="flex flex-col gap-2">
+                        <span>Aktuell in Bearbeitung</span>
+                        <span className="font-semibold">{name}</span>
+                    </div>
+                </Modal.Window>
+            </Modal>
           }
   
           {id === 'presentGuests' && status === "checkedIn" && 
-          <RowButton backgroundColor={backgroundColor} >
-            <PiInfoBold className={`${textColor} text-lg`} /> 
-          </RowButton>
+            <Modal>
+                <Modal.Open opens="view">
+                    <RowButton backgroundColor={backgroundColor} onClick={() => {}} >
+                        <PiInfoBold className={`${textColor} text-lg`} /> 
+                    </RowButton>
+                </Modal.Open>
+
+                <Modal.Window name="view">
+                    <div className="flex flex-col gap-2">
+                        <span>Aktuell in Bearbeitung</span>
+                        <span className="font-semibold">{name}</span>
+                    </div>
+                </Modal.Window>
+            </Modal>
           }
         </td>
       </tr>
@@ -68,9 +96,9 @@ function InfoCardRow({
     return <p className="text-sm flex items-center italic ">{info}</p>
   }
   
-  function RowButton({children, backgroundColor}: {children: React.ReactNode, backgroundColor: string}) {
+  function RowButton({children, backgroundColor, onClick}: {children: React.ReactNode, backgroundColor: string, onClick: () => void}) {
     return (
-      <div className={`flex justify-center items-center ${backgroundColor} rounded-full w-10 h-10 cursor-pointer`}>
+      <div className={`flex justify-center items-center ${backgroundColor} rounded-full w-10 h-10 cursor-pointer`} onClick={onClick}>
         {children}
       </div>
     )

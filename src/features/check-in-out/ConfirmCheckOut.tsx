@@ -11,7 +11,6 @@ function ConfirmCheckOut({
   bookingId: number;
   booking: IBookingTypes;
 }) {
-  //   const { checkInOut, updatingStatus } = useCheckInOut(true);
 
   const {
     startDate,

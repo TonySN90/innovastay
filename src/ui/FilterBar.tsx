@@ -116,7 +116,7 @@ export function FilterButtons() {
     FilterContext
   ) as IFilterContext;
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentFilter = searchParams.get(filterBase.field) || filterBase.defaultFilter;
+  const currentFilter = searchParams.get(filterBase.field) || filterBase.defaultFilter || "";
 
   function setParams(filterType: string) {
     searchParams.set(filterBase.field, filterType);

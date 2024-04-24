@@ -14,7 +14,6 @@ function BookingInfoBox({
   const guest = booking.guests;
   const cabin = booking.cabins;
 
-  console.log(booking.created_at);
 
   return (
     <div className="p-2">

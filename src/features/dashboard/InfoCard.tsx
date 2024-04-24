@@ -47,6 +47,7 @@ function InfoCard({ id, title, rowContent }: { id: string; title: string, rowCon
               status={el.status}
               name={el.fullName}
               bookingId={el.id}
+            // @ts-expect-error Adapt Types!!!
               cabin={el.cabins.name}	
               nights={el.numNights}
               textColor={textColor}
