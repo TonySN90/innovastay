@@ -1,64 +1,67 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import { getBookingsAfterDate } from "../../services/apiBookings";
-import { IDashboardStateTypes } from "../../types/DashboardTypes";
+import { IDashboardStateTypes, IFetchPropTypes } from "../../types/DashboardTypes";
 
+
+const fetchBookings = async ({ filterColumn, startDate, endDate }: IFetchPropTypes) => {
+  return await getBookingsAfterDate(filterColumn, startDate, endDate);
+};
 
 export const getArrivalBookingsThunk = createAsyncThunk(
   "dashboard/getArrivalBookingsThunk",
-  async ({filterColumn, startDate, endDate}: IDashboardStateTypes) => {
-    const arrivalBookings = await getBookingsAfterDate(filterColumn, startDate, endDate);
-    return arrivalBookings;
+  async (params: IFetchPropTypes) => {
+    return await fetchBookings(params);
   }
 );
 
 export const getDepartureBookingsThunk = createAsyncThunk(
   "dashboard/getDepartureBookingsThunk",
-  async ({filterColumn, startDate, endDate}: IDashboardStateTypes) => {
-    const dapartureBookings = await getBookingsAfterDate(filterColumn, startDate, endDate);
-    return dapartureBookings;
+  async (params: IFetchPropTypes) => {
+    return await fetchBookings(params);
   }
 );
 
 export const getPeriodBookingsThunk = createAsyncThunk(
   "dashboard/getPeriodBookingsThunk",
-  async ({filterColumn, startDate, endDate}: IDashboardStateTypes) => {
-    const periodBookings = await getBookingsAfterDate(filterColumn, startDate, endDate);
-    return periodBookings;
+  async (params: IFetchPropTypes) => {
+    return await fetchBookings(params);
   }
 );
+
 export const getCreatedBookingsThunk = createAsyncThunk(
   "dashboard/getCreatedBookingsThunk",
-  async ({filterColumn, startDate, endDate}: IDashboardStateTypes) => {
-    const createdBookings = await getBookingsAfterDate(filterColumn, startDate, endDate);
-    return createdBookings;
+  async (params: IFetchPropTypes) => {
+    return await fetchBookings(params);
   }
 );
 
 export const getRecentGuestsThunk = createAsyncThunk(
   "dashboard/getRecentGuestsThunk",
   async () => {
-    const recentGuests = await getBookingsAfterDate();
-    return recentGuests;
+    return await getBookingsAfterDate();
   }
 );
 
 
+const initialState: IDashboardStateTypes =  {
+  arrivalBookings: [],
+  departureBookings: [],
+  recentGuests: [],
+  periodBookings: [],
+  createdBookings: [],
+
+  arrivalLoadingStatus: LoadingTypes.IDLE,
+  departureLoadingStatus: LoadingTypes.IDLE,
+  guestsLoadingStatus: LoadingTypes.IDLE,
+  periodBookingsLoadingStatus: LoadingTypes.IDLE,
+  createdBookingsLoadingStatus: LoadingTypes.IDLE,
+};
+
+
 const dashboardSlice = createSlice({
   name: "dashboard",
-  initialState: {
-    arrivalBookings: [],
-    departureBookings: [],
-    recentGuests: [],
-    periodBookings: [],
-    createdBookings: [],
-
-    arrivalLoadingStatus: LoadingTypes.IDLE,
-    departureLoadingStatus: LoadingTypes.IDLE,
-    guestsLoadingStatus: LoadingTypes.IDLE,
-    periodBookingsLoadingStatus: LoadingTypes.IDLE,
-    createdBookingsLoadingStatus: LoadingTypes.IDLE,
-  },
+  initialState,
   reducers: {
     setLoadingStatus: (state, action: PayloadAction<LoadingTypes>) => {
       state.arrivalLoadingStatus = action.payload;

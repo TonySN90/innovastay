@@ -12,7 +12,7 @@ function useBookingsAfterDate(hospitalityType : string) {
 
   useEffect(() => {
     
-    let filterColumn, startDate;	
+    let filterColumn = "", startDate;	
     startDate = getToday();
     const endDate = getToday({end: true});
 

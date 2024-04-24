@@ -4,6 +4,7 @@ import { getPastDay, getToday } from "../../utils/datesHelper";
 import useCabins from "../cabins/useCabins";
 import useBookingsAfterDate from "./useBookingsAfterDate";
 import moment from "moment";
+import { ITodayCardBookingTypes } from "../../types/DashboardTypes";
 
 function useStats() {
 
@@ -16,10 +17,10 @@ function useStats() {
 
     const startDate = new Date(getPastDay(filter));
     const endDate = new Date(getToday());
-    const count = {};
+    const count: { [key: string]: number } = {};
 
     // Filter period-bookings 
-    function filterBookings(bookings, startDate, endDate) {
+    function filterBookings(bookings: ITodayCardBookingTypes[], startDate: Date, endDate: Date) {
         return bookings.filter(booking => {
             const bookingDate = new Date(booking.startDate);
             return bookingDate.toDateString() !== endDate.toDateString() &&
@@ -33,7 +34,6 @@ function useStats() {
     // quantity bookings
     const quantityBookings = filterBookings(createdBookings, startDate, endDate).length;
     
-
     // sales
     const sales = filteredPeriodBookings
     .reduce((total, booking) => total + booking.totalPrice, 0);
@@ -44,7 +44,7 @@ function useStats() {
         startDate.setDate(startDate.getDate() + 1);
     }
     
-    periodBookings.forEach((booking) => {
+    periodBookings.forEach((booking: ITodayCardBookingTypes) => {
         const bookingStartDate = new Date(booking.startDate);
         const bookingEndDate = new Date(booking.endDate);
         

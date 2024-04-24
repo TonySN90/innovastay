@@ -123,7 +123,7 @@ export async function deleteBooking(bookingId: number) {
   return data;
 }
 
-export async function getBookingsAfterDate(filterColumn: string | null, startDate: string | null, endDate: string | null) {
+export async function getBookingsAfterDate(filterColumn?: string | null, startDate?: string | null, endDate?: string | null) {
 
   let query = supabase.from("bookings").select("startDate, endDate, totalPrice, fullName, id, numNights, status, cabins(name)")
 

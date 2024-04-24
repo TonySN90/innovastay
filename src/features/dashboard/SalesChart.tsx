@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import { ISalesData } from "../../types/Dashboard";
 
-const SalesCharts = ({salesData} : {salesData: {date: string, sales: number}})  => {
+
+const SalesCharts = ({salesData}: {salesData: ISalesData[]})  => {
 
     const [options, setOptions] = useState({
       chart: {
@@ -20,7 +22,7 @@ const SalesCharts = ({salesData} : {salesData: {date: string, sales: number}})  
             style: {
                 fontSize: '16px'
             },
-            formatter: (value) => {
+            formatter: (value: string) => {
                 return `${value}`
               },
         },
@@ -31,7 +33,7 @@ const SalesCharts = ({salesData} : {salesData: {date: string, sales: number}})  
             style: {
                 fontSize: '16px'
             },
-            formatter: (value) => {
+            formatter: (value: number) => {
               return `${value} €`
             },
         },
@@ -43,14 +45,15 @@ const SalesCharts = ({salesData} : {salesData: {date: string, sales: number}})  
   
     const [series, setSeries] = useState([{
       name: 'series-1',
-      data: [800, 4000, 8000, 10000, 6000, 4000]
+      data: [800, 1600, 2400, 3200, 4000]
     }]);
 
     useEffect(() => {
       // Update chart options when chartData changes
-      const chartData = salesData.map((item) => item.sales);
-      const xData = salesData.map((item) => item.date);
+      const chartData = salesData.map((item) => item.sales as number); 
+      const xData = salesData.map((item) => item.date as string);
   
+      // @ts-expect-error getState xData should actually be an array of numbers
       setOptions(prevOptions => ({
         ...prevOptions,
         xaxis: {
