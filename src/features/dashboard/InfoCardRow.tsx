@@ -60,19 +60,11 @@ function InfoCardRow({
           <RowInfoText info="bereits ausgecheckt" />
         )}
         {id === "departure" && status === "checkedIn" && (
-          <Modal>
-            <Modal.Open opens="booking-form">
-              <RowButton backgroundColor={backgroundColor} onClick={() => {}}>
-                <TbDoorExit className={`${textColor} text-lg`} />
-              </RowButton>
-            </Modal.Open>
-            <Modal.Window name="booking-form">
-              <div className="flex flex-col gap-2">
-                <span>Aktuell in Bearbeitung</span>
-                <span className="font-semibold">{name}</span>
-              </div>
-            </Modal.Window>
-          </Modal>
+          <Link to={`/checkout/${bookingId}`}>
+            <RowButton backgroundColor={backgroundColor} onClick={() => {}}>
+              <TbDoorExit className={`${textColor} text-lg`} />
+            </RowButton>
+          </Link>
         )}
 
         {id === "presentGuests" && status === "checkedIn" && (

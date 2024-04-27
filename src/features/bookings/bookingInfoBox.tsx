@@ -9,7 +9,7 @@ import Empty from "../../ui/Empty";
 
 function BookingInfoBox({ bookingId }: { bookingId: number }) {
   const windowWidth = useWindowWidth();
-  console.log(bookingId);
+
   const { booking: booking, loadingBookingStatus } = useBooking(bookingId);
 
   if (loadingBookingStatus === LoadingTypes.LOADING) return <Spinner />;

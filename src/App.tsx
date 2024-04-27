@@ -9,6 +9,7 @@ import Account from "./pages/Account";
 import Login from "./pages/Login";
 import Guests from "./pages/Guests";
 import Checkin from "./pages/Checkin";
+import CheckOut from "./pages/CheckOut";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="bookings" element={<Bookings />} />
           <Route path="checkin/:bookingId" element={<Checkin />} />
+          <Route path="checkout/:bookingId" element={<CheckOut />} />
           <Route path="cabins" element={<Cabins />} />
           <Route path="guests" element={<Guests />} />
           <Route path="users" element={<Users />} />

@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../store";
 import {
-  fetchBookings,
   resetUpdatingStatus,
   updateBookingThunk,
 } from "../bookings/bookingsSlice";
@@ -9,9 +8,10 @@ import { FormValues } from "../../types/FormTypes";
 import { useEffect } from "react";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import { IBookingStateTypes } from "../../types/BookingTypes";
-import { NavigateFunction } from "react-router";
+import { useNavigate } from "react-router";
 
-function useCheckInOut(checkedIn: boolean, navigate?: NavigateFunction) {
+function useCheckInOut(checkedIn: boolean) {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { updatingStatus, error } = useAppSelector(
     (state: { bookings: IBookingStateTypes }) => state.bookings
@@ -19,16 +19,13 @@ function useCheckInOut(checkedIn: boolean, navigate?: NavigateFunction) {
 
   useEffect(() => {
     if (updatingStatus === LoadingTypes.SUCCESS) {
-      dispatch(fetchBookings());
       dispatch(resetUpdatingStatus());
-      {
-        !checkedIn && navigate ? navigate(-1) : null;
-      }
+      navigate(-1);
       toast.success(
-        `Buchung erfolgreich ${!checkedIn ? "eingecheckt" : "ausgecheckt"}.`
+        `Buchung erfolgreich ${checkedIn ? "eingecheckt" : "ausgecheckt"}.`
       );
     }
-  }, [dispatch, updatingStatus, navigate, checkedIn]);
+  }, [dispatch, updatingStatus, checkedIn, navigate]);
 
   function checkInOut(id: number, toUpdatedBooking: FormValues) {
     dispatch(updateBookingThunk({ id, toUpdatedBooking }));

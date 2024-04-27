@@ -9,8 +9,8 @@ import CreateBookingForm from "./CreateBookingForm";
 import BookingInfoBox from "./bookingInfoBox";
 import ConfirmDelete from "./confirmDelete";
 import { MdOutlineCheckCircleOutline } from "react-icons/md";
-import ConfirmCheckOut from "../check-in-out/ConfirmCheckOut";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 function BookingsRow({
   bookings,
@@ -115,12 +115,12 @@ function BookingsRow({
             )}
 
             {status === BookingStatusTypes.CHECKEDIN && (
-              <Modal.Open opens="checkOut">
+              <Link to={`/checkout/${bookingId}`}>
                 <Menu.Item>
                   <MdOutlineCheckCircleOutline />
                   Auschecken
                 </Menu.Item>
-              </Modal.Open>
+              </Link>
             )}
 
             <Modal.Open opens="delete">
@@ -141,14 +141,6 @@ function BookingsRow({
 
           <Modal.Window name="delete">
             <ConfirmDelete
-              booking={bookings}
-              bookingId={bookingId}
-              onCloseModal={() => {}} //Children prop
-            />
-          </Modal.Window>
-
-          <Modal.Window name="checkOut">
-            <ConfirmCheckOut
               booking={bookings}
               bookingId={bookingId}
               onCloseModal={() => {}} //Children prop

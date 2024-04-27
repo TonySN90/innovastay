@@ -1,10 +1,5 @@
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import {
-  MdFamilyRestroom,
-  MdOutlineEuroSymbol,
-  MdOutlineHotel,
-} from "react-icons/md";
+import { MdFamilyRestroom, MdOutlineHotel } from "react-icons/md";
 import { GiMeal } from "react-icons/gi";
 import Button from "../../ui/Button";
 import useBooking from "./useBooking";
@@ -13,17 +8,14 @@ import { formatDate, formatTime } from "../../utils/datesHelper";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import Empty from "../../ui/Empty";
 import { BookingStatusTypes, IBookingTypes } from "../../types/BookingTypes";
-import Modal from "../../ui/Modal";
-import BookingInfoBox from "../bookings/bookingInfoBox";
 import useCheckInOut from "./useCheckInOut";
 
-function CheckInBooking() {
+function CheckOutBooking() {
   const bookingId = Number(useParams().bookingId);
   const navigate = useNavigate();
 
-  const [confirmPaid, setConfirmPaid] = useState(false);
   const { booking, loadingBookingStatus } = useBooking(Number(bookingId));
-  const { checkInOut, updatingStatus } = useCheckInOut(true);
+  const { checkInOut, updatingStatus } = useCheckInOut(false);
 
   const isLoading = loadingBookingStatus === LoadingTypes.LOADING;
   const isUpdating = updatingStatus === LoadingTypes.LOADING;
@@ -43,13 +35,11 @@ function CheckInBooking() {
     totalPrice,
     guestId,
     created_at,
-    isPaid,
   } = booking as IBookingTypes;
 
   const handleCheckIn = () => {
     checkInOut(bookingId, {
-      isPaid: true,
-      status: BookingStatusTypes.CHECKEDIN,
+      status: BookingStatusTypes.CHECKEDOUT,
       cabinId,
       startDate,
       endDate,
@@ -64,11 +54,11 @@ function CheckInBooking() {
 
   return (
     <>
-      <h2 className="text-3xl font-semibold">Check-In Buchung #{bookingId}</h2>
+      <h2 className="text-3xl font-semibold">Check-Out Buchung #{bookingId}</h2>
 
       <CheckInSection>
         {booking && <CheckInHeader booking={booking} />}
-        <CheckInBody booking={booking} setConfirmPaid={setConfirmPaid} />
+        <CheckInBody booking={booking} />
         <CheckInFooter booking={booking} />
       </CheckInSection>
       <Buttons>
@@ -80,8 +70,7 @@ function CheckInBooking() {
           variation="standard"
           size="lg"
           extras="mr-2 rounded-lg"
-          content={"Buchung #" + bookingId + " einchecken"}
-          disabled={!confirmPaid && !isPaid}
+          content={"Buchung #" + bookingId + " auschecken"}
         />
         <Button
           onClick={() => {
@@ -97,7 +86,7 @@ function CheckInBooking() {
   );
 }
 
-export default CheckInBooking;
+export default CheckOutBooking;
 
 function CheckInHeader({ booking }: { booking: IBookingTypes }) {
   const {
@@ -122,18 +111,14 @@ function CheckInHeader({ booking }: { booking: IBookingTypes }) {
   );
 }
 
-function CheckInBody({
-  booking,
-  setConfirmPaid,
-}: {
-  booking: IBookingTypes;
-  setConfirmPaid: (value: boolean) => void;
-}) {
+function CheckInBody({ booking }: { booking: IBookingTypes }) {
   return (
     <section>
       <div className="px-8 py-8 ">
         <BookingInformation booking={booking} />
-        <PricesBox booking={booking} setConfirmPaid={setConfirmPaid} />
+        <div className="font-semibold bg-red-100 p-4 rounded-lg">
+          Soll die Buchung wirklich ausgecheckt werden?
+        </div>
       </div>
     </section>
   );
@@ -182,70 +167,6 @@ function BookingInformation({ booking }: { booking: IBookingTypes }) {
           {hasBreakfast ? "Ja" : "Nein"}
         </div>
       </div>
-    </>
-  );
-}
-
-function PricesBox({
-  booking,
-  setConfirmPaid,
-}: {
-  booking: IBookingTypes;
-  setConfirmPaid: (value: boolean) => void;
-}) {
-  const {
-    totalPrice,
-    isPaid,
-    guests: { fullName },
-  } = booking;
-
-  return (
-    <>
-      <div className={`gap-4 p-6 ${isPaid ? "bg-green-100" : "bg-yellow-100"}`}>
-        <div
-          className={`md:flex gap-4 ${
-            isPaid ? "text-green-800" : "text-yellow-800"
-          }`}
-        >
-          <div>
-            <MdOutlineEuroSymbol className="text-xl" />
-          </div>
-          <p>Gesamtpreis</p>
-          <p>
-            <span className=" font-semibold">{totalPrice} €</span>
-          </p>
-          <p>
-            {" "}
-            {isPaid && <span>Die Zahlung wurde bereits getätigt.</span>}
-            {!isPaid && <span>Der Betrag ist noch offen.</span>}
-          </p>
-        </div>
-        <Modal>
-          <Modal.Open opens="details">
-            <p className="  text-indigo-500 text-sm font-semibold pt-5 cursor-pointer hover:text-indigo-400 transition-all">
-              Buchungsdetails ansehen
-            </p>
-          </Modal.Open>
-          <Modal.Window name="details">
-            <BookingInfoBox bookingId={booking.id} />
-          </Modal.Window>
-        </Modal>
-      </div>
-
-      {!isPaid && (
-        <div className="flex gap-4 pt-4">
-          <input
-            className="accent-indigo-500 w-5"
-            type="checkbox"
-            onChange={(paid) => setConfirmPaid(paid.target.checked)}
-          />
-          <p>
-            Ich <span className="font-semibold">bestätige</span>, dass{" "}
-            {fullName} den Gesamtpreis von{" "}
-            <span className="font-semibold">{totalPrice}€</span> beglichen hat.
-          </p>
-        </div>
-      )}
     </>
   );
 }
