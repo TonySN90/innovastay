@@ -23,10 +23,10 @@ function CheckInBooking() {
   const navigate = useNavigate();
 
   const [confirmPaid, setConfirmPaid] = useState(false);
-  const { booking, loadingStatus } = useBooking(Number(bookingId));
+  const { booking, loadingBookingStatus } = useBooking(Number(bookingId));
   const { checkInOut, updatingStatus } = useCheckInOut(false, navigate);
 
-  const isLoading = loadingStatus === LoadingTypes.LOADING;
+  const isLoading = loadingBookingStatus === LoadingTypes.LOADING;
   const isUpdating = updatingStatus === LoadingTypes.LOADING;
   const isWorking = isUpdating || isLoading;
 
@@ -200,8 +200,6 @@ function PricesBox({
     guests: { fullName },
   } = booking;
 
-  const windowWidth = useWindowWidth();
-
   return (
     <>
       <div className={`gap-4 p-6 ${isPaid ? "bg-green-100" : "bg-yellow-100"}`}>
@@ -230,7 +228,7 @@ function PricesBox({
             </p>
           </Modal.Open>
           <Modal.Window name="details">
-            <BookingInfoBox windowWidth={windowWidth} booking={booking} />
+            <BookingInfoBox bookingId={booking.id} />
           </Modal.Window>
         </Modal>
       </div>

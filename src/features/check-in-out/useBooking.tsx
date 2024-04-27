@@ -5,7 +5,7 @@ import { IBookingStateTypes } from "../../types/BookingTypes";
 
 function useBooking(bookingId: number) {
   const dispatch = useAppDispatch();
-  const { booking, loadingStatus, error } = useAppSelector(
+  const { booking, loadingBookingStatus, error } = useAppSelector(
     (state: { bookings: IBookingStateTypes }) => state.bookings
   );
 
@@ -13,7 +13,7 @@ function useBooking(bookingId: number) {
     dispatch(getBookingThunk(bookingId));
   }, [dispatch, bookingId]);
 
-  return { booking, loadingStatus, error };
+  return { booking, loadingBookingStatus, error };
 }
 
 export default useBooking;

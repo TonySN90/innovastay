@@ -11,7 +11,6 @@ function ConfirmCheckOut({
   bookingId: number;
   booking: IBookingTypes;
 }) {
-
   const {
     startDate,
     endDate,

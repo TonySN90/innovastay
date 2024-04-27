@@ -36,10 +36,10 @@ function FilterBar({
       }}
     >
       <div className="flex md:justify-end items-center mb-4 flex-wrap">
-        {filterBase.category !== "cabins" && filterBase.category !== "dashboard" &&  <SearchInput />}
+        {filterBase.category !== "cabins" &&
+          filterBase.category !== "dashboard" && <SearchInput />}
         {filterBase.category !== "guests" && <FilterButtons />}
         {filterBase.category !== "dashboard" && <SortInput />}
-        
       </div>
     </FilterContext.Provider>
   );
@@ -116,7 +116,8 @@ export function FilterButtons() {
     FilterContext
   ) as IFilterContext;
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentFilter = searchParams.get(filterBase.field) || filterBase.defaultFilter || "";
+  const currentFilter =
+    searchParams.get(filterBase.field) || filterBase.defaultFilter || "";
 
   function setParams(filterType: string) {
     searchParams.set(filterBase.field, filterType);

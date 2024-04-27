@@ -104,6 +104,7 @@ export const deleteBookingThunk = createAsyncThunk(
 const initialState: IBookingStateTypes = {
   bookingsView: BookingsViewType.table,
   loadingStatus: "idle",
+  loadingBookingStatus: "idle",
   uploadingStatus: "idle",
   updatingStatus: "idle",
   deletingStatus: "idle",
@@ -161,14 +162,14 @@ const bookingsSlice = createSlice({
           "Es gab ein Problem bei dem Abruf der Buchungsdaten. Bitte versuchen Sie es erneut.";
       })
       .addCase(getBookingThunk.pending, (state) => {
-        state.loadingStatus = "loading";
+        state.loadingBookingStatus = "loading";
       })
       .addCase(getBookingThunk.fulfilled, (state, action) => {
-        state.loadingStatus = "idle";
+        state.loadingBookingStatus = "idle";
         state.booking = action.payload;
       })
       .addCase(getBookingThunk.rejected, (state) => {
-        state.loadingStatus = "error";
+        state.loadingBookingStatus = "error";
         state.error =
           "Es gab ein Problem bei dem Abruf der Buchungsdaten. Bitte versuchen Sie es erneut.";
       })

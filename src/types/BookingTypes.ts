@@ -60,6 +60,7 @@ export interface IBookingStateTypes {
   deletingStatus: "idle" | "success" | "loading" | "error";
   updatingStatus: "idle" | "success" | "loading" | "error";
   loadingStatus: "idle" | "loading" | "error";
+  loadingBookingStatus: "idle" | "loading" | "error";
   error: string;
   bookings: IBookingTypes[];
   booking: IBookingTypes;

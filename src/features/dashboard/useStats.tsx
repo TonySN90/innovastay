@@ -7,104 +7,126 @@ import moment from "moment";
 import { ITodayCardBookingTypes } from "../../types/DashboardTypes";
 
 function useStats() {
+  const [searchParams] = useSearchParams();
+  const filter = Number(searchParams.get("stats") || 7);
 
-    const [searchParams] = useSearchParams();
-    const filter = Number(searchParams.get("stats") || 7);
+  const { periodBookings, periodBookingsLoadingStatus } =
+    useBookingsAfterDate("timePeriod");
+  const {
+    createdBookings,
+    createdBookingsLoadingStatus: quantityBookingsLoadingStatus,
+  } = useBookingsAfterDate("createdAt");
+  const { cabins } = useCabins();
 
-    const { periodBookings, periodBookingsLoadingStatus } = useBookingsAfterDate('timePeriod');
-    const { createdBookings, createdBookingsLoadingStatus: quantityBookingsLoadingStatus } = useBookingsAfterDate('createdAt');
-    const { cabins } = useCabins();
+  const startDate = new Date(getPastDay(filter));
+  const endDate = new Date(getToday());
+  const count: { [key: string]: number } = {};
 
-    const startDate = new Date(getPastDay(filter));
-    const endDate = new Date(getToday());
-    const count: { [key: string]: number } = {};
-
-    // Filter period-bookings 
-    function filterBookings(bookings: ITodayCardBookingTypes[], startDate: Date, endDate: Date) {
-        return bookings.filter(booking => {
-            const bookingDate = new Date(booking.startDate);
-            return bookingDate.toDateString() !== endDate.toDateString() &&
-                bookingDate.getTime() > startDate.getTime();
-        });
-    }
-    
-    // Filter period-bookings 
-    const filteredPeriodBookings = filterBookings(periodBookings, startDate, endDate);
-    
-    // quantity bookings
-    const quantityBookings = filterBookings(createdBookings, startDate, endDate).length;
-    
-    // sales
-    const sales = filteredPeriodBookings
-    .reduce((total, booking) => total + booking.totalPrice, 0);
-
-    // occupancy 
-    while (startDate < endDate) {
-        count[startDate.toDateString()] = 0;
-        startDate.setDate(startDate.getDate() + 1);
-    }
-    
-    periodBookings.forEach((booking: ITodayCardBookingTypes) => {
-        const bookingStartDate = new Date(booking.startDate);
-        const bookingEndDate = new Date(booking.endDate);
-        
-        while (bookingStartDate < bookingEndDate && bookingStartDate < endDate) {
-            const dateString = bookingStartDate.toDateString();
-    
-            // Überprüfen, ob der Wert NaN ist
-            if (isNaN(count[dateString])) {
-                delete count[dateString]; // Lösche den Eintrag
-            } else {
-                count[dateString]++;
-            }
-            bookingStartDate.setDate(bookingStartDate.getDate() + 1);
-        }   
+  // Filter period-bookings
+  function filterBookings(
+    bookings: ITodayCardBookingTypes[],
+    startDate: Date,
+    endDate: Date
+  ) {
+    return bookings.filter((booking) => {
+      const bookingDate = new Date(booking.startDate);
+      return (
+        bookingDate.toDateString() !== endDate.toDateString() &&
+        bookingDate.getTime() > startDate.getTime()
+      );
     });
+  }
 
-    let occupancy = 0;
+  // Filter period-bookings
+  const filteredPeriodBookings = filterBookings(
+    periodBookings,
+    startDate,
+    endDate
+  );
 
-    if(cabins.length > 0 && periodBookingsLoadingStatus === LoadingTypes.SUCCESS) {
-        occupancy = Math.round(Object.values(count)
-        .map((c) => c / cabins.length * 100)
-        .reduce((a, b) => a + b, 0) / Object.values(count).length);
+  // quantity bookings
+  const quantityBookings = filterBookings(
+    createdBookings,
+    startDate,
+    endDate
+  ).length;
+
+  // sales
+  const sales = filteredPeriodBookings.reduce(
+    (total, booking) => total + booking.totalPrice,
+    0
+  );
+
+  // occupancy
+  while (startDate < endDate) {
+    count[startDate.toDateString()] = 0;
+    startDate.setDate(startDate.getDate() + 1);
+  }
+
+  periodBookings.forEach((booking: ITodayCardBookingTypes) => {
+    const bookingStartDate = new Date(booking.startDate);
+    const bookingEndDate = new Date(booking.endDate);
+
+    while (bookingStartDate < bookingEndDate && bookingStartDate < endDate) {
+      const dateString = bookingStartDate.toDateString();
+
+      if (isNaN(count[dateString])) {
+        delete count[dateString];
+      } else {
+        count[dateString]++;
+      }
+      bookingStartDate.setDate(bookingStartDate.getDate() + 1);
     }
+  });
 
-    // check-ins
-    const checkIns = filteredPeriodBookings.length;
+  let occupancy = 0;
 
-    // sale-chart
+  if (
+    cabins.length > 0 &&
+    periodBookingsLoadingStatus === LoadingTypes.SUCCESS
+  ) {
+    occupancy = Math.round(
+      Object.values(count)
+        .map((c) => (c / cabins.length) * 100)
+        .reduce((a, b) => a + b, 0) / Object.values(count).length
+    );
+  }
 
-    const salesDataMap = new Map();
+  // check-ins
+  const checkIns = filteredPeriodBookings.length;
 
-    // for (let i = filter; i >= 0; i--) {
-    //     const date = moment(getPastDay(i)).format('DD. MMMM');
-    //     salesDataMap.set(date, { date: date, sales: 0 });
-    // }
+  // sale-chart
 
-    filteredPeriodBookings.forEach((booking) => {
-        const date = moment(booking.startDate).format('DD. MMMM');
-        if (salesDataMap.has(date)) {
-            salesDataMap.get(date).sales += booking.totalPrice;
-        } else {
-            // Füge das Datum hinzu, falls es nicht im salesDataMap vorhanden ist
-            salesDataMap.set(date, { date: date, sales: booking.totalPrice });
-        }
-    });
+  const salesDataMap = new Map();
 
-    const salesData = Array
-    .from(salesDataMap.values())
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-      
+  // for (let i = filter; i >= 0; i--) {
+  //     const date = moment(getPastDay(i)).format('DD. MMMM');
+  //     salesDataMap.set(date, { date: date, sales: 0 });
+  // }
 
-    return {
-        quantityBookings,
-        sales,
-        occupancy,
-        checkIns,
-        periodBookingsLoadingStatus,
-        quantityBookingsLoadingStatus,
-        salesData
+  filteredPeriodBookings.forEach((booking) => {
+    const date = moment(booking.startDate).format("DD. MMMM");
+    if (salesDataMap.has(date)) {
+      salesDataMap.get(date).sales += booking.totalPrice;
+    } else {
+      // Füge das Datum hinzu, falls es nicht im salesDataMap vorhanden ist
+      salesDataMap.set(date, { date: date, sales: booking.totalPrice });
     }
+  });
+
+  const salesData = Array.from(salesDataMap.values()).sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
+
+  return {
+    quantityBookings,
+    sales,
+    occupancy,
+    checkIns,
+    periodBookingsLoadingStatus,
+    quantityBookingsLoadingStatus,
+    salesData,
+  };
 }
 
 export default useStats;

@@ -132,7 +132,7 @@ function BookingsRow({
           </Menu.List>
 
           <Modal.Window name="view">
-            <BookingInfoBox windowWidth={windowWidth} booking={bookings} />
+            <BookingInfoBox bookingId={bookingId} />
           </Modal.Window>
 
           <Modal.Window name="edit">
