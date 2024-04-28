@@ -8,7 +8,7 @@ export enum LoadingTypes {
 }
 
 export interface IButtonPropsTypes {
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   variation?: string;
 
   type?: "reset" | "submit" | "button";
@@ -70,7 +70,6 @@ export interface IFilterBaseTypes {
   category: string;
   field: string;
   defaultFilter?: string;
-
 }
 
 export interface IFilterContext {
