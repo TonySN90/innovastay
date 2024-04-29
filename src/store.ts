@@ -4,6 +4,7 @@ import bookingsReducer from "./features/bookings/bookingsSlice";
 import cabinsReducer from "./features/cabins/cabinsSlice";
 import guestsReducer from "./features/guests/guestsSlice";
 import dashboardReducer from "./features/dashboard/dashboardSlice";
+import authReducer from "./features/authentication/authSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     cabins: cabinsReducer,
     guests: guestsReducer,
     dashboard: dashboardReducer,
+    auth: authReducer,
   },
 });
 
