@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../../store";
 import { useNavigate } from "react-router";
-import { loginThunk, resetLoadingStatus } from "./authSlice";
+import { loginThunk, resetLoadingStatus, deleteError } from "./authSlice";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
@@ -14,11 +14,14 @@ function useLogin() {
 
   useEffect(() => {
     if (loadingStatus === LoadingTypes.SUCCESS) {
-      toast.success("Login erfolgreich");
       navigate("/dashboard");
       dispatch(resetLoadingStatus());
+      toast.success("Login erfolgreich");
     }
-    if (error) toast.error(error);
+    if (error) {
+      toast.error(error);
+      dispatch(deleteError());
+    }
   }, [loadingStatus, navigate, error, dispatch]);
 
   function loginUser({ email, password }: { email: string; password: string }) {

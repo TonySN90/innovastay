@@ -10,12 +10,19 @@ import Login from "./pages/Login";
 import Guests from "./pages/Guests";
 import Checkin from "./pages/Checkin";
 import CheckOut from "./pages/CheckOut";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<AppLayout />}>
+        <Route
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Navigate replace to="dashboard" />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="bookings" element={<Bookings />} />

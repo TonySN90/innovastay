@@ -64,7 +64,9 @@ function LoginButton({ loadingStatus }: { loadingStatus: string }) {
   const isLoading = loadingStatus === LoadingTypes.LOADING;
 
   return isLoading ? (
-    <MiniSpinner alignment="center" />
+    <div className="w-full h-10 flex justify-center items-center border-2 border-indigo-500 rounded-lg">
+      <MiniSpinner alignment="center" />
+    </div>
   ) : (
     <Button
       content="Login"
