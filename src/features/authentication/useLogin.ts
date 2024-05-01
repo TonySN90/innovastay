@@ -7,9 +7,7 @@ import toast from "react-hot-toast";
 
 function useLogin({ resetInputs }: { resetInputs: () => void }) {
   const dispatch = useAppDispatch();
-  const { login, loadingStatus, error } = useAppSelector(
-    (state: { auth }) => state.auth
-  );
+  const { login, loadingStatus, error } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
 
   useEffect(() => {

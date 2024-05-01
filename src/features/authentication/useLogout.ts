@@ -6,9 +6,7 @@ import { useNavigate } from "react-router";
 import { LoadingTypes } from "../../types/GlobalTypes";
 
 export function useLogout() {
-  const { logoutLoadingStatus, error } = useAppSelector(
-    (state: { auth }) => state.auth
-  );
+  const { logoutLoadingStatus, error } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

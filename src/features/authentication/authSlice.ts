@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getUser, login, logout } from "../../services/apiAuth";
 import { LoadingTypes } from "../../types/GlobalTypes";
+import { IAuthStatesTypes } from "../../types/AuthTypes";
 
 export const loginThunk = createAsyncThunk(
   "auth/login",
@@ -16,24 +17,30 @@ export const getUserThunk = createAsyncThunk("auth/user", async () =>
   getUser()
 );
 
+const initialState = {
+  login: {},
+  user: {},
+  loadingStatus: LoadingTypes.IDLE,
+  logoutLoadingStatus: LoadingTypes.IDLE,
+  userLoadingStatus: LoadingTypes.IDLE,
+  error: "",
+} as IAuthStatesTypes;
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    login: {},
-    user: {},
-    loadingStatus: LoadingTypes.IDLE,
-    logoutLoadingStatus: LoadingTypes.IDLE,
-    userLoadingStatus: LoadingTypes.IDLE,
-    error: "",
-  },
+  initialState,
   reducers: {
     resetLoadingStatus: (state) => {
       state.loadingStatus = LoadingTypes.IDLE;
     },
 
+    resetUserLoadingStatus: (state) => {
+      state.userLoadingStatus = LoadingTypes.IDLE;
+    },
+
     resetUserStates: (state) => {
       state.logoutLoadingStatus = LoadingTypes.IDLE;
       state.user = {};
+      state.login = {};
     },
 
     deleteError: (state) => {
@@ -63,14 +70,14 @@ const authSlice = createSlice({
       })
       .addCase(logoutThunk.rejected, (state) => {
         state.logoutLoadingStatus = LoadingTypes.ERROR;
-        state.error = "Fehler beim logout.";
+        state.error = "Fehler beim Logout";
       })
       // getUser
       .addCase(getUserThunk.pending, (state) => {
         state.userLoadingStatus = LoadingTypes.LOADING;
       })
       .addCase(getUserThunk.fulfilled, (state, action) => {
-        state.userLoadingStatus = LoadingTypes.SUCCESS;
+        state.userLoadingStatus = LoadingTypes.IDLE;
         state.user = action.payload;
       })
       .addCase(getUserThunk.rejected, (state) => {
@@ -82,5 +89,9 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const { resetLoadingStatus, resetUserStates, deleteError } =
-  authSlice.actions;
+export const {
+  resetLoadingStatus,
+  resetUserStates,
+  resetUserLoadingStatus,
+  deleteError,
+} = authSlice.actions;
