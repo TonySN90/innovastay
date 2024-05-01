@@ -20,6 +20,14 @@ export async function login({
   return data;
 }
 
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+}
+
 export async function getUser() {
   const { data: session } = await supabase.auth.getSession();
 

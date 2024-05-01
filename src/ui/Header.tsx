@@ -23,9 +23,7 @@ function Header() {
           <DarkModeToggle />
         </li>
         <li>
-          <Link to="/Login">
-            <Logout />
-          </Link>
+          <Logout />
         </li>
       </ul>
     </header>

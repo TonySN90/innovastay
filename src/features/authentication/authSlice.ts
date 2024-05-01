@@ -1,20 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getUser, login } from "../../services/apiAuth";
+import { getUser, login, logout } from "../../services/apiAuth";
 import { LoadingTypes } from "../../types/GlobalTypes";
 
 export const loginThunk = createAsyncThunk(
   "auth/login",
-  async ({ email, password }: { email: string; password: string }) => {
-    return login({
-      email,
-      password,
-    });
-  }
+  async ({ email, password }: { email: string; password: string }) =>
+    login({ email, password })
 );
 
-export const getUserThunk = createAsyncThunk("auth/user", async () => {
-  return getUser();
-});
+export const logoutThunk = createAsyncThunk("auth/logout", async () =>
+  logout()
+);
+
+export const getUserThunk = createAsyncThunk("auth/user", async () =>
+  getUser()
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -22,6 +22,7 @@ const authSlice = createSlice({
     login: {},
     user: {},
     loadingStatus: LoadingTypes.IDLE,
+    logoutLoadingStatus: LoadingTypes.IDLE,
     userLoadingStatus: LoadingTypes.IDLE,
     error: "",
   },
@@ -30,12 +31,18 @@ const authSlice = createSlice({
       state.loadingStatus = LoadingTypes.IDLE;
     },
 
+    resetUserStates: (state) => {
+      state.logoutLoadingStatus = LoadingTypes.IDLE;
+      state.user = {};
+    },
+
     deleteError: (state) => {
       state.error = "";
     },
   },
   extraReducers(builder) {
     builder
+      // login
       .addCase(loginThunk.pending, (state) => {
         state.loadingStatus = LoadingTypes.LOADING;
       })
@@ -46,6 +53,17 @@ const authSlice = createSlice({
       .addCase(loginThunk.rejected, (state) => {
         state.loadingStatus = LoadingTypes.ERROR;
         state.error = "E-Mail oder Passwort ungültig. Versuche es erneut.";
+      })
+      // logout
+      .addCase(logoutThunk.pending, (state) => {
+        state.logoutLoadingStatus = LoadingTypes.LOADING;
+      })
+      .addCase(logoutThunk.fulfilled, (state) => {
+        state.logoutLoadingStatus = LoadingTypes.SUCCESS;
+      })
+      .addCase(logoutThunk.rejected, (state) => {
+        state.logoutLoadingStatus = LoadingTypes.ERROR;
+        state.error = "Fehler beim logout.";
       })
       // getUser
       .addCase(getUserThunk.pending, (state) => {
@@ -64,4 +82,5 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const { resetLoadingStatus, deleteError } = authSlice.actions;
+export const { resetLoadingStatus, resetUserStates, deleteError } =
+  authSlice.actions;

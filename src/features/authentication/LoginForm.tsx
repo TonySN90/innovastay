@@ -8,7 +8,12 @@ function LoginForm() {
   const [email, setEmail] = useState("tony@example.com");
   const [password, setPassword] = useState("ged33njv");
 
-  const { loginUser, loadingStatus } = useLogin();
+  const resetInputs = () => {
+    setEmail("");
+    setPassword("");
+  };
+
+  const { loginUser, loadingStatus } = useLogin({ resetInputs });
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 

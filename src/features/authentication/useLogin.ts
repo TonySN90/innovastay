@@ -5,7 +5,7 @@ import { LoadingTypes } from "../../types/GlobalTypes";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
-function useLogin() {
+function useLogin({ resetInputs }: { resetInputs: () => void }) {
   const dispatch = useAppDispatch();
   const { login, loadingStatus, error } = useAppSelector(
     (state: { auth }) => state.auth
@@ -14,15 +14,15 @@ function useLogin() {
 
   useEffect(() => {
     if (loadingStatus === LoadingTypes.SUCCESS) {
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
       dispatch(resetLoadingStatus());
-      toast.success("Login erfolgreich");
+      resetInputs();
     }
     if (error) {
       toast.error(error);
       dispatch(deleteError());
     }
-  }, [loadingStatus, navigate, error, dispatch]);
+  }, [loadingStatus, navigate, error, dispatch, resetInputs]);
 
   function loginUser({ email, password }: { email: string; password: string }) {
     dispatch(loginThunk({ email, password }));
