@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getUser, login, logout } from "../../services/apiAuth";
+import { getUser, login, logout, signup } from "../../services/apiAuth";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import { IAuthStatesTypes } from "../../types/AuthTypes";
 
@@ -17,12 +17,21 @@ export const getUserThunk = createAsyncThunk("auth/user", async () =>
   getUser()
 );
 
+export const signupThunk = createAsyncThunk(
+  "auth/signup",
+  async ({ fullName, email, password }) => {
+    return signup({ fullName, email, password });
+  }
+);
+
 const initialState = {
   login: {},
   user: {},
+  newUser: {},
   loadingStatus: LoadingTypes.IDLE,
   logoutLoadingStatus: LoadingTypes.IDLE,
   userLoadingStatus: LoadingTypes.IDLE,
+  signupLoadingStatus: LoadingTypes.IDLE,
   error: "",
 } as IAuthStatesTypes;
 const authSlice = createSlice({
@@ -77,12 +86,24 @@ const authSlice = createSlice({
         state.userLoadingStatus = LoadingTypes.LOADING;
       })
       .addCase(getUserThunk.fulfilled, (state, action) => {
-        state.userLoadingStatus = LoadingTypes.IDLE;
+        state.userLoadingStatus = LoadingTypes.SUCCESS;
         state.user = action.payload;
       })
       .addCase(getUserThunk.rejected, (state) => {
         state.userLoadingStatus = LoadingTypes.ERROR;
         state.error = "Fehler beim Laden des Benutzers";
+      })
+      // signup
+      .addCase(signupThunk.pending, (state) => {
+        state.signupLoadingStatus = LoadingTypes.LOADING;
+      })
+      .addCase(signupThunk.fulfilled, (state, action) => {
+        state.signupLoadingStatus = LoadingTypes.SUCCESS;
+        state.newUser = action.payload;
+      })
+      .addCase(signupThunk.rejected, (state) => {
+        state.signupLoadingStatus = LoadingTypes.ERROR;
+        state.error = "Fehler beim Anlegen des Benutzers";
       });
   },
 });

@@ -41,3 +41,31 @@ export async function getUser() {
   }
   return data?.user;
 }
+
+export async function signup({
+  fullName,
+  email,
+  password,
+}: {
+  fullName: string;
+  email: string;
+  password: string;
+}) {
+  console.log(fullName, email, password);
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: fullName,
+        avatar: "",
+      },
+    },
+  });
+  if (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+  return data;
+}

@@ -4,13 +4,9 @@ import Spinner from "./Spinner";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
-
   const { isLoading, isAuthenticated } = useUser();
 
-  if (!isAuthenticated && !isLoading) {
-    navigate("/login");
-  }
-
+  if (!isAuthenticated && !isLoading) navigate("/login");
   if (isLoading) return <Spinner />;
   if (isAuthenticated) return children;
 }
