@@ -5,8 +5,8 @@ import { LoadingTypes } from "../../types/GlobalTypes";
 import MiniSpinner from "../../ui/MiniSpinner";
 
 function LoginForm() {
-  const [email, setEmail] = useState("tony@example.com");
-  const [password, setPassword] = useState("ged33njv");
+  const [email, setEmail] = useState("demo@innovastay.com");
+  const [password, setPassword] = useState("demo_innova");
 
   const resetInputs = () => {
     setEmail("");

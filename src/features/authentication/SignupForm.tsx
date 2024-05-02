@@ -31,11 +31,11 @@ function SignupForm() {
     >
       <div className="max-w-[850px] mx-auto">
         <h2 className="font-semibold text-lg mb-3 mt-5">
-          Neuen Mitarbeiter hinzufügen
+          Neuen Nutzer hinzufügen
         </h2>
 
         <FormRow
-          label={"Name"}
+          label={"Vor- und Nachname"}
           id="name"
           error={errors as { [key: string]: { message: string } }}
         >
@@ -136,7 +136,7 @@ function SignupForm() {
               variation="standard"
               size="lg"
               extras="rounded-lg"
-              content="Mitarbeiter anlegen"
+              content="Nutzer anlegen"
             />
           </div>
         </div>

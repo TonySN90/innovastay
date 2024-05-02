@@ -1,13 +1,13 @@
 import SignupForm from "../features/authentication/SignupForm";
 import Heading from "../ui/Heading";
 
-function Users() {
+function User() {
   return (
     <div className="shadow-gray-400/10 shadow-lg">
-      <Heading title="Mitarbeiter" size="text-3xl" />
+      <Heading title="Nutzerverwaltung" size="text-3xl" />
       <SignupForm />
     </div>
   );
 }
 
-export default Users;
+export default User;
