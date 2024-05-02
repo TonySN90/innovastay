@@ -13,6 +13,10 @@ export interface IAuthStatesTypes {
 
 type Usertype = {
   role?: string;
+  user_metadata?: {
+    email: string;
+    full_name: string;
+  };
 };
 
 export type SignUpTypes = {

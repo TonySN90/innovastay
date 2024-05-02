@@ -2,13 +2,23 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FormValues } from "../../types/FormTypes";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
+import { useAppSelector } from "../../store";
 
 function UpdateUserDataForm() {
+  const { user } = useAppSelector((state) => state.auth);
+
+  const { email, full_name: fullName } = user?.user_metadata || {};
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    defaultValues: {
+      email,
+      fullName,
+    },
+  });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
@@ -32,7 +42,7 @@ function UpdateUserDataForm() {
         >
           <input
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
-            type="text"
+            type="email"
             id="email"
             disabled={true}
             {...register("email")}
@@ -75,7 +85,7 @@ function UpdateUserDataForm() {
           <Button
             type="reset"
             variation="inverted"
-            size="lg"
+            size="md"
             extras="rounded-lg mr-2"
             content="Abbrechen"
           />
@@ -83,9 +93,9 @@ function UpdateUserDataForm() {
           <Button
             type="submit"
             variation="standard"
-            size="lg"
+            size="md"
             extras="rounded-lg"
-            content="Update Einstellungen"
+            content="Update"
           />
         </div>
       </div>

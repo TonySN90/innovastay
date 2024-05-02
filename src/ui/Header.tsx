@@ -14,7 +14,7 @@ function Header() {
         </li>
         <li>
           <Link to="/account">
-            <ButtonIcon onClick={() => console.log("test")}>
+            <ButtonIcon>
               <HiOutlineUser className="w-6 h-6" />
             </ButtonIcon>
           </Link>

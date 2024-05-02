@@ -71,12 +71,12 @@ function UpdateUserPasswordForm() {
           />
         </FormRow>
 
-        <div className="flex justify-end md:justify-end mt-4">
+        <div className="flex justify-end md:justify-end mt-4 ">
           <Button
             type="reset"
             onClick={() => reset()}
             variation="inverted"
-            size="lg"
+            size="md"
             extras="rounded-lg mr-2"
             content="Abbrechen"
           />
@@ -85,9 +85,9 @@ function UpdateUserPasswordForm() {
             type="submit"
             onClick={() => console.log("test")}
             variation="standard"
-            size="lg"
+            size="md"
             extras="rounded-lg"
-            content="Update Einstellungen"
+            content="Update"
           />
         </div>
       </div>

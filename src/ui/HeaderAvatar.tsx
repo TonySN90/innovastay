@@ -3,7 +3,6 @@ import { useAppSelector } from "../store";
 function HeaderAvatar() {
   const { user } = useAppSelector((state) => state.auth);
 
-  console.log(user.user_metadata);
   const { full_name, avatar } = user.user_metadata;
 
   return (
