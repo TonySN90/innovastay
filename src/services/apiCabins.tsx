@@ -35,7 +35,6 @@ export async function getCabins(
     query = query.range(from, to);
   }
 
-
   const {
     data: cabins,
     error,
@@ -99,6 +98,7 @@ export async function createUpdateCabin(
   // Upload image to storage
   if (hastImagePath) return data;
 
+  console.log(imageName, image);
   const { error: uploadError } = await supabase.storage
     .from("cabin_images")
     .upload(imageName, image);

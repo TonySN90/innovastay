@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { signupThunk } from "./authSlice";
 import { LoadingTypes } from "../../types/GlobalTypes";
 
-function useSignUp(reset) {
+function useSignUp(reset: () => void) {
   const dispatch = useAppDispatch();
   const { signupLoadingStatus } = useAppSelector((state) => state.auth);
 

@@ -19,7 +19,7 @@ function useStats() {
   const { cabins } = useCabins();
 
   const startDate = new Date(getPastDay(filter));
-  const endDate = new Date(getToday());
+  const endDate = new Date(getToday({ end: true }));
   const count: { [key: string]: number } = {};
 
   // Filter period-bookings
@@ -31,8 +31,8 @@ function useStats() {
     return bookings.filter((booking) => {
       const bookingDate = new Date(booking.startDate);
       return (
-        bookingDate.toDateString() !== endDate.toDateString() &&
-        bookingDate.getTime() > startDate.getTime()
+        bookingDate.getTime() >= startDate.getTime() &&
+        bookingDate.getTime() <= endDate.getTime()
       );
     });
   }

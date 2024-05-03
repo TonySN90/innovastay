@@ -1,5 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getUser, login, logout, signup } from "../../services/apiAuth";
+import {
+  getUser,
+  login,
+  logout,
+  signup,
+  updateUser,
+} from "../../services/apiAuth";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import { IAuthStatesTypes } from "../../types/AuthTypes";
 
@@ -19,19 +25,23 @@ export const getUserThunk = createAsyncThunk("auth/user", async () =>
 
 export const signupThunk = createAsyncThunk(
   "auth/signup",
-  async ({ fullName, email, password }) => {
-    return signup({ fullName, email, password });
-  }
+  async ({ fullName, email, password }) => signup({ fullName, email, password })
+);
+
+export const updateUserThunk = createAsyncThunk(
+  "auth/updateUser",
+  async ({ password, fullName, avatar }) =>
+    updateUser({ password, fullName, avatar })
 );
 
 const initialState = {
   login: {},
   user: {},
-  newUser: {},
   loadingStatus: LoadingTypes.IDLE,
   logoutLoadingStatus: LoadingTypes.IDLE,
   userLoadingStatus: LoadingTypes.IDLE,
   signupLoadingStatus: LoadingTypes.IDLE,
+  updateUserLoadingStatus: LoadingTypes.IDLE,
   error: "",
 } as IAuthStatesTypes;
 const authSlice = createSlice({
@@ -43,6 +53,10 @@ const authSlice = createSlice({
     },
 
     resetUserLoadingStatus: (state) => {
+      state.userLoadingStatus = LoadingTypes.IDLE;
+    },
+
+    resetUpdateUserLoadingStatus: (state) => {
       state.userLoadingStatus = LoadingTypes.IDLE;
     },
 
@@ -97,13 +111,23 @@ const authSlice = createSlice({
       .addCase(signupThunk.pending, (state) => {
         state.signupLoadingStatus = LoadingTypes.LOADING;
       })
-      .addCase(signupThunk.fulfilled, (state, action) => {
-        state.signupLoadingStatus = LoadingTypes.SUCCESS;
-        state.newUser = action.payload;
+      .addCase(signupThunk.fulfilled, (state) => {
+        state.signupLoadingStatus = LoadingTypes.IDLE;
       })
       .addCase(signupThunk.rejected, (state) => {
         state.signupLoadingStatus = LoadingTypes.ERROR;
-        state.error = "Fehler beim Anlegen des Benutzers";
+        state.error = "Fehler beim Anlegen des neuen Benutzers";
+      })
+      // update user
+      .addCase(updateUserThunk.pending, (state) => {
+        state.updateUserLoadingStatus = LoadingTypes.LOADING;
+      })
+      .addCase(updateUserThunk.fulfilled, (state) => {
+        state.updateUserLoadingStatus = LoadingTypes.SUCCESS;
+      })
+      .addCase(updateUserThunk.rejected, (state) => {
+        state.updateUserLoadingStatus = LoadingTypes.ERROR;
+        state.error = "Fehler beim Update der Benutzerdaten";
       });
   },
 });
@@ -114,5 +138,6 @@ export const {
   resetLoadingStatus,
   resetUserStates,
   resetUserLoadingStatus,
+  resetUpdateUserLoadingStatus,
   deleteError,
 } = authSlice.actions;

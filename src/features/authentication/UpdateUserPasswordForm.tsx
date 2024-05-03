@@ -2,18 +2,21 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FormValues } from "../../types/FormTypes";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
+import useUpdateUser from "./useUpdateUser";
 
 function UpdateUserPasswordForm() {
   const {
     register,
     handleSubmit,
-    reset,
     getValues,
     formState: { errors },
   } = useForm<FormValues>();
 
+  const { updateUser, isUpdating } = useUpdateUser();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
+
+    updateUser({ password: data.password });
   };
 
   const isUpdatingSession = false;
@@ -42,11 +45,6 @@ function UpdateUserPasswordForm() {
               minLength: {
                 value: 6,
                 message: "Mindestens 6 Zeichen",
-                // pattern: {
-                //   value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/,
-                //   message:
-                //     "Mindestens 1 Zahl, 1 Großbuchstabe, 1 Kleinbuchstabe",
-                // },
               },
             })}
           />
@@ -73,17 +71,7 @@ function UpdateUserPasswordForm() {
 
         <div className="flex justify-end md:justify-end mt-4 ">
           <Button
-            type="reset"
-            onClick={() => reset()}
-            variation="inverted"
-            size="md"
-            extras="rounded-lg mr-2"
-            content="Abbrechen"
-          />
-
-          <Button
             type="submit"
-            onClick={() => console.log("test")}
             variation="standard"
             size="md"
             extras="rounded-lg"

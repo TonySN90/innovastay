@@ -1,5 +1,6 @@
-import supabase from "./supabase";
+import supabase, { supabaseUrl } from "./supabase";
 
+// Login
 export async function login({
   email,
   password,
@@ -20,6 +21,7 @@ export async function login({
   return data;
 }
 
+// Logout
 export async function logout() {
   const { error } = await supabase.auth.signOut();
   if (error) {
@@ -28,6 +30,7 @@ export async function logout() {
   }
 }
 
+// Ger User
 export async function getUser() {
   const { data: session } = await supabase.auth.getSession();
 
@@ -42,6 +45,7 @@ export async function getUser() {
   return data?.user;
 }
 
+// Signup
 export async function signup({
   fullName,
   email,
@@ -51,8 +55,6 @@ export async function signup({
   email: string;
   password: string;
 }) {
-  console.log(fullName, email, password);
-
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -68,4 +70,61 @@ export async function signup({
     throw new Error(error.message);
   }
   return data;
+}
+
+// Update User
+export async function updateUser({
+  password,
+  fullName,
+  avatar,
+}: {
+  password: string;
+  fullName: string;
+  avatar: string;
+}) {
+  // 1. Update password or fullName
+  let updateData;
+  if (password) updateData = { password };
+  if (fullName)
+    updateData = {
+      data: {
+        fullName,
+      },
+    };
+
+  const { data, error } = await supabase.auth.updateUser(updateData);
+
+  if (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+
+  if (!avatar) return data;
+
+  // 2. Upload Avatar
+  const fileName = `avatar-${Math.random()}-${avatar.name}`;
+
+  const { error: storageError } = await supabase.storage
+    .from("avatars")
+    .upload(fileName, avatar);
+
+  if (storageError) {
+    console.log(storageError);
+    throw new Error(storageError.message);
+  }
+
+  // 3. Update Avatar
+  const { data: updatedUser, error: userError } =
+    await supabase.auth.updateUser({
+      data: {
+        avatar: `${supabaseUrl}/storage/v1/object/public/avatars/${fileName}`,
+      },
+    });
+
+  if (userError) {
+    console.log(userError);
+    throw new Error(userError.message);
+  }
+
+  return updatedUser;
 }

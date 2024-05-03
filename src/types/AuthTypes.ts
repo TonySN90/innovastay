@@ -8,12 +8,13 @@ export interface IAuthStatesTypes {
   logoutLoadingStatus: LoadingTypes;
   userLoadingStatus: LoadingTypes;
   signupLoadingStatus: LoadingTypes;
+  updateUserLoadingStatus: LoadingTypes;
   error: string;
 }
 
 type Usertype = {
   role?: string;
-  user_metadata?: {
+  user_metadata: {
     email: string;
     full_name: string;
   };

@@ -3,6 +3,7 @@ import { FormValues } from "../../types/FormTypes";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
 import { useAppSelector } from "../../store";
+import useUpdateUser from "./useUpdateUser";
 
 function UpdateUserDataForm() {
   const { user } = useAppSelector((state) => state.auth);
@@ -20,11 +21,12 @@ function UpdateUserDataForm() {
     },
   });
 
+  const { updateUser, isUpdating } = useUpdateUser();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
+    // if (!fullName) {
+    updateUser({ fullName: data.fullName, avatar: data.image[0] });
+    // }
   };
-
-  const isUpdatingSession = false;
 
   return (
     <form
@@ -58,7 +60,7 @@ function UpdateUserDataForm() {
             className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
             type="text"
             id="fullName"
-            disabled={isUpdatingSession}
+            disabled={isUpdating}
             {...register("fullName", {
               required: "Eintrag erforderlich",
             })}
@@ -74,22 +76,12 @@ function UpdateUserDataForm() {
             type="file"
             className="fileInputStyle flex items-center justify-center w-full md:w-[300px]"
             accept="image/*"
-            disabled={isUpdatingSession}
-            {...register("image", {
-              required: isUpdatingSession ? false : "Wähle ein Bild",
-            })}
+            disabled={isUpdating}
+            {...register("image")}
           />
         </FormRow>
 
         <div className="flex justify-end md:justify-end mt-4">
-          <Button
-            type="reset"
-            variation="inverted"
-            size="md"
-            extras="rounded-lg mr-2"
-            content="Abbrechen"
-          />
-
           <Button
             type="submit"
             variation="standard"
