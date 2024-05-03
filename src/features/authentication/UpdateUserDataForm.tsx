@@ -3,9 +3,14 @@ import { FormValues } from "../../types/FormTypes";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
 import { useAppSelector } from "../../store";
-import useUpdateUser from "./useUpdateUser";
 
-function UpdateUserDataForm() {
+function UpdateUserDataForm({
+  updateUser,
+  isUpdating,
+}: {
+  updateUser: () => void;
+  isUpdating: boolean;
+}) {
   const { user } = useAppSelector((state) => state.auth);
 
   const { email, full_name: fullName } = user?.user_metadata || {};
@@ -21,11 +26,10 @@ function UpdateUserDataForm() {
     },
   });
 
-  const { updateUser, isUpdating } = useUpdateUser();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    // if (!fullName) {
+    if (!fullName) return;
+
     updateUser({ fullName: data.fullName, avatar: data.image[0] });
-    // }
   };
 
   return (

@@ -2,9 +2,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FormValues } from "../../types/FormTypes";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
-import useUpdateUser from "./useUpdateUser";
 
-function UpdateUserPasswordForm() {
+function UpdateUserPasswordForm({ updateUser, isUpdating }) {
   const {
     register,
     handleSubmit,
@@ -12,7 +11,6 @@ function UpdateUserPasswordForm() {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const { updateUser, isUpdating } = useUpdateUser();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
 

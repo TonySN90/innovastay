@@ -88,7 +88,7 @@ export async function updateUser({
   if (fullName)
     updateData = {
       data: {
-        fullName,
+        full_name: fullName,
       },
     };
 
