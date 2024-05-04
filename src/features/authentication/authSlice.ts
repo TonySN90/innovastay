@@ -25,13 +25,28 @@ export const getUserThunk = createAsyncThunk("auth/user", async () => {
 
 export const signupThunk = createAsyncThunk(
   "auth/signup",
-  async ({ fullName, email, password }) => signup({ fullName, email, password })
+  async ({
+    fullName,
+    email,
+    password,
+  }: {
+    fullName: string;
+    email: string;
+    password: string;
+  }) => signup({ fullName, email, password })
 );
 
 export const updateUserThunk = createAsyncThunk(
   "auth/updateUser",
-  async ({ password, fullName, avatar }) =>
-    updateUser({ password, fullName, avatar })
+  async ({
+    password,
+    fullName,
+    avatar,
+  }: {
+    password: string;
+    fullName: string;
+    avatar: File | undefined;
+  }) => updateUser({ password, fullName, avatar })
 );
 
 const initialState = {
@@ -57,7 +72,7 @@ const authSlice = createSlice({
     },
 
     resetUpdateUserLoadingStatus: (state) => {
-      state.userLoadingStatus = LoadingTypes.IDLE;
+      state.updateUserLoadingStatus = LoadingTypes.IDLE;
     },
 
     resetUserStates: (state) => {
@@ -112,7 +127,7 @@ const authSlice = createSlice({
         state.signupLoadingStatus = LoadingTypes.LOADING;
       })
       .addCase(signupThunk.fulfilled, (state) => {
-        state.signupLoadingStatus = LoadingTypes.IDLE;
+        state.signupLoadingStatus = LoadingTypes.SUCCESS;
       })
       .addCase(signupThunk.rejected, (state) => {
         state.signupLoadingStatus = LoadingTypes.ERROR;

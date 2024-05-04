@@ -14,15 +14,17 @@ export interface IAuthStatesTypes {
 
 type Usertype = {
   role?: string;
-  user_metadata: {
-    email: string;
-    full_name: string;
+  email?: string;
+  user_metadata?: {
+    email?: string;
+    fullName?: string;
   };
 };
 
-export type SignUpTypes = {
+export type UserFormTypes = {
   fullName: string;
   email: string;
+  avatar?: File;
   password: string;
   passwordConfirm?: string;
 };

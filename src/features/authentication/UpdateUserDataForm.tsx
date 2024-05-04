@@ -3,17 +3,18 @@ import { FormValues } from "../../types/FormTypes";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
 import { useAppSelector } from "../../store";
+import MiniSpinner from "../../ui/MiniSpinner";
 
 function UpdateUserDataForm({
   updateUser,
   isUpdating,
 }: {
-  updateUser: () => void;
+  updateUser: (object) => void;
   isUpdating: boolean;
 }) {
   const { user } = useAppSelector((state) => state.auth);
 
-  const { email, full_name: fullName } = user?.user_metadata || {};
+  const { fullName } = user?.user_metadata || {};
 
   const {
     register,
@@ -21,13 +22,13 @@ function UpdateUserDataForm({
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      email,
+      email: user?.email,
       fullName,
     },
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    if (!fullName) return;
+    if (!data.fullName) return;
 
     updateUser({ fullName: data.fullName, avatar: data.image[0] });
   };
@@ -86,13 +87,17 @@ function UpdateUserDataForm({
         </FormRow>
 
         <div className="flex justify-end md:justify-end mt-4">
-          <Button
-            type="submit"
-            variation="standard"
-            size="md"
-            extras="rounded-lg"
-            content="Update"
-          />
+          {isUpdating ? (
+            <MiniSpinner />
+          ) : (
+            <Button
+              type="submit"
+              variation="standard"
+              size="md"
+              extras="rounded-lg"
+              content="Update"
+            />
+          )}
         </div>
       </div>
     </form>

@@ -2,6 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FormValues } from "../../types/FormTypes";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
+import MiniSpinner from "../../ui/MiniSpinner";
 
 function UpdateUserPasswordForm({ updateUser, isUpdating }) {
   const {
@@ -12,8 +13,6 @@ function UpdateUserPasswordForm({ updateUser, isUpdating }) {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
-
     updateUser({ password: data.password });
   };
 
@@ -68,13 +67,17 @@ function UpdateUserPasswordForm({ updateUser, isUpdating }) {
         </FormRow>
 
         <div className="flex justify-end md:justify-end mt-4 ">
-          <Button
-            type="submit"
-            variation="standard"
-            size="md"
-            extras="rounded-lg"
-            content="Update"
-          />
+          {isUpdating ? (
+            <MiniSpinner />
+          ) : (
+            <Button
+              type="submit"
+              variation="standard"
+              size="md"
+              extras="rounded-lg"
+              content="Update"
+            />
+          )}
         </div>
       </div>
     </form>

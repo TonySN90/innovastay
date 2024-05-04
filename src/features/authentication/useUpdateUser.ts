@@ -7,6 +7,7 @@ import {
 } from "./authSlice";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import toast from "react-hot-toast";
+import { UserFormTypes } from "../../types/AuthTypes";
 
 function useUpdateUser() {
   const dispatch = useAppDispatch();
@@ -20,7 +21,7 @@ function useUpdateUser() {
     }
   }, [dispatch, updateUserLoadingStatus]);
 
-  function updateUser({ password, fullName, avatar }) {
+  function updateUser({ password, fullName, avatar }: UserFormTypes) {
     dispatch(updateUserThunk({ password, fullName, avatar }));
   }
 

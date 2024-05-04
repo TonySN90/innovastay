@@ -60,7 +60,7 @@ export async function signup({
     password,
     options: {
       data: {
-        full_name: fullName,
+        fullName,
         avatar: "",
       },
     },
@@ -80,7 +80,7 @@ export async function updateUser({
 }: {
   password: string;
   fullName: string;
-  avatar: string;
+  avatar: File | undefined;
 }) {
   // 1. Update password or fullName
   let updateData;
@@ -88,11 +88,11 @@ export async function updateUser({
   if (fullName)
     updateData = {
       data: {
-        full_name: fullName,
+        fullName,
       },
     };
 
-  const { data, error } = await supabase.auth.updateUser(updateData);
+  const { data, error } = await supabase.auth.updateUser(updateData as object);
 
   if (error) {
     console.log(error);
