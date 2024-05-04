@@ -42,6 +42,7 @@ export interface FormValues {
   totalPrice?: number;
   guestId?: number;
   created_at?: string;
+  avatar?: File[];
 }
 
 export interface IFormRawValues {

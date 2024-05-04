@@ -78,9 +78,9 @@ export async function updateUser({
   fullName,
   avatar,
 }: {
-  password: string;
-  fullName: string;
-  avatar: File | undefined;
+  password?: string;
+  fullName?: string;
+  avatar?: File | undefined;
 }) {
   // 1. Update password or fullName
   let updateData;

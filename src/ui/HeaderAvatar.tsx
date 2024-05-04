@@ -1,9 +1,11 @@
 import { useAppSelector } from "../store";
+import { IUserMetadataTypes } from "../types/AuthTypes";
 
 function HeaderAvatar() {
   const { user } = useAppSelector((state) => state.auth);
 
-  const { fullName, avatar } = user.user_metadata;
+  const { fullName, avatar } =
+    (user?.user_metadata as IUserMetadataTypes) || {};
 
   return (
     <div className="flex justify-end mr-10">

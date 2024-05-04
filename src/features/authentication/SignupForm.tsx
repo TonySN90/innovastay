@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
 import useSignUp from "./useSignUp";
-import { UserFormTypes } from "../../types/AuthTypes";
+import { ISignupTypes } from "../../types/AuthTypes";
 
 function SignupForm() {
   const {
@@ -11,12 +11,12 @@ function SignupForm() {
     getValues,
     reset,
     formState: { errors },
-  } = useForm<UserFormTypes>();
+  } = useForm<ISignupTypes>();
 
   const { signupUser, signupLoadingStatus } = useSignUp(reset);
   const isLoading = signupLoadingStatus === "loading";
 
-  const onSubmit: SubmitHandler<UserFormTypes> = ({
+  const onSubmit: SubmitHandler<ISignupTypes> = ({
     fullName,
     email,
     password,

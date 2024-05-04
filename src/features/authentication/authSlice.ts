@@ -7,7 +7,7 @@ import {
   updateUser,
 } from "../../services/apiAuth";
 import { LoadingTypes } from "../../types/GlobalTypes";
-import { IAuthStatesTypes } from "../../types/AuthTypes";
+import { IAuthStatesTypes, ISignupTypes } from "../../types/AuthTypes";
 
 export const loginThunk = createAsyncThunk(
   "auth/login",
@@ -25,15 +25,8 @@ export const getUserThunk = createAsyncThunk("auth/user", async () => {
 
 export const signupThunk = createAsyncThunk(
   "auth/signup",
-  async ({
-    fullName,
-    email,
-    password,
-  }: {
-    fullName: string;
-    email: string;
-    password: string;
-  }) => signup({ fullName, email, password })
+  async ({ fullName, email, password }: ISignupTypes) =>
+    signup({ fullName, email, password })
 );
 
 export const updateUserThunk = createAsyncThunk(
@@ -43,9 +36,9 @@ export const updateUserThunk = createAsyncThunk(
     fullName,
     avatar,
   }: {
-    password: string;
-    fullName: string;
-    avatar: File | undefined;
+    password?: string;
+    fullName?: string;
+    avatar?: File | undefined;
   }) => updateUser({ password, fullName, avatar })
 );
 

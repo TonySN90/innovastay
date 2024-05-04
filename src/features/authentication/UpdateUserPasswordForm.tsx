@@ -1,18 +1,23 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import { FormValues } from "../../types/FormTypes";
+import { useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
 import MiniSpinner from "../../ui/MiniSpinner";
 
-function UpdateUserPasswordForm({ updateUser, isUpdating }) {
+function UpdateUserPasswordForm({
+  updateUser,
+  isUpdating,
+}: {
+  updateUser: (data: { password: string }) => void;
+  isUpdating: boolean;
+}) {
   const {
     register,
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<{ password: string; passwordConfirm: string }>();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit = (data: { password: string; passwordConfirm: string }) => {
     updateUser({ password: data.password });
   };
 

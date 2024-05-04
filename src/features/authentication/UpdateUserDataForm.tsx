@@ -1,33 +1,32 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FormValues } from "../../types/FormTypes";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
 import { useAppSelector } from "../../store";
 import MiniSpinner from "../../ui/MiniSpinner";
+import { IUpdateUserTypes } from "../../types/AuthTypes";
 
 function UpdateUserDataForm({
   updateUser,
   isUpdating,
 }: {
-  updateUser: (object) => void;
+  updateUser: (data: { fullName: string; avatar: File }) => void;
   isUpdating: boolean;
 }) {
   const { user } = useAppSelector((state) => state.auth);
-
   const { fullName } = user?.user_metadata || {};
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>({
+  } = useForm<{ fullName: string; image: File[]; email: string }>({
     defaultValues: {
       email: user?.email,
       fullName,
     },
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<IUpdateUserTypes> = (data) => {
     if (!data.fullName) return;
 
     updateUser({ fullName: data.fullName, avatar: data.image[0] });

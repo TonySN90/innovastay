@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { signupThunk } from "./authSlice";
 import { LoadingTypes } from "../../types/GlobalTypes";
-import { UserFormTypes } from "../../types/AuthTypes";
+import { ISignupTypes } from "../../types/AuthTypes";
 
 function useSignUp(reset: () => void) {
   const dispatch = useAppDispatch();
@@ -16,7 +16,7 @@ function useSignUp(reset: () => void) {
     }
   }, [signupLoadingStatus, dispatch, reset]);
 
-  function signupUser({ fullName, email, password }: UserFormTypes) {
+  function signupUser({ fullName, email, password }: ISignupTypes) {
     dispatch(signupThunk({ fullName, email, password }));
   }
 
