@@ -10,7 +10,7 @@ import HotelCard from "./HotelCard";
 import { BsPeople } from "react-icons/bs";
 
 const listElStyles =
-  "mb-3 hover:text-indigo-500 transition-colors hover:bg-stone-100";
+  "mb-3 pl-2 hover:text-indigo-500 transition-colors hover:bg-hover_sidebar rounded-lg";
 
 function MainNav() {
   return (

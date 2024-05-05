@@ -26,7 +26,7 @@ function SignupForm() {
 
   return (
     <form
-      className="p-3 md:p-5 transition-all bg-gray-50 rounded-lg "
+      className="p-3 md:p-5 transition-all bg-card rounded-lg "
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="max-w-[850px] mx-auto">
@@ -40,7 +40,7 @@ function SignupForm() {
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className="bg-inherit w-full md:w-[300px] border border-border rounded-md h-9 pl-2 text-text"
             type="text"
             id="fullName"
             disabled={isLoading}
@@ -60,7 +60,7 @@ function SignupForm() {
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className="bg-inherit w-full md:w-[300px] border border-border rounded-md h-9 pl-2 text-text"
             type="email"
             id="email"
             disabled={isLoading}
@@ -80,7 +80,7 @@ function SignupForm() {
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className="bg-inherit w-full md:w-[300px] border border-border rounded-md h-9 pl-2 text-text"
             type="password"
             id="password"
             disabled={isLoading}
@@ -105,7 +105,7 @@ function SignupForm() {
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className="bg-inherit w-full md:w-[300px] border border-border rounded-md h-9 pl-2 text-text"
             type="password"
             id="passwordConfirm"
             disabled={isLoading}

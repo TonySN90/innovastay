@@ -7,6 +7,47 @@
   --color-gray-200: #e5e7eb;
   --color-gray-400: #9ca3af;
   --color-gray-800: #6b7280;
+
+  --color-indigo-200: #c7d2fe;
+  --color-indigo-300: #a5b4fc;
+  --color-indigo-400: #818cf8;
+}
+
+.light {
+  color: #374151;
+  --background: #f3f4f6;
+  --background-sidebar: #fafaf9;
+
+  --card: #f9fafb;
+
+  --text: #374151;
+  --button-text: #f9fafb;
+  --button-text-inverted: #4f46e8; /* indigo-500 */
+
+  --border: #d1d5db;
+  --border-b: #e0e7ff; /* indigo-100 */
+  --shadow: #e0e7ff;
+
+  --hover-sidebar: #f5f5f4;
+}
+
+.dark {
+  color: #d0d2d7;
+  --background: #111827;
+  --background-sidebar: #1e293b;
+
+  --card: #1e293b;
+
+  --text: #d0d2d7;
+
+  --button-text: #f9fafb;
+  --button-text-inverted: #4f46e8;
+
+  --border: #9fa4af98;
+  --border-b: #223047;
+  --shadow: #111827;
+
+  --hover-sidebar: #111827;
 }
 
 *,
@@ -22,8 +63,8 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  color: #374151;
-  background: #f3f4f6;
+  /* color: #374151; */
+  /* background: #f3f4f6; */
 }
 
 .active {

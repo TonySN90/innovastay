@@ -17,7 +17,7 @@ function UpdateSettingsForm() {
 
   return (
     <form
-      className="p-3 md:p-5 transition-all bg-gray-50 rounded-lg "
+      className="p-3 md:p-5 transition-all bg-card rounded-lg "
       onSubmit={handleSubmit(onSubmit)}
       encType="multipart/form-data"
     >
@@ -32,7 +32,7 @@ function UpdateSettingsForm() {
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className="w-full md:w-[300px] bg-inherit border border-border rounded-md h-9 pl-2 text-gray-500"
             type="text"
             id="nights"
             // disabled={isWorking}
@@ -48,7 +48,7 @@ function UpdateSettingsForm() {
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className="w-full md:w-[300px] bg-inherit border border-border rounded-md h-9 pl-2 text-gray-500"
             type="number"
             id="maxGuestsPerBooking"
             // disabled={isWorking}
@@ -64,7 +64,7 @@ function UpdateSettingsForm() {
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className="w-full md:w-[300px] bg-inherit border border-border rounded-md h-9 pl-2 text-gray-500"
             type="number"
             id="breakfastPrice"
             // disabled={isWorking}

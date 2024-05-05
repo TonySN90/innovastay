@@ -25,7 +25,7 @@ function GuestsRow({
   } = guest;
 
   return (
-    <tr className="shadow-lg shadow-indigo-100 bg-gray-50 grid grid-cols-5 md:grid-cols-10 text-left hyphens-manual rounded-md min-h-[70px] p-4 px-7 gap-2 border-indigo-300 my-1.5 hover:bg-indigo-100">
+    <tr className="shadow-lg shadow-shadow bg-card grid grid-cols-5 md:grid-cols-10 text-left hyphens-manual rounded-md min-h-[70px] p-4 px-7 gap-2 border-indigo-300 my-1.5 hover:bg-shadow">
       <td className="flex items-center font-semibold col-span-2 md:col-span-2">
         <div className="flex flex-col">
           <span className="font-semibold">{fullName}</span>

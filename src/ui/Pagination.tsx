@@ -27,7 +27,7 @@ function Pagination({ count }: { count: number }) {
   const to = from + pageSize - 1;
 
   return (
-    <div className="pb-3 px-2 flex mb-2 justify-between border-b-2 border-indigo-100 text-sm">
+    <div className="pb-3 px-2 flex mb-2 justify-between border-b-2 border-border text-sm">
       <div className="flex items-center gap-1">
         Ergebnisse <span className="font-semibold">{from}</span>
         bis
