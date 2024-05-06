@@ -40,7 +40,7 @@ function InfoCard({
         </tr>
       </thead>
 
-      <tbody className="bg-gray-50 border-b-2 border-indigo-200 shadow-indigo-100 shadow-xl">
+      <tbody className="bg-card border-b-2 border-border shadow-shadow shadow-xl">
         {rowContent === LoadingTypes.LOADING ? (
           <tr>
             <td>

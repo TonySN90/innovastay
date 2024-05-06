@@ -52,9 +52,12 @@ function BookingsRow({
       <td className={`flex items-center md:col-span-2`}>
         <div
           className={`md:col-span-4 p-1.5 md:w-[120px] text-center rounded-md text-xs ${
-            (status === BookingStatusTypes.UNCONFIRMED && "bg-blue-200") ||
-            (status === BookingStatusTypes.CHECKEDIN && "bg-green-200") ||
-            (status === BookingStatusTypes.CHECKEDOUT && "bg-gray-200")
+            (status === BookingStatusTypes.UNCONFIRMED &&
+              "bg-blue-200 text-gray-700") ||
+            (status === BookingStatusTypes.CHECKEDIN &&
+              "bg-green-200 text-gray-700") ||
+            (status === BookingStatusTypes.CHECKEDOUT &&
+              "bg-gray-200 text-gray-700")
           }`}
         >
           {status === BookingStatusTypes.UNCONFIRMED && "Ausstehend"}

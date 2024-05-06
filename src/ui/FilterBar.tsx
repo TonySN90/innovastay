@@ -95,11 +95,11 @@ function SearchInput() {
           isOpen ? "w-[180px]" : "w-[35px]"
         } h-[2.2rem] pl-8 rounded-full border-2 border-indigo-300 bg-transparent transition-all focus:outline-none`}
       />
-      <span className="absolute top-[5px] left-[5px] -z-10">
+      <span className="absolute top-[5px] left-[5px] z-10 pointer-events-none">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          className="h-6 w-6 text-indigo-500"
+          className="h-6 w-6 text-text"
           fill="none"
           stroke="currentColor"
         >

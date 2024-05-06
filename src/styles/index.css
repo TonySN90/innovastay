@@ -19,6 +19,8 @@
 
   --color-stone-50: #fafaf9;
   --color-stone-100: #f5f5f4;
+
+  --color-slate-50: #f8fafc;
 }
 
 .light {
@@ -29,7 +31,7 @@
   --table-header: var(--color-indigo-200);
   --menu: var(--color-indigo-200);
 
-  --card: var(--color-gray-50);
+  --card: var(--color-slate-50);
 
   --text: var(--color-gray-700);
   --button-text: var(--color-gray-50);
@@ -44,12 +46,24 @@
 
   --filterButtons-border: var(--color-indigo-100);
   --filterButton-active: var(--color-indigo-300);
+
+  --status-green: #bbf7d0;
+  --status-red: #fecaca;
+  --status-blue: #c7d2fe;
+  --status-gray: #e5e7eb;
+
+  --db-info: var(--color-gray-50);
 }
 
 .dark {
   --color-dark_1: #111827;
   --color-dark_2: #1e293b;
   --color-dark_3: #223047;
+
+  --status-green: #22c55e;
+  --status-red: #ef4444;
+  --status-blue: #6366f1;
+  --status-gray: #4b5563;
 
   color: var(--color-gray-300);
   --background-primary: var(--color-dark_1);
@@ -74,6 +88,8 @@
 
   --filterButtons-border: var(--color-dark_2);
   --filterButton-active: var(--color-indigo-600);
+
+  --db-infobox: var(--color-dark_3);
 }
 
 *,

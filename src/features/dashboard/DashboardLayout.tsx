@@ -78,7 +78,7 @@ function DashboardLayout() {
 
       <DbSection>
         <InfoBox
-          color="bg-indigo-200"
+          color="bg-status_blue"
           title="Buchungen"
           content={
             quantityBookingsLoadingStatus === LoadingTypes.LOADING
@@ -89,7 +89,7 @@ function DashboardLayout() {
           <HiOutlineCalendarDays className="w-6 h-6" />
         </InfoBox>
         <InfoBox
-          color="bg-green-200"
+          color="bg-status_green"
           title="Umsatz"
           content={
             periodBookingsLoadingStatus === LoadingTypes.LOADING
@@ -100,7 +100,7 @@ function DashboardLayout() {
           <LiaMoneyBillWaveAltSolid className="w-6 h-6" />
         </InfoBox>
         <InfoBox
-          color="bg-red-200"
+          color="bg-status_red"
           title="Auslastung"
           content={
             periodBookingsLoadingStatus === LoadingTypes.LOADING
@@ -111,7 +111,7 @@ function DashboardLayout() {
           <LuBarChart4 className="w-6 h-6" />
         </InfoBox>
         <InfoBox
-          color="bg-indigo-200"
+          color="bg-status_blue"
           title="Check-Ins"
           content={
             periodBookingsLoadingStatus === LoadingTypes.LOADING
@@ -145,7 +145,7 @@ function DbSection({
   linkText?: string;
 }) {
   return (
-    <section className="mb-6 px-12 py-6 bg-slate-50 rounded-lg shadow-md shadow-indigo-100">
+    <section className="mb-6 px-12 py-6 bg-card rounded-lg shadow-md shadow-shadow">
       <div className="flex justify-between">
         <h3 className="text-xl font-semibold">{title}</h3>
         <Link to="/bookings">
