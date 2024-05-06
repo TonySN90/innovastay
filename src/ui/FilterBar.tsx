@@ -133,7 +133,7 @@ export function FilterButtons() {
   }
 
   return (
-    <div className="flex ml-4 h-[2.2rem] overflow-hidden rounded-lg border-2 border-indigo-100">
+    <div className="flex ml-4 h-[2.2rem] overflow-hidden rounded-lg border-2 border-filterButtons_border">
       {filterButtons.map((button: { filterBy: string; filterType: string }) => (
         <FilterButton
           key={button.filterType}
@@ -162,7 +162,7 @@ function FilterButton({
     <button
       onClick={() => handleClick(filterType)}
       className={`cursor-pointer text-sm px-2 transition-all hover:text-indigo-500 ${
-        filterType === clickedFilter && " bg-indigo-300 text-gray-50"
+        filterType === clickedFilter && " bg-filterButton_active text-gray-50"
       }`}
     >
       {filterBy}
@@ -183,13 +183,13 @@ function SortInput() {
 
   const selectStyles: SelectProps = {
     primaryColor: "#6366f1",
-    secondaryColor: "#E0E7FF",
+    secondaryColor: "#e0e7ff32",
     control: (base) => ({
       ...base,
       fontSize: ".9rem",
       minWidth: "230px",
       borderRadius: ".5rem",
-      border: `2px solid ${selectStyles.secondaryColor}`,
+      border: `1px solid ${selectStyles.secondaryColor}`,
       borderColor: selectStyles.primaryColor,
       backgroundColor: "transparent",
       minHeight: "2.2rem",
@@ -225,6 +225,7 @@ function SortInput() {
   return (
     <div className="ml-4">
       <Select
+        // className="h-[2.2rem] rounded-full border-2 border-indigo-300 bg-transparent transition-all focus:outline-none"
         styles={selectStyles as object}
         onChange={handleChange}
         options={options}

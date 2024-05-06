@@ -32,11 +32,11 @@ function Header({ content }: TableHeaderProps) {
   return (
     <thead>
       <tr
-        className={`grid ${columns} bg-indigo-200 text-left hyphens-manual p-4 px-7 gap-2 rounded-t-md border-b-2 border-indigo-200`}
+        className={`grid ${columns} bg-table_header text-left hyphens-manual p-4 px-7 gap-2 rounded-t-md border-b-2 border-border`}
       >
         {content.map((el, i) => (
           <th
-            className={`flex items-center font-semibold uppercase text-gray-600 ${
+            className={`flex items-center font-semibold uppercase text-text ${
               columnSpace[`col${i + 1}` as keyof typeof columnSpace] || ""
             }`}
             key={el}

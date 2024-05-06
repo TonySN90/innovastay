@@ -29,7 +29,7 @@ function BookingsRow({
 
   const navigate = useNavigate();
   return (
-    <tr className="bg-gray-50 min-h-16 grid grid-cols-1 md:grid-cols-12 text-left hyphens-manual py-3 px-5 md:px-7 gap-2 border-t-[1px] rounded-md shadow-lg shadow-indigo-100 my-1.5 hover:bg-indigo-100">
+    <tr className="bg-card min-h-16 grid grid-cols-1 md:grid-cols-12 text-left hyphens-manual py-3 px-5 md:px-7 gap-2 rounded-md shadow-lg shadow-shadow my-1.5 hover:bg-background_primary">
       <td className="flex items-center font-semibold ">
         {windowWidth < 768 && "Zimmer:"} {cabin.name}
       </td>

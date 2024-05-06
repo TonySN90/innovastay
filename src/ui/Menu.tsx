@@ -61,7 +61,7 @@ function List({ children, id }: { children: React.ReactNode; id: number }) {
         top: position && position.y,
         left: position && position.x,
       }}
-      className="z-10 bg-indigo-200 rounded-lg"
+      className="z-10 bg-menu rounded-lg"
     >
       {children}
     </ul>,

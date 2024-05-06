@@ -24,7 +24,7 @@ function TableRow({
   } = cabins;
 
   return (
-    <tr className="md:h-[70px] bg-gray-50 grid grid-cols-1 md:grid-cols-7 text-left hyphens-manual px-7 py-1 gap-2 border-t-[1px] shadow-lg shadow-indigo-100 rounded-md my-1.5 hover:bg-indigo-100">
+    <tr className="md:h-[70px] bg-card grid grid-cols-1 md:grid-cols-7 text-left hyphens-manual px-7 py-1 gap-2 border-border shadow-lg shadow-shadow rounded-md my-1.5 hover:bg-background">
       <td className="flex items-center">
         <div className="flex flex-col">
           <span className="font-semibold">{name}</span>

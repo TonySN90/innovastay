@@ -4,16 +4,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        background_sidebar: "var(--background-sidebar)",
+        background_primary: "var(--background-primary)",
+        background_secondary: "var(--background-secondary)",
         card: "var(--card)",
         text: "var(--text)",
         button_text: "var(--button-text)",
         button_text_inverted: "var(--button-text-inverted)",
         border: "var(--border)",
         border_b: "var(--border-b)",
+        border_modal: "var(--border-modal)",
         shadow: "var(--shadow)",
         hover_sidebar: "var(--hover-sidebar)",
+        menu: "var(--menu)",
+        table_header: "var(--table-header)",
+        filterButtons_border: "var(--filterButtons-border)",
+        filterButton_active: "var(--filterButton-active)",
       },
     },
   },
