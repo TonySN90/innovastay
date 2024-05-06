@@ -225,7 +225,8 @@ function SortInput() {
   return (
     <div className="ml-4">
       <Select
-        // className="h-[2.2rem] rounded-full border-2 border-indigo-300 bg-transparent transition-all focus:outline-none"
+        className="select-container"
+        classNamePrefix="react-select"
         styles={selectStyles as object}
         onChange={handleChange}
         options={options}

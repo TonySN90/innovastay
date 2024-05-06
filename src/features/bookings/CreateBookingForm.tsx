@@ -4,7 +4,7 @@ import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../ui/Button";
 import { FormValues, IFormRawValues } from "../../types/FormTypes";
-import { LoadingTypes, SelectProps } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../types/GlobalTypes";
 
 import SearchBar from "../bookings/SearchBar";
 import useCabins from "../cabins/useCabins";
@@ -115,37 +115,6 @@ const CreateBookingForm: React.FC<Props> = function ({
     console.log(newBooking);
   };
 
-  const selectStyles: SelectProps = {
-    primaryColor: "#6366f1",
-    secondaryColor: "#a5b4fc",
-    control: (base, state) => ({
-      ...base,
-      minWidth: "300px",
-      borderColor: state.isFocused ? selectStyles.primaryColor : undefined,
-      borderRadius: "0.5rem",
-      "&:hover": {
-        borderColor: selectStyles.primaryColor,
-        color: "#333",
-      },
-
-      ":active": {
-        color: selectStyles.primaryColor,
-      },
-
-      ":disabled": {
-        backgroundColor: selectStyles.primaryColor,
-      },
-    }),
-    option: (styles, state) => ({
-      ...styles,
-      backgroundColor: state.isSelected ? selectStyles.primaryColor : undefined,
-      "&:hover": {
-        backgroundColor: selectStyles.secondaryColor,
-        color: "#fff",
-      },
-    }),
-  };
-
   return (
     <>
       <form
@@ -167,7 +136,8 @@ const CreateBookingForm: React.FC<Props> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                styles={selectStyles as object}
+                className="select-container"
+                classNamePrefix="react-select"
                 onChange={onChange}
                 value={value}
                 options={cabins.map((cabin) => ({
@@ -212,7 +182,7 @@ const CreateBookingForm: React.FC<Props> = function ({
               <DatePicker
                 locale={de}
                 minDate={new Date()}
-                className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+                className="w-full md:w-[300px] bg-inherit border border-border rounded-md h-9 pl-2 text-text outline-none focus:border-filterButton_active hover:border-filterButton_active"
                 disabled={isWorking}
                 onChange={onChange}
                 selected={value}
@@ -236,7 +206,7 @@ const CreateBookingForm: React.FC<Props> = function ({
               <DatePicker
                 locale={de}
                 minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
-                className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+                className="w-full md:w-[300px] bg-inherit border border-border rounded-md h-9 pl-2 text-text outline-none focus:border-filterButton_active hover:border-filterButton_active"
                 disabled={isWorking}
                 onChange={onChange}
                 selected={value}
@@ -253,7 +223,8 @@ const CreateBookingForm: React.FC<Props> = function ({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            autoComplete="off"
+            className="w-full md:w-[300px] border border-border rounded-md h-9 pl-2 text-text bg-inherit outline-none focus:border-filterButton_active hover:border-filterButton_active"
             type="number"
             id="numGuests"
             disabled={isWorking}
@@ -275,7 +246,8 @@ const CreateBookingForm: React.FC<Props> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                styles={selectStyles as object}
+                className="select-container"
+                classNamePrefix="react-select"
                 onChange={onChange}
                 value={value}
                 options={[
@@ -299,7 +271,8 @@ const CreateBookingForm: React.FC<Props> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                styles={selectStyles as object}
+                className="select-container"
+                classNamePrefix="react-select"
                 onChange={onChange}
                 value={value}
                 options={[
@@ -323,7 +296,8 @@ const CreateBookingForm: React.FC<Props> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                styles={selectStyles as object}
+                className="select-container"
+                classNamePrefix="react-select"
                 onChange={onChange}
                 value={value}
                 options={[

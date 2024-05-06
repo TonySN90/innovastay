@@ -18,3 +18,7 @@
 .react-datepicker__day--keyboard-selected {
   background-color: var(--indigo-300);
 }
+
+.react-datepicker:focus {
+  border: none;
+}
