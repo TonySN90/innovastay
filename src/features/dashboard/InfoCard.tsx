@@ -18,17 +18,17 @@ function InfoCard({
 
   if (id === "arrival") {
     border = "border-green-200";
-    backgroundColor = "bg-green-200";
+    backgroundColor = "bg-status_green";
     textColor = "text-green-800";
   }
   if (id === "departure") {
     border = "border-yellow-200";
-    backgroundColor = "bg-red-200";
+    backgroundColor = "bg-status_red";
     textColor = "text-yellow-800";
   }
   if (id === "presentGuests") {
     border = " border-indigo-200";
-    backgroundColor = "bg-indigo-200";
+    backgroundColor = "bg-status_blue";
     textColor = "text-indigo-800";
   }
 
@@ -40,7 +40,7 @@ function InfoCard({
         </tr>
       </thead>
 
-      <tbody className="bg-card border-b-2 border-border shadow-shadow shadow-xl">
+      <tbody className="bg-db_infobox border-b-2 border-border shadow-shadow shadow-xl">
         {rowContent === LoadingTypes.LOADING ? (
           <tr>
             <td>

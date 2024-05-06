@@ -23,7 +23,7 @@ export default {
         status_red: "var(--status-red)",
         status_blue: "var(--status-blue)",
         status_gray: "var(--status-gray)",
-        db_infobox: "var(--db_infobox)",
+        db_infobox: "var(--db-infobox)",
       },
     },
   },
