@@ -53,11 +53,11 @@ function BookingsRow({
         <div
           className={`md:col-span-4 p-1.5 md:w-[120px] text-center rounded-md text-xs ${
             (status === BookingStatusTypes.UNCONFIRMED &&
-              "bg-blue-200 text-gray-700") ||
+              "bg-status_blue text-text") ||
             (status === BookingStatusTypes.CHECKEDIN &&
-              "bg-green-200 text-gray-700") ||
+              "bg-status_green text-text") ||
             (status === BookingStatusTypes.CHECKEDOUT &&
-              "bg-gray-200 text-gray-700")
+              "bg-status_gray text-text")
           }`}
         >
           {status === BookingStatusTypes.UNCONFIRMED && "Ausstehend"}

@@ -34,7 +34,7 @@ function UpdateUserDataForm({
 
   return (
     <form
-      className="p-3 md:p-5 transition-all bg-gray-50 rounded-lg mb-8 shadow-lg shadow-gray-200"
+      className="p-3 md:p-5 transition-all bg-background_secondary rounded-lg mb-8 shadow-lg shadow-shadow "
       onSubmit={handleSubmit(onSubmit)}
       encType="multipart/form-data"
     >
@@ -47,8 +47,7 @@ function UpdateUserDataForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
-            type="email"
+            className="w-full md:w-[300px] border border-border rounded-md h-9 pl-2 text-text disabled:bg-input_disabled"
             id="email"
             disabled={true}
             {...register("email")}
@@ -61,7 +60,8 @@ function UpdateUserDataForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className="w-full md:w-[300px] bg-inherit border border-border rounded-md h-9 pl-2 text-text"
+            autoComplete="off"
             type="text"
             id="fullName"
             disabled={isUpdating}

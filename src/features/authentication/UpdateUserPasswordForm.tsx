@@ -25,7 +25,7 @@ function UpdateUserPasswordForm({
 
   return (
     <form
-      className="p-3 md:p-5 transition-all bg-gray-50 rounded-lg shadow-lg shadow-gray-200"
+      className="p-3 md:p-5 transition-all bg-background_secondary rounded-lg shadow-lg shadow-shadow"
       onSubmit={handleSubmit(onSubmit)}
       encType="multipart/form-data"
     >
@@ -38,7 +38,7 @@ function UpdateUserPasswordForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className="w-full md:w-[300px] border border-border bg-inherit rounded-md h-9 pl-2 text-text"
             type="password"
             id="password"
             disabled={isUpdatingSession}
@@ -58,7 +58,7 @@ function UpdateUserPasswordForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className="w-full md:w-[300px] border border-border bg-inherit rounded-md h-9 pl-2 text-text"
             type="password"
             id="passwordConfirm"
             disabled={isUpdatingSession}

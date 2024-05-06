@@ -24,6 +24,7 @@ export default {
         status_blue: "var(--status-blue)",
         status_gray: "var(--status-gray)",
         db_infobox: "var(--db-infobox)",
+        input_disabled: "var(--input-disabled)",
       },
     },
   },

@@ -7,6 +7,8 @@
   --color-gray-200: #e5e7eb;
   --color-gray-300: #d1d5db;
   --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
   --color-gray-700: #374151;
   --color-gray-800: #6b7280;
 
@@ -53,6 +55,8 @@
   --status-gray: #e5e7eb;
 
   --db-info: var(--color-gray-50);
+
+  --input-disabled: var(--color-gray-200);
 }
 
 .dark {
@@ -65,7 +69,7 @@
   --status-blue: #6366f1;
   --status-gray: #4b5563;
 
-  color: var(--color-gray-300);
+  color: var(--color-gray-200);
   --background-primary: var(--color-dark_1);
   --background-secondary: var(--color-dark_2);
 
@@ -74,7 +78,7 @@
 
   --card: var(--color-dark_2);
 
-  --text: var(--color-gray-300);
+  --text: var(--color-gray-200);
 
   --button-text: var(--color-gray-50);
   --button-text-inverted: var(--color-indigo-600);
@@ -90,6 +94,8 @@
   --filterButton-active: var(--color-indigo-600);
 
   --db-infobox: var(--color-dark_3);
+
+  --input-disabled: var(--color-gray-700);
 }
 
 *,
@@ -99,7 +105,7 @@
   padding: 0;
   margin: 0;
 
-  /* Creating animations for dark mode */
+  /* animations for dark mode */
   transition: background-color 0.3s, border 0.3s;
 }
 
@@ -127,6 +133,12 @@ input[type="file"]::file-selector-button:hover {
   background-color: #6366f1;
   color: #fff;
 }
+/* input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--background-secondary) inset !important;
+} */
 
 input,
 select,
@@ -134,12 +146,12 @@ textarea {
   color: var(--color-gray-800);
 }
 
-input[disabled],
+/* input[disabled],
 select[disabled],
 textarea[disabled] {
   background-color: var(--color-gray-50);
   color: var(--color-gray-400);
-}
+} */
 
 ::-webkit-scrollbar {
   width: 10px;
