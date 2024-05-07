@@ -46,6 +46,9 @@ function CreateGuestForm({
     console.log(formData);
   };
 
+  const formRowStyles =
+    "w-full md:w-[300px] bg-background_secondary border border-border rounded-md h-9 pl-2 text-text";
+
   return (
     <>
       <form
@@ -60,7 +63,7 @@ function CreateGuestForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className={formRowStyles}
             type="text"
             id="fullName"
             disabled={isWorking}
@@ -80,7 +83,7 @@ function CreateGuestForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className={formRowStyles}
             type="text"
             id="address"
             disabled={isWorking}
@@ -100,7 +103,7 @@ function CreateGuestForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className={formRowStyles}
             type="number"
             id="postalCode"
             disabled={isWorking}
@@ -120,7 +123,7 @@ function CreateGuestForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className={formRowStyles}
             type="text"
             id="city"
             disabled={isWorking}
@@ -140,7 +143,7 @@ function CreateGuestForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className={formRowStyles}
             type="text"
             id="country"
             disabled={isWorking}
@@ -160,7 +163,7 @@ function CreateGuestForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className={formRowStyles}
             type="email"
             id="email"
             disabled={isWorking}
@@ -180,7 +183,7 @@ function CreateGuestForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className={formRowStyles}
             type="number"
             id="phone"
             disabled={isWorking}
@@ -197,7 +200,7 @@ function CreateGuestForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <textarea
-            className="w-full md:w-[300px] border border-gray-300 rounded-md pl-2 text-gray-500"
+            className="w-full md:w-[300px] bg-inherit border border-border rounded-md pl-2 text-text"
             id="information"
             disabled={isWorking}
             {...register("information", {

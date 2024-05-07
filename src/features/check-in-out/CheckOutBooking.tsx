@@ -59,7 +59,7 @@ function CheckOutBooking() {
       <CheckInSection>
         {booking && <CheckInHeader booking={booking} />}
         <CheckInBody booking={booking} />
-        <CheckInFooter booking={booking} />
+        {/* <CheckInFooter booking={booking} /> */}
       </CheckInSection>
       <Buttons>
         <Button
@@ -97,7 +97,7 @@ function CheckInHeader({ booking }: { booking: IBookingTypes }) {
   } = booking;
 
   return (
-    <header className="md:flex items-center mt-5 justify-between text-gray-50 py-4 bg-indigo-500 px-8 text-xl rounded-t-md ">
+    <header className="md:flex items-center mt-5 justify-between text-gray-50 py-4 bg-indigo-500 px-8 text-xl rounded-t-md">
       <div className="md:flex gap-2 w-[270px]">
         <MdOutlineHotel className="text-2xl" />
         <div>
@@ -112,32 +112,40 @@ function CheckInHeader({ booking }: { booking: IBookingTypes }) {
 }
 
 function CheckInBody({ booking }: { booking: IBookingTypes }) {
+  const { created_at: createdAt } = booking;
+
   return (
     <section>
-      <div className="px-8 py-8 ">
+      <div className="relative px-8 py-8 bg-background_secondary shadow-lg shadow-shadow">
         <BookingInformation booking={booking} />
-        <div className="font-semibold bg-red-100 p-4 rounded-lg">
+        <div className="mb-4 font-semibold bg-status_red p-4 rounded-lg">
           Soll die Buchung wirklich ausgecheckt werden?
         </div>
+        <footer className="absolute right-0 text-gray-400 px-8 mt-2">
+          <p className="text-sm h-8">
+            Buchung angelegt am {formatDate(new Date(createdAt))} -{" "}
+            {formatTime(new Date(createdAt))}
+          </p>
+        </footer>
       </div>
     </section>
   );
 }
 
-function CheckInFooter({ booking }: { booking: IBookingTypes }) {
-  const { created_at: createdAt } = booking;
-  return (
-    <footer className="flex justify-end text-gray-400 px-8">
-      <p className="text-sm h-8">
-        Buchung angelegt am {formatDate(new Date(createdAt))} -{" "}
-        {formatTime(new Date(createdAt))}
-      </p>
-    </footer>
-  );
-}
+// function CheckInFooter({ booking }: { booking: IBookingTypes }) {
+//   const { created_at: createdAt } = booking;
+//   return (
+//     <footer className="flex justify-end text-gray-400 px-8">
+//       <p className="text-sm h-8">
+//         Buchung angelegt am {formatDate(new Date(createdAt))} -{" "}
+//         {formatTime(new Date(createdAt))}
+//       </p>
+//     </footer>
+//   );
+// }
 
 function CheckInSection({ children }: { children: React.ReactNode }) {
-  return <section className="bg-gray-50">{children}</section>;
+  return <section className="bg-background_primary ">{children}</section>;
 }
 
 function BookingInformation({ booking }: { booking: IBookingTypes }) {
@@ -163,7 +171,7 @@ function BookingInformation({ booking }: { booking: IBookingTypes }) {
           <GiMeal className="text-xl text-indigo-500" />
         </div>
         <div>Frühstück inkl.</div>
-        <div className="font-semibold bg-indigo-50 px-2 rounded-md">
+        <div className="font-semibold bg-background_secondary px-2 rounded-md">
           {hasBreakfast ? "Ja" : "Nein"}
         </div>
       </div>

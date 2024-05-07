@@ -69,7 +69,7 @@ function CheckInBooking() {
       <CheckInSection>
         {booking && <CheckInHeader booking={booking} />}
         <CheckInBody booking={booking} setConfirmPaid={setConfirmPaid} />
-        <CheckInFooter booking={booking} />
+        {/* <CheckInFooter booking={booking} /> */}
       </CheckInSection>
       <Buttons>
         <Button
@@ -129,30 +129,26 @@ function CheckInBody({
   booking: IBookingTypes;
   setConfirmPaid: (value: boolean) => void;
 }) {
+  const { created_at: createdAt } = booking;
+
   return (
     <section>
-      <div className="px-8 py-8 ">
+      <div className="relative px-8 py-8 bg-background_secondary shadow-lg shadow-shadow">
         <BookingInformation booking={booking} />
         <PricesBox booking={booking} setConfirmPaid={setConfirmPaid} />
+        <footer className="absolute right-0 text-gray-400 px-8 mt-2">
+          <p className="text-sm h-8">
+            Buchung angelegt am {formatDate(new Date(createdAt))} -{" "}
+            {formatTime(new Date(createdAt))}
+          </p>
+        </footer>
       </div>
     </section>
   );
 }
 
-function CheckInFooter({ booking }: { booking: IBookingTypes }) {
-  const { created_at: createdAt } = booking;
-  return (
-    <footer className="flex justify-end text-gray-400 px-8">
-      <p className="text-sm h-8">
-        Buchung angelegt am {formatDate(new Date(createdAt))} -{" "}
-        {formatTime(new Date(createdAt))}
-      </p>
-    </footer>
-  );
-}
-
 function CheckInSection({ children }: { children: React.ReactNode }) {
-  return <section className="bg-gray-50">{children}</section>;
+  return <section className="bg-background_primary">{children}</section>;
 }
 
 function BookingInformation({ booking }: { booking: IBookingTypes }) {
@@ -178,7 +174,7 @@ function BookingInformation({ booking }: { booking: IBookingTypes }) {
           <GiMeal className="text-xl text-indigo-500" />
         </div>
         <div>Frühstück inkl.</div>
-        <div className="font-semibold bg-indigo-50 px-2 rounded-md">
+        <div className="font-semibold bg-background_secondary px-2 rounded-md">
           {hasBreakfast ? "Ja" : "Nein"}
         </div>
       </div>
@@ -201,12 +197,12 @@ function PricesBox({
 
   return (
     <>
-      <div className={`gap-4 p-6 ${isPaid ? "bg-green-100" : "bg-yellow-100"}`}>
-        <div
-          className={`md:flex gap-4 ${
-            isPaid ? "text-green-800" : "text-yellow-800"
-          }`}
-        >
+      <div
+        className={`gap-4 p-6 rounded-md mb-4 ${
+          isPaid ? "bg-status_green" : "bg-status_yellow"
+        }`}
+      >
+        <div className={"md:flex gap-4 text-text"}>
           <div>
             <MdOutlineEuroSymbol className="text-xl" />
           </div>

@@ -19,17 +19,17 @@ function InfoCard({
   if (id === "arrival") {
     border = "border-green-200";
     backgroundColor = "bg-status_green";
-    textColor = "text-green-800";
+    textColor = "text-db_arrival_icon";
   }
   if (id === "departure") {
     border = "border-yellow-200";
     backgroundColor = "bg-status_red";
-    textColor = "text-yellow-800";
+    textColor = "text-db_departure_icon";
   }
   if (id === "presentGuests") {
     border = " border-indigo-200";
     backgroundColor = "bg-status_blue";
-    textColor = "text-indigo-800";
+    textColor = "text-db_presentGuests_icon";
   }
 
   return (

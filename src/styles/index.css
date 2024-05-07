@@ -48,13 +48,17 @@
   --hover-sidebar: var(--color-stone-100);
 
   --filterButtons-border: var(--color-indigo-100);
-  --filterButton-active: var(--color-indigo-300);
+  --active: var(--color-indigo-300);
 
   --status-green: #bbf7d0;
-  --status-red: #fecaca;
+  --status-yellow: #fef9c3;
+  --status-red: #fecdd3;
   --status-blue: #c7d2fe;
   --status-gray: #e5e7eb;
 
+  --db-arrival-icon: #166534;
+  --db-departure-icon: #9f1239;
+  --db-presentGuests-icon: #3730a3;
   --db-info: var(--color-gray-50);
 
   --input-disabled: var(--color-gray-200);
@@ -65,10 +69,15 @@
   --color-dark_2: #1e293b;
   --color-dark_3: #223047;
 
-  --status-green: #22c55eca;
-  --status-red: #ef4444cd;
+  --status-green: #10b981ca;
+  --status-yellow: #fcd34dd7;
+  --status-red: #f43f5dcd;
   --status-blue: #6366f1;
   --status-gray: #4b5563;
+
+  --db-arrival-icon: #99f6e4;
+  --db-departure-icon: #fecdd3;
+  --db-presentGuests-icon: #c7d2fe;
 
   color: var(--color-gray-200);
   --background-primary: var(--color-dark_1);
@@ -92,7 +101,7 @@
   --hover-sidebar: var(--color-dark_1);
 
   --filterButtons-border: var(--color-dark_2);
-  --filterButton-active: var(--color-indigo-600);
+  --active: var(--color-indigo-600);
 
   --db-infobox: var(--color-dark_3);
 
@@ -113,6 +122,7 @@
 body {
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
+  background-color: var(--background-primary);
 }
 
 .active {
@@ -145,8 +155,7 @@ textarea {
 input[disabled],
 select[disabled],
 textarea[disabled] {
-  background-color: var(--color-gray-50);
-  color: var(--color-gray-400);
+  background-color: var(--input-disabled);
 }
 
 ::-webkit-scrollbar {
@@ -176,7 +185,7 @@ textarea[disabled] {
 }
 
 .select-container .react-select__control:hover {
-  border: 1px solid var(--filterButton-active);
+  border: 1px solid var(--active);
 }
 
 .select-container .react-select__single-value {
@@ -194,14 +203,14 @@ textarea[disabled] {
 }
 
 .select-container .react-select__option--is-selected {
-  background-color: var(--filterButton-active);
+  background-color: var(--active);
 }
 
 .select-container .react-select__control--is-focused {
-  border: 1px solid var(--filterButton-active);
+  border: 1px solid var(--active);
   box-shadow: none;
 }
 
 .select-container .react-select__option:hover {
-  background-color: var(--filterButton-active);
+  background-color: var(--active);
 }

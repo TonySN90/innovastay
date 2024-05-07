@@ -53,7 +53,7 @@ function SearchBar({
           type="text"
           id="guest"
           autoComplete="off"
-          className="w-full md:w-[300px] h-9 px-8 bg-inherit rounded-lg border border-border outline-none focus:border-filterButton_active hover:border-filterButton_active"
+          className="w-full md:w-[300px] h-9 px-8 bg-inherit rounded-lg border border-border outline-none focus:border-active hover:border-active"
           onChange={(e) => handleChange(e)}
           value={inputValue}
           placeholder={"Gast suchen"}

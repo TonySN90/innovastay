@@ -46,6 +46,8 @@ function CreateCabinForm({
     console.log(formData);
   };
 
+  const formRowStyles =
+    "w-full md:w-[300px] bg-inherit border border-border rounded-md h-9 pl-2 text-text";
   return (
     <>
       <form
@@ -60,7 +62,7 @@ function CreateCabinForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className={formRowStyles}
             type="text"
             id="name"
             disabled={isWorking}
@@ -80,7 +82,7 @@ function CreateCabinForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className={formRowStyles}
             type="text"
             id="category"
             disabled={isWorking}
@@ -100,7 +102,7 @@ function CreateCabinForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className={formRowStyles}
             type="number"
             id="capacity"
             disabled={isWorking}
@@ -120,7 +122,7 @@ function CreateCabinForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className={formRowStyles}
             type="number"
             id="price"
             disabled={isWorking}
@@ -140,7 +142,7 @@ function CreateCabinForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <input
-            className="w-full md:w-[300px] border border-gray-300 rounded-md h-9 pl-2 text-gray-500"
+            className={formRowStyles}
             type="number"
             id="discount"
             disabled={isWorking}
@@ -160,7 +162,7 @@ function CreateCabinForm({
           error={errors as { [key: string]: { message: string } }}
         >
           <textarea
-            className="w-full md:w-[300px] border border-gray-300 rounded-sm h-24 pl-2"
+            className="w-full md:w-[300px] bg-background_secondary border border-border rounded-lg h-24 pl-2"
             id="description"
             disabled={isWorking}
             {...register("description", {

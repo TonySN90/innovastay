@@ -93,7 +93,7 @@ function SearchInput() {
         type="text"
         className={`${
           isOpen ? "w-[180px]" : "w-[35px]"
-        } h-[2.2rem] pl-8 rounded-full border-2 border-indigo-300 bg-transparent transition-all focus:outline-none`}
+        } h-[2.2rem] pl-8 rounded-full border-2 border-border bg-transparent transition-all focus:outline-none hover:border-active`}
       />
       <span className="absolute top-[5px] left-[5px] z-10 pointer-events-none">
         <svg
@@ -162,7 +162,7 @@ function FilterButton({
     <button
       onClick={() => handleClick(filterType)}
       className={`cursor-pointer text-sm px-2 transition-all hover:text-indigo-500 ${
-        filterType === clickedFilter && " bg-filterButton_active text-gray-50"
+        filterType === clickedFilter && " bg-active text-gray-50"
       }`}
     >
       {filterBy}

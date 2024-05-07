@@ -10,7 +10,9 @@ import HotelCard from "./HotelCard";
 import { BsPeople } from "react-icons/bs";
 
 const listElStyles =
-  "mb-3 pl-2 hover:text-indigo-500 transition-colors hover:bg-hover_sidebar rounded-lg";
+  "mb-3 pl-2 transition-all rounded-lg group hover:bg-hover_sidebar";
+
+const iconStyles = "w-6 h-6 mr-2 group-hover:text-active transition-colors";
 
 function MainNav() {
   return (
@@ -21,40 +23,46 @@ function MainNav() {
         </li>
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/dashboard">
-            <RxDashboard className="w-6 h-6 mr-2" />
+            <RxDashboard className={iconStyles} />
             <span>Dashboard</span>
           </NavLink>
         </li>
-        <hr className="mb-3" />
-        <li className={listElStyles}>
+        <hr className="mb-3 border-border" />
+        <li className={`${listElStyles}`}>
           <NavLink className="flex py-3" to="/bookings">
-            <HiOutlineCalendarDays className="w-6 h-6 mr-2" />
+            <HiOutlineCalendarDays className={iconStyles} />
             <span>Buchungen</span>
           </NavLink>
         </li>
         <li className={listElStyles}>
+          <NavLink className="flex py-3" to="/schedular">
+            <HiOutlineCalendarDays className={iconStyles} />
+            <span>Buchungskalender</span>
+          </NavLink>
+        </li>
+        <li className={listElStyles}>
           <NavLink className="flex py-3" to="/cabins">
-            <HiOutlineHomeModern className="w-6 h-6 mr-2" />
+            <HiOutlineHomeModern className={iconStyles} />
             <span>Zimmer</span>
           </NavLink>
         </li>
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/guests">
-            <BsPeople className="w-6 h-6 mr-2" />
+            <BsPeople className={iconStyles} />
             <span>Gäste</span>
           </NavLink>
         </li>
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/settings">
-            <HiOutlineCog6Tooth className="w-6 h-6 mr-2" />
+            <HiOutlineCog6Tooth className={iconStyles} />
             <span>Einstellungen</span>
           </NavLink>
         </li>
-        <hr className="mb-3" />
+        <hr className="mb-3 border-border" />
 
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/users">
-            <HiOutlineUsers className="w-6 h-6 mr-2" />
+            <HiOutlineUsers className={iconStyles} />
             <span>Nutzerverwaltung</span>
           </NavLink>
         </li>

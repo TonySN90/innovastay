@@ -32,6 +32,7 @@ function DashboardLayout() {
 
   return (
     <>
+      {/* Heute */}
       <DbSection
         title={`Heute - ${formatDate(new Date(Date.now()))}`}
         linkText="zu den Buchungen"
@@ -71,7 +72,8 @@ function DashboardLayout() {
         </div>
       </DbSection>
 
-      <div className="flex justify-between py-4">
+      {/* Auf einem Blick */}
+      <div className="flex justify-between mt-6">
         <Heading title="Auf einem Blick" size="text-xl" />
         <DashboardFilter />
       </div>

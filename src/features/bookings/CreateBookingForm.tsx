@@ -182,7 +182,7 @@ const CreateBookingForm: React.FC<Props> = function ({
               <DatePicker
                 locale={de}
                 minDate={new Date()}
-                className="w-full md:w-[300px] bg-inherit border border-border rounded-md h-9 pl-2 text-text outline-none focus:border-filterButton_active hover:border-filterButton_active"
+                className="w-full md:w-[300px] bg-inherit border border-border rounded-md h-9 pl-2 text-text outline-none focus:border-active hover:border-active"
                 disabled={isWorking}
                 onChange={onChange}
                 selected={value}
@@ -206,7 +206,7 @@ const CreateBookingForm: React.FC<Props> = function ({
               <DatePicker
                 locale={de}
                 minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
-                className="w-full md:w-[300px] bg-inherit border border-border rounded-md h-9 pl-2 text-text outline-none focus:border-filterButton_active hover:border-filterButton_active"
+                className="w-full md:w-[300px] bg-inherit border border-border rounded-md h-9 pl-2 text-text outline-none focus:border-active hover:border-active"
                 disabled={isWorking}
                 onChange={onChange}
                 selected={value}
@@ -224,7 +224,7 @@ const CreateBookingForm: React.FC<Props> = function ({
         >
           <input
             autoComplete="off"
-            className="w-full md:w-[300px] border border-border rounded-md h-9 pl-2 text-text bg-inherit outline-none focus:border-filterButton_active hover:border-filterButton_active"
+            className="w-full md:w-[300px] border border-border rounded-md h-9 pl-2 text-text bg-inherit outline-none focus:border-active hover:border-active"
             type="number"
             id="numGuests"
             disabled={isWorking}

@@ -53,7 +53,8 @@ function InputRow({
     <div className="flex flex-col my-4">
       <label htmlFor={type}>{label}</label>
       <input
-        className="h-9 rounded-md border border-indigo-300 p-2"
+        autoComplete="off"
+        className="h-9 p-2 mt-1 text-text bg-background_secondary rounded-md border border-border "
         type={type}
         name={type}
         value={value}
@@ -69,7 +70,7 @@ function LoginButton({ loadingStatus }: { loadingStatus: string }) {
   const isLoading = loadingStatus === LoadingTypes.LOADING;
 
   return isLoading ? (
-    <div className="w-full h-10 flex justify-center items-center border-2 border-indigo-500 rounded-lg">
+    <div className="w-full h-10 flex justify-center items-center border-2 border-border rounded-lg">
       <MiniSpinner alignment="center" />
     </div>
   ) : (

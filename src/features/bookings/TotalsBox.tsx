@@ -2,7 +2,7 @@ import { ITotalsBoxProps } from "../../types/BookingTypes";
 
 function TotalsBox({ cabin, ...props }: ITotalsBoxProps) {
   return (
-    <div className="mt-4 md:w-full p-3 border border-indigo-200 rounded-lg bg-indigo-100">
+    <div className="mt-4 md:w-full bg-background_secondary p-3 border border-border rounded-lg ">
       <div className="flex">
         <p className="flex-1">
           Übernachtung: ({props.numNights} Nächte) à{" "}
