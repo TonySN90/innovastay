@@ -223,7 +223,7 @@ function BookingTimeline3() {
             ))}
           </div>
           <div
-            className={`absolute h-10 rounded-full bg-red-300 shadow-md shadow-gray-400 border-2 border-gray-50 flex items-center`}
+            className={`absolute h-10 rounded-full bg-status_red shadow-sm shadow-gray-200 border-2 border-gray-50 flex items-center`}
             style={{
               left: `${20 + 50}px`,
               top: `${10 + 100}px`,
@@ -231,43 +231,43 @@ function BookingTimeline3() {
             }}
           >
             {" "}
-            <span className="text-xs pl-2 font-semibold">
+            <span className="text-xs px-2 font-semibold">
               Sandra Müller | 2 P
             </span>
           </div>
           <div
-            className={`absolute top-[110px] left-[20px] h-10 rounded-full bg-indigo-300 shadow-md border-2 border-gray-50 shadow-gray-400 flex items-center`}
+            className={`absolute top-[110px] left-[20px] h-10 rounded-full bg-status_red shadow-md border-2 border-gray-50 shadow-gray-400 flex items-center`}
             style={{
               left: `${20 + 100}px`,
               top: `${20 + 150}px`,
               width: "300px",
             }}
           >
-            <span className="text-xs pl-2 font-semibold">
+            <span className="text-xs px-2 font-semibold">
               Sandra Müller | 2 P
             </span>
           </div>
           <div
-            className={`absolute top-[110px] left-[20px] h-10 rounded-full bg-indigo-300 shadow-md border-2 border-gray-50 shadow-gray-400 flex items-center`}
+            className={`absolute top-[110px] left-[20px] h-10 rounded-full bg-status_yellow shadow-md border-2 border-gray-50 shadow-gray-400 flex items-center`}
             style={{
               left: `${20 + 400}px`,
               top: `${20 + 150}px`,
               width: "100px",
             }}
           >
-            <span className="text-xs pl-2 font-semibold">
+            <span className="text-xs px-2 font-semibold truncate">
               Sandra Müller | 2 P
             </span>
           </div>
           <div
-            className={`absolute top-[110px] left-[20px] h-10 rounded-full bg-indigo-300 shadow-md border-2 border-gray-50 shadow-gray-400 flex items-center`}
+            className={`absolute top-[110px] left-[20px] h-10 rounded-full bg-status_green shadow-md border-2 border-gray-50 shadow-gray-400 flex items-center overflow-hidden`}
             style={{
               left: `${20 + 500}px`,
               top: `${20 + 150}px`,
               width: "100px",
             }}
           >
-            <span className="text-xs pl-2 font-semibold">
+            <span className="text-xs px-2 font-semibold truncate">
               Sandra Müller | 2 P
             </span>
           </div>
