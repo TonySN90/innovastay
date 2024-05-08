@@ -1,5 +1,3 @@
-Timeline.css
-
 /* Stil für die gesamte Zeitleiste */
 .custom-timeline {
   display: flex;
@@ -37,23 +35,53 @@ Timeline.css
 
 #reactSchedulerOutsideWrapper {
   height: 700px;
-  width: 100%;
-  overflow: hidden;
-  /* border: 1px solid #6365f142; */
+  border: 1px solid #6365f142;
   box-shadow: #33333328 0px 0px 35px;
   border-radius: 10px;
-  background-color: transparent;
+  background-color: var(--background-secondary);
 }
 
 #reactSchedulerOutsideWrapper .jMfbsI {
   min-width: 140px;
   max-width: 140px;
-  background-color: #f9fafb;
+  background-color: var(--background-secondary);
 }
 #reactSchedulerOutsideWrapper .bmRGyN {
   min-width: 140px;
   max-width: 140px;
 }
 #reactSchedulerOutsideWrapper .sc-jsEegt {
-  background-color: #f3f4f6;
+  background-color: var(--background-secondary);
+}
+
+#reactSchedulerCanvasWrapper {
+  background-color: var(--background-secondary);
+}
+
+#reactSchedulerOutsideWrapper .bmRGyN {
+  background-color: var(--background-secondary);
+}
+
+#reactSchedulerCanvasHeaderWrapper .sc-kMzDYw {
+  background-color: var(--background-secondary);
+}
+
+.bmRGyN {
+  background-color: var(--background-secondary);
+}
+
+.hyBqiv {
+  color: var(--background-secondary) !important;
+}
+
+.fTRitF {
+  display: none !important;
+}
+
+.sc-gjLKRp {
+  color: var(--text) !important;
+}
+
+.sc-jIBmdK {
+  color: var(--text) !important;
 }
