@@ -15,7 +15,7 @@ function Header() {
         <li>
           <Link to="/account">
             <ButtonIcon>
-              <HiOutlineUser className="w-6 h-6" />
+              <HiOutlineUser className="w-6 h-6 hover:text-active transition-colors" />
             </ButtonIcon>
           </Link>
         </li>

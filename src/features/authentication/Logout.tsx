@@ -11,7 +11,7 @@ export default function Logout() {
       {logoutLoadingStatus === "loading" ? (
         <MiniSpinner />
       ) : (
-        <HiArrowRightOnRectangle className="w-6 h-6" />
+        <HiArrowRightOnRectangle className="w-6 h-6 hover:text-active transition-colors" />
       )}
     </ButtonIcon>
   );
