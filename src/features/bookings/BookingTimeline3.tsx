@@ -1,3 +1,5 @@
+import { getToday } from "../../utils/datesHelper";
+
 function BookingTimeline3() {
   const today = new Date();
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -26,13 +28,116 @@ function BookingTimeline3() {
     "Dezember",
   ];
 
-  console.log(
-    new Date(
-      firstDayOfMonth.getFullYear(),
-      firstDayOfMonth.getMonth(),
-      1
-    ).toLocaleString("de-DE", { weekday: "short" })
-  );
+  const timelineData = [
+    {
+      id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+      label: {
+        icon: "https://picsum.photos/24",
+        title: "Zimmer 1",
+        subtitle: "Doppelzimmer",
+        bgColor: "rgb(254,165,177)",
+      },
+      data: [
+        {
+          id: "8b71a8a5-33dd-4fc8-9caa-b4a584ba3762",
+          startDate: new Date("2024-05-09T15:00:00"),
+          endDate: new Date("2024-05-15T10:00:00"),
+          title: "Farid Bang",
+          description: "2 Gäste",
+        },
+      ],
+    },
+    {
+      id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+      label: {
+        icon: "https://picsum.photos/24",
+        title: "Zimmer 2",
+        subtitle: "Doppelzimmer",
+        bgColor: "rgb(190, 254, 165)",
+      },
+      data: [
+        {
+          id: "8b71a8a5-33dd-4fc8-9caa-b4a584ba3762",
+          startDate: new Date("2024-0510T15:00:00"),
+          endDate: new Date("2024-05-28T10:00:00"),
+          title: "Farid Bang",
+          description: "2 Gäste",
+        },
+      ],
+    },
+    {
+      id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+      label: {
+        icon: "https://picsum.photos/24",
+        title: "Zimmer 3",
+        subtitle: "Doppelzimmer",
+        bgColor: "rgb(254,165,177)",
+      },
+      data: [
+        {
+          id: "8b71a8a5-33dd-4fc8-9caa-b4a584ba3762",
+          startDate: new Date("2024-05-09T15:00:00"),
+          endDate: new Date("2024-05-15T10:00:00"),
+          title: "Farid Bang",
+          description: "2 Gäste",
+        },
+      ],
+    },
+    {
+      id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+      label: {
+        icon: "https://picsum.photos/24",
+        title: "Zimmer 4",
+        subtitle: "Doppelzimmer",
+        bgColor: "rgb(190, 254, 165)",
+      },
+      data: [
+        {
+          id: "8b71a8a5-33dd-4fc8-9caa-b4a584ba3762",
+          startDate: new Date("2024-0510T15:00:00"),
+          endDate: new Date("2024-05-28T10:00:00"),
+          title: "Farid Bang",
+          description: "2 Gäste",
+        },
+      ],
+    },
+    {
+      id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+      label: {
+        icon: "https://picsum.photos/24",
+        title: "Zimmer 5",
+        subtitle: "Doppelzimmer",
+        bgColor: "rgb(254,165,177)",
+      },
+      data: [
+        {
+          id: "8b71a8a5-33dd-4fc8-9caa-b4a584ba3762",
+          startDate: new Date("2024-05-09T15:00:00"),
+          endDate: new Date("2024-05-15T10:00:00"),
+          title: "Farid Bang",
+          description: "2 Gäste",
+        },
+      ],
+    },
+    {
+      id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+      label: {
+        icon: "https://picsum.photos/24",
+        title: "Zimmer 6",
+        subtitle: "Doppelzimmer",
+        bgColor: "rgb(190, 254, 165)",
+      },
+      data: [
+        {
+          id: "8b71a8a5-33dd-4fc8-9caa-b4a584ba3762",
+          startDate: new Date("2024-0510T15:00:00"),
+          endDate: new Date("2024-05-28T10:00:00"),
+          title: "Farid Bang",
+          description: "2 Gäste",
+        },
+      ],
+    },
+  ];
 
   function checkIfWeekend(day: number) {
     const weekDay = new Date(
@@ -41,40 +146,49 @@ function BookingTimeline3() {
       day
     ).toLocaleString("de-DE", { weekday: "short" });
 
-    console.log(weekDay === "Sa" || weekDay === "So");
     return weekDay === "Sa" || weekDay === "So";
   }
 
+  function checkIfToday(day: number) {
+    const today = new Date(getToday()).getDate();
+    return day === today;
+  }
+
   return (
-    <div className="bg-red-200 h-[450px] lg:w-[71vw] rounded-lg flex">
+    <div className="lg:w-[71vw] rounded-lg flex shadow-xl">
       {/* green */}
-      <div className="bg-green-200 w-[150px] h-full">
-        {/* yello */}
-        <div className="h-[6rem] flex justify-center items-center bg-yellow-100 border-b border-border">
-          Kalender
+      <div className="bg-background_secondary w-[160px] h-full shadow-lg shadow--shadow z-10">
+        {/* Left Corner */}
+        <div className="h-[100px] flex justify-center items-center bg-active border-b border-border">
+          <img className="h-[4.5rem]" src="logo_light.svg" alt="" />
         </div>
 
         {/* rooms */}
-        <div className="scroll-margin-left-[150px]">
-          <div className="h-[4rem] border-b border-border">Zimmer 1</div>
-          <div className="h-[4rem] border-b border-border">Zimmer 2</div>
-          <div className="h-[4rem] border-b border-border">Zimmer 3</div>
-          <div className="h-[4rem] border-b border-border">Zimmer 4</div>
-          <div className="h-[4rem] border-b border-border">Zimmer 5</div>
-        </div>
+        {timelineData.map((data) => {
+          return (
+            <div className="scroll-margin-left-[160px]">
+              <div className="relative flex justify-center items-center gap-1 h-[60px] border-b border-border">
+                <div className="h-8 w-8 flex justify-center items-center rounded-full">
+                  <img className="h-10" src="logo_light.svg" />
+                </div>
+                <div className="flex flex-col text-xs">
+                  <span>{data.label.title}</span>
+                  <span>{data.label.subtitle}</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* canvas */}
       <div className="h-full w-full overflow-x-scroll">
-        <div
-          id="Kalender"
-          className="h-full bg-background_secondary w-[1500px]"
-        >
+        <div className="relative h-full bg-background_secondary w-[1600px]">
           {/* Month */}
           <div
-            className={`h-[3rem] w-[${
+            className={`h-[50px] w-[${
               days.length * 50
-            }px] bg-background_secondary flex justify-center items-center font-semibold `}
+            }px] bg-active flex justify-center items-center font-semibold `}
           >
             <span>{months[firstDayOfMonth.getMonth()]}</span>
           </div>
@@ -84,9 +198,9 @@ function BookingTimeline3() {
             {days.map((day) => (
               <div
                 key={day}
-                className={`w-[50px] bg-gray-50 flex flex-col items-center border border-border ${
-                  checkIfWeekend(day) && "bg-table_header"
-                }`}
+                className={`w-[50px] flex flex-col items-center border border-border ${
+                  checkIfToday(day) && "bg-active border-none"
+                }  ${checkIfWeekend(day) && "bg-rose-50"}`}
               >
                 <div className="font-semibold">
                   {new Date(
@@ -96,8 +210,66 @@ function BookingTimeline3() {
                   ).toLocaleString("de-DE", { weekday: "short" })}
                 </div>
                 <div>{day}</div>
+
+                {timelineData.map((data) => (
+                  <>
+                    <div
+                      key={data.id}
+                      className={`w-full h-[60px] border-t border-border`}
+                    ></div>
+                  </>
+                ))}
               </div>
             ))}
+          </div>
+          <div
+            className={`absolute h-10 rounded-full bg-red-300 shadow-md shadow-gray-400 border-2 border-gray-50 flex items-center`}
+            style={{
+              left: `${20 + 50}px`,
+              top: `${10 + 100}px`,
+              width: "200px",
+            }}
+          >
+            {" "}
+            <span className="text-xs pl-2 font-semibold">
+              Sandra Müller | 2 P
+            </span>
+          </div>
+          <div
+            className={`absolute top-[110px] left-[20px] h-10 rounded-full bg-indigo-300 shadow-md border-2 border-gray-50 shadow-gray-400 flex items-center`}
+            style={{
+              left: `${20 + 100}px`,
+              top: `${20 + 150}px`,
+              width: "300px",
+            }}
+          >
+            <span className="text-xs pl-2 font-semibold">
+              Sandra Müller | 2 P
+            </span>
+          </div>
+          <div
+            className={`absolute top-[110px] left-[20px] h-10 rounded-full bg-indigo-300 shadow-md border-2 border-gray-50 shadow-gray-400 flex items-center`}
+            style={{
+              left: `${20 + 400}px`,
+              top: `${20 + 150}px`,
+              width: "100px",
+            }}
+          >
+            <span className="text-xs pl-2 font-semibold">
+              Sandra Müller | 2 P
+            </span>
+          </div>
+          <div
+            className={`absolute top-[110px] left-[20px] h-10 rounded-full bg-indigo-300 shadow-md border-2 border-gray-50 shadow-gray-400 flex items-center`}
+            style={{
+              left: `${20 + 500}px`,
+              top: `${20 + 150}px`,
+              width: "100px",
+            }}
+          >
+            <span className="text-xs pl-2 font-semibold">
+              Sandra Müller | 2 P
+            </span>
           </div>
         </div>
       </div>
