@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
 import {
+  HiMiniListBullet,
   HiOutlineCalendarDays,
   HiOutlineCog6Tooth,
   HiOutlineHomeModern,
   HiOutlineUsers,
 } from "react-icons/hi2";
 import { RxDashboard } from "react-icons/rx";
-import HotelCard from "./HotelCard";
 import { BsPeople } from "react-icons/bs";
 
 const listElStyles =
@@ -18,9 +18,9 @@ function MainNav() {
   return (
     <nav className="m-auto">
       <ul className="px-7">
-        <li className={listElStyles}>
+        {/* <li className={listElStyles}>
           <HotelCard />
-        </li>
+        </li> */}
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/dashboard">
             <RxDashboard className={iconStyles} />
@@ -30,7 +30,7 @@ function MainNav() {
         <hr className="mb-3 border-border" />
         <li className={`${listElStyles}`}>
           <NavLink className="flex py-3" to="/bookings">
-            <HiOutlineCalendarDays className={iconStyles} />
+            <HiMiniListBullet className={iconStyles} />
             <span>Buchungen</span>
           </NavLink>
         </li>

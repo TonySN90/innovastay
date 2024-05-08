@@ -3,7 +3,7 @@ import MainNav from "./MainNav";
 
 function Sidebar() {
   return (
-    <aside className="hidden bg-background_secondary min-w-[15rem] w-[20%] h-[100vh] lg:block shadow-2xl shadow-indigo-200">
+    <aside className="hidden bg-background_secondary min-w-[15rem] w-[20%] h-[100vh] lg:block shadow-2xl shadow-shadow">
       <Logo />
       <MainNav />
     </aside>
