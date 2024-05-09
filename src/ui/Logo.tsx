@@ -8,9 +8,9 @@ function Logo() {
   console.log(isDarkMode);
 
   return (
-    <div className="m-auto w-[120px] mt-4 mb-5">
-      <img src={isDarkMode ? "logo_dark.svg" : "logo_light.svg"} />
-    </div>
+    <img src={isDarkMode ? "logo_dark.svg" : "logo_light.svg"} />
+    // <div className="m-auto mt-4 mb-5">
+    // </div>
   );
 }
 

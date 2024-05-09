@@ -29,6 +29,7 @@ export default {
         db_presentGuests_icon: "var(--db-presentGuests-icon)",
         db_infobox: "var(--db-infobox)",
         input_disabled: "var(--input-disabled)",
+        timetable_weekend_bg: "var(--timetable-weekend-bg)",
       },
     },
   },

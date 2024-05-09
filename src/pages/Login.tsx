@@ -4,7 +4,9 @@ import LoginForm from "../features/authentication/LoginForm";
 function Login() {
   return (
     <div className="bg-background_secondary p-6 w-[90%] sm:w-[450px] rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-xl">
-      <Logo />
+      <div className="w-[150px] m-auto mb-5">
+        <Logo />
+      </div>
       <LoginHeader />
       <LoginForm />
     </div>
