@@ -165,14 +165,6 @@ function BookingTimeline3() {
     });
   }
 
-  const days = [];
-  monthsToShow.map((month) => {
-    const daysInMonth = new Date(month.year, month.month, 0).getDate();
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(i);
-    }
-  });
-
   const firstDayOfMonth = new Date(
     monthsToShow[0].year,
     monthsToShow[0].month - 1,
@@ -191,9 +183,10 @@ function BookingTimeline3() {
     return weekDay === "Sa" || weekDay === "So";
   }
 
-  function checkIfToday(day: number) {
-    const today = new Date(getToday()).getDate();
-    return day === today;
+  function checkIfToday(months: object, day: number) {
+    const currentMonth = today.getMonth() + 1;
+    const currentDay = today.getDate();
+    return months.month === currentMonth && day === currentDay;
   }
 
   // constants
@@ -201,11 +194,20 @@ function BookingTimeline3() {
   const colWidth = 60;
 
   const dayHight = 49;
-  const monthWidth = days.length * colWidth;
   const labelWidth = 160;
 
   const booking_offset_left = 30 - colWidth;
   const booking_offset_top = 115 - rowHeight;
+
+  let monthWidth = 0;
+  monthsToShow.map((month) => {
+    monthWidth += month.daysInMonth * colWidth;
+  });
+
+  function getMonthWidth(daysPerMonth: number) {
+    const monthWidth = daysPerMonth * colWidth;
+    return monthWidth;
+  }
 
   return (
     <div className="lg:w-[71vw] flex shadow-xl">
@@ -244,13 +246,19 @@ function BookingTimeline3() {
 
       {/* canvas */}
       <div className="h-full w-full overflow-x-scroll">
-        <div className="relative h-full bg-background_secondary">
+        <div
+          className="relative h-full bg-background_secondary"
+          style={{ width: `${monthWidth}px` }}
+        >
           {/* Month-Row */}
-          <div className="flex">
+          <div className="flex bg-yellow-400 ">
             {monthsToShow.map((month) => (
               <div
-                className={` bg-active flex justify-center items-center font-semibold border-r border-border`}
-                style={{ height: `${50}px` }}
+                className={`bg-active flex justify-center items-center font-semibold border-r border-border`}
+                style={{
+                  height: `${50}px`,
+                  width: `${getMonthWidth(month.daysInMonth)}px`,
+                }}
               >
                 <span>{month.monthName + " " + month.year}</span>
               </div>
@@ -266,11 +274,10 @@ function BookingTimeline3() {
                   <div
                     // key={day}
                     className={`flex border-r border-border  ${
-                      checkIfToday(day) && "bg-active"
+                      checkIfToday(month, day) && "bg-active"
                     }  ${checkIfWeekend(day) && "bg-timetable_weekend_bg"}`}
                     style={{
                       width: `${colWidth}px`,
-                      height: `${500}px`,
                     }}
                   >
                     <div className="justify-center items-center w-full ">
@@ -286,71 +293,24 @@ function BookingTimeline3() {
                         </span>
                         <span className="text-sm">{day}</span>
                       </div>
-                    </div>
 
-                    {/* {timelineData.map((data) => (
-                      <div
-                        key={data.id}
-                        className={`w-full border-t border-border`}
-                        style={{
-                          height: `${rowHeight}px`,
-                          width: `${colWidth}px`,
-                        }}
-                      ></div>
-                    ))} */}
+                      {timelineData.map(() => (
+                        <div
+                          // key={data.id}
+                          className={`w-full border-t border-border`}
+                          style={{
+                            height: `${rowHeight}px`,
+                            width: `${colWidth}px`,
+                          }}
+                        ></div>
+                      ))}
+                    </div>
                   </div>
                 </>
               ))
             )}
-            {/* {timelineData.map((data) => (
-              <>
-                <div
-                  key={data.id}
-                  className={`w-full border-t border-border`}
-                  style={{
-                    height: `${rowHeight}px`,
-                  }}
-                ></div>
-              </>
-            ))} */}
           </div>
 
-          {/* <div className="flex">
-            {days.map((day) => (
-              <div
-                // key={day}
-                className={`border-r border-border  ${
-                  checkIfToday(day) && "bg-active"
-                }  ${checkIfWeekend(day) && "bg-timetable_weekend_bg"}`}
-                style={{
-                  width: `${colWidth}px`,
-                }}
-              >
-                <div className="w-full" style={{ height: `${dayHight}px` }}>
-                  <div className="font-semibold text-center">
-                    {new Date(
-                      firstDayOfMonth.getFullYear(),
-                      firstDayOfMonth.getMonth(),
-                      day
-                    ).toLocaleString("de-DE", { weekday: "short" })}
-                  </div>
-                  <div className="text-center">{day}</div>
-                </div>
-
-                {timelineData.map((data) => (
-                  <>
-                    <div
-                      key={data.id}
-                      className={`w-full border-t border-border`}
-                      style={{
-                        height: `${rowHeight}px`,
-                      }}
-                    ></div>
-                  </>
-                ))}
-              </div>
-            ))}
-          </div> */}
           {/* Bookings */}
           <div
             className={`absolute top-[110px] h-10 rounded-full bg-status_red shadow-md flex items-center truncate`}
