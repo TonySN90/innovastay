@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Logo from "../../ui/Logo";
 
 const timelineData = [
@@ -114,8 +114,8 @@ const timelineData = [
 
 function BookingTimeline3() {
   const today = new Date();
-  const currentMonth = today.getMonth();
-  const currentYear = today.getFullYear();
+  // const currentMonth = today.getMonth();
+  // const currentYear = today.getFullYear();
 
   const months = [
     "Januar",
@@ -133,12 +133,36 @@ function BookingTimeline3() {
   ];
 
   const monthsToShow = [];
+
+  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
+  const [currentYear, setCurrentYear] = useState(today.getFullYear());
+
+  function loadCalendar(direction: "left" | "right") {
+    if (direction === "left") {
+      if (currentMonth === 1) {
+        setCurrentMonth(12);
+        setCurrentYear(currentYear - 1);
+      } else {
+        setCurrentMonth(currentMonth - 1);
+      }
+    }
+    if (direction === "right") {
+      if (currentMonth === 12) {
+        setCurrentMonth(1);
+        setCurrentYear(currentYear + 1);
+      } else {
+        setCurrentMonth(currentMonth + 1);
+      }
+    }
+  }
+
   for (let i = 0; i <= 2; i++) {
     const month = currentMonth + i;
-    const monthName = months[(month % 12) - 1];
-    const year = currentYear + Math.floor(month / 12);
-    const daysInMonth = new Date(year, month % 12, 0).getDate();
-    const firstDayOfMonth = new Date(year, (month % 12) - 1, 1);
+    const monthIndex = (month - 1) % 12; // Korrektur der Modulo-Berechnung für den Index
+    const monthName = months[monthIndex];
+    const year = currentYear + Math.floor((month - 1) / 12); // Korrektur der Jahr-Berechnung
+    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate(); // +1, um 1-basierte Monatsindizierung zu verwenden
+    const firstDayOfMonth = new Date(year, monthIndex, 1);
     const days = [];
     for (let i = 1; i <= daysInMonth; i++) {
       days.push(i);
@@ -155,7 +179,7 @@ function BookingTimeline3() {
     }
 
     monthsToShow.push({
-      month: month % 12,
+      month: monthIndex + 1,
       monthName: monthName,
       year: year,
       daysInMonth: daysInMonth,
@@ -170,8 +194,6 @@ function BookingTimeline3() {
     monthsToShow[0].month - 1,
     1
   );
-
-  console.log(monthsToShow);
 
   function checkIfWeekend(day: number) {
     const weekDay = new Date(
@@ -209,12 +231,27 @@ function BookingTimeline3() {
     return monthWidth;
   }
 
+  function handleScroll(e) {
+    const element = e.target;
+
+    if (
+      element.scrollWidth - Math.floor(element.scrollLeft) ===
+      element.clientWidth
+    ) {
+      loadCalendar("right");
+    }
+
+    if (element.scrollLeft === 0) {
+      loadCalendar("left");
+    }
+  }
+
   const todayElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (todayElement.current) {
       todayElement.current.scrollIntoView({
-        behavior: "smooth",
+        // behavior: "smooth",
         inline: "center",
         block: "start",
       });
@@ -264,6 +301,7 @@ function BookingTimeline3() {
           scrollbarColor: "var(--active) var(--background-primary)",
           scrollSnapType: "x mandatory",
         }}
+        onScroll={handleScroll}
       >
         <div
           className="relative h-full bg-background_secondary"
