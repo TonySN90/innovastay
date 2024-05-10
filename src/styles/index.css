@@ -168,17 +168,18 @@ textarea[disabled] {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #e0e7ff;
+  background: var(--background-secondary);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #a5b4fc;
+  background: var(--active);
+  border-radius: 10px;
 }
 
-/* Handle on hover */
+/* Handle on hover  */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--status-blue);
 }
 
 .select-container .react-select__control {

@@ -1,5 +1,5 @@
+import { useEffect, useRef } from "react";
 import Logo from "../../ui/Logo";
-import { getToday } from "../../utils/datesHelper";
 
 const timelineData = [
   {
@@ -209,6 +209,18 @@ function BookingTimeline3() {
     return monthWidth;
   }
 
+  const todayElement = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (todayElement.current) {
+      todayElement.current.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "start",
+      });
+    }
+  }, [todayElement]);
+
   return (
     <div className="lg:w-[71vw] flex shadow-xl">
       {/* label-bar */}
@@ -245,7 +257,14 @@ function BookingTimeline3() {
       </div>
 
       {/* canvas */}
-      <div className="h-full w-full overflow-x-scroll">
+      <div
+        className="h-full w-full overflow-x-scroll"
+        style={{
+          scrollbarWidth: "thin",
+          scrollbarColor: "var(--active) var(--background-primary)",
+          scrollSnapType: "x mandatory",
+        }}
+      >
         <div
           className="relative h-full bg-background_secondary"
           style={{ width: `${monthWidth}px` }}
@@ -273,9 +292,10 @@ function BookingTimeline3() {
                 <>
                   <div
                     // key={day}
-                    className={`flex border-r border-border  ${
-                      checkIfToday(month, day) && "bg-active"
-                    }  ${checkIfWeekend(day) && "bg-timetable_weekend_bg"}`}
+                    ref={checkIfToday(month, day) ? todayElement : null}
+                    className={`flex border-r border-border ${
+                      checkIfToday(month, day) ? "bg-active today" : ""
+                    } ${checkIfWeekend(day) ? "bg-timetable_weekend_bg" : ""}`}
                     style={{
                       width: `${colWidth}px`,
                     }}
