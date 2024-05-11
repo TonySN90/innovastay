@@ -5,13 +5,7 @@ function Logo() {
     isDarkMode: boolean;
   };
 
-  console.log(isDarkMode);
-
-  return (
-    <img src={isDarkMode ? "logo_dark.svg" : "logo_light.svg"} />
-    // <div className="m-auto mt-4 mb-5">
-    // </div>
-  );
+  return <img src={isDarkMode ? "logo_dark.svg" : "logo_light.svg"} />;
 }
 
 export default Logo;

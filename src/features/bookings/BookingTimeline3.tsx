@@ -114,10 +114,10 @@ const timelineData = [
 
 function BookingTimeline3() {
   const today = new Date();
-  // const currentMonth = today.getMonth();
-  // const currentYear = today.getFullYear();
+  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
+  const [currentYear, setCurrentYear] = useState(today.getFullYear());
 
-  const months = [
+  const monthsNames = [
     "Januar",
     "Februar",
     "März",
@@ -131,11 +131,6 @@ function BookingTimeline3() {
     "November",
     "Dezember",
   ];
-
-  const monthsToShow = [];
-
-  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
-  const [currentYear, setCurrentYear] = useState(today.getFullYear());
 
   function loadCalendar(direction: "left" | "right") {
     if (direction === "left") {
@@ -156,12 +151,14 @@ function BookingTimeline3() {
     }
   }
 
+  const monthsToShow = [];
+
   for (let i = 0; i <= 2; i++) {
     const month = currentMonth + i;
-    const monthIndex = (month - 1) % 12; // Korrektur der Modulo-Berechnung für den Index
-    const monthName = months[monthIndex];
-    const year = currentYear + Math.floor((month - 1) / 12); // Korrektur der Jahr-Berechnung
-    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate(); // +1, um 1-basierte Monatsindizierung zu verwenden
+    const monthIndex = (month - 1) % 12;
+    const monthName = monthsNames[monthIndex];
+    const year = currentYear + Math.floor((month - 1) / 12);
+    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
     const firstDayOfMonth = new Date(year, monthIndex, 1);
     const days = [];
     for (let i = 1; i <= daysInMonth; i++) {
@@ -195,6 +192,21 @@ function BookingTimeline3() {
     1
   );
 
+  // constants
+  const rowHeight = 70;
+  const colWidth = 60;
+
+  const dayHight = 49;
+  const labelWidth = 180;
+
+  const booking_offset_left = 30 - colWidth;
+  const booking_offset_top = 115 - rowHeight;
+
+  let monthWidth = 0;
+  monthsToShow.map((month) => {
+    monthWidth += month.daysInMonth * colWidth;
+  });
+
   function checkIfWeekend(day: number) {
     const weekDay = new Date(
       firstDayOfMonth.getFullYear(),
@@ -205,30 +217,22 @@ function BookingTimeline3() {
     return weekDay === "Sa" || weekDay === "So";
   }
 
-  function checkIfToday(months: object, day: number) {
+  function checkIfToday(months: { month: number }, day: number) {
     const currentMonth = today.getMonth() + 1;
     const currentDay = today.getDate();
     return months.month === currentMonth && day === currentDay;
   }
 
-  // constants
-  const rowHeight = 70;
-  const colWidth = 60;
-
-  const dayHight = 49;
-  const labelWidth = 160;
-
-  const booking_offset_left = 30 - colWidth;
-  const booking_offset_top = 115 - rowHeight;
-
-  let monthWidth = 0;
-  monthsToShow.map((month) => {
-    monthWidth += month.daysInMonth * colWidth;
-  });
-
   function getMonthWidth(daysPerMonth: number) {
     const monthWidth = daysPerMonth * colWidth;
     return monthWidth;
+  }
+
+  function scrollAfterLoad(element: HTMLDivElement, scrollLeft: number) {
+    element.scrollTo({
+      left: scrollLeft,
+      behavior: "smooth",
+    });
   }
 
   function handleScroll(e) {
@@ -239,23 +243,51 @@ function BookingTimeline3() {
       element.clientWidth
     ) {
       loadCalendar("right");
+      const scrollDirection = element.scrollLeft - element.clientWidth * 0.5;
+      scrollAfterLoad(element, scrollDirection);
     }
 
     if (element.scrollLeft === 0) {
       loadCalendar("left");
+      const scrollDirection = element.scrollLeft + element.clientWidth * 0.5;
+      scrollAfterLoad(element, scrollDirection);
     }
   }
 
   const todayElement = useRef<HTMLDivElement>(null);
+  // const canvasElement = useRef<HTMLDivElement>(null);
+
+  const firstDayDate = new Date(monthsToShow[0].firstDayOfMonth);
+  const differenceMilliseconds = today.getTime() - firstDayDate.getTime();
+  const differenceDays = Math.floor(
+    differenceMilliseconds / (1000 * 60 * 60 * 24)
+  );
+
+  console.log(differenceDays);
 
   useEffect(() => {
     if (todayElement.current) {
       todayElement.current.scrollIntoView({
-        // behavior: "smooth",
         inline: "center",
         block: "start",
       });
     }
+
+    // const bookingStartElement = document.getElementById("9-5-2024");
+    // let canvasRect;
+    // let childRect;
+    // let elementPosition;
+
+    // if (bookingStartElement) {
+    //   childRect = bookingStartElement?.getBoundingClientRect();
+    //   canvasRect = canvasElement?.current?.getBoundingClientRect();
+
+    //   elementPosition = {
+    //     top: childRect.top - canvasRect.top,
+    //     left: childRect.left - canvasRect.left,
+    //   };
+    // }
+    // console.log(elementPosition);
   }, [todayElement]);
 
   return (
@@ -266,7 +298,7 @@ function BookingTimeline3() {
         style={{ width: `${labelWidth}px` }}
       >
         {/* logo */}
-        <div className="h-[100px] flex justify-center items-center bg-active border-b border-border">
+        <div className="h-[100px] flex justify-center items-center bg-active ">
           <div className="w-[80px]">
             <Logo />
           </div>
@@ -277,7 +309,7 @@ function BookingTimeline3() {
           return (
             <div>
               <div
-                className="relative flex justify-center items-center gap-1 border-b border-border"
+                className="relative flex justify-center items-center gap-1 border-r-4 border-active"
                 style={{ height: `${rowHeight}px` }}
               >
                 <div className="h-8 w-8 flex justify-center items-center rounded-full">
@@ -295,13 +327,13 @@ function BookingTimeline3() {
 
       {/* canvas */}
       <div
-        className="h-full w-full overflow-x-scroll"
+        className="h-full w-full overflow-x-scroll scrollbar scrollbar-thumb-sky-700 scrollbar-track-sky-300"
         style={{
-          scrollbarWidth: "thin",
           scrollbarColor: "var(--active) var(--background-primary)",
           scrollSnapType: "x mandatory",
         }}
         onScroll={handleScroll}
+        // ref={canvasElement}
       >
         <div
           className="relative h-full bg-background_secondary"
@@ -329,9 +361,12 @@ function BookingTimeline3() {
               month.days.map((day) => (
                 <>
                   <div
-                    // key={day}
+                    key={`${day}-${month.month}-${month.year}`}
+                    id={`${day}-${month.month}-${month.year}`}
                     ref={checkIfToday(month, day) ? todayElement : null}
-                    className={`flex border-r border-border ${
+                    className={`flex border-r border-border ${day}-${
+                      month.month
+                    }-${month.year} ${
                       checkIfToday(month, day) ? "bg-active today" : ""
                     } ${checkIfWeekend(day) ? "bg-timetable_weekend_bg" : ""}`}
                     style={{
@@ -373,7 +408,7 @@ function BookingTimeline3() {
           <div
             className={`absolute top-[110px] h-10 rounded-full bg-status_red shadow-md flex items-center truncate`}
             style={{
-              left: `${booking_offset_left + colWidth * 1}px`, // breite des cols * Datum des Tages
+              left: `${booking_offset_left + colWidth * differenceDays}px`, // breite des cols * Datum des Tages
               top: `${booking_offset_top + rowHeight * 1}px`, // Höhe der row * Nummer des Zimmers(id)
               width: `${colWidth * 5}px`, // breite des cols * anzahl der Tage
             }}
@@ -385,7 +420,7 @@ function BookingTimeline3() {
           <div
             className={`absolute top-[110px] h-10 rounded-full bg-status_red shadow-sm flex items-center truncate`}
             style={{
-              left: `${booking_offset_left + colWidth * 2}px`,
+              left: `${booking_offset_left + colWidth * differenceDays}px`,
               top: `${booking_offset_top + rowHeight * 2}px`,
               width: `${colWidth * 10}px`,
             }}
@@ -397,7 +432,7 @@ function BookingTimeline3() {
           <div
             className={`absolute top-[110px] h-10 rounded-full bg-status_red shadow-sm flex items-center`}
             style={{
-              left: `${booking_offset_left + colWidth * 2}px`,
+              left: `${booking_offset_left + colWidth * differenceDays}px`,
               top: `${booking_offset_top + rowHeight * 3}px`,
               width: `${colWidth * 6}px`,
             }}
@@ -409,7 +444,7 @@ function BookingTimeline3() {
           <div
             className={`absolute top-[110px] h-10 rounded-full bg-status_red shadow-sm flex items-center`}
             style={{
-              left: `${booking_offset_left + colWidth * 8}px`,
+              left: `${booking_offset_left + colWidth * differenceDays}px`,
               top: `${booking_offset_top + rowHeight * 3}px`,
               width: `${colWidth * 5}px`,
             }}
@@ -421,8 +456,8 @@ function BookingTimeline3() {
           <div
             className={`absolute top-[110px] h-10 rounded-full bg-status_red shadow-sm flex items-center`}
             style={{
+              left: `${booking_offset_left + colWidth * differenceDays}px`,
               top: `${booking_offset_top + rowHeight * 4}px`,
-              left: `${booking_offset_left + colWidth * 1}px`,
               width: `${colWidth * 14}px`,
             }}
           >
