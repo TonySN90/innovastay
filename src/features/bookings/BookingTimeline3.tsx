@@ -5,6 +5,7 @@ import useBookings from "./useBookings";
 import { CgSpinnerTwoAlt } from "react-icons/cg";
 import MiniSpinner from "../../ui/MiniSpinner";
 import useCabins from "../cabins/useCabins";
+import { useSearchParams } from "react-router-dom";
 
 function BookingTimeline3() {
   const today = new Date();
@@ -16,6 +17,8 @@ function BookingTimeline3() {
   const { cabins, loadingStatus: cabinsLoading } = useCabins();
   const isLoadingBookings = bookingsLoading === LoadingTypes.LOADING;
   const isLoadingCabins = cabinsLoading === LoadingTypes.LOADING;
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const monthsNames = [
     "Januar",
@@ -182,16 +185,22 @@ function BookingTimeline3() {
   }
 
   useEffect(() => {
+    searchParams.set(
+      "filterDate",
+      `${currentYear.toString()}-${currentMonth.toString()}`
+    );
+    setSearchParams(searchParams.toString());
+
     if (todayElement.current) {
       todayElement.current.scrollIntoView({
         inline: "center",
         block: "start",
       });
     }
-  }, [todayElement]);
+  }, [todayElement, searchParams, setSearchParams, currentYear, currentMonth]);
 
   return (
-    <div className="relative lg:w-[71vw] flex shadow-xl overflow-x-auto max-w-[100%]">
+    <div className="relative lg:w-[72vw] flex shadow-xl overflow-x-auto max-w-[100%] bg-background_secondary">
       {/* label-bar */}
 
       {isLoadingBookings && isLoadingCabins && (

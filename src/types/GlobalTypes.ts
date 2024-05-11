@@ -53,8 +53,11 @@ export interface Option {
 
 export interface IFilterTypes {
   field: string;
+  field2?: string;
   value: string | null;
+  value2?: string | null;
   operator: string;
+  operator2?: string | null;
 }
 
 export interface ISortTypes {

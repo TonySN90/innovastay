@@ -9,13 +9,11 @@ import {
   PostgrestResponse,
 } from "@supabase/supabase-js";
 
-
 export async function getBookings(
   filter: IFilterTypes | undefined,
   sortBy: ISortTypes | undefined,
   page: number
 ) {
-
   // Query
   let query = supabase
     .from("bookings")
@@ -26,10 +24,13 @@ export async function getBookings(
 
   // Filter
   if (filter) {
-    const { field, value, operator } = filter;
+    const { field, field2, value, value2, operator } = filter;
+
+    console.log({ field, field2, value, value2, operator });
 
     if (operator === "eq") query = query.eq(field, value);
     if (operator === "ilike") query = query.ilike(field, `%${value}%`);
+    if (operator === "gte") query = query.gte(field, value);
   }
 
   // Sort
@@ -57,6 +58,8 @@ export async function getBookings(
       `Buchungen konnten nicht geladen werden ${error.message}: ${error.details}`
     );
   }
+
+  console.log({ bookings, count });
 
   return { bookings, count };
 }
@@ -123,14 +126,24 @@ export async function deleteBooking(bookingId: number) {
   return data;
 }
 
-export async function getBookingsAfterDate(filterColumn?: string | null, startDate?: string | null, endDate?: string | null) {
+export async function getBookingsAfterDate(
+  filterColumn?: string | null,
+  startDate?: string | null,
+  endDate?: string | null
+) {
+  let query = supabase
+    .from("bookings")
+    .select(
+      "startDate, endDate, totalPrice, fullName, id, numNights, status, cabins(name)"
+    );
 
-  let query = supabase.from("bookings").select("startDate, endDate, totalPrice, fullName, id, numNights, status, cabins(name)")
+  if (startDate && endDate && filterColumn)
+    query = query.gte(filterColumn, startDate).lte(filterColumn, endDate);
+  if (!startDate && !endDate && !filterColumn)
+    query = query
+      .eq("status", "checkedIn")
 
-  if (startDate && endDate && filterColumn) query = query.gte(filterColumn, startDate).lte(filterColumn, endDate)
-  if(!startDate && !endDate && !filterColumn) query = query.eq("status", "checkedIn")
-
-  .order('fullName', { ascending: false });
+      .order("fullName", { ascending: false });
 
   const { data: recentBookings, error } = await query;
 

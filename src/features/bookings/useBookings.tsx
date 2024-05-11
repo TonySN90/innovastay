@@ -18,6 +18,24 @@ function useBookings() {
     // Filter
     const statusValue = searchParams.get("status");
     const searchValue = searchParams.get("search");
+    const filterDateValue = searchParams.get("filterDate");
+
+    function createSchedularFilter() {
+      const year = filterDateValue?.split("-")[0];
+      const month = filterDateValue?.split("-")[1];
+      const schedularStartDate = new Date(`${year}-${month}-01`);
+
+      const schedularEndDate = new Date(schedularStartDate);
+      schedularEndDate.setMonth(schedularStartDate.getMonth() + 2);
+
+      return {
+        field: "startDate",
+        field2: "endDate",
+        value: schedularStartDate.toISOString(),
+        value2: schedularEndDate.toISOString(),
+        operator: "gte",
+      };
+    }
 
     let filter;
     switch (true) {
@@ -29,6 +47,10 @@ function useBookings() {
         break;
       default:
         filter = null;
+        break;
+      case filterDateValue && filterDateValue !== "undefined":
+        filter = createSchedularFilter();
+        break;
     }
 
     // Sort
@@ -43,7 +65,9 @@ function useBookings() {
 
     if (pathName === "/bookings")
       dispatch(fetchBookings({ filter, sortBy, page }));
-    if (pathName === "/schedular") dispatch(fetchBookings());
+    if (pathName === "/schedular") dispatch(fetchBookings({ filter }));
+
+    console.log(filter, sortBy, page);
   }, [dispatch, searchParams, pathName]);
 
   function convertData() {
