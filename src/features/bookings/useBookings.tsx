@@ -69,11 +69,11 @@ function useBookings() {
         startDate: new Date(booking.startDate.split("T")[0] + "T15:00:00"),
         endDate: new Date(booking.endDate.split("T")[0] + "T10:00:00"),
 
-        occupancy: 0,
+        // occupancy: 0,
         title: booking.guests.fullName,
         subtitle: booking.numGuests + " Gast/Gäste",
         description: booking.guests.email,
-        bgColor: "#C7D2FE",
+        // bgColor: "#C7D2FE",
       };
 
       roomData.data.push(bookingData);

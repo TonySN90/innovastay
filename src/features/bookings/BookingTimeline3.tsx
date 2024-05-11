@@ -1,9 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import Logo from "../../ui/Logo";
+import Spinner from "../../ui/Spinner";
+import { LoadingTypes } from "../../types/GlobalTypes";
+import useBookings from "./useBookings";
+import { CgSpinnerTwoAlt } from "react-icons/cg";
+import MiniSpinner from "../../ui/MiniSpinner";
+import useCabins from "../cabins/useCabins";
 
 const timelineData = [
   {
-    id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+    id: "070ac5b5-8369-4cd2-8ba2-0a209134560",
     label: {
       icon: "https://picsum.photos/24",
       title: "Zimmer 1",
@@ -21,7 +27,7 @@ const timelineData = [
     ],
   },
   {
-    id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+    id: "070ac5b5-8369-4cd2-8ba2-0a2093456cc60",
     label: {
       icon: "https://picsum.photos/24",
       title: "Zimmer 2",
@@ -39,7 +45,7 @@ const timelineData = [
     ],
   },
   {
-    id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+    id: "070ac5b5-8369-4cd2-8ba2-056754564",
     label: {
       icon: "https://picsum.photos/24",
       title: "Zimmer 3",
@@ -57,7 +63,7 @@ const timelineData = [
     ],
   },
   {
-    id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+    id: "070ac5b5-8369-4cd2-8ba2-0a20918709",
     label: {
       icon: "https://picsum.photos/24",
       title: "Zimmer 4",
@@ -75,7 +81,7 @@ const timelineData = [
     ],
   },
   {
-    id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+    id: "070ac5b5-8369-4cd2-8ba2-0a20789789",
     label: {
       icon: "https://picsum.photos/24",
       title: "Zimmer 5",
@@ -93,7 +99,7 @@ const timelineData = [
     ],
   },
   {
-    id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
+    id: "070ac5b5-8369-4cd2-8ba2-0a20913578978",
     label: {
       icon: "https://picsum.photos/24",
       title: "Zimmer 6",
@@ -116,6 +122,11 @@ function BookingTimeline3() {
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
+
+  const { bookings, loadingStatus: bookingsLoading } = useBookings();
+  const { cabins, loadingStatus: cabinsLoading } = useCabins();
+  const isLoadingBookings = bookingsLoading === LoadingTypes.LOADING;
+  const isLoadingCabins = cabinsLoading === LoadingTypes.LOADING;
 
   const monthsNames = [
     "Januar",
@@ -255,15 +266,30 @@ function BookingTimeline3() {
   }
 
   const todayElement = useRef<HTMLDivElement>(null);
-  // const canvasElement = useRef<HTMLDivElement>(null);
 
-  const firstDayDate = new Date(monthsToShow[0].firstDayOfMonth);
-  const differenceMilliseconds = today.getTime() - firstDayDate.getTime();
-  const differenceDays = Math.floor(
-    differenceMilliseconds / (1000 * 60 * 60 * 24)
-  );
+  function calcBookingPositionX(bookingDate: Date) {
+    const firstDayDate = new Date(monthsToShow[0].firstDayOfMonth);
+    const differenceMilliseconds =
+      bookingDate.getTime() - firstDayDate.getTime();
+    const differenceDays = Math.floor(
+      differenceMilliseconds / (1000 * 60 * 60 * 24) + 1
+    );
 
-  console.log(differenceDays);
+    return booking_offset_left + colWidth * differenceDays;
+  }
+
+  function calcBookingPositionY(cabinId: number) {
+    const labelPosition = cabins.findIndex((cabin) => cabin.id === cabinId) + 1;
+    console.log(cabins, cabinId);
+    return booking_offset_top + rowHeight * labelPosition;
+  }
+  function calcBookingWidth(startDate: Date, endDate: Date) {
+    const numNights = Math.round(
+      (endDate?.getTime() - startDate?.getTime()) / (1000 * 3600 * 24)
+    );
+
+    return numNights * colWidth;
+  }
 
   useEffect(() => {
     if (todayElement.current) {
@@ -272,22 +298,6 @@ function BookingTimeline3() {
         block: "start",
       });
     }
-
-    // const bookingStartElement = document.getElementById("9-5-2024");
-    // let canvasRect;
-    // let childRect;
-    // let elementPosition;
-
-    // if (bookingStartElement) {
-    //   childRect = bookingStartElement?.getBoundingClientRect();
-    //   canvasRect = canvasElement?.current?.getBoundingClientRect();
-
-    //   elementPosition = {
-    //     top: childRect.top - canvasRect.top,
-    //     left: childRect.left - canvasRect.left,
-    //   };
-    // }
-    // console.log(elementPosition);
   }, [todayElement]);
 
   return (
@@ -305,27 +315,42 @@ function BookingTimeline3() {
         </div>
 
         {/* labels */}
-        {timelineData.map((data) => {
-          return (
-            <div>
+        {isLoadingCabins ? (
+          <>
+            {[...Array(3)].map((_, index) => (
               <div
-                className="relative flex justify-center items-center gap-1 border-r-4 border-active"
+                key={index}
+                className="relative flex justify-center bg-background_primary items-center gap-1 border-r-4 border-active"
                 style={{ height: `${rowHeight}px` }}
               >
-                <div className="h-8 w-8 flex justify-center items-center rounded-full">
-                  <img className="h-10" src="logo_light.svg" />
-                </div>
-                <div className="flex flex-col text-xs">
-                  <span>{data.label.title}</span>
-                  <span>{data.label.subtitle}</span>
+                <MiniSpinner />
+              </div>
+            ))}
+          </>
+        ) : (
+          cabins.map((cabin) => {
+            return (
+              <div>
+                <div
+                  className="relative flex justify-center items-center gap-1 border-r-4 border-active"
+                  style={{ height: `${rowHeight}px` }}
+                >
+                  <div className="h-8 w-8 flex justify-center items-center rounded-full">
+                    <img className="h-10" src={cabin.image} />
+                  </div>
+                  <div className="flex flex-col text-xs">
+                    <span>{cabin.name}</span>
+                    <span>{cabin.category}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
 
       {/* canvas */}
+
       <div
         className="h-full w-full overflow-x-scroll scrollbar scrollbar-thumb-sky-700 scrollbar-track-sky-300"
         style={{
@@ -333,7 +358,6 @@ function BookingTimeline3() {
           scrollSnapType: "x mandatory",
         }}
         onScroll={handleScroll}
-        // ref={canvasElement}
       >
         <div
           className="relative h-full bg-background_secondary"
@@ -353,7 +377,6 @@ function BookingTimeline3() {
               </div>
             ))}
           </div>
-
           {/* Days */}
 
           <div className="w-full flex border-l border-border">
@@ -387,7 +410,7 @@ function BookingTimeline3() {
                         <span className="text-sm">{day}</span>
                       </div>
 
-                      {timelineData.map(() => (
+                      {cabins.map(() => (
                         <div
                           // key={data.id}
                           className={`w-full border-t border-border`}
@@ -405,66 +428,25 @@ function BookingTimeline3() {
           </div>
 
           {/* Bookings */}
-          <div
-            className={`absolute top-[110px] h-10 rounded-full bg-status_red shadow-md flex items-center truncate`}
-            style={{
-              left: `${booking_offset_left + colWidth * differenceDays}px`, // breite des cols * Datum des Tages
-              top: `${booking_offset_top + rowHeight * 1}px`, // Höhe der row * Nummer des Zimmers(id)
-              width: `${colWidth * 5}px`, // breite des cols * anzahl der Tage
-            }}
-          >
-            <span className="text-xs px-2 font-semibold">
-              Sandra Müller | 2 P
-            </span>
-          </div>
-          <div
-            className={`absolute top-[110px] h-10 rounded-full bg-status_red shadow-sm flex items-center truncate`}
-            style={{
-              left: `${booking_offset_left + colWidth * differenceDays}px`,
-              top: `${booking_offset_top + rowHeight * 2}px`,
-              width: `${colWidth * 10}px`,
-            }}
-          >
-            <span className="text-xs px-2 font-semibold">
-              Pablo Müller | 2 P
-            </span>
-          </div>
-          <div
-            className={`absolute top-[110px] h-10 rounded-full bg-status_red shadow-sm flex items-center`}
-            style={{
-              left: `${booking_offset_left + colWidth * differenceDays}px`,
-              top: `${booking_offset_top + rowHeight * 3}px`,
-              width: `${colWidth * 6}px`,
-            }}
-          >
-            <span className="text-xs px-2 font-semibold truncate">
-              Sandra Müller | 2 P
-            </span>
-          </div>
-          <div
-            className={`absolute top-[110px] h-10 rounded-full bg-status_red shadow-sm flex items-center`}
-            style={{
-              left: `${booking_offset_left + colWidth * differenceDays}px`,
-              top: `${booking_offset_top + rowHeight * 3}px`,
-              width: `${colWidth * 5}px`,
-            }}
-          >
-            <span className="text-xs px-2 font-semibold truncate">
-              Sandra Müller | 2 P
-            </span>
-          </div>
-          <div
-            className={`absolute top-[110px] h-10 rounded-full bg-status_red shadow-sm flex items-center`}
-            style={{
-              left: `${booking_offset_left + colWidth * differenceDays}px`,
-              top: `${booking_offset_top + rowHeight * 4}px`,
-              width: `${colWidth * 14}px`,
-            }}
-          >
-            <span className="text-xs px-2 font-semibold truncate">
-              Sandra Müller | 2 P
-            </span>
-          </div>
+
+          {bookings.map((booking) => (
+            <div
+              className={`absolute top-[110px] h-10 rounded-full bg-status_red shadow-md flex items-center truncate`}
+              style={{
+                left: `${calcBookingPositionX(new Date(booking.startDate))}px`,
+                top: `${calcBookingPositionY(booking.cabins.id)}px`,
+                width: `${calcBookingWidth(
+                  new Date(booking.startDate),
+                  new Date(booking.endDate)
+                )}px`,
+              }}
+              key={booking.id}
+            >
+              <span className="text-xs px-2 font-semibold">
+                Sandra Müller | 2 P
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
