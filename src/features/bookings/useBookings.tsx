@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store";
 import { IBookingStateTypes } from "../../types/BookingTypes";
 import { fetchBookings } from "./bookingsSlice";
 import { SchedulerData } from "@bitnoi.se/react-scheduler";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 function useBookings() {
   const dispatch = useAppDispatch();
@@ -11,10 +11,11 @@ function useBookings() {
   const { bookings, loadingStatus } = useAppSelector(
     (state: { bookings: IBookingStateTypes }) => state.bookings
   );
+  const location = useLocation();
+  const pathName = location.pathname;
 
   useEffect(() => {
     // Filter
-    const schedularView = searchParams.get("schedular");
     const statusValue = searchParams.get("status");
     const searchValue = searchParams.get("search");
 
@@ -40,9 +41,10 @@ function useBookings() {
       ? 1
       : Number(searchParams.get("page"));
 
-    if (!schedularView) dispatch(fetchBookings({ filter, sortBy, page }));
-    else dispatch(fetchBookings());
-  }, [dispatch, searchParams]);
+    if (pathName === "/bookings")
+      dispatch(fetchBookings({ filter, sortBy, page }));
+    if (pathName === "/schedular") dispatch(fetchBookings());
+  }, [dispatch, searchParams, pathName]);
 
   function convertData() {
     const roomBookingsMap = new Map();
