@@ -9,6 +9,7 @@ import {
   IoIosArrowDropleftCircle,
   IoIosArrowDroprightCircle,
 } from "react-icons/io";
+import { BsClockFill } from "react-icons/bs";
 
 function BookingTimeline3() {
   const today = new Date();
@@ -105,7 +106,7 @@ function BookingTimeline3() {
     return weekDay === "Sa" || weekDay === "So";
   }
 
-  function loadCalendar(direction: "left" | "right") {
+  function loadCalendar(direction: "left" | "right" | "now") {
     if (direction === "left") {
       if (currentMonth === 1) {
         setCurrentMonth(12);
@@ -121,6 +122,10 @@ function BookingTimeline3() {
       } else {
         setCurrentMonth(currentMonth + 1);
       }
+    }
+    if (direction === "now") {
+      setCurrentMonth(today.getMonth());
+      setCurrentYear(today.getFullYear());
     }
   }
 
@@ -238,7 +243,7 @@ function BookingTimeline3() {
   ]);
 
   return (
-    <div>
+    <div className="rounded-lg overflow-hidden">
       <div className="relative lg:w-[72vw] flex shadow-xl overflow-x-auto max-w-[100%] bg-background_secondary">
         {/* label-bar */}
         {isLoadingBookings && isLoadingCabins && (
@@ -252,26 +257,32 @@ function BookingTimeline3() {
 
         <div
           className="bg-background_secondary h-full z-10"
-          style={{ width: `${180}px` }}
+          style={{ width: `${labelWidth}px` }}
         >
           {/* controls*/}
           <div className="h-[100px] flex flex-col justify-center items-center bg-active ">
-            <div className="flex flex-col justify-between h-[55px]">
+            <div className="flex flex-col justify-between h-[60px]">
               <div className="font-semibold text-center">
                 {new Date().toLocaleDateString("de-DE")}
               </div>
               <div className="flex justify-between w-[100px]">
                 <div
-                  className="flex justify-center items-center w-10 pb-[2px] border-b-2 border-text cursor-pointer hover:text-background_secondary transition-all hover:border-background_secondary"
+                  className="flex justify-center items-center w-10 pb-[2px] cursor-pointer hover:text-background_secondary transition-all"
                   onClick={() => loadCalendar("left")}
                 >
-                  <IoIosArrowDropleftCircle className="w-6 h-6" />
+                  <IoIosArrowDropleftCircle className="w-7 h-7" />
                 </div>
                 <div
-                  className="flex justify-center items-center w-10 border-b-2 border-text cursor-pointer hover:text-background_secondary transition-all hover:border-background_secondary"
+                  className="flex justify-center items-center w-10 cursor-pointer hover:text-background_secondary transition-all"
+                  onClick={() => loadCalendar("now")}
+                >
+                  <BsClockFill className="w-8 h-8" />
+                </div>
+                <div
+                  className="flex justify-center items-center w-10 cursor-pointer hover:text-background_secondary transition-all"
                   onClick={() => loadCalendar("right")}
                 >
-                  <IoIosArrowDroprightCircle className="w-6 h-6" />
+                  <IoIosArrowDroprightCircle className="w-7 h-7" />
                 </div>
               </div>
             </div>
@@ -429,23 +440,23 @@ function BookingTimeline3() {
       {/* caption */}
       <div className="flex flex-wrap gap-3 mt-2 md:ml-[155px] text-sm">
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-status_gray"></div>
+          <div className="w-4 h-4 bg-status_gray rounded-full"></div>
           <span>Ausgecheckt</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-status_blue"></div>
+          <div className="w-4 h-4 bg-status_blue rounded-full"></div>
           <span>Eingecheckt</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-status_green"></div>
+          <div className="w-4 h-4 bg-status_green rounded-full"></div>
           <span>Anreisetag</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-status_red"></div>
+          <div className="w-4 h-4 bg-status_red rounded-full"></div>
           <span>Abreisetag</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-4 h-4 bg-status_orange"></div>
+          <div className="w-4 h-4 bg-status_orange rounded-full"></div>
           <span>Ausstehend</span>
         </div>
       </div>
