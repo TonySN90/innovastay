@@ -238,188 +238,215 @@ function BookingTimeline3() {
   ]);
 
   return (
-    <div className="relative lg:w-[72vw] flex shadow-xl overflow-x-auto max-w-[100%] bg-background_secondary">
-      {/* label-bar */}
-      {isLoadingBookings && isLoadingCabins && (
-        <div className="bg-status_red px-4 py-2 absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-20 flex gap-2 rounded-lg">
-          <span>Buchungen laden</span>
-          <div>
-            <CgSpinnerTwoAlt className="animate-spin text-2xl text-text" />
-          </div>
-        </div>
-      )}
-
-      <div
-        className="bg-background_secondary h-full z-10"
-        style={{ width: `${labelWidth}px` }}
-      >
-        {/* controls*/}
-        <div className="h-[100px] flex flex-col justify-center items-center bg-active ">
-          <div className="flex flex-col justify-between h-[55px]">
-            <div className="font-semibold text-center">
-              {new Date().toLocaleDateString("de-DE")}
-            </div>
-            <div className="flex justify-between w-[100px]">
-              <div
-                className="flex justify-center items-center w-10 pb-[2px] border-b-2 border-text cursor-pointer hover:text-background_secondary transition-all hover:border-background_secondary"
-                onClick={() => loadCalendar("left")}
-              >
-                <IoIosArrowDropleftCircle className="w-6 h-6" />
-              </div>
-              <div
-                className="flex justify-center items-center w-10 border-b-2 border-text cursor-pointer hover:text-background_secondary transition-all hover:border-background_secondary"
-                onClick={() => loadCalendar("right")}
-              >
-                <IoIosArrowDroprightCircle className="w-6 h-6" />
-              </div>
+    <div>
+      <div className="relative lg:w-[72vw] flex shadow-xl overflow-x-auto max-w-[100%] bg-background_secondary">
+        {/* label-bar */}
+        {isLoadingBookings && isLoadingCabins && (
+          <div className="bg-status_red px-4 py-2 absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-20 flex gap-2 rounded-lg">
+            <span>Buchungen laden</span>
+            <div>
+              <CgSpinnerTwoAlt className="animate-spin text-2xl text-text" />
             </div>
           </div>
-        </div>
+        )}
 
-        {/* labels */}
-        {isLoadingCabins ? (
-          <>
-            {[...Array(3)].map((_, index) => (
-              <div
-                key={index}
-                className="relative first-line:flex justify-center bg-background_primary items-center gap-1 border-r-4 border-active"
-                style={{ height: `${rowHeight}px` }}
-              >
-                <MiniSpinner />
+        <div
+          className="bg-background_secondary h-full z-10"
+          style={{ width: `${180}px` }}
+        >
+          {/* controls*/}
+          <div className="h-[100px] flex flex-col justify-center items-center bg-active ">
+            <div className="flex flex-col justify-between h-[55px]">
+              <div className="font-semibold text-center">
+                {new Date().toLocaleDateString("de-DE")}
               </div>
-            ))}
-          </>
-        ) : (
-          cabins.map((cabin) => {
-            return (
-              <div>
+              <div className="flex justify-between w-[100px]">
                 <div
-                  className=" flex items-center gap-1 ml-2 border-r-4 border-active"
-                  style={{ height: `${rowHeight}px` }}
+                  className="flex justify-center items-center w-10 pb-[2px] border-b-2 border-text cursor-pointer hover:text-background_secondary transition-all hover:border-background_secondary"
+                  onClick={() => loadCalendar("left")}
                 >
-                  <div className="flex justify-center items-center">
-                    <img className="h-8 w-8 rounded-full" src={cabin.image} />
-                  </div>
-                  <div className="flex flex-col text-xs">
-                    <span>{cabin.name}</span>
-                    <span>{cabin.category}</span>
-                  </div>
+                  <IoIosArrowDropleftCircle className="w-6 h-6" />
+                </div>
+                <div
+                  className="flex justify-center items-center w-10 border-b-2 border-text cursor-pointer hover:text-background_secondary transition-all hover:border-background_secondary"
+                  onClick={() => loadCalendar("right")}
+                >
+                  <IoIosArrowDroprightCircle className="w-6 h-6" />
                 </div>
               </div>
-            );
-          })
-        )}
-      </div>
-
-      {/* canvas */}
-
-      <div
-        className="h-full w-full overflow-x-scroll relative"
-        style={{
-          scrollbarColor: "var(--active) var(--background-primary)",
-          scrollSnapType: "x mandatory",
-        }}
-        onScroll={handleScroll}
-      >
-        <div
-          className="relative h-full bg-background_secondary overflow-hidden"
-          style={{ width: `${monthWidth}px` }}
-        >
-          {/* Month-Row */}
-          <div className="flex">
-            {monthsToShow.map((month) => (
-              <div
-                className={`bg-active flex justify-center items-center font-semibold border-r border-border`}
-                style={{
-                  height: `${50}px`,
-                  width: `${getMonthWidth(month.daysInMonth)}px`,
-                }}
-              >
-                <span>{month.monthName + " " + month.year}</span>
-              </div>
-            ))}
-          </div>
-          {/* Days */}
-
-          <div className="w-full flex border-l border-border">
-            {monthsToShow.map((month) =>
-              month.days.map((day) => (
-                <>
-                  <div
-                    key={`${day}-${month.month}-${month.year}`}
-                    id={`${day}-${month.month}-${month.year}`}
-                    ref={checkIfToday(month, day) ? todayElement : null}
-                    className={`flex border-r border-border ${day}-${
-                      month.month
-                    }-${month.year} ${
-                      checkIfToday(month, day) ? "bg-active today" : ""
-                    } ${checkIfWeekend(day) ? "bg-timetable_weekend_bg" : ""}`}
-                    style={{
-                      width: `${colWidth}px`,
-                    }}
-                  >
-                    <div className="justify-center items-center w-full">
-                      <div
-                        className="flex flex-col justify-center items-center border-b border-border"
-                        style={{
-                          height: `${dayHight}px`,
-                          width: `${colWidth}px`,
-                        }}
-                      >
-                        <span className="font-semibold text-sm">
-                          {month.weekdays[day - 1]}
-                        </span>
-                        <span className="text-sm">{day}</span>
-                      </div>
-
-                      {cabins.map(() => (
-                        <div
-                          // key={data.id}
-                          className={`w-full border-t border-border`}
-                          style={{
-                            height: `${rowHeight}px`,
-                            width: `${colWidth}px`,
-                          }}
-                        ></div>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              ))
-            )}
-            {/* Bookings */}
-            <div className="overflow-hidden">
-              {isLoadingCabins && isLoadingBookings
-                ? null
-                : bookings.map((booking) => (
-                    <div
-                      className={`transition-all duration-500 absolute top-[110px] h-10 rounded-full ${getDateColor(
-                        booking.startDate,
-                        booking.endDate,
-                        today
-                      )} shadow-md flex items-center truncate cursor-pointer hover:bg-rose-400`}
-                      style={{
-                        left: `${calcBookingPositionX(
-                          new Date(booking.startDate)
-                        )}px`,
-                        top: `${calcBookingPositionY(booking.cabins.id)}px`,
-                        width: `${calcBookingWidth(
-                          new Date(booking.startDate),
-                          new Date(booking.endDate)
-                        )}px`,
-                      }}
-                      key={booking.id}
-                      onClick={() => console.log(booking.id)}
-                    >
-                      <span className="text-xs px-2 font-semibold">
-                        <div>
-                          <span>{`${booking.guests.fullName} | ${booking.numGuests} P`}</span>
-                        </div>
-                      </span>
-                    </div>
-                  ))}
             </div>
           </div>
+
+          {/* labels */}
+          {isLoadingCabins ? (
+            <>
+              {[...Array(3)].map((_, index) => (
+                <div
+                  key={index}
+                  className="relative first-line:flex justify-center bg-background_primary items-center gap-1 border-r-4 border-active"
+                  style={{ height: `${rowHeight}px` }}
+                >
+                  <MiniSpinner />
+                </div>
+              ))}
+            </>
+          ) : (
+            cabins.map((cabin) => {
+              return (
+                <div>
+                  <div
+                    className=" flex items-center gap-1 ml-2 border-r-4 border-active"
+                    style={{ height: `${rowHeight}px` }}
+                  >
+                    <div className="flex justify-center items-center">
+                      <img className="h-8 w-8 rounded-full" src={cabin.image} />
+                    </div>
+                    <div className="flex flex-col text-xs">
+                      <span>{cabin.name}</span>
+                      <span>{cabin.category}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* canvas */}
+
+        <div
+          className="h-full w-full overflow-x-scroll relative"
+          style={{
+            scrollbarColor: "var(--active) var(--background-primary)",
+            scrollSnapType: "x mandatory",
+          }}
+          onScroll={handleScroll}
+        >
+          <div
+            className="relative h-full bg-background_secondary overflow-hidden"
+            style={{ width: `${monthWidth}px` }}
+          >
+            {/* Month-Row */}
+            <div className="flex">
+              {monthsToShow.map((month) => (
+                <div
+                  className={`bg-active flex justify-center items-center font-semibold border-r border-border`}
+                  style={{
+                    height: `${50}px`,
+                    width: `${getMonthWidth(month.daysInMonth)}px`,
+                  }}
+                >
+                  <span>{month.monthName + " " + month.year}</span>
+                </div>
+              ))}
+            </div>
+            {/* Days */}
+
+            <div className="w-full flex border-l border-border">
+              {monthsToShow.map((month) =>
+                month.days.map((day) => (
+                  <>
+                    <div
+                      key={`${day}-${month.month}-${month.year}`}
+                      id={`${day}-${month.month}-${month.year}`}
+                      ref={checkIfToday(month, day) ? todayElement : null}
+                      className={`flex border-r border-border ${day}-${
+                        month.month
+                      }-${month.year} ${
+                        checkIfToday(month, day) ? "bg-active today" : ""
+                      } ${
+                        checkIfWeekend(day) ? "bg-timetable_weekend_bg" : ""
+                      }`}
+                      style={{
+                        width: `${colWidth}px`,
+                      }}
+                    >
+                      <div className="justify-center items-center w-full">
+                        <div
+                          className="flex flex-col justify-center items-center border-b border-border"
+                          style={{
+                            height: `${dayHight}px`,
+                            width: `${colWidth}px`,
+                          }}
+                        >
+                          <span className="font-semibold text-sm">
+                            {month.weekdays[day - 1]}
+                          </span>
+                          <span className="text-sm">{day}</span>
+                        </div>
+
+                        {cabins.map(() => (
+                          <div
+                            // key={data.id}
+                            className={`w-full border-t border-border`}
+                            style={{
+                              height: `${rowHeight}px`,
+                              width: `${colWidth}px`,
+                            }}
+                          ></div>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                ))
+              )}
+              {/* Bookings */}
+              <div className="overflow-hidden">
+                {isLoadingCabins && isLoadingBookings
+                  ? null
+                  : bookings.map((booking) => (
+                      <div
+                        className={`transition-all duration-500 absolute top-[110px] h-10 rounded-full ${getDateColor(
+                          booking.startDate,
+                          booking.endDate,
+                          today
+                        )} shadow-md flex items-center truncate cursor-pointer hover:bg-rose-400`}
+                        style={{
+                          left: `${calcBookingPositionX(
+                            new Date(booking.startDate)
+                          )}px`,
+                          top: `${calcBookingPositionY(booking.cabins.id)}px`,
+                          width: `${calcBookingWidth(
+                            new Date(booking.startDate),
+                            new Date(booking.endDate)
+                          )}px`,
+                        }}
+                        key={booking.id}
+                        onClick={() => console.log(booking.id)}
+                      >
+                        <span className="text-xs px-2 font-semibold">
+                          <div>
+                            <span>{`${booking.guests.fullName} | ${booking.numGuests} P`}</span>
+                          </div>
+                        </span>
+                      </div>
+                    ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* caption */}
+      <div className="flex flex-wrap gap-3 mt-2 md:ml-[155px] text-sm">
+        <div className="flex items-center gap-1">
+          <div className="w-4 h-4 bg-status_gray"></div>
+          <span>Ausgecheckt</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="w-4 h-4 bg-status_blue"></div>
+          <span>Eingecheckt</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="w-4 h-4 bg-status_green"></div>
+          <span>Anreisetag</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="w-4 h-4 bg-status_red"></div>
+          <span>Abreisetag</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="w-4 h-4 bg-status_orange"></div>
+          <span>Ausstehend</span>
         </div>
       </div>
     </div>
