@@ -23,8 +23,8 @@ export const fetchBookings = createAsyncThunk(
   async (
     filterSortOptions?: {
       filter: IFilterTypes | null;
-      sortBy: ISortTypes;
-      page: number | null;
+      sortBy?: ISortTypes;
+      page?: number | null;
     },
     // @ts-expect-error getState may not be used after optional argument
     { getState, dispatch }

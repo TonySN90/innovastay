@@ -51,7 +51,7 @@
   --active: var(--color-indigo-300);
 
   --status-green: #bbf7d0;
-  --status-yellow: #fef9c3;
+  --status-orange: #fef3c7;
   --status-red: #fecdd3;
   --status-blue: #c7d2fe;
   --status-gray: #e5e7eb;
@@ -72,7 +72,7 @@
   --color-dark_3: #223047;
 
   --status-green: #10b981;
-  --status-yellow: #fcd34d;
+  --status-orange: #f59e0b;
   --status-red: #f43f5d;
   --status-blue: #6366f1;
   --status-gray: #4b5563;

@@ -188,6 +188,32 @@ function BookingTimeline3() {
     return numNights * colWidth;
   }
 
+  function getDateColor(startDate: string, endDate: string, today: Date) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const now = new Date(today);
+
+    if (
+      isNaN(start.getTime()) ||
+      isNaN(end.getTime()) ||
+      isNaN(now.getTime())
+    ) {
+      return "bg-status_gray";
+    }
+
+    if (start.toDateString() === now.toDateString()) {
+      return "bg-status_green";
+    } else if (end.toDateString() === now.toDateString()) {
+      return "bg-status_red";
+    } else if (start < now && end > now) {
+      return "bg-status_blue";
+    } else if (start > now) {
+      return "bg-status_orange";
+    } else {
+      return "bg-status_gray";
+    }
+  }
+
   useEffect(() => {
     searchParams.set(
       "filterDate",
@@ -214,7 +240,6 @@ function BookingTimeline3() {
   return (
     <div className="relative lg:w-[72vw] flex shadow-xl overflow-x-auto max-w-[100%] bg-background_secondary">
       {/* label-bar */}
-
       {isLoadingBookings && isLoadingCabins && (
         <div className="bg-status_red px-4 py-2 absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-20 flex gap-2 rounded-lg">
           <span>Buchungen laden</span>
@@ -228,7 +253,7 @@ function BookingTimeline3() {
         className="bg-background_secondary h-full z-10"
         style={{ width: `${labelWidth}px` }}
       >
-        {/* logo */}
+        {/* controls*/}
         <div className="h-[100px] flex flex-col justify-center items-center bg-active ">
           <div className="flex flex-col justify-between h-[55px]">
             <div className="font-semibold text-center">
@@ -368,7 +393,11 @@ function BookingTimeline3() {
                 ? null
                 : bookings.map((booking) => (
                     <div
-                      className={`transition-all duration-500 absolute top-[110px] h-10 rounded-full bg-status_red shadow-md flex items-center truncate`}
+                      className={`transition-all duration-500 absolute top-[110px] h-10 rounded-full ${getDateColor(
+                        booking.startDate,
+                        booking.endDate,
+                        today
+                      )} shadow-md flex items-center truncate cursor-pointer hover:bg-rose-400`}
                       style={{
                         left: `${calcBookingPositionX(
                           new Date(booking.startDate)
@@ -380,6 +409,7 @@ function BookingTimeline3() {
                         )}px`,
                       }}
                       key={booking.id}
+                      onClick={() => console.log(booking.id)}
                     >
                       <span className="text-xs px-2 font-semibold">
                         <div>

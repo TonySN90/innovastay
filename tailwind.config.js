@@ -20,7 +20,7 @@ export default {
         filterButtons_border: "var(--filterButtons-border)",
         active: "var(--active)",
         status_green: "var(--status-green)",
-        status_yellow: "var(--status-yellow)",
+        status_orange: "var(--status-orange)",
         status_red: "var(--status-red)",
         status_blue: "var(--status-blue)",
         status_gray: "var(--status-gray)",
