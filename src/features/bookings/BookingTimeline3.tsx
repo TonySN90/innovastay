@@ -1,16 +1,20 @@
 import { useEffect, useRef, useState } from "react";
-import Logo from "../../ui/Logo";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import useBookings from "./useBookings";
 import { CgSpinnerTwoAlt } from "react-icons/cg";
 import MiniSpinner from "../../ui/MiniSpinner";
 import useCabins from "../cabins/useCabins";
 import { useSearchParams } from "react-router-dom";
+import {
+  IoIosArrowDropleftCircle,
+  IoIosArrowDroprightCircle,
+} from "react-icons/io";
 
 function BookingTimeline3() {
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
+  const [pageLoaded, setPageLoaded] = useState(false);
   const todayElement = useRef<HTMLDivElement>(null);
 
   const { bookings, loadingStatus: bookingsLoading } = useBookings();
@@ -191,13 +195,21 @@ function BookingTimeline3() {
     );
     setSearchParams(searchParams.toString());
 
-    if (todayElement.current) {
+    if (todayElement.current && !pageLoaded) {
       todayElement.current.scrollIntoView({
         inline: "center",
         block: "start",
       });
+      setPageLoaded(true);
     }
-  }, [todayElement, searchParams, setSearchParams, currentYear, currentMonth]);
+  }, [
+    todayElement,
+    searchParams,
+    setSearchParams,
+    currentYear,
+    currentMonth,
+    pageLoaded,
+  ]);
 
   return (
     <div className="relative lg:w-[72vw] flex shadow-xl overflow-x-auto max-w-[100%] bg-background_secondary">
@@ -217,9 +229,25 @@ function BookingTimeline3() {
         style={{ width: `${labelWidth}px` }}
       >
         {/* logo */}
-        <div className="h-[100px] flex justify-center items-center bg-active ">
-          <div className="w-[80px]">
-            <Logo />
+        <div className="h-[100px] flex flex-col justify-center items-center bg-active ">
+          <div className="flex flex-col justify-between h-[55px]">
+            <div className="font-semibold text-center">
+              {new Date().toLocaleDateString("de-DE")}
+            </div>
+            <div className="flex justify-between w-[100px]">
+              <div
+                className="flex justify-center items-center w-10 pb-[2px] border-b-2 border-text cursor-pointer hover:text-background_secondary transition-all hover:border-background_secondary"
+                onClick={() => loadCalendar("left")}
+              >
+                <IoIosArrowDropleftCircle className="w-6 h-6" />
+              </div>
+              <div
+                className="flex justify-center items-center w-10 border-b-2 border-text cursor-pointer hover:text-background_secondary transition-all hover:border-background_secondary"
+                onClick={() => loadCalendar("right")}
+              >
+                <IoIosArrowDroprightCircle className="w-6 h-6" />
+              </div>
+            </div>
           </div>
         </div>
 
