@@ -75,12 +75,6 @@ function BookingTimeline3() {
     });
   }
 
-  const firstDayOfMonth = new Date(
-    monthsToShow[0].year,
-    monthsToShow[0].month - 1,
-    1
-  );
-
   // constants
   const rowHeight = 70;
   const colWidth = 60;
@@ -117,12 +111,15 @@ function BookingTimeline3() {
       setCurrentMonth(today.getMonth());
       setCurrentYear(today.getFullYear());
 
-      if (todayElement.current) {
-        todayElement.current.scrollIntoView({
-          inline: "center",
-          block: "start",
-        });
-      }
+      setTimeout(() => {
+        if (todayElement.current) {
+          todayElement.current.scrollIntoView({
+            inline: "center",
+            block: "start",
+            behavior: "smooth",
+          });
+        }
+      }, 800);
     }
   }
 
@@ -139,18 +136,13 @@ function BookingTimeline3() {
       day
     ).toLocaleString("de-DE", { weekday: "short" });
 
-    console.log(
-      weekDay === "Sa" || weekDay === "So",
-      day,
-      months.month,
-      weekDay,
-      months
-    );
-
     return weekDay === "Sa" || weekDay === "So";
   }
 
-  function getDayColor(day: number, months: { month: number }) {
+  function getDayColor(
+    day: number,
+    months: { month: number; firstDayOfMonth: Date }
+  ) {
     if (checkIfToday(months, day)) {
       return "bg-active";
     }

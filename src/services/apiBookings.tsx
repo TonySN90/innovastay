@@ -24,9 +24,7 @@ export async function getBookings(
 
   // Filter
   if (filter) {
-    const { field, field2, value, value2, operator } = filter;
-
-    console.log({ field, field2, value, value2, operator });
+    const { field, value, operator } = filter;
 
     if (operator === "eq") query = query.eq(field, value);
     if (operator === "ilike") query = query.ilike(field, `%${value}%`);
@@ -58,8 +56,6 @@ export async function getBookings(
       `Buchungen konnten nicht geladen werden ${error.message}: ${error.details}`
     );
   }
-
-  console.log({ bookings, count });
 
   return { bookings, count };
 }
