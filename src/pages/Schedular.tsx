@@ -5,9 +5,9 @@ function Schedular() {
   return (
     <>
       <Heading title="Buchungskalender" size="text-3xl" />
-      {/* <Hint> */}
-      <BookingTimeline />
-      {/* </Hint> */}
+      <Hint>
+        <BookingTimeline />
+      </Hint>
     </>
   );
 }

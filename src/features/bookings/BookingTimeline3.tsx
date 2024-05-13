@@ -96,16 +96,6 @@ function BookingTimeline3() {
     monthWidth += month.daysInMonth * colWidth;
   });
 
-  function checkIfWeekend(day: number) {
-    const weekDay = new Date(
-      firstDayOfMonth.getFullYear(),
-      firstDayOfMonth.getMonth(),
-      day
-    ).toLocaleString("de-DE", { weekday: "short" });
-
-    return weekDay === "Sa" || weekDay === "So";
-  }
-
   function loadCalendar(direction: "left" | "right" | "now") {
     if (direction === "left") {
       if (currentMonth === 1) {
@@ -126,6 +116,13 @@ function BookingTimeline3() {
     if (direction === "now") {
       setCurrentMonth(today.getMonth());
       setCurrentYear(today.getFullYear());
+
+      if (todayElement.current) {
+        todayElement.current.scrollIntoView({
+          inline: "center",
+          block: "start",
+        });
+      }
     }
   }
 
@@ -133,6 +130,33 @@ function BookingTimeline3() {
     const currentMonth = today.getMonth() + 1;
     const currentDay = today.getDate();
     return months.month === currentMonth && day === currentDay;
+  }
+
+  function checkIfWeekend(months: { firstDayOfMonth: Date }, day: number) {
+    const weekDay = new Date(
+      months.firstDayOfMonth.getFullYear(),
+      months.firstDayOfMonth.getMonth(),
+      day
+    ).toLocaleString("de-DE", { weekday: "short" });
+
+    console.log(
+      weekDay === "Sa" || weekDay === "So",
+      day,
+      months.month,
+      weekDay,
+      months
+    );
+
+    return weekDay === "Sa" || weekDay === "So";
+  }
+
+  function getDayColor(day: number, months: { month: number }) {
+    if (checkIfToday(months, day)) {
+      return "bg-active";
+    }
+    if (checkIfWeekend(months, day)) {
+      return "bg-timetable_weekend_bg";
+    }
   }
 
   function getMonthWidth(daysPerMonth: number) {
@@ -304,7 +328,7 @@ function BookingTimeline3() {
           ) : (
             cabins.map((cabin) => {
               return (
-                <div>
+                <div key={cabin.id}>
                   <div
                     className=" flex items-center gap-1 ml-2 border-r-4 border-active"
                     style={{ height: `${rowHeight}px` }}
@@ -341,6 +365,7 @@ function BookingTimeline3() {
             <div className="flex">
               {monthsToShow.map((month) => (
                 <div
+                  key={month.month + month.year}
                   className={`bg-active flex justify-center items-center font-semibold border-r border-border`}
                   style={{
                     height: `${50}px`,
@@ -356,49 +381,44 @@ function BookingTimeline3() {
             <div className="w-full flex border-l border-border">
               {monthsToShow.map((month) =>
                 month.days.map((day) => (
-                  <>
-                    <div
-                      key={`${day}-${month.month}-${month.year}`}
-                      id={`${day}-${month.month}-${month.year}`}
-                      ref={checkIfToday(month, day) ? todayElement : null}
-                      className={`flex border-r border-border ${day}-${
-                        month.month
-                      }-${month.year} ${
-                        checkIfToday(month, day) ? "bg-active today" : ""
-                      } ${
-                        checkIfWeekend(day) ? "bg-timetable_weekend_bg" : ""
-                      }`}
-                      style={{
-                        width: `${colWidth}px`,
-                      }}
-                    >
-                      <div className="justify-center items-center w-full">
+                  // console.log(month, day),
+                  <div
+                    key={`${day}-${month.month}-${month.year}`}
+                    // id={`${day}-${month.month}-${month.year}`}
+                    ref={checkIfToday(month, day) ? todayElement : null}
+                    className={`flex border-r border-border ${day}-${
+                      month.month
+                    }-${month.year} ${getDayColor(day, month)}`}
+                    style={{
+                      width: `${colWidth}px`,
+                    }}
+                  >
+                    <div className="justify-center items-center w-full">
+                      <div
+                        className="flex flex-col justify-center items-center border-b border-border"
+                        style={{
+                          height: `${dayHight}px`,
+                          width: `${colWidth}px`,
+                        }}
+                      >
+                        <span className="font-semibold text-sm">
+                          {month.weekdays[day - 1]}
+                        </span>
+                        <span className="text-sm">{day}</span>
+                      </div>
+
+                      {cabins.map((data) => (
                         <div
-                          className="flex flex-col justify-center items-center border-b border-border"
+                          key={data.id}
+                          className={`w-full border-t border-border`}
                           style={{
-                            height: `${dayHight}px`,
+                            height: `${rowHeight}px`,
                             width: `${colWidth}px`,
                           }}
-                        >
-                          <span className="font-semibold text-sm">
-                            {month.weekdays[day - 1]}
-                          </span>
-                          <span className="text-sm">{day}</span>
-                        </div>
-
-                        {cabins.map(() => (
-                          <div
-                            // key={data.id}
-                            className={`w-full border-t border-border`}
-                            style={{
-                              height: `${rowHeight}px`,
-                              width: `${colWidth}px`,
-                            }}
-                          ></div>
-                        ))}
-                      </div>
+                        ></div>
+                      ))}
                     </div>
-                  </>
+                  </div>
                 ))
               )}
               {/* Bookings */}
@@ -407,6 +427,7 @@ function BookingTimeline3() {
                   ? null
                   : bookings.map((booking) => (
                       <div
+                        key={booking.id}
                         className={`transition-all duration-500 absolute top-[110px] h-10 rounded-full ${getDateColor(
                           booking.startDate,
                           booking.endDate,
@@ -422,7 +443,6 @@ function BookingTimeline3() {
                             new Date(booking.endDate)
                           )}px`,
                         }}
-                        key={booking.id}
                         onClick={() => console.log(booking.id)}
                       >
                         <span className="text-xs px-2 font-semibold">
