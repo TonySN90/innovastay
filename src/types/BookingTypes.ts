@@ -1,5 +1,5 @@
 export interface IBookingTypes {
-  cabins: { name: string; category: string; image: string; id: string };
+  cabins: { name: string; category: string; image: string; id: number };
   cabin: {
     id: number;
     cabinName: string;
@@ -74,7 +74,7 @@ export interface ITotalsBoxProps {
     name: string;
     category: string;
     image: string;
-    id: string;
+    id: number;
   };
   numNights: number;
   pricePerNight: number;

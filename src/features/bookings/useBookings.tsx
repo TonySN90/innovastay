@@ -66,8 +66,6 @@ function useBookings() {
     if (pathName === "/bookings")
       dispatch(fetchBookings({ filter, sortBy, page }));
     if (pathName === "/schedular") dispatch(fetchBookings({ filter }));
-
-    console.log(filter, sortBy, page);
   }, [dispatch, searchParams, pathName]);
 
   function convertData() {

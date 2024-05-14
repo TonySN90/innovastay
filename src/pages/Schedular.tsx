@@ -1,4 +1,4 @@
-import BookingTimeline from "../features/bookings/BookingTimeline3";
+import TimelineContextProvider from "../features/bookings/BookingTimeline";
 import Heading from "../ui/Heading";
 
 function Schedular() {
@@ -6,7 +6,8 @@ function Schedular() {
     <>
       <Heading title="Buchungskalender" size="text-3xl" />
       <Hint>
-        <BookingTimeline />
+        {/* <BookingTimeline /> */}
+        <TimelineContextProvider />
       </Hint>
     </>
   );
