@@ -89,7 +89,7 @@ function RowInfoText({ info }: { info: string }) {
   return <p className="text-sm flex items-center italic ">{info}</p>;
 }
 
-function RowButton({
+export function RowButton({
   children,
   backgroundColor,
   onClick,

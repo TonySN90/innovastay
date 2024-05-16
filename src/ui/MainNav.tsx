@@ -28,16 +28,16 @@ function MainNav() {
           </NavLink>
         </li>
         <hr className="mb-3 border-border" />
-        <li className={`${listElStyles}`}>
-          <NavLink className="flex py-3" to="/bookings">
-            <HiMiniListBullet className={iconStyles} />
-            <span>Buchungen</span>
-          </NavLink>
-        </li>
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/schedular">
             <HiOutlineCalendarDays className={iconStyles} />
             <span>Buchungskalender</span>
+          </NavLink>
+        </li>
+        <li className={`${listElStyles}`}>
+          <NavLink className="flex py-3" to="/bookings">
+            <HiMiniListBullet className={iconStyles} />
+            <span>Buchungen</span>
           </NavLink>
         </li>
         <li className={listElStyles}>

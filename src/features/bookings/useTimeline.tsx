@@ -72,13 +72,15 @@ function useTimeline(): ITimelineContextValue {
   }
 
   // constants
-  const rowHeight = 70;
-  const colWidth = 60;
+  const zoomFactor = 1;
+  const zoom = zoomFactor * 1.5;
+  const colWidth = zoom * 50;
 
+  const rowHeight = 70;
   const dayHeight = 50;
   const labelWidth = 180;
 
-  const booking_offset_left = 30 - colWidth;
+  const booking_offset_left = colWidth / 2 - colWidth;
   const booking_offset_top = 115 - rowHeight;
 
   let monthWidth = 0;

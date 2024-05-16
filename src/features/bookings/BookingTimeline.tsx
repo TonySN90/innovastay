@@ -6,8 +6,16 @@ import {
 } from "react-icons/io";
 import { BsClockFill } from "react-icons/bs";
 import useTimeline from "./useTimeline";
-import { createContext, useContext, ReactNode } from "react";
+import { createContext, useContext, ReactNode, useState, useRef } from "react";
 import { ITimelineContextValue } from "../../types/TimelineTypes";
+import { useNavigate } from "react-router";
+import Modal from "../../ui/Modal";
+import BookingInfoBox from "./bookingInfoBox";
+import { BookingStatusTypes, IBookingTypes } from "../../types/BookingTypes";
+import Button from "../../ui/Button";
+import { TbDoorEnter, TbDoorExit } from "react-icons/tb";
+import { PiInfoBold } from "react-icons/pi";
+import { MdModeEdit } from "react-icons/md";
 
 const TimelineContext = createContext<ITimelineContextValue | undefined>(
   undefined
@@ -293,8 +301,25 @@ function LabelsLoader() {
 }
 
 function Bookings() {
+  const [hidden, setHidden] = useState(0);
+  const [currentId, setCurrentId] = useState(0);
+  const BookingElement = useRef<HTMLDivElement>(null);
+
+  const navigate = useNavigate();
+
   const timelineData = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
+
+  function handleClick(
+    status: string,
+    id: number,
+    today: Date,
+    booking: IBookingTypes
+  ) {
+    if (status === "checkedIn") navigate(`/checkOut/${id}`);
+    if (status === "unconfirmed" && today == new Date(booking.startDate))
+      navigate(`/checkIn/${id}`);
+  }
 
   const {
     isLoadingCabins,
@@ -313,12 +338,13 @@ function Bookings() {
         ? null
         : bookings.map((booking) => (
             <div
+              ref={BookingElement}
               key={booking.id}
-              className={`transition-all duration-500 absolute top-[110px] h-10 rounded-full ${getDateColor(
+              className={`transition-all duration-500 absolute top-[110px] h-10 rounded-full overflow-none ${getDateColor(
                 booking.startDate,
                 booking.endDate,
                 today
-              )} shadow-md flex items-center truncate cursor-pointer hover:bg-rose-400`}
+              )} shadow-md flex items-center cursor-pointer`}
               style={{
                 left: `${calcBookingPositionX(new Date(booking.startDate))}px`,
                 top: `${calcBookingPositionY(booking.cabins.id)}px`,
@@ -327,13 +353,59 @@ function Bookings() {
                   new Date(booking.endDate)
                 )}px`,
               }}
-              onClick={() => console.log(booking.id)}
+              onMouseEnter={() => {
+                {
+                  setHidden(1), setCurrentId(booking.id);
+                }
+              }}
+              onMouseLeave={() => setHidden(0)}
             >
-              <span className="text-xs px-2 font-semibold">
-                <div>
-                  <span>{`${booking.guests.fullName} | ${booking.numGuests} P`}</span>
+              {booking.id === currentId && (
+                <div
+                  style={{ opacity: hidden, zIndex: 1000 }}
+                  className="transition-all text-sm p-1 absolute bottom-0 right-0 bg-timetable_weekend_bg border-2 border-border rounded-full"
+                >
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center justify-center w-7 h-7 bg-status_blue rounded-full">
+                      <PiInfoBold />
+                    </div>
+                    {booking.status === BookingStatusTypes.CHECKEDIN && (
+                      <>
+                        <div className="flex items-center justify-center w-7 h-7 bg-status_red rounded-full">
+                          <TbDoorExit />
+                        </div>
+                        <div className="flex items-center justify-center w-7 h-7 bg-status_orange rounded-full">
+                          <MdModeEdit />
+                        </div>
+                      </>
+                    )}
+                    {booking.status === BookingStatusTypes.UNCONFIRMED && (
+                      <>
+                        <div className="flex items-center justify-center w-7 h-7 bg-status_green rounded-full">
+                          <TbDoorEnter />
+                        </div>
+                        <div className="flex items-center justify-center w-7 h-7 bg-status_orange rounded-full">
+                          <MdModeEdit />
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </span>
+              )}
+
+              <Modal>
+                <Modal.Open opens="view">
+                  <div className="relative flex items-center text-xs px-3 font-semibold h-full w-full">
+                    <div className="truncate">
+                      <span>{`${booking.guests.fullName} | ${booking.numGuests} P`}</span>
+                    </div>
+                  </div>
+                </Modal.Open>
+
+                <Modal.Window name="view">
+                  <BookingInfoBox bookingId={booking.id} />
+                </Modal.Window>
+              </Modal>
             </div>
           ))}
     </div>

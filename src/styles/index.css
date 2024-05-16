@@ -219,3 +219,12 @@ textarea[disabled] {
 .select-container .react-select__option:hover {
   background-color: var(--active);
 }
+
+/* Add this to your CSS file */
+.hover-div {
+  display: none;
+}
+
+div:hover .hover-div {
+  display: block;
+}

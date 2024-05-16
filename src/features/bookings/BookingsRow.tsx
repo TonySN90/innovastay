@@ -27,7 +27,6 @@ function BookingsRow({
     id: bookingId,
   } = bookings;
 
-  const navigate = useNavigate();
   return (
     <tr className="bg-card min-h-16 grid grid-cols-1 md:grid-cols-12 text-left hyphens-manual py-3 px-5 md:px-7 gap-2 rounded-md shadow-lg shadow-shadow my-1.5 hover:bg-background_primary">
       <td className="flex items-center font-semibold ">
@@ -46,8 +45,6 @@ function BookingsRow({
       <td className="flex items-center md:col-span-2">
         {format(new Date(startDate), "dd.MM.yyyy")} -{" "}
         {format(new Date(endDate), "dd.MM.yyyy")}
-        {/* {format(new Date(startDate.split("T")[0]), "dd.MM.yyyy")} -{" "}
-        {format(new Date(endDate.split("T")[0]), "dd.MM.yyyy")} */}
       </td>
       <td className={`flex items-center md:col-span-2`}>
         <div
@@ -92,7 +89,7 @@ function BookingsRow({
         )}
       </td>
       <td className="flex justify-end">
-        <Modal>
+        {/* <Modal>
           <Menu.List id={bookingId}>
             <Modal.Open opens="view">
               <Menu.Item>
@@ -151,10 +148,90 @@ function BookingsRow({
           </Modal.Window>
 
           <Menu.ToggleButton id={bookingId} />
-        </Modal>
+        </Modal> */}
+        <BookingsMenu
+          bookingId={bookingId}
+          status={status}
+          bookings={bookings}
+        />
       </td>
     </tr>
   );
 }
 
 export default BookingsRow;
+
+export function BookingsMenu({
+  bookingId,
+  status,
+  bookings,
+}: {
+  bookingId: number;
+  status: string;
+  bookings: IBookingTypes;
+}) {
+  const navigate = useNavigate();
+
+  return (
+    <Modal>
+      <Menu.List id={bookingId}>
+        <Modal.Open opens="view">
+          <Menu.Item>
+            <PiInfoBold />
+            Details ansehen
+          </Menu.Item>
+        </Modal.Open>
+
+        {status !== BookingStatusTypes.CHECKEDOUT && (
+          <Modal.Open opens="edit">
+            <Menu.Item>
+              <FaRegEdit />
+              Bearbeiten
+            </Menu.Item>
+          </Modal.Open>
+        )}
+
+        {status === BookingStatusTypes.UNCONFIRMED && (
+          <Menu.Item onClick={() => navigate(`/checkin/${bookingId}`)}>
+            <MdOutlineCheckCircleOutline />
+            Einchecken
+          </Menu.Item>
+        )}
+
+        {status === BookingStatusTypes.CHECKEDIN && (
+          <Link to={`/checkout/${bookingId}`}>
+            <Menu.Item>
+              <MdOutlineCheckCircleOutline />
+              Auschecken
+            </Menu.Item>
+          </Link>
+        )}
+
+        <Modal.Open opens="delete">
+          <Menu.Item>
+            <TfiTrash />
+            Löschen
+          </Menu.Item>
+        </Modal.Open>
+      </Menu.List>
+
+      <Modal.Window name="view">
+        <BookingInfoBox bookingId={bookingId} />
+      </Modal.Window>
+
+      <Modal.Window name="edit">
+        <CreateBookingForm bookingToUpdate={bookings} />
+      </Modal.Window>
+
+      <Modal.Window name="delete">
+        <ConfirmDelete
+          booking={bookings}
+          bookingId={bookingId}
+          onCloseModal={() => {}} //Children prop
+        />
+      </Modal.Window>
+
+      <Menu.ToggleButton id={bookingId} />
+    </Modal>
+  );
+}

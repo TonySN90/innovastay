@@ -55,7 +55,7 @@ export interface IBookingToUpdateTypes {
 }
 
 export interface IBookingStateTypes {
-  bookingsView: BookingsViewType;
+  // bookingsView: BookingsViewType;
   uploadingStatus: "idle" | "loading" | "success" | "error";
   deletingStatus: "idle" | "success" | "loading" | "error";
   updatingStatus: "idle" | "success" | "loading" | "error";
@@ -91,7 +91,7 @@ export enum BookingStatusTypes {
   UNCONFIRMED = "unconfirmed",
 }
 
-export enum BookingsViewType {
-  schedule = "schedule",
-  table = "table",
-}
+// export enum BookingsViewType {
+//   schedule = "schedule",
+//   table = "table",
+// }

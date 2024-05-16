@@ -1,9 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  BookingsViewType,
-  IBookingStateTypes,
-  IBookingTypes,
-} from "../../types/BookingTypes";
+import { IBookingStateTypes, IBookingTypes } from "../../types/BookingTypes";
 import {
   createUpdateBooking,
   deleteBooking,
@@ -102,7 +98,6 @@ export const deleteBookingThunk = createAsyncThunk(
 );
 
 const initialState: IBookingStateTypes = {
-  bookingsView: BookingsViewType.table,
   loadingStatus: "idle",
   loadingBookingStatus: "idle",
   uploadingStatus: "idle",
@@ -119,10 +114,6 @@ const bookingsSlice = createSlice({
   name: "bookings",
   initialState,
   reducers: {
-    updateBookingsView: (state, action: PayloadAction<BookingsViewType>) => {
-      state.bookingsView = action.payload;
-    },
-
     resetUploadingStatus: (state) => {
       state.uploadingStatus = "idle";
     },
@@ -207,7 +198,6 @@ const bookingsSlice = createSlice({
 });
 
 export const {
-  updateBookingsView,
   resetUploadingStatus,
   resetDeletingStatus,
   resetUpdatingStatus,
