@@ -31,14 +31,19 @@ function Modal({ children }: { children: React.ReactNode }) {
 function Open({
   children,
   opens: opensWindowName,
+  onClick,
 }: {
   opens: string;
   children: React.ReactNode;
+  onClick?: () => void;
 }) {
   const { open } = useContext(ModalContext) as IModalContextTypes;
 
   return cloneElement(children as React.ReactElement, {
-    onClick: () => open(opensWindowName),
+    onClick: () => {
+      onClick && onClick();
+      open(opensWindowName);
+    },
   });
 }
 
@@ -76,7 +81,7 @@ export default Modal;
 
 function ModalContent({ children }: { children: React.ReactNode }) {
   return (
-    <div className="fixed top-0 left-0 bottom-0 right-0 overflow-auto ">
+    <div className="fixed top-0 left-0 bottom-0 right-0 overflow-auto z-100">
       <div className="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 w-[90vw] sm:w-[80vw] md:w-[760px]">
         <div className="mx-auto p-3 max-h-[95vh] overflow-auto bg-background_secondary border border-border_modal rounded-lg">
           {children}

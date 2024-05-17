@@ -12,10 +12,10 @@ import { useNavigate } from "react-router";
 import Modal from "../../ui/Modal";
 import BookingInfoBox from "./bookingInfoBox";
 import { BookingStatusTypes, IBookingTypes } from "../../types/BookingTypes";
-import Button from "../../ui/Button";
-import { TbDoorEnter, TbDoorExit } from "react-icons/tb";
-import { PiInfoBold } from "react-icons/pi";
+import { TbDoorExit } from "react-icons/tb";
 import { MdModeEdit } from "react-icons/md";
+import CreateBookingForm from "./CreateBookingForm";
+import { PiInfoBold } from "react-icons/pi";
 
 const TimelineContext = createContext<ITimelineContextValue | undefined>(
   undefined
@@ -344,7 +344,7 @@ function Bookings() {
                 booking.startDate,
                 booking.endDate,
                 today
-              )} shadow-md flex items-center cursor-pointer`}
+              )} shadow-md flex items-center`}
               style={{
                 left: `${calcBookingPositionX(new Date(booking.startDate))}px`,
                 top: `${calcBookingPositionY(booking.cabins.id)}px`,
@@ -362,50 +362,59 @@ function Bookings() {
             >
               {booking.id === currentId && (
                 <div
-                  style={{ opacity: hidden, zIndex: 1000 }}
+                  style={{ opacity: hidden, zIndex: 10 }}
                   className="transition-all text-sm p-1 absolute bottom-0 right-0 bg-timetable_weekend_bg border-2 border-border rounded-full"
                 >
-                  <div className="flex flex-col gap-1">
-                    <div className="flex items-center justify-center w-7 h-7 bg-status_blue rounded-full">
-                      <PiInfoBold />
-                    </div>
-                    {booking.status === BookingStatusTypes.CHECKEDIN && (
-                      <>
-                        <div className="flex items-center justify-center w-7 h-7 bg-status_red rounded-full">
+                  <Modal>
+                    <div className="flex flex-col gap-1">
+                      <Modal.Open opens="view">
+                        <div className="flex items-center justify-center w-7 h-7 bg-status_blue rounded-full cursor-pointer">
+                          <PiInfoBold />
+                        </div>
+                      </Modal.Open>
+                      <Modal.Window name="view">
+                        <BookingInfoBox bookingId={booking.id} />
+                      </Modal.Window>
+
+                      {booking.status === BookingStatusTypes.CHECKEDIN && (
+                        <div
+                          onClick={() =>
+                            handleClick(
+                              booking.status,
+                              booking.id,
+                              new Date(booking.startDate),
+                              booking
+                            )
+                          }
+                          className="flex items-center justify-center w-7 h-7 bg-status_red rounded-full cursor-pointer"
+                        >
                           <TbDoorExit />
                         </div>
-                        <div className="flex items-center justify-center w-7 h-7 bg-status_orange rounded-full">
-                          <MdModeEdit />
-                        </div>
-                      </>
-                    )}
-                    {booking.status === BookingStatusTypes.UNCONFIRMED && (
-                      <>
-                        <div className="flex items-center justify-center w-7 h-7 bg-status_green rounded-full">
-                          <TbDoorEnter />
-                        </div>
-                        <div className="flex items-center justify-center w-7 h-7 bg-status_orange rounded-full">
-                          <MdModeEdit />
-                        </div>
-                      </>
-                    )}
-                  </div>
+                      )}
+
+                      {(booking.status === BookingStatusTypes.CHECKEDIN ||
+                        booking.status === BookingStatusTypes.UNCONFIRMED) && (
+                        <>
+                          <Modal.Open opens="edit">
+                            <div className="flex items-center justify-center w-7 h-7 bg-status_orange rounded-full cursor-pointer">
+                              <MdModeEdit />
+                            </div>
+                          </Modal.Open>
+                          <Modal.Window name="edit">
+                            <CreateBookingForm bookingToUpdate={booking} />
+                          </Modal.Window>
+                        </>
+                      )}
+                    </div>
+                  </Modal>
                 </div>
               )}
 
-              <Modal>
-                <Modal.Open opens="view">
-                  <div className="relative flex items-center text-xs px-3 font-semibold h-full w-full">
-                    <div className="truncate">
-                      <span>{`${booking.guests.fullName} | ${booking.numGuests} P`}</span>
-                    </div>
-                  </div>
-                </Modal.Open>
-
-                <Modal.Window name="view">
-                  <BookingInfoBox bookingId={booking.id} />
-                </Modal.Window>
-              </Modal>
+              <div className="relative flex items-center text-xs px-3 font-semibold h-full w-full cursor-pointer">
+                <div className="truncate">
+                  <span>{`${booking.guests.fullName} | ${booking.numGuests} P`}</span>
+                </div>
+              </div>
             </div>
           ))}
     </div>
