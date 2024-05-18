@@ -26,6 +26,8 @@ export interface ITimelineContextValue {
   getDateColor: (startDate: string, endDate: string, today: Date) => string;
   loadCalendar: (direction: "left" | "now" | "right") => void;
   checkIfToday: (month: IMonth, day: number) => boolean;
+  handleZoom: (operation: "in" | "out") => void;
+  zoomLevel: number;
   isLoadingBookings: boolean;
   isLoadingCabins: boolean;
   today: Date;

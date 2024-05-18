@@ -16,6 +16,7 @@ import { TbDoorExit } from "react-icons/tb";
 import { MdModeEdit } from "react-icons/md";
 import CreateBookingForm from "./CreateBookingForm";
 import { PiInfoBold } from "react-icons/pi";
+import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 
 const TimelineContext = createContext<ITimelineContextValue | undefined>(
   undefined
@@ -130,11 +131,11 @@ function Controls() {
   const timelineData = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
 
-  const { loadCalendar } = timelineData;
+  const { loadCalendar, handleZoom, zoomLevel } = timelineData;
 
   return (
     <div className="h-[100px] flex flex-col justify-center items-center bg-active ">
-      <div className="flex flex-col justify-between h-[60px]">
+      <div className="flex flex-col justify-between h-[70px]">
         <div className="font-semibold text-center">
           {new Date().toLocaleDateString("de-DE")}
         </div>
@@ -156,6 +157,20 @@ function Controls() {
             onClick={() => loadCalendar("right")}
           >
             <IoIosArrowDroprightCircle className="w-7 h-7" />
+          </div>
+        </div>
+        <div className="flex justify-between w-[50px] m-auto">
+          <div onClick={() => handleZoom("in")} className="cursor-pointer">
+            <CiCirclePlus
+              className={`w-5 h-5 ${zoomLevel === 2 ? "text-border" : ""}`}
+            />
+          </div>
+          <div onClick={() => handleZoom("out")} className="cursor-pointer">
+            <CiCircleMinus
+              className={`w-5 h-5 hover:bg-text ${
+                zoomLevel === 1 && "text-border"
+              }`}
+            />
           </div>
         </div>
       </div>
@@ -375,6 +390,11 @@ function Bookings() {
                       <Modal.Window name="view">
                         <BookingInfoBox bookingId={booking.id} />
                       </Modal.Window>
+
+                      {/* {checkIfToday(
+                        new Date(booking.startDate).getMonth(),
+                        new Date(booking.startDate).getDate()
+                      ) && <div>test</div>} */}
 
                       {booking.status === BookingStatusTypes.CHECKEDIN && (
                         <div

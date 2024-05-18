@@ -10,6 +10,7 @@ function useTimeline(): ITimelineContextValue {
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [pageLoaded, setPageLoaded] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState(1);
   const todayElement = useRef<HTMLDivElement>(null);
 
   const { bookings, loadingStatus: bookingsLoading } = useBookings();
@@ -72,8 +73,7 @@ function useTimeline(): ITimelineContextValue {
   }
 
   // constants
-  const zoomFactor = 1;
-  const zoom = zoomFactor * 1.5;
+  const zoom = zoomLevel * 1.5;
   const colWidth = zoom * 50;
 
   const rowHeight = 70;
@@ -184,6 +184,20 @@ function useTimeline(): ITimelineContextValue {
     }
   }
 
+  function handleZoom(operation: "in" | "out") {
+    if (operation === "in") {
+      if (zoomLevel === 2) return;
+      setZoomLevel(zoomLevel + 1);
+      loadCalendar("now");
+    }
+
+    if (operation === "out") {
+      if (zoomLevel === 1) return;
+      setZoomLevel(zoomLevel - 1);
+      loadCalendar("now");
+    }
+  }
+
   function calcBookingPositionX(bookingDate: Date) {
     const firstDayDate = new Date(monthsToShow[0].firstDayOfMonth);
     const differenceMilliseconds =
@@ -270,6 +284,8 @@ function useTimeline(): ITimelineContextValue {
     getDateColor,
     loadCalendar,
     checkIfToday,
+    handleZoom,
+    zoomLevel,
     isLoadingBookings,
     isLoadingCabins,
     today,
