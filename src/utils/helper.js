@@ -61,18 +61,23 @@ export function getAllDaysPrice(watchedValues, cabins) {
   return getNumNights(watchedValues) * getPricePerNight(watchedValues, cabins);
 }
 
-export function getExtrasPrice(watchedValues) {
+export function getExtrasPrice(watchedValues, breakfastPrice) {
   if (
     getHasBreakfast(watchedValues) &&
     getNumNights(watchedValues) &&
     +watchedValues.numGuests
   ) {
-    return getNumNights(watchedValues) * 15 * +watchedValues.numGuests;
+    return (
+      getNumNights(watchedValues) * breakfastPrice * +watchedValues.numGuests
+    );
   } else {
     return 0;
   }
 }
 
-export function getTotalPrice(watchedValues, cabins) {
-  return getAllDaysPrice(watchedValues, cabins) + getExtrasPrice(watchedValues);
+export function getTotalPrice(watchedValues, cabins, breakfastPrice) {
+  return (
+    getAllDaysPrice(watchedValues, cabins) +
+    getExtrasPrice(watchedValues, breakfastPrice)
+  );
 }

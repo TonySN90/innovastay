@@ -383,18 +383,21 @@ function Bookings() {
                         <BookingInfoBox bookingId={booking.id} />
                       </Modal.Window>
 
+                      {/* if booking is today and unconf */}
                       {new Date(booking.startDate).toDateString() ===
-                        new Date().toDateString() && (
-                        <div
-                          onClick={() =>
-                            handleClick(booking.status, booking.id)
-                          }
-                          className="flex items-center justify-center w-7 h-7 bg-status_green rounded-full cursor-pointer"
-                        >
-                          <TbDoorEnter />
-                        </div>
-                      )}
+                        new Date().toDateString() &&
+                        booking.status === "unconfirmed" && (
+                          <div
+                            onClick={() =>
+                              handleClick(booking.status, booking.id)
+                            }
+                            className="flex items-center justify-center w-7 h-7 bg-status_green rounded-full cursor-pointer"
+                          >
+                            <TbDoorEnter />
+                          </div>
+                        )}
 
+                      {/* if booking is checkedIn */}
                       {booking.status === BookingStatusTypes.CHECKEDIN && (
                         <div
                           onClick={() =>
@@ -406,6 +409,7 @@ function Bookings() {
                         </div>
                       )}
 
+                      {/* if booking is checkedIn or unconf */}
                       {(booking.status === BookingStatusTypes.CHECKEDIN ||
                         booking.status === BookingStatusTypes.UNCONFIRMED) && (
                         <>

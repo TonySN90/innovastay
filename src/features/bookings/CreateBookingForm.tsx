@@ -31,20 +31,23 @@ import FormRow from "../../ui/FormRow";
 import { Link } from "react-router-dom";
 import { IBookingTypes } from "../../types/BookingTypes";
 import { IGuestTypes } from "../../types/GuestTypes";
+import useSettings from "../settings/useSettings";
 
-interface Props {
+interface IBookingFormProps {
   onCloseModal?: () => void;
   bookingToUpdate: IBookingTypes;
 }
 
-const CreateBookingForm: React.FC<Props> = function ({
+const CreateBookingForm: React.FC<IBookingFormProps> = function ({
   onCloseModal,
   bookingToUpdate,
 }) {
   const { id: updateId } = bookingToUpdate;
 
+  const { settings, loadingStatus: settingsLoadingStatus } = useSettings();
   const { cabins } = useCabins();
   const isUpdatingSession = Boolean(bookingToUpdate && "id" in bookingToUpdate);
+  const isLoading = settingsLoadingStatus === LoadingTypes.LOADING;
 
   const {
     register,
@@ -101,7 +104,7 @@ const CreateBookingForm: React.FC<Props> = function ({
       isPaid: formData.isPaid?.value,
       cabinPrice: getPricePerNight(watchedValues, cabins),
       numNights: getNumNights(watchedValues),
-      extrasPrice: getExtrasPrice(watchedValues),
+      extrasPrice: getExtrasPrice(watchedValues, settings[0].breakfastPrice),
       totalPrice: getTotalPrice(watchedValues, cabins),
     };
 
@@ -311,17 +314,29 @@ const CreateBookingForm: React.FC<Props> = function ({
           />
         </FormRow>
 
-        <TotalsBox
-          numGuests={watchedValues.numGuests}
-          allDaysPrice={getAllDaysPrice(watchedValues, cabins)}
-          extrasPrice={getExtrasPrice(watchedValues)}
-          totalPrice={getTotalPrice(watchedValues, cabins)}
-          numNights={getNumNights(watchedValues)}
-          pricePerNight={getPricePerNight(watchedValues, cabins)}
-          hasBreakfast={getHasBreakfast(watchedValues)}
-          cabin={getCabin(watchedValues, cabins)}
-        />
-        <div className="w-[full] flex md:justify-between  mt-4">
+        {isLoading || settings.length === 0 ? (
+          <div>test</div>
+        ) : (
+          <TotalsBox
+            numGuests={watchedValues.numGuests}
+            allDaysPrice={getAllDaysPrice(watchedValues, cabins)}
+            extrasPrice={getExtrasPrice(
+              watchedValues,
+              settings[0].breakfastPrice
+            )}
+            totalPrice={getTotalPrice(
+              watchedValues,
+              cabins,
+              settings[0].breakfastPrice
+            )}
+            numNights={getNumNights(watchedValues)}
+            pricePerNight={getPricePerNight(watchedValues, cabins)}
+            hasBreakfast={getHasBreakfast(watchedValues)}
+            cabin={getCabin(watchedValues, cabins)}
+          />
+        )}
+
+        <div className="w-[full] flex md:justify-between mt-4">
           <Link
             className="text-sm font-semibold text-indigo-500 hover:text-indigo-300 transition-all flex items-center"
             to="/guests"

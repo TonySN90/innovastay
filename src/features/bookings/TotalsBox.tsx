@@ -22,7 +22,9 @@ function TotalsBox({ cabin, ...props }: ITotalsBoxProps) {
         <p className="flex-1">
           Frühstück:{" "}
           {props.hasBreakfast
-            ? `(${props.numGuests} Person / ${props.numNights} Nächte) à 15 €`
+            ? `(${props.numGuests} Person / ${props.numNights} Nächte) à ${
+                props.extrasPrice / props.numNights / props.numGuests
+              } €`
             : "Nicht erwünscht"}
         </p>
         <p>{props.extrasPrice}.00 €</p>
