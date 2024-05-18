@@ -13,8 +13,6 @@ import { formatDate, formatTime } from "../../utils/datesHelper";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import Empty from "../../ui/Empty";
 import { BookingStatusTypes, IBookingTypes } from "../../types/BookingTypes";
-import Modal from "../../ui/Modal";
-import BookingInfoBox from "../bookings/bookingInfoBox";
 import useCheckInOut from "./useCheckInOut";
 
 function CheckInBooking() {
@@ -199,7 +197,7 @@ function PricesBox({
     <>
       <div
         className={`gap-4 p-6 rounded-md mb-4 ${
-          isPaid ? "bg-status_green" : "bg-status_yellow"
+          isPaid ? "bg-status_green" : "bg-status_orange"
         }`}
       >
         <div className={"md:flex gap-4 text-text"}>
@@ -216,7 +214,7 @@ function PricesBox({
             {!isPaid && <span>Der Betrag ist noch offen.</span>}
           </p>
         </div>
-        <Modal>
+        {/* <Modal>
           <Modal.Open opens="details">
             <p className="  text-indigo-500 text-sm font-semibold pt-5 cursor-pointer hover:text-indigo-400 transition-all">
               Buchungsdetails ansehen
@@ -225,7 +223,7 @@ function PricesBox({
           <Modal.Window name="details">
             <BookingInfoBox bookingId={booking.id} />
           </Modal.Window>
-        </Modal>
+        </Modal> */}
       </div>
 
       {!isPaid && (

@@ -26,7 +26,6 @@ export async function getGuests(
       ascending: sortBy.direction === "asc",
     });
 
-    console.log(page);
   // Page
   if (page) {
     const from = (page - 1) * PAGE_SIZE_GUESTS;
@@ -55,6 +54,7 @@ export async function createUpdateGuest(
   newGuest: IGuestTypes | FormValues,
   guestId?: number
 ) {
+  console.log(newGuest, guestId);
   // Create Query
   // @ts-expect-error type error from supabase
   let query = supabase.from("guests") as PostgrestQueryBuilder<an>;

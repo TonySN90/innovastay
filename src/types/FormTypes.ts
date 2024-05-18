@@ -15,6 +15,7 @@ export interface FormValues {
   email?: string;
   register?: UseFormRegister<FieldValues>;
   nights?: number;
+  minNights?: number;
   guests?: object | null;
   maxGuestsPerBooking?: number;
   breakfastPrice?: number;

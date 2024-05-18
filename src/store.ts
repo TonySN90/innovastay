@@ -5,6 +5,7 @@ import cabinsReducer from "./features/cabins/cabinsSlice";
 import guestsReducer from "./features/guests/guestsSlice";
 import dashboardReducer from "./features/dashboard/dashboardSlice";
 import authReducer from "./features/authentication/authSlice";
+import settingsReducer from "./features/settings/settingsSlice";
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     guests: guestsReducer,
     dashboard: dashboardReducer,
     auth: authReducer,
+    settings: settingsReducer,
   },
 });
 

@@ -29,10 +29,9 @@ function useCabins() {
 
     // Page
     let page;
-    if(pathName === "/bookings") page = null;
-    else page = !searchParams.get("page")
-      ? 1
-      : Number(searchParams.get("page"));
+    if (pathName === "/bookings") page = null;
+    else
+      page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
 
     dispatch(fetchCabins({ filter, sortBy, page }));
   }, [dispatch, searchParams, pathName]);

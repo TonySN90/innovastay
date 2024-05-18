@@ -11,8 +11,8 @@ import { ITimelineContextValue } from "../../types/TimelineTypes";
 import { useNavigate } from "react-router";
 import Modal from "../../ui/Modal";
 import BookingInfoBox from "./bookingInfoBox";
-import { BookingStatusTypes, IBookingTypes } from "../../types/BookingTypes";
-import { TbDoorExit } from "react-icons/tb";
+import { BookingStatusTypes } from "../../types/BookingTypes";
+import { TbDoorEnter, TbDoorExit } from "react-icons/tb";
 import { MdModeEdit } from "react-icons/md";
 import CreateBookingForm from "./CreateBookingForm";
 import { PiInfoBold } from "react-icons/pi";
@@ -167,9 +167,7 @@ function Controls() {
           </div>
           <div onClick={() => handleZoom("out")} className="cursor-pointer">
             <CiCircleMinus
-              className={`w-5 h-5 hover:bg-text ${
-                zoomLevel === 1 && "text-border"
-              }`}
+              className={`w-5 h-5 ${zoomLevel === 1 && "text-border"}`}
             />
           </div>
         </div>
@@ -325,15 +323,9 @@ function Bookings() {
   const timelineData = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
 
-  function handleClick(
-    status: string,
-    id: number,
-    today: Date,
-    booking: IBookingTypes
-  ) {
+  function handleClick(status: string, id: number) {
     if (status === "checkedIn") navigate(`/checkOut/${id}`);
-    if (status === "unconfirmed" && today == new Date(booking.startDate))
-      navigate(`/checkIn/${id}`);
+    if (status === "unconfirmed") navigate(`/checkIn/${id}`);
   }
 
   const {
@@ -391,20 +383,22 @@ function Bookings() {
                         <BookingInfoBox bookingId={booking.id} />
                       </Modal.Window>
 
-                      {/* {checkIfToday(
-                        new Date(booking.startDate).getMonth(),
-                        new Date(booking.startDate).getDate()
-                      ) && <div>test</div>} */}
+                      {new Date(booking.startDate).toDateString() ===
+                        new Date().toDateString() && (
+                        <div
+                          onClick={() =>
+                            handleClick(booking.status, booking.id)
+                          }
+                          className="flex items-center justify-center w-7 h-7 bg-status_green rounded-full cursor-pointer"
+                        >
+                          <TbDoorEnter />
+                        </div>
+                      )}
 
                       {booking.status === BookingStatusTypes.CHECKEDIN && (
                         <div
                           onClick={() =>
-                            handleClick(
-                              booking.status,
-                              booking.id,
-                              new Date(booking.startDate),
-                              booking
-                            )
+                            handleClick(booking.status, booking.id)
                           }
                           className="flex items-center justify-center w-7 h-7 bg-status_red rounded-full cursor-pointer"
                         >
