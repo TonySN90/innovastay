@@ -1,5 +1,3 @@
-import { BookingsViewType } from "./BookingTypes";
-
 export enum LoadingTypes {
   IDLE = "idle",
   LOADING = "loading",
@@ -26,11 +24,6 @@ export type ButtonTypes = {
   inverted: string;
   [key: string]: string;
 };
-
-export interface IToggleButtonsTypes {
-  onClick: (type: BookingsViewType) => void;
-  bookingsView: BookingsViewType;
-}
 
 export interface SelectProps {
   primaryColor: string;

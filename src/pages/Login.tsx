@@ -7,6 +7,11 @@ function Login() {
       <div className="w-[150px] m-auto mb-5">
         <Logo />
       </div>
+      <img
+        className="absolute top-10 left-2 w-[160px] h-[160px]"
+        src="test_me.png"
+        alt=""
+      />
       <LoginHeader />
       <LoginForm />
     </div>
