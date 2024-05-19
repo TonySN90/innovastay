@@ -105,7 +105,11 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
       cabinPrice: getPricePerNight(watchedValues, cabins),
       numNights: getNumNights(watchedValues),
       extrasPrice: getExtrasPrice(watchedValues, settings[0].breakfastPrice),
-      totalPrice: getTotalPrice(watchedValues, cabins),
+      totalPrice: getTotalPrice(
+        watchedValues,
+        cabins,
+        settings[0].breakfastPrice
+      ),
     };
 
     if (isUpdatingSession) {
