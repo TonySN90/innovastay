@@ -13,6 +13,7 @@ import CheckOut from "./pages/CheckOut";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import { DarkModeProvider } from "./contexts/DarkModeContext";
 import Schedular from "./pages/Schedular";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             <Route path="account" element={<Account />} />
           </Route>
           <Route path="login" element={<Login />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </DarkModeProvider>
     </BrowserRouter>

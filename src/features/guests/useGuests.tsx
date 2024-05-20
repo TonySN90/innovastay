@@ -31,12 +31,13 @@ function useGuests() {
 
     // Page
     let page;
-    if(pathName === "/bookings") page = null;
-    else page = !searchParams.get("page")
-      ? 1
-      : Number(searchParams.get("page"));
+    if (pathName === "/bookings") page = null;
+    else
+      page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
 
-    dispatch(fetchGuests({ filter, sortBy, page }));
+    if (pathName === "/bookings")
+      dispatch(fetchGuests({ filter, sortBy, page }));
+    else dispatch(fetchGuests());
   }, [dispatch, searchParams, pathName]);
 
   if (error) {
