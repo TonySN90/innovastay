@@ -42,6 +42,7 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
   onCloseModal,
   bookingToUpdate,
 }) {
+  console.log(error);
   const { id: updateId } = bookingToUpdate;
 
   const { settings, loadingStatus: settingsLoadingStatus } = useSettings();
