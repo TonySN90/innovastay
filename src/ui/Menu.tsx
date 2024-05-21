@@ -33,7 +33,7 @@ function ToggleButton({ id }: { id: number }) {
     const rect = (e.target as Element)
       .closest("button")
       ?.getBoundingClientRect();
-    if (rect) setPosition({ x: rect.x - rect.width - 100, y: rect.y + 45 });
+    if (rect) setPosition({ x: rect.x - rect.width - 120, y: rect.y + 45 });
 
     openId === 0 || openId !== id ? open(id) : close();
   }
@@ -61,7 +61,7 @@ function List({ children, id }: { children: React.ReactNode; id: number }) {
         top: position && position.y,
         left: position && position.x,
       }}
-      className="z-10 bg-menu rounded-lg"
+      className="z-10 bg-menu rounded-lg w-[200px]"
     >
       {children}
     </ul>,

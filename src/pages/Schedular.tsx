@@ -5,7 +5,7 @@ import Heading from "../ui/Heading";
 function Schedular() {
   return (
     <>
-      <Heading title="Buchungskalender" size="text-3xl" />
+      <Heading title="Buchungskalender" size="text-2xl sm:text-3xl" />
       <Hint>
         <TimelineContextProvider />
       </Hint>

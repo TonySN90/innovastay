@@ -7,7 +7,7 @@ function Bookings() {
   return (
     <>
       <div className="md:flex items-center gap-4 mb-4">
-        <Heading title="Buchungsübersicht" size="text-3xl" />
+        <Heading title="Buchungsübersicht" size="text-2xl sm:text-3xl" />
       </div>
       <BookingsFilter />
       <BookingsTable />

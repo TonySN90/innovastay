@@ -18,9 +18,6 @@ function MainNav() {
   return (
     <nav className="m-auto">
       <ul className="px-7">
-        {/* <li className={listElStyles}>
-          <HotelCard />
-        </li> */}
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/dashboard">
             <RxDashboard className={iconStyles} />

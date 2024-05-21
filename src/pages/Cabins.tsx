@@ -6,7 +6,7 @@ import Heading from "../ui/Heading";
 function Cabins() {
   return (
     <>
-      <Heading title="Zimmer" size="text-3xl" />
+      <Heading title="Zimmer" size="2text-xl sm:text-3xl" />
       <CabinsFilter />
       <CabinsTable />
       <AddCabin />
