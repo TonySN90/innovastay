@@ -47,7 +47,7 @@
 
   --hover-sidebar: var(--color-stone-100);
 
-  --filterButtons-border: var(--color-indigo-100);
+  --filter-border: var(--color-indigo-100);
   --active: var(--color-indigo-300);
 
   --status-green: #bbf7d0;
@@ -98,11 +98,11 @@
   --border: #9fa4af6f;
   --border-b: var(--color-dark_3);
   --border-modal: var(--color-indigo-300);
+  --filter-border: var(--color-dark_3);
   --shadow: #0f172a;
 
   --hover-sidebar: var(--color-dark_1);
 
-  --filterButtons-border: var(--color-dark_2);
   --active: var(--color-indigo-600);
 
   --db-infobox: var(--color-dark_3);
@@ -123,7 +123,8 @@
   transition: background-color 0.3s, border 0.3s;
 }
 
-body {
+body,
+html {
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
   background-color: var(--background-primary);
@@ -184,9 +185,17 @@ textarea[disabled] {
 
 .select-container .react-select__control {
   background-color: transparent;
-  border: 1px solid var(--border);
   border-radius: 10px;
+}
+.select-form .react-select__control {
   min-width: 300px;
+  border: 1px solid var(--border);
+}
+
+.select-filterbar .react-select__control {
+  min-width: 230px;
+  font-size: 14px;
+  border: 2px solid var(--filter-border);
 }
 
 .select-container .react-select__control:hover {
@@ -221,10 +230,10 @@ textarea[disabled] {
 }
 
 /* Add this to your CSS file */
-.hover-div {
+/* .hover-div {
   display: none;
 }
 
 div:hover .hover-div {
   display: block;
-}
+} */

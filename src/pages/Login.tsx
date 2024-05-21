@@ -8,7 +8,7 @@ function Login() {
         <Logo />
       </div>
       <img
-        className="absolute top-10 left-2 w-[160px] h-[160px]"
+        className="absolute top-[-80px] left-2 w-[160px] h-[160px]"
         src="test_me.png"
         alt=""
       />

@@ -13,7 +13,7 @@ function InfoBox({
   content: number | string | LoadingTypes;
 }) {
   return (
-    <div className="h-24 w-[48%] sm:w-[48%] md:w-[23%] bg-db_infobox rounded-md shadow-shadow shadow-xl flex flex-wrap border-b-2 border-border">
+    <div className="h-24 w-full sm:w-[48%] xl:w-[23%] bg-db_infobox rounded-md shadow-shadow shadow-xl flex flex-wrap border-b-2 border-border">
       <div className="w-[40%] h-full flex justify-center items-center">
         <div
           className={`${color} w-14 h-14 rounded-full flex justify-center items-center`}
@@ -28,7 +28,7 @@ function InfoBox({
         {content === LoadingTypes.LOADING ? (
           <MiniSpinner alignment={"left"} />
         ) : (
-          <div className="text-2xl">{content}</div>
+          <div className="sm:text-xl">{content}</div>
         )}
       </div>
     </div>

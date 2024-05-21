@@ -27,13 +27,13 @@ function Pagination({ count }: { count: number }) {
   const to = from + pageSize - 1;
 
   return (
-    <div className="pb-3 px-2 flex mb-2 justify-between border-b-2 border-border text-sm">
-      <div className="flex items-center gap-1">
+    <div className="pb-3 px-2 flex flex-wrap mb-2 justify-between border-b-2 border-border text-sm">
+      <p className="flex flex-wrap items-center gap-1">
         Ergebnisse <span className="font-semibold">{from}</span>
         bis
         <span className="font-semibold">{count > to ? to : count}</span> von
         <span className="font-semibold">{count}</span> Ergebnissen
-      </div>
+      </p>
       <div>
         <Button
           content="< Zurück"

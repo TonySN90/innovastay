@@ -17,7 +17,7 @@ export default {
         hover_sidebar: "var(--hover-sidebar)",
         menu: "var(--menu)",
         table_header: "var(--table-header)",
-        filterButtons_border: "var(--filterButtons-border)",
+        filter_border: "var(--filter-border)",
         active: "var(--active)",
         status_green: "var(--status-green)",
         status_orange: "var(--status-orange)",

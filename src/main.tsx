@@ -1,6 +1,5 @@
 import "@bitnoi.se/react-scheduler/dist/style.css";
 import "./styles/index.css";
-import "./styles/timeline.css";
 import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom/client";

@@ -35,7 +35,7 @@ function FilterBar({
         options,
       }}
     >
-      <div className="flex md:justify-end items-center mb-4 flex-wrap">
+      <div className="flex flex-wrap justify-end items-center mb-4 w-full gap-2">
         {filterBase.category !== "cabins" &&
           filterBase.category !== "dashboard" && <SearchInput />}
         {filterBase.category !== "guests" && <FilterButtons />}
@@ -92,10 +92,10 @@ function SearchInput() {
         value={inputValue}
         type="text"
         className={`${
-          isOpen ? "w-[180px]" : "w-[35px]"
-        } h-[2.2rem] pl-8 rounded-full border-2 border-border bg-transparent transition-all focus:outline-none hover:border-active`}
+          isOpen ? "w-[180px]" : "w-[37px]"
+        } h-[37px] pl-8 rounded-full border-2 border-filter_border bg-transparent transition-all focus:outline-none hover:border-active`}
       />
-      <span className="absolute top-[5px] left-[5px] z-10 pointer-events-none">
+      <span className="absolute top-[6px] left-[7px] z-10 pointer-events-none">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -133,7 +133,7 @@ export function FilterButtons() {
   }
 
   return (
-    <div className="flex ml-4 h-[2.2rem] overflow-hidden rounded-lg border-2 border-filterButtons_border">
+    <div className="flex flex-wrap overflow-hidden rounded-lg border-2 border-filter_border">
       {filterButtons.map((button: { filterBy: string; filterType: string }) => (
         <FilterButton
           key={button.filterType}
@@ -161,7 +161,7 @@ function FilterButton({
   return (
     <button
       onClick={() => handleClick(filterType)}
-      className={`cursor-pointer text-sm px-2 transition-all hover:text-indigo-500 ${
+      className={`flex-grow text-sm px-2 py-[.5rem] transition-all hover:text-indigo-500 cursor-pointer${
         filterType === clickedFilter && " bg-active text-gray-50"
       }`}
     >
@@ -187,7 +187,6 @@ function SortInput() {
     control: (base) => ({
       ...base,
       fontSize: ".9rem",
-      minWidth: "230px",
       borderRadius: ".5rem",
       border: `1px solid ${selectStyles.secondaryColor}`,
       borderColor: selectStyles.primaryColor,
@@ -223,11 +222,11 @@ function SortInput() {
   };
 
   return (
-    <div className="ml-4">
+    <div className="md:ml-4">
       <Select
-        className="select-container"
+        className="select-container select-filterbar"
         classNamePrefix="react-select"
-        styles={selectStyles as object}
+        // styles={selectStyles as object}
         onChange={handleChange}
         options={options}
         placeholder="Sortieren nach"

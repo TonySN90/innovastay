@@ -33,7 +33,7 @@ function ToggleButton({ id }: { id: number }) {
     const rect = (e.target as Element)
       .closest("button")
       ?.getBoundingClientRect();
-    if (rect) setPosition({ x: rect.x - rect.width - 52, y: rect.y + 50 });
+    if (rect) setPosition({ x: rect.x - rect.width - 100, y: rect.y + 45 });
 
     openId === 0 || openId !== id ? open(id) : close();
   }

@@ -29,7 +29,7 @@ const SalesCharts = ({ salesData }: { salesData: ISalesData[] }) => {
         labels: {
           style: {
             colors: xData.map(() => "var(--text)"),
-            fontSize: "16px",
+            fontSize: "13px",
           },
         },
         axisBorder: {
@@ -39,7 +39,7 @@ const SalesCharts = ({ salesData }: { salesData: ISalesData[] }) => {
       yaxis: {
         labels: {
           style: {
-            fontSize: "16px",
+            fontSize: "12px",
             colors: ["var(--border)"],
           },
           formatter: (value: number) => {
@@ -47,7 +47,6 @@ const SalesCharts = ({ salesData }: { salesData: ISalesData[] }) => {
           },
         },
         min: 0,
-        // tickAmount: 4,
       },
       colors: ["#6366f1"],
 

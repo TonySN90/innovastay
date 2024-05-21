@@ -73,7 +73,7 @@ function DashboardLayout() {
       </DbSection>
 
       {/* Auf einem Blick */}
-      <div className="flex justify-between mt-6">
+      <div className="flex justify-between flex-wrap mt-6">
         <Heading title="Auf einem Blick" size="text-xl" />
         <DashboardFilter />
       </div>
@@ -147,10 +147,10 @@ function DbSection({
   linkText?: string;
 }) {
   return (
-    <section className="mb-6 px-12 py-6 bg-card rounded-lg shadow-md shadow-shadow">
+    <section className="mb-6 md:px-12 bg-eme-300 px-2 py-6 bg-card rounded-lg shadow-md shadow-shadow">
       <div className="flex justify-between">
         <h3 className="text-xl font-semibold">{title}</h3>
-        <Link to="/bookings">
+        <Link className="hidden sm:block" to="/bookings">
           <p className="text-indigo-500 font-semibold">{linkText}</p>
         </Link>
       </div>

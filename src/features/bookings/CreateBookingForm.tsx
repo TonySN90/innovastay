@@ -42,7 +42,6 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
   onCloseModal,
   bookingToUpdate,
 }) {
-  console.log(error);
   const { id: updateId } = bookingToUpdate;
 
   const { settings, loadingStatus: settingsLoadingStatus } = useSettings();
@@ -144,7 +143,7 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                className="select-container"
+                className="select-container select-form"
                 classNamePrefix="react-select"
                 onChange={onChange}
                 value={value}
@@ -254,7 +253,7 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                className="select-container"
+                className="select-container select-form"
                 classNamePrefix="react-select"
                 onChange={onChange}
                 value={value}
@@ -279,7 +278,7 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                className="select-container"
+                className="select-container select-form"
                 classNamePrefix="react-select"
                 onChange={onChange}
                 value={value}
@@ -304,7 +303,7 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                className="select-container"
+                className="select-container select-form"
                 classNamePrefix="react-select"
                 onChange={onChange}
                 value={value}
