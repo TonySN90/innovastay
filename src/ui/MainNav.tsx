@@ -15,44 +15,46 @@ const listElStyles =
 const iconStyles = "w-6 h-6 mr-2 group-hover:text-active transition-colors";
 
 function MainNav() {
+  const hidden = "hidden xl:block";
+
   return (
     <nav className="m-auto">
-      <ul className="px-7">
+      <ul className="px-2 md:px-7">
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/dashboard">
             <RxDashboard className={iconStyles} />
-            <span>Dashboard</span>
+            <span className={hidden}>Dashboard</span>
           </NavLink>
         </li>
         <hr className="mb-3 border-border" />
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/schedular">
             <HiOutlineCalendarDays className={iconStyles} />
-            <span>Buchungskalender</span>
+            <span className={hidden}>Buchungskalender</span>
           </NavLink>
         </li>
         <li className={`${listElStyles}`}>
           <NavLink className="flex py-3" to="/bookings">
             <HiMiniListBullet className={iconStyles} />
-            <span>Buchungen</span>
+            <span className={hidden}>Buchungen</span>
           </NavLink>
         </li>
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/cabins">
             <HiOutlineHomeModern className={iconStyles} />
-            <span>Zimmer</span>
+            <span className={hidden}>Zimmer</span>
           </NavLink>
         </li>
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/guests">
             <BsPeople className={iconStyles} />
-            <span>Gäste</span>
+            <span className={hidden}>Gäste</span>
           </NavLink>
         </li>
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/settings">
             <HiOutlineCog6Tooth className={iconStyles} />
-            <span>Einstellungen</span>
+            <span className={hidden}>Einstellungen</span>
           </NavLink>
         </li>
         <hr className="mb-3 border-border" />
@@ -60,7 +62,7 @@ function MainNav() {
         <li className={listElStyles}>
           <NavLink className="flex py-3" to="/users">
             <HiOutlineUsers className={iconStyles} />
-            <span>Nutzerverwaltung</span>
+            <span className={hidden}>Nutzerverwaltung</span>
           </NavLink>
         </li>
       </ul>

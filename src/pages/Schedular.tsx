@@ -19,10 +19,10 @@ export default Schedular;
 function Hint({ children }: { children: React.ReactNode }) {
   return (
     <div className="mb-4">
-      <span className="md:hidden">
+      <span className="sm:hidden">
         Der Belegungsplan steht der mobilen Ansicht nicht zur Verfügung.
       </span>
-      <div className="hidden md:block">
+      <div className="hidden sm:block">
         <div className="relative">{children}</div>
       </div>
     </div>

@@ -8,7 +8,7 @@ function HeaderAvatar() {
     (user?.user_metadata as IUserMetadataTypes) || {};
 
   return (
-    <div className="flex justify-end mr-10">
+    <div className="flex justify-end mr-4">
       <img
         className="w-10 rounded-full mr-2"
         src={avatar || "default_avatar.png"}

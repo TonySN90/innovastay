@@ -7,9 +7,9 @@ import Logout from "../features/authentication/Logout";
 
 function Header() {
   return (
-    <header className="bg-background_secondary py-2 h-14">
+    <header className="hidden sm:flex items-center bg-background_secondary h-[50px]">
       <ul className="flex justify-end items-center w-full gap-4 pr-10">
-        <li>
+        <li className="hidden sm:block">
           <HeaderAvatar />
         </li>
         <li>
