@@ -35,8 +35,7 @@ function useGuests() {
     else
       page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
 
-    if (pathName === "/bookings")
-      dispatch(fetchGuests({ filter, sortBy, page }));
+    if (pathName === "/guests") dispatch(fetchGuests({ filter, sortBy, page }));
     else dispatch(fetchGuests());
   }, [dispatch, searchParams, pathName]);
 

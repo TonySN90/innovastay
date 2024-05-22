@@ -23,10 +23,14 @@ import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const tooltipStyles = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
   backgroundColor: "var(--background-secondary)",
+  height: "35px",
+  zIndex: "1000",
   color: "var(--text)",
   borderRadius: "10px",
-  zIndex: "1000",
 };
 
 const TimelineContext = createContext({} as ITimelineContextTypes);
@@ -426,9 +430,9 @@ function Bookings() {
                               (t) => t.id === "bookings-menu-details-btn"
                             )?.id
                           }
-                          className="flex items-center justify-center w-7 h-7 bg-status_blue rounded-full cursor-pointer"
+                          className="group flex items-center justify-center w-7 h-7 bg-status_blue rounded-full cursor-pointer"
                         >
-                          <PiInfoBold />
+                          <PiInfoBold className="group-hover:scale-125 transition-all" />
                         </div>
                       </Modal.Open>
                       <Modal.Window name="view">
@@ -448,9 +452,9 @@ function Bookings() {
                             onClick={() =>
                               handleClick(booking.status, booking.id)
                             }
-                            className="flex items-center justify-center w-7 h-7 bg-status_green rounded-full cursor-pointer"
+                            className="group flex items-center justify-center w-7 h-7 bg-status_green rounded-full cursor-pointer"
                           >
-                            <TbDoorEnter />
+                            <TbDoorEnter className="group-hover:scale-125 transition-all" />
                           </div>
                         )}
 
@@ -465,9 +469,9 @@ function Bookings() {
                           onClick={() =>
                             handleClick(booking.status, booking.id)
                           }
-                          className="flex items-center justify-center w-7 h-7 bg-status_red rounded-full cursor-pointer"
+                          className="group flex items-center justify-center w-7 h-7 bg-status_red rounded-full cursor-pointer"
                         >
-                          <TbDoorExit />
+                          <TbDoorExit className="group-hover:scale-125 transition-all" />
                         </div>
                       )}
 
@@ -482,9 +486,9 @@ function Bookings() {
                                   (t) => t.id === "bookings-menu-edit-btn"
                                 )?.id
                               }
-                              className="flex items-center justify-center w-7 h-7 bg-status_orange rounded-full cursor-pointer"
+                              className="group flex items-center justify-center w-7 h-7 bg-status_orange rounded-full cursor-pointer"
                             >
-                              <MdModeEdit />
+                              <MdModeEdit className="group-hover:scale-125 transition-all" />
                             </div>
                           </Modal.Open>
                           <Modal.Window name="edit">
