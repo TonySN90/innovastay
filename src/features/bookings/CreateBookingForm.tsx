@@ -91,13 +91,19 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
 
   const watchedValues = watch();
 
+  function setToNoon(date: Date) {
+    const newDate = new Date(date);
+    newDate.setHours(12, 0, 0, 0);
+    return newDate;
+  }
+
   const onSubmit: SubmitHandler<IFormRawValues> = (formData) => {
     const newBooking = {
       cabinId: formData.cabinId?.value,
       guestId: formData.guest?.id,
       fullName: formData.guest?.fullName,
-      startDate: new Date(formData.startDate).toISOString(),
-      endDate: new Date(formData.endDate).toISOString(),
+      startDate: setToNoon(formData.startDate).toISOString(),
+      endDate: setToNoon(formData.endDate).toISOString(),
       numGuests: +formData.numGuests,
       status: formData.status?.value,
       hasBreakfast: formData.hasBreakfast?.value,
