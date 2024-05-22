@@ -8,6 +8,7 @@ export default {
         background_secondary: "var(--background-secondary)",
         card: "var(--card)",
         text: "var(--text)",
+        text_hover: "var(--text-hover)",
         button_text: "var(--button-text)",
         button_text_inverted: "var(--button-text-inverted)",
         border: "var(--border)",

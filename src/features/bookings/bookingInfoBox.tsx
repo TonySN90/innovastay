@@ -62,7 +62,7 @@ function BookingInfoBox({ bookingId }: { bookingId: number }) {
       <h2 className="font-semibold">Kontaktdaten</h2>
       <div>
         <InfoRow label="E-Mail Addresse" info={guest.email} />
-        <InfoRow label="Telefonnummer" info={guest.phone} />
+        <InfoRow label="Telefonnummer" info={`(0) ${guest.phone}`} />
       </div>
 
       <h2 className="font-semibold mt-2">Interne Informationen</h2>

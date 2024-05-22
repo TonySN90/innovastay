@@ -3,9 +3,9 @@ import useBookings from "./useBookings";
 import useCabins from "../cabins/useCabins";
 import { useSearchParams } from "react-router-dom";
 import { LoadingTypes } from "../../types/GlobalTypes";
-import { IMonth, ITimelineContextValue } from "../../types/TimelineTypes";
+import { IMonth, ITimelineTypes } from "../../types/TimelineTypes";
 
-function useTimeline(): ITimelineContextValue {
+function useTimeline(): ITimelineTypes {
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());

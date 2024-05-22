@@ -37,6 +37,7 @@
   --card: var(--color-slate-50);
 
   --text: var(--color-gray-700);
+  --text-hover: var(--color-gray-400);
   --button-text: var(--color-gray-50);
   --button-text-inverted: var(--color-indigo-600);
 
@@ -91,6 +92,7 @@
   --card: var(--color-dark_2);
 
   --text: var(--color-gray-200);
+  --text-hover: var(--color-gray-400);
 
   --button-text: var(--color-gray-50);
   --button-text-inverted: var(--color-indigo-600);
@@ -237,3 +239,14 @@ textarea[disabled] {
 div:hover .hover-div {
   display: block;
 } */
+
+.mobile-nav {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+
+.mobile-nav-open {
+  opacity: 1;
+  visibility: visible;
+}

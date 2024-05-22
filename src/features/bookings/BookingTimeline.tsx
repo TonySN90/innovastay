@@ -372,8 +372,6 @@ function Bookings() {
   const { timelineData, tooltips } = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
 
-  console.log(timelineData);
-
   function handleClick(status: string, id: number) {
     if (status === "checkedIn") navigate(`/checkOut/${id}`);
     if (status === "unconfirmed") navigate(`/checkIn/${id}`);

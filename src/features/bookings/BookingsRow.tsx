@@ -50,7 +50,7 @@ function BookingsRow({
         <div
           className={`md:col-span-4 p-1.5 md:w-[120px] text-center rounded-md text-xs ${
             (status === BookingStatusTypes.UNCONFIRMED &&
-              "bg-status_blue text-text") ||
+              "bg-status_orange text-text") ||
             (status === BookingStatusTypes.CHECKEDIN &&
               "bg-status_green text-text") ||
             (status === BookingStatusTypes.CHECKEDOUT &&
@@ -89,66 +89,6 @@ function BookingsRow({
         )}
       </td>
       <td className="flex justify-end">
-        {/* <Modal>
-          <Menu.List id={bookingId}>
-            <Modal.Open opens="view">
-              <Menu.Item>
-                <PiInfoBold />
-                Details ansehen
-              </Menu.Item>
-            </Modal.Open>
-
-            {status !== BookingStatusTypes.CHECKEDOUT && (
-              <Modal.Open opens="edit">
-                <Menu.Item>
-                  <FaRegEdit />
-                  Bearbeiten
-                </Menu.Item>
-              </Modal.Open>
-            )}
-
-            {status === BookingStatusTypes.UNCONFIRMED && (
-              <Menu.Item onClick={() => navigate(`/checkin/${bookingId}`)}>
-                <MdOutlineCheckCircleOutline />
-                Einchecken
-              </Menu.Item>
-            )}
-
-            {status === BookingStatusTypes.CHECKEDIN && (
-              <Link to={`/checkout/${bookingId}`}>
-                <Menu.Item>
-                  <MdOutlineCheckCircleOutline />
-                  Auschecken
-                </Menu.Item>
-              </Link>
-            )}
-
-            <Modal.Open opens="delete">
-              <Menu.Item>
-                <TfiTrash />
-                Löschen
-              </Menu.Item>
-            </Modal.Open>
-          </Menu.List>
-
-          <Modal.Window name="view">
-            <BookingInfoBox bookingId={bookingId} />
-          </Modal.Window>
-
-          <Modal.Window name="edit">
-            <CreateBookingForm bookingToUpdate={bookings} />
-          </Modal.Window>
-
-          <Modal.Window name="delete">
-            <ConfirmDelete
-              booking={bookings}
-              bookingId={bookingId}
-              onCloseModal={() => {}} //Children prop
-            />
-          </Modal.Window>
-
-          <Menu.ToggleButton id={bookingId} />
-        </Modal> */}
         <BookingsMenu
           bookingId={bookingId}
           status={status}
