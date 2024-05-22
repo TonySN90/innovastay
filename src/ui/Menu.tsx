@@ -4,6 +4,7 @@ import { createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import useClickOutside from "../hooks/useClickOutside";
 import { IMenuTypes } from "../types/MenuTypes";
+import useWindowWidth from "../hooks/UseWindowWidth";
 
 const MenuContext = createContext({} as IMenuTypes);
 
@@ -47,27 +48,39 @@ function ToggleButton({ id }: { id: number }) {
 
 function List({ children, id }: { children: React.ReactNode; id: number }) {
   const { position, close, openId } = useContext(MenuContext);
+  const windowWidth = useWindowWidth();
 
   const ref = useClickOutside(close, false);
 
   if (openId !== id) return null;
 
-  return createPortal(
-    <ul
-      data-id={id}
-      ref={ref}
-      style={{
-        position: position ? "absolute" : "static",
-        top: position && position.y,
-        left: position && position.x,
-      }}
-      className="z-10 bg-menu rounded-lg w-[200px]"
-    >
-      {children}
-    </ul>,
+  if (windowWidth < 640)
+    return (
+      <ul
+        data-id={id}
+        ref={ref}
+        className="z-10 bg-menu rounded-lg w-full shadow-sm"
+      >
+        {children}
+      </ul>
+    );
+  else
+    return createPortal(
+      <ul
+        data-id={id}
+        ref={ref}
+        style={{
+          position: position ? "absolute" : "static",
+          top: position && position.y,
+          left: position && position.x,
+        }}
+        className="z-10 bg-menu rounded-lg w-[200px] sticky top-0 shadow-sm"
+      >
+        {children}
+      </ul>,
 
-    document.body
-  );
+      document.body
+    );
 }
 
 function Item({
