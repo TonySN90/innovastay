@@ -12,7 +12,7 @@ export interface IMonth {
   weekdays: string[];
 }
 
-export interface ITimelineContextValue {
+export interface ITimelineTypes {
   bookings: IBookingTypes[];
   memoizedCabins: ICabinTypes[];
   labelWidth: number;
@@ -36,4 +36,9 @@ export interface ITimelineContextValue {
   colWidth: number;
   rowHeight: number;
   todayElement: RefObject<HTMLDivElement>;
+}
+
+export interface ITimelineContextTypes {
+  timelineData: ITimelineTypes;
+  tooltips: { id: string; content: string }[];
 }

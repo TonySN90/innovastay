@@ -7,7 +7,10 @@ import {
 import { BsClockFill } from "react-icons/bs";
 import useTimeline from "./useTimeline";
 import { createContext, useContext, ReactNode, useState, useRef } from "react";
-import { ITimelineContextValue } from "../../types/TimelineTypes";
+import {
+  ITimelineContextTypes,
+  ITimelineTypes,
+} from "../../types/TimelineTypes";
 import { useNavigate } from "react-router";
 import Modal from "../../ui/Modal";
 import BookingInfoBox from "./bookingInfoBox";
@@ -17,16 +20,31 @@ import { MdModeEdit } from "react-icons/md";
 import CreateBookingForm from "./CreateBookingForm";
 import { PiInfoBold } from "react-icons/pi";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
-const TimelineContext = createContext<ITimelineContextValue | undefined>(
-  undefined
-);
+const tooltipStyles = {
+  backgroundColor: "var(--background-secondary)",
+  color: "var(--text)",
+  borderRadius: "10px",
+  zIndex: "1000",
+};
+
+const TimelineContext = createContext({} as ITimelineContextTypes);
 
 function TimelineContextProvider() {
-  const timelineData = useTimeline();
+  const timelineData = useTimeline() as ITimelineTypes;
+  const tooltips = [
+    { id: "control-prev-btn", content: "Setze einen Monat zurück" },
+    { id: "control-current-btn", content: "Setze zum heutigen Tag" },
+    { id: "control-next-btn", content: "Setze einen Monat vor" },
+    { id: "bookings-menu-details-btn", content: "Zeige Details" },
+    { id: "bookings-menu-edit-btn", content: "Buchung bearbeiten" },
+    { id: "bookings-menu-checkin-btn", content: "Check-In" },
+    { id: "bookings-menu-checkout-btn", content: "Check-Out" },
+  ];
 
   return (
-    <TimelineContext.Provider value={timelineData}>
+    <TimelineContext.Provider value={{ timelineData, tooltips }}>
       <BookingTimeline />
     </TimelineContext.Provider>
   );
@@ -51,7 +69,26 @@ function BookingTimeline() {
 }
 
 function OutsideWrapper({ children }: { children: ReactNode }) {
-  return <div className="rounded-lg overflow-hidden">{children}</div>;
+  const { tooltips } = useContext(TimelineContext);
+
+  return (
+    <div className="rounded-lg overflow-hidden">
+      <>
+        {children}
+        {tooltips.map(({ id, content }) => (
+          <ReactTooltip
+            key={id}
+            id={id}
+            place="right"
+            content={content}
+            style={tooltipStyles}
+            border="2px solid var(--border-modal)"
+            opacity="1"
+          />
+        ))}
+      </>
+    </div>
+  );
 }
 
 function InsideWrapper({ children }: { children: ReactNode }) {
@@ -63,7 +100,7 @@ function InsideWrapper({ children }: { children: ReactNode }) {
 }
 
 function SideBar({ children }: { children: ReactNode }) {
-  const timelineData = useContext(TimelineContext);
+  const { timelineData } = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
 
   const { labelWidth } = timelineData;
@@ -79,7 +116,7 @@ function SideBar({ children }: { children: ReactNode }) {
 }
 
 function BookingLoader() {
-  const timelineData = useContext(TimelineContext);
+  const { timelineData } = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
 
   const { isLoadingBookings, isLoadingCabins } = timelineData;
@@ -99,7 +136,7 @@ function BookingLoader() {
 }
 
 function Canvas() {
-  const timelineData = useContext(TimelineContext);
+  const { timelineData } = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
 
   const { monthWidth, handleScroll } = timelineData;
@@ -128,8 +165,7 @@ function Canvas() {
 }
 
 function Controls() {
-  const timelineData = useContext(TimelineContext);
-  if (!timelineData) throw new Error("TimelineContext not found");
+  const { timelineData, tooltips } = useContext(TimelineContext);
 
   const { loadCalendar, handleZoom, zoomLevel } = timelineData;
 
@@ -141,18 +177,27 @@ function Controls() {
         </div>
         <div className="flex justify-between w-[100px]">
           <div
+            data-tooltip-id={
+              tooltips.find((t) => t.id === "control-prev-btn")?.id
+            }
             className="flex justify-center items-center w-10 pb-[2px] cursor-pointer hover:text-background_secondary transition-all"
             onClick={() => loadCalendar("left")}
           >
             <IoIosArrowDropleftCircle className="w-7 h-7" />
           </div>
           <div
+            data-tooltip-id={
+              tooltips.find((t) => t.id === "control-current-btn")?.id
+            }
             className="flex justify-center items-center w-10 cursor-pointer hover:text-background_secondary transition-all"
             onClick={() => loadCalendar("now")}
           >
             <BsClockFill className="w-8 h-8" />
           </div>
           <div
+            data-tooltip-id={
+              tooltips.find((t) => t.id === "control-next-btn")?.id
+            }
             className="flex justify-center items-center w-10 cursor-pointer hover:text-background_secondary transition-all"
             onClick={() => loadCalendar("right")}
           >
@@ -177,7 +222,7 @@ function Controls() {
 }
 
 function MonthRow() {
-  const timelineData = useContext(TimelineContext);
+  const { timelineData } = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
 
   const { monthsToShow, getMonthWidth } = timelineData;
@@ -201,7 +246,7 @@ function MonthRow() {
 }
 
 function CalendarDays() {
-  const timelineData = useContext(TimelineContext);
+  const { timelineData } = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
 
   const {
@@ -250,7 +295,7 @@ function CalendarDays() {
 }
 
 function LabelBar() {
-  const timelineData = useContext(TimelineContext);
+  const { timelineData } = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
 
   const { memoizedCabins, isLoadingCabins } = timelineData;
@@ -267,7 +312,7 @@ function LabelBar() {
 }
 
 function Labels() {
-  const timelineData = useContext(TimelineContext);
+  const { timelineData } = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
 
   const { memoizedCabins, rowHeight } = timelineData;
@@ -293,7 +338,7 @@ function Labels() {
 }
 
 function LabelsLoader() {
-  const timelineData = useContext(TimelineContext);
+  const { timelineData } = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
 
   const { rowHeight } = timelineData;
@@ -320,7 +365,7 @@ function Bookings() {
 
   const navigate = useNavigate();
 
-  const timelineData = useContext(TimelineContext);
+  const { timelineData, tooltips } = useContext(TimelineContext);
   if (!timelineData) throw new Error("TimelineContext not found");
 
   function handleClick(status: string, id: number) {
@@ -375,7 +420,14 @@ function Bookings() {
                   <Modal>
                     <div className="flex flex-col gap-1">
                       <Modal.Open opens="view">
-                        <div className="flex items-center justify-center w-7 h-7 bg-status_blue rounded-full cursor-pointer">
+                        <div
+                          data-tooltip-id={
+                            tooltips.find(
+                              (t) => t.id === "bookings-menu-details-btn"
+                            )?.id
+                          }
+                          className="flex items-center justify-center w-7 h-7 bg-status_blue rounded-full cursor-pointer"
+                        >
                           <PiInfoBold />
                         </div>
                       </Modal.Open>
@@ -388,6 +440,11 @@ function Bookings() {
                         new Date().toDateString() &&
                         booking.status === "unconfirmed" && (
                           <div
+                            data-tooltip-id={
+                              tooltips.find(
+                                (t) => t.id === "bookings-menu-checkin-btn"
+                              )?.id
+                            }
                             onClick={() =>
                               handleClick(booking.status, booking.id)
                             }
@@ -400,6 +457,11 @@ function Bookings() {
                       {/* if booking is checkedIn */}
                       {booking.status === BookingStatusTypes.CHECKEDIN && (
                         <div
+                          data-tooltip-id={
+                            tooltips.find(
+                              (t) => t.id === "bookings-menu-checkout-btn"
+                            )?.id
+                          }
                           onClick={() =>
                             handleClick(booking.status, booking.id)
                           }
@@ -414,7 +476,14 @@ function Bookings() {
                         booking.status === BookingStatusTypes.UNCONFIRMED) && (
                         <>
                           <Modal.Open opens="edit">
-                            <div className="flex items-center justify-center w-7 h-7 bg-status_orange rounded-full cursor-pointer">
+                            <div
+                              data-tooltip-id={
+                                tooltips.find(
+                                  (t) => t.id === "bookings-menu-edit-btn"
+                                )?.id
+                              }
+                              className="flex items-center justify-center w-7 h-7 bg-status_orange rounded-full cursor-pointer"
+                            >
                               <MdModeEdit />
                             </div>
                           </Modal.Open>

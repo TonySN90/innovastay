@@ -5,7 +5,6 @@ import {
   IFilterButtonsTypes,
   IFilterContext,
   Option,
-  SelectProps,
 } from "../types/GlobalTypes";
 import { useSearchParams } from "react-router-dom";
 
@@ -36,9 +35,9 @@ function FilterBar({
       }}
     >
       <div className="flex flex-wrap justify-end items-center mb-4 w-full gap-2">
+        {filterBase.category !== "guests" && <FilterButtons />}
         {filterBase.category !== "cabins" &&
           filterBase.category !== "dashboard" && <SearchInput />}
-        {filterBase.category !== "guests" && <FilterButtons />}
         {filterBase.category !== "dashboard" && <SortInput />}
       </div>
     </FilterContext.Provider>
@@ -82,7 +81,7 @@ function SearchInput() {
   }, []);
 
   return (
-    <div className="relative">
+    <div className={`relative ${isOpen ? "w-full sm:w-auto" : "sm:w-auto"} `}>
       <input
         onChange={(e) => handleChange(e)}
         onFocus={() => setIsOpen(true)}
@@ -92,7 +91,7 @@ function SearchInput() {
         value={inputValue}
         type="text"
         className={`${
-          isOpen ? "w-[180px]" : "w-[37px]"
+          isOpen ? "w-full sm:w-[200px]" : "w-[37px]"
         } h-[37px] pl-8 rounded-full border-2 border-filter_border bg-transparent transition-all focus:outline-none hover:border-active`}
       />
       <span className="absolute top-[6px] left-[7px] z-10 pointer-events-none">
@@ -133,7 +132,7 @@ export function FilterButtons() {
   }
 
   return (
-    <div className="flex flex-wrap overflow-hidden rounded-lg border-2 border-filter_border">
+    <div className="flex flex-wrap flex-grow max-w-[510px] overflow-hidden rounded-lg border-2 border-filter_border">
       {filterButtons.map((button: { filterBy: string; filterType: string }) => (
         <FilterButton
           key={button.filterType}
@@ -181,52 +180,11 @@ function SortInput() {
     setSearchParams(searchParams.toString());
   };
 
-  const selectStyles: SelectProps = {
-    primaryColor: "#6366f1",
-    secondaryColor: "#e0e7ff32",
-    control: (base) => ({
-      ...base,
-      fontSize: ".9rem",
-      borderRadius: ".5rem",
-      border: `1px solid ${selectStyles.secondaryColor}`,
-      borderColor: selectStyles.primaryColor,
-      backgroundColor: "transparent",
-      minHeight: "2.2rem",
-      height: "2.2rem",
-      "&:hover": {
-        borderColor: selectStyles.primaryColor,
-        color: "#333",
-      },
-
-      ":active": {
-        color: selectStyles.primaryColor,
-      },
-
-      ":disabled": {
-        backgroundColor: selectStyles.primaryColor,
-      },
-      ":focus": {
-        focusBorderColor: selectStyles.primaryColor,
-      },
-    }),
-    option: (styles, state) => ({
-      ...styles,
-      minHeight: "2.2rem",
-      height: "2.2rem",
-      backgroundColor: state.isSelected ? selectStyles.primaryColor : undefined,
-      "&:hover": {
-        backgroundColor: selectStyles.secondaryColor,
-        color: "#fff",
-      },
-    }),
-  };
-
   return (
-    <div className="md:ml-4">
+    <div className="flex-grow sm:flex-grow-0">
       <Select
         className="select-container select-filterbar"
         classNamePrefix="react-select"
-        // styles={selectStyles as object}
         onChange={handleChange}
         options={options}
         placeholder="Sortieren nach"

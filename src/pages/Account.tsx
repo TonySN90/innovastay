@@ -6,7 +6,7 @@ import useUpdateUser from "../features/authentication/useUpdateUser";
 function Account() {
   return (
     <div className="shadow-gray-400/10">
-      <Heading title="Accountverwaltung" size="text-3xl" />
+      <Heading title="Accountverwaltung" size="text-2xl sm:text-3xl" />
       <UpdateUserData />
     </div>
   );

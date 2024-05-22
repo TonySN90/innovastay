@@ -9,6 +9,7 @@ import { ErrorBoundary } from "react-error-boundary";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./features/bookings/bookingsform.css";
+import "react-tooltip/dist/react-tooltip.css";
 import { Toaster } from "react-hot-toast";
 import ErrorFallback from "./ui/ErrorFallback.tsx";
 

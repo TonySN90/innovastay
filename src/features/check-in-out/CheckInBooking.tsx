@@ -14,6 +14,7 @@ import { LoadingTypes } from "../../types/GlobalTypes";
 import Empty from "../../ui/Empty";
 import { BookingStatusTypes, IBookingTypes } from "../../types/BookingTypes";
 import useCheckInOut from "./useCheckInOut";
+import Heading from "../../ui/Heading";
 
 function CheckInBooking() {
   const bookingId = Number(useParams().bookingId);
@@ -62,12 +63,14 @@ function CheckInBooking() {
 
   return (
     <>
-      <h2 className="text-3xl font-semibold">Check-In Buchung #{bookingId}</h2>
+      <Heading
+        title={`Check-In Buchung #${bookingId}`}
+        size="text-2xl sm:text-3xl"
+      />
 
       <CheckInSection>
         {booking && <CheckInHeader booking={booking} />}
         <CheckInBody booking={booking} setConfirmPaid={setConfirmPaid} />
-        {/* <CheckInFooter booking={booking} /> */}
       </CheckInSection>
       <Buttons>
         <Button
