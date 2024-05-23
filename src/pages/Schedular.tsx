@@ -2,7 +2,7 @@ import TimelineContextProvider from "../features/bookings/BookingTimeline";
 import AddBooking from "../features/bookings/addBooking";
 import Heading from "../ui/Heading";
 
-function Schedular() {
+function Timeline() {
   return (
     <>
       <Heading title="Buchungskalender" size="text-2xl sm:text-3xl" />
@@ -14,7 +14,7 @@ function Schedular() {
   );
 }
 
-export default Schedular;
+export default Timeline;
 
 function Hint({ children }: { children: React.ReactNode }) {
   return (

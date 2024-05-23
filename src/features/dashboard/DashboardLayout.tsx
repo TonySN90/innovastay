@@ -12,6 +12,8 @@ import { LiaMoneyBillWaveAltSolid } from "react-icons/lia";
 import { LuBarChart4 } from "react-icons/lu";
 import { TbDoorEnter } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import useCabins from "../cabins/hooks/useCabins";
+import Spinner from "../../ui/Spinner";
 
 function DashboardLayout() {
   const { arrivalBookings, arrivalLoadingStatus } =
@@ -20,15 +22,13 @@ function DashboardLayout() {
     useBookingsAfterDate("departure");
   const { recentGuests, guestsLoadingStatus } =
     useBookingsAfterDate("recentGuests");
-  const {
-    quantityBookings,
-    sales,
-    occupancy,
-    checkIns,
-    periodBookingsLoadingStatus,
-    quantityBookingsLoadingStatus,
-    salesData,
-  } = useStats();
+  const { periodBookingsLoadingStatus } = useBookingsAfterDate("timePeriod");
+  const { createdBookingsLoadingStatus: quantityBookingsLoadingStatus } =
+    useBookingsAfterDate("createdAt");
+
+  useCabins();
+
+  const { quantityBookings, sales, occupancy, checkIns } = useStats();
 
   return (
     <>
@@ -125,11 +125,16 @@ function DashboardLayout() {
         </InfoBox>
       </DbSection>
 
+      {/* statistics */}
       <DbSection title="Umsatz-Statistiken">
         <span className="text-gray-400">
           Tage, an denen Einnahmen erzielt wurden
         </span>
-        <SalesCharts salesData={salesData} />
+        {periodBookingsLoadingStatus === LoadingTypes.LOADING ? (
+          <Spinner />
+        ) : (
+          <SalesCharts />
+        )}
       </DbSection>
     </>
   );

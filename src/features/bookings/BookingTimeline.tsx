@@ -97,7 +97,7 @@ function OutsideWrapper({ children }: { children: ReactNode }) {
 
 function InsideWrapper({ children }: { children: ReactNode }) {
   return (
-    <div className="relative w-[80vw] flex shadow-xl overflow-x-auto max-w-[100%] bg-background_secondary">
+    <div className="relative w-[80vw] xl:w-[75vw] flex shadow-xl overflow-x-auto max-w-[100%] bg-background_secondary">
       {children}
     </div>
   );

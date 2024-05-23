@@ -1,12 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Chart from "react-apexcharts";
-import { ISalesData } from "../../types/Dashboard";
+import { useSearchParams } from "react-router-dom";
+import { useAppSelector } from "../../store";
 
-const SalesCharts = ({ salesData }: { salesData: ISalesData[] }) => {
+const SalesCharts = () => {
+  const [searchParams] = useSearchParams();
+  const filter = Number(searchParams.get("stats") || 7);
+
+  const { sevenDaysSales, thirtyDaysSales, ninetyDaysSales } = useAppSelector(
+    (state) => state.dashboard
+  );
+
   const [options, setOptions] = useState({
     chart: {
-      id: "basic-bar",
       toolbar: { show: false },
+      animations: {
+        enabled: true,
+        speed: 100,
+        animateGradually: {
+          enabled: true,
+          delay: 700,
+        },
+        dynamicAnimation: {
+          enabled: true,
+          speed: 300,
+        },
+      },
     },
   });
 
@@ -16,14 +35,26 @@ const SalesCharts = ({ salesData }: { salesData: ISalesData[] }) => {
       data: [800, 1600, 2400, 3200, 4000],
     },
   ]);
+  const salesData = useMemo(() => {
+    if (filter === 7) {
+      return sevenDaysSales;
+    }
+    if (filter === 30) {
+      return thirtyDaysSales;
+    }
+    if (filter === 90) {
+      return ninetyDaysSales;
+    }
+    return [];
+  }, [filter, sevenDaysSales, thirtyDaysSales, ninetyDaysSales]);
 
   useEffect(() => {
     // Update chart options when chartData changes
     const chartData = salesData.map((item) => item.sales as number);
     const xData = salesData.map((item) => item.date as string);
 
-    // @ts-expect-error getState xData should actually be an array of numbers
-    setOptions(() => ({
+    setOptions((prevOptions) => ({
+      ...prevOptions,
       xaxis: {
         categories: xData,
         labels: {

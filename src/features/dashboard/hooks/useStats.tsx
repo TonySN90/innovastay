@@ -1,22 +1,18 @@
 import { useSearchParams } from "react-router-dom";
 import { LoadingTypes } from "../../../types/GlobalTypes";
 import { getPastDay, getToday } from "../../../utils/datesHelper";
-import useCabins from "../../cabins/hooks/useCabins";
-import useBookingsAfterDate from "./useBookingsAfterDate";
-import moment from "moment";
 import { ITodayCardBookingTypes } from "../../../types/DashboardTypes";
+import { useAppSelector } from "../../../store";
 
 function useStats() {
   const [searchParams] = useSearchParams();
   const filter = Number(searchParams.get("stats") || 7);
 
-  const { periodBookings, periodBookingsLoadingStatus } =
-    useBookingsAfterDate("timePeriod");
-  const {
-    createdBookings,
-    createdBookingsLoadingStatus: quantityBookingsLoadingStatus,
-  } = useBookingsAfterDate("createdAt");
-  const { cabins } = useCabins();
+  console.log(filter);
+  const { periodBookings, periodBookingsLoadingStatus, createdBookings } =
+    useAppSelector((state) => state.dashboard);
+
+  const { cabins } = useAppSelector((state) => state.cabins);
 
   const startDate = new Date(getPastDay(filter));
   const endDate = new Date(getToday({ end: true }));
@@ -95,37 +91,12 @@ function useStats() {
   // check-ins
   const checkIns = filteredPeriodBookings.length;
 
-  // sale-chart
-
-  const salesDataMap = new Map();
-
-  // for (let i = filter; i >= 0; i--) {
-  //     const date = moment(getPastDay(i)).format('DD. MMMM');
-  //     salesDataMap.set(date, { date: date, sales: 0 });
-  // }
-
-  filteredPeriodBookings.forEach((booking) => {
-    const date = moment(booking.startDate).format("DD. MMMM");
-    if (salesDataMap.has(date)) {
-      salesDataMap.get(date).sales += booking.totalPrice;
-    } else {
-      // Füge das Datum hinzu, falls es nicht im salesDataMap vorhanden ist
-      salesDataMap.set(date, { date: date, sales: booking.totalPrice });
-    }
-  });
-
-  const salesData = Array.from(salesDataMap.values()).sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-  );
-
   return {
     quantityBookings,
     sales,
     occupancy,
     checkIns,
     periodBookingsLoadingStatus,
-    quantityBookingsLoadingStatus,
-    salesData,
   };
 }
 
