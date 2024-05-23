@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
-import useSignUp from "./useSignUp";
+import useSignUp from "./hooks/useSignUp";
 import { ISignupTypes } from "../../types/AuthTypes";
 
 function SignupForm() {

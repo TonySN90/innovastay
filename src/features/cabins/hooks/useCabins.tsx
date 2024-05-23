@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { fetchCabins } from "./cabinsSlice";
-import { ICabinStatesTypes } from "../../types/cabinTypes";
-import { useAppDispatch, useAppSelector } from "../../store";
+import { fetchCabins } from "../cabinsSlice";
+import { ICabinStatesTypes } from "../../../types/cabinTypes";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 function useCabins() {

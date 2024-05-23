@@ -190,9 +190,11 @@ textarea[disabled] {
   border-radius: 10px;
 }
 .select-form .react-select__control {
-  min-width: 300px;
+  /* min-width: 300px; */
   border: 1px solid var(--border);
 }
+
+/* .select-form-mobile */
 
 .select-filterbar .react-select__control {
   min-width: 230px;
@@ -230,15 +232,6 @@ textarea[disabled] {
 .select-container .react-select__option:hover {
   background-color: var(--active);
 }
-
-/* Add this to your CSS file */
-/* .hover-div {
-  display: none;
-}
-
-div:hover .hover-div {
-  display: block;
-} */
 
 .mobile-nav {
   opacity: 0;

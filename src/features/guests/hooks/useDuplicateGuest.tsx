@@ -1,5 +1,5 @@
-import { FormValues } from "../../types/FormTypes";
-import { IGuestTypes } from "../../types/GuestTypes";
+import { FormValues } from "../../../types/FormTypes";
+import { IGuestTypes } from "../../../types/GuestTypes";
 import useCreateGuest from "./useCreateGuest";
 
 function useDuplicateGuest(guest: IGuestTypes, onCloseModal?: () => void) {

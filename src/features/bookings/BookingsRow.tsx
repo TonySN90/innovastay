@@ -7,10 +7,10 @@ import Modal from "../../ui/Modal";
 import Menu from "../../ui/Menu";
 import CreateBookingForm from "./CreateBookingForm";
 import BookingInfoBox from "./bookingInfoBox";
-import ConfirmDelete from "./confirmDelete";
 import { MdOutlineCheckCircleOutline } from "react-icons/md";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import ConfirmDelete from "./ConfirmDelete";
 
 function BookingsRow({
   bookings,

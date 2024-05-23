@@ -1,5 +1,5 @@
 import FilterBar from "../../ui/FilterBar";
-import useCabins from "./useCabins";
+import useCabins from "./hooks/useCabins";
 
 function CabinsFilter() {
   const { cabins } = useCabins();

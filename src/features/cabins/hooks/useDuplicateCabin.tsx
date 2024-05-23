@@ -1,5 +1,5 @@
-import { FormValues } from "../../types/FormTypes";
-import { ICabinTypes } from "../../types/cabinTypes";
+import { FormValues } from "../../../types/FormTypes";
+import { ICabinTypes } from "../../../types/cabinTypes";
 
 import useCreateCabin from "./useCreateCabin";
 

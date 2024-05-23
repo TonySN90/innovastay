@@ -1,15 +1,15 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { FormValues } from "../../types/FormTypes";
-import { LoadingTypes } from "../../types/GlobalTypes";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { FormValues } from "../../../types/FormTypes";
+import { LoadingTypes } from "../../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 import {
   // fetchBookings,
   resetUpdatingStatus,
   updateBookingThunk,
-} from "./bookingsSlice";
-import { IBookingStateTypes } from "../../types/BookingTypes";
+} from "../bookingsSlice";
+import { IBookingStateTypes } from "../../../types/BookingTypes";
 import { useSearchParams } from "react-router-dom";
 
 function useUpdateBooking(reset: () => void, onCloseModal: () => void) {

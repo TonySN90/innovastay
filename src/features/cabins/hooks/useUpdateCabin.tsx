@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { ICabinStatesTypes } from "../../types/cabinTypes";
-import { editCabin, resetUpdatingStatus } from "./cabinsSlice";
-import { FormValues } from "../../types/FormTypes";
-import { LoadingTypes } from "../../types/GlobalTypes";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { ICabinStatesTypes } from "../../../types/cabinTypes";
+import { editCabin, resetUpdatingStatus } from "../cabinsSlice";
+import { FormValues } from "../../../types/FormTypes";
+import { LoadingTypes } from "../../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";

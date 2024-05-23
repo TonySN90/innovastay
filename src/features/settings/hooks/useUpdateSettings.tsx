@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { resetUpdatingStatus, updateSettingsThunk } from "./settingsSlice";
-import { ISettingsTypes } from "../../types/settingsTypes";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { resetUpdatingStatus, updateSettingsThunk } from "../settingsSlice";
+import { ISettingsTypes } from "../../../types/settingsTypes";
 import toast from "react-hot-toast";
-import { LoadingTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../../types/GlobalTypes";
 
 function useUpdateSettings() {
   const dispatch = useAppDispatch();

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { IGuestStatesTypes } from "../../types/GuestTypes";
-import { fetchGuests } from "./guestsSlice";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { IGuestStatesTypes } from "../../../types/GuestTypes";
+import { fetchGuests } from "../guestsSlice";
 import toast from "react-hot-toast";
 import { useLocation, useSearchParams } from "react-router-dom";
 

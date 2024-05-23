@@ -7,7 +7,7 @@ import Pagination from "../../ui/Pagination";
 import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
 import GuestsRow from "./GuestsRow";
-import useGuests from "./useGuests";
+import useGuests from "./hooks/useGuests";
 
 function GuestsTable() {
   const windowWidth = useWindowWidth();

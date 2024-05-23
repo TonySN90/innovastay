@@ -1,7 +1,7 @@
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import { useNavigate } from "react-router";
-import { loginThunk, resetLoadingStatus, deleteError } from "./authSlice";
-import { LoadingTypes } from "../../types/GlobalTypes";
+import { loginThunk, resetLoadingStatus, deleteError } from "../authSlice";
+import { LoadingTypes } from "../../../types/GlobalTypes";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 

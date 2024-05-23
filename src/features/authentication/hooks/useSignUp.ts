@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import { signupThunk } from "./authSlice";
-import { LoadingTypes } from "../../types/GlobalTypes";
-import { ISignupTypes } from "../../types/AuthTypes";
+import { signupThunk } from "../authSlice";
+import { LoadingTypes } from "../../../types/GlobalTypes";
+import { ISignupTypes } from "../../../types/AuthTypes";
 
 function useSignUp(reset: () => void) {
   const dispatch = useAppDispatch();

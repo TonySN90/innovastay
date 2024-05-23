@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { LoadingTypes } from "../../../types/GlobalTypes";
+import toast from "react-hot-toast";
 import {
   getUserThunk,
   resetUpdateUserLoadingStatus,
   updateUserThunk,
-} from "./authSlice";
-import { LoadingTypes } from "../../types/GlobalTypes";
-import toast from "react-hot-toast";
+} from "../authSlice";
 
 function useUpdateUser() {
   const dispatch = useAppDispatch();

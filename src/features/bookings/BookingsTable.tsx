@@ -7,9 +7,9 @@ import { LoadingTypes } from "../../types/GlobalTypes";
 import Spinner from "../../ui/Spinner";
 import Menu from "../../ui/Menu";
 
-import useBookings from "./useBookings";
 import Pagination from "../../ui/Pagination";
 import { useAppSelector } from "../../store";
+import useBookings from "./hooks/useBookings";
 
 function BookingsTable() {
   const { bookings, loadingStatus } = useBookings();

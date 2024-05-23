@@ -1,9 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
-import useCreateGuest from "./useCreateGuest";
+import useCreateGuest from "./hooks/useCreateGuest";
 import { FormValues } from "../../types/FormTypes";
 import { LoadingTypes } from "../../types/GlobalTypes";
-import useUpdateGuest from "./useUpdateGuest";
+import useUpdateGuest from "./hooks/useUpdateGuest";
 import FormRow from "../../ui/FormRow";
 
 function CreateGuestForm({

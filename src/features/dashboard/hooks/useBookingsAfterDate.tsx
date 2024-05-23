@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import {
   getArrivalBookingsThunk,
   getDepartureBookingsThunk,
   getPeriodBookingsThunk,
   getCreatedBookingsThunk,
   getRecentGuestsThunk,
-} from "./dashboardSlice";
-import { getPastDay, getToday } from "../../utils/datesHelper";
+} from "../dashboardSlice";
+import { getPastDay, getToday } from "../../../utils/datesHelper";
 
 function useBookingsAfterDate(hospitalityType: string) {
   const dispatch = useAppDispatch();

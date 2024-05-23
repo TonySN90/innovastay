@@ -1,10 +1,10 @@
 import { useSearchParams } from "react-router-dom";
-import { LoadingTypes } from "../../types/GlobalTypes";
-import { getPastDay, getToday } from "../../utils/datesHelper";
-import useCabins from "../cabins/useCabins";
+import { LoadingTypes } from "../../../types/GlobalTypes";
+import { getPastDay, getToday } from "../../../utils/datesHelper";
+import useCabins from "../../cabins/hooks/useCabins";
 import useBookingsAfterDate from "./useBookingsAfterDate";
 import moment from "moment";
-import { ITodayCardBookingTypes } from "../../types/DashboardTypes";
+import { ITodayCardBookingTypes } from "../../../types/DashboardTypes";
 
 function useStats() {
   const [searchParams] = useSearchParams();

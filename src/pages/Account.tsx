@@ -1,7 +1,7 @@
 import Heading from "../ui/Heading";
 import UpdateUserDataForm from "../features/authentication/UpdateUserDataForm";
 import UpdateUserPasswordForm from "../features/authentication/UpdateUserPasswordForm";
-import useUpdateUser from "../features/authentication/useUpdateUser";
+import useUpdateUser from "../features/authentication/hooks/useUpdateUser";
 
 function Account() {
   return (

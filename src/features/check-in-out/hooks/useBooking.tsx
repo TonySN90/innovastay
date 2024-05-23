@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { getBookingThunk } from "../bookings/bookingsSlice";
-import { IBookingStateTypes } from "../../types/BookingTypes";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { getBookingThunk } from "../../bookings/bookingsSlice";
+import { IBookingStateTypes } from "../../../types/BookingTypes";
 
 function useBooking(bookingId: number) {
   const dispatch = useAppDispatch();

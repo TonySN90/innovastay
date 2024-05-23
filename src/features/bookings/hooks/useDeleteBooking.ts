@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { IBookingStateTypes } from "../../types/BookingTypes";
-import { LoadingTypes } from "../../types/GlobalTypes";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { IBookingStateTypes } from "../../../types/BookingTypes";
+import { LoadingTypes } from "../../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
-import { deleteBookingThunk, resetDeletingStatus } from "./bookingsSlice";
+import { deleteBookingThunk, resetDeletingStatus } from "../bookingsSlice";
 import { useSearchParams } from "react-router-dom";
 
 function useDeleteBooking(onCloseModal: () => void) {

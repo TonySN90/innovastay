@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import Button from "../../ui/Button";
-import useLogin from "./useLogin";
+import useLogin from "./hooks/useLogin";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import MiniSpinner from "../../ui/MiniSpinner";
 

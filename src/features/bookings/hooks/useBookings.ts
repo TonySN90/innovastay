@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { IBookingStateTypes } from "../../types/BookingTypes";
-import { fetchBookings } from "./bookingsSlice";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { IBookingStateTypes } from "../../../types/BookingTypes";
+import { fetchBookings } from "../bookingsSlice";
 import { SchedulerData } from "@bitnoi.se/react-scheduler";
 import { useLocation, useSearchParams } from "react-router-dom";
 

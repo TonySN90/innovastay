@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GoInfo } from "react-icons/go";
-import useGuests from "../guests/useGuests";
+import useGuests from "../guests/hooks/useGuests";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import Modal from "../../ui/Modal";
 import GuestInfoBox from "../guests/GuestInfoBox";

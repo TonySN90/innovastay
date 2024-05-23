@@ -1,9 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import { FormValues } from "../../types/FormTypes";
-import useCreateCabin from "./useCreateCabin";
+import useCreateCabin from "./hooks/useCreateCabin";
 import { LoadingTypes } from "../../types/GlobalTypes";
-import useUpdateCabin from "./useUpdateCabin";
+import useUpdateCabin from "./hooks/useUpdateCabin";
 import FormRow from "../../ui/FormRow";
 
 function CreateCabinForm({

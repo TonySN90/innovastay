@@ -56,7 +56,7 @@ function Window({ children, name }: IModalWindowPropsTypes) {
       <ModalContent>
         <div className="absolute right-4 top-4">
           <Button
-            variation="inverted"
+            variation="standard"
             size="sm"
             extras="rounded-full"
             onClick={close ? close : () => null}

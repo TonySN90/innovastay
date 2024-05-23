@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { FormValues } from "../../types/FormTypes";
-import { LoadingTypes } from "../../types/GlobalTypes";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { FormValues } from "../../../types/FormTypes";
+import { LoadingTypes } from "../../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
-import { IGuestStatesTypes } from "../../types/GuestTypes";
-import { editGuest, resetUpdatingStatus } from "./guestsSlice";
+import { IGuestStatesTypes } from "../../../types/GuestTypes";
+import { editGuest, resetUpdatingStatus } from "../guestsSlice";
 import { useSearchParams } from "react-router-dom";
 
 function useUpdateGuest(reset: () => void, onCloseModal: () => void) {

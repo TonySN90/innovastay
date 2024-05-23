@@ -2,7 +2,7 @@ import Table from "../../ui/Table";
 import CabinsRow from "./CabinsRow";
 import { ICabinTypes } from "../../types/cabinTypes";
 import useWindowWidth from "../../hooks/UseWindowWidth";
-import useCabins from "./useCabins";
+import useCabins from "./hooks/useCabins";
 import Empty from "../../ui/Empty";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import Spinner from "../../ui/Spinner";

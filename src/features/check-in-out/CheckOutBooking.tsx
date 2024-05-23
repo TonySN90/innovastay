@@ -2,13 +2,13 @@ import { useNavigate, useParams } from "react-router";
 import { MdFamilyRestroom, MdOutlineHotel } from "react-icons/md";
 import { GiMeal } from "react-icons/gi";
 import Button from "../../ui/Button";
-import useBooking from "./useBooking";
+import useBooking from "./hooks/useBooking";
 import Spinner from "../../ui/Spinner";
 import { formatDate, formatTime } from "../../utils/datesHelper";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import Empty from "../../ui/Empty";
 import { BookingStatusTypes, IBookingTypes } from "../../types/BookingTypes";
-import useCheckInOut from "./useCheckInOut";
+import useCheckInOut from "./hooks/useCheckInOut";
 import Heading from "../../ui/Heading";
 
 function CheckOutBooking() {

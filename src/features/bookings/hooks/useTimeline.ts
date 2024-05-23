@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import useBookings from "./useBookings";
-import useCabins from "../cabins/useCabins";
+import useCabins from "../../cabins/hooks/useCabins";
 import { useSearchParams } from "react-router-dom";
-import { LoadingTypes } from "../../types/GlobalTypes";
-import { IMonth, ITimelineTypes } from "../../types/TimelineTypes";
+import { LoadingTypes } from "../../../types/GlobalTypes";
+import { IMonth, ITimelineTypes } from "../../../types/TimelineTypes";
+import useBookings from "./useBookings";
 
 function useTimeline(): ITimelineTypes {
   const today = new Date();

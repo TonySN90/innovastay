@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import useWindowWidth from "../../hooks/UseWindowWidth";
 import TotalsBox from "./TotalsBox";
 import { formatDate, formatTime } from "../../utils/datesHelper";
-import useBooking from "../check-in-out/useBooking";
+import useBooking from "../check-in-out/hooks/useBooking";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import Spinner from "../../ui/Spinner";
 import Empty from "../../ui/Empty";

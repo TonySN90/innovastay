@@ -3,11 +3,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FormValues } from "../../types/FormTypes";
 import Button from "../../ui/Button";
 import FormRow from "../../ui/FormRow";
-import useSettings from "./useSettings";
+import useSettings from "./hooks/useSettings";
 import Spinner from "../../ui/Spinner";
 import { LoadingTypes } from "../../types/GlobalTypes";
 import Empty from "../../ui/Empty";
-import useUpdateSettings from "./useUpdateSettings";
+import useUpdateSettings from "./hooks/useUpdateSettings";
 
 function UpdateSettingsForm() {
   const { settings, loadingStatus } = useSettings();

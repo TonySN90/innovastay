@@ -1,6 +1,6 @@
 import { HiArrowRightOnRectangle } from "react-icons/hi2";
 import ButtonIcon from "../../ui/ButtonIcon";
-import { useLogout } from "./useLogout";
+import { useLogout } from "./hooks/useLogout";
 import MiniSpinner from "../../ui/MiniSpinner";
 
 export default function Logout() {

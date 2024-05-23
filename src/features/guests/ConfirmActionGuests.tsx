@@ -1,7 +1,7 @@
 import { IGuestTypes } from "../../types/GuestTypes";
 import Button from "../../ui/Button";
-import useDeleteGuest from "./useDeleteGuest";
-import useDuplicateGuest from "./useDuplicateGuest";
+import useDeleteGuest from "./hooks/useDeleteGuest";
+import useDuplicateGuest from "./hooks/useDuplicateGuest";
 
 function ConfirmAction({
   guest,

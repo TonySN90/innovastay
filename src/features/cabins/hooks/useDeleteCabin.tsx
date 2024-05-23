@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { ICabinStatesTypes } from "../../types/cabinTypes";
-import { deleteCabinThunk, resetDeletingStatus } from "./cabinsSlice";
-import { LoadingTypes } from "../../types/GlobalTypes";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { ICabinStatesTypes } from "../../../types/cabinTypes";
+import { deleteCabinThunk, resetDeletingStatus } from "../cabinsSlice";
+import { LoadingTypes } from "../../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";

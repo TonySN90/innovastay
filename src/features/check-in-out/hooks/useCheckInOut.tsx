@@ -1,13 +1,13 @@
-import { useAppDispatch, useAppSelector } from "../../store";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import {
   resetUpdatingStatus,
   updateBookingThunk,
-} from "../bookings/bookingsSlice";
+} from "../../bookings/bookingsSlice";
 import toast from "react-hot-toast";
-import { FormValues } from "../../types/FormTypes";
+import { FormValues } from "../../../types/FormTypes";
 import { useEffect } from "react";
-import { LoadingTypes } from "../../types/GlobalTypes";
-import { IBookingStateTypes } from "../../types/BookingTypes";
+import { LoadingTypes } from "../../../types/GlobalTypes";
+import { IBookingStateTypes } from "../../../types/BookingTypes";
 import { useNavigate } from "react-router";
 
 function useCheckInOut(checkedIn: boolean) {

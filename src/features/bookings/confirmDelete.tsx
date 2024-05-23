@@ -1,6 +1,6 @@
 import { IBookingTypes } from "../../types/BookingTypes";
 import Button from "../../ui/Button";
-import useDeleteBooking from "./useDeleteBooking";
+import useDeleteBooking from "./hooks/useDeleteBooking";
 
 function ConfirmDelete({
   booking,

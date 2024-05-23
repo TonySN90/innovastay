@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { LoadingTypes } from "../../types/GlobalTypes";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { LoadingTypes } from "../../../types/GlobalTypes";
 
 import { toast } from "react-hot-toast";
-import { IGuestStatesTypes } from "../../types/GuestTypes";
-import { deleteGuestThunk, resetDeletingStatus } from "./guestsSlice";
+import { IGuestStatesTypes } from "../../../types/GuestTypes";
+import { deleteGuestThunk, resetDeletingStatus } from "../guestsSlice";
 import { useSearchParams } from "react-router-dom";
 
 function useDeleteGuest(onCloseModal: () => void) {

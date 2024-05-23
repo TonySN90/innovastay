@@ -5,7 +5,6 @@ import {
   IoIosArrowDroprightCircle,
 } from "react-icons/io";
 import { BsClockFill } from "react-icons/bs";
-import useTimeline from "./useTimeline";
 import { createContext, useContext, ReactNode, useState, useRef } from "react";
 import {
   ITimelineContextTypes,
@@ -21,6 +20,7 @@ import CreateBookingForm from "./CreateBookingForm";
 import { PiInfoBold } from "react-icons/pi";
 import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import useTimeline from "./hooks/useTimeline";
 
 const tooltipStyles = {
   display: "flex",

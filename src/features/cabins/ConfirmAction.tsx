@@ -1,5 +1,5 @@
-import useDeleteCabin from "./useDeleteCabin";
-import useDuplicateCabin from "./useDuplicateCabin";
+import useDeleteCabin from "./hooks/useDeleteCabin";
+import useDuplicateCabin from "./hooks/useDuplicateCabin";
 import { ICabinTypes } from "../../types/cabinTypes";
 import Button from "../../ui/Button";
 

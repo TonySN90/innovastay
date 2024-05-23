@@ -7,11 +7,9 @@ import { FormValues, IFormRawValues } from "../../types/FormTypes";
 import { LoadingTypes } from "../../types/GlobalTypes";
 
 import SearchBar from "../bookings/SearchBar";
-import useCabins from "../cabins/useCabins";
-import useCreateBooking from "./useCreateBooking";
+import useCabins from "../cabins/hooks/useCabins";
 import DatePicker from "react-datepicker";
 import { de } from "date-fns/locale/de";
-import useUpdateBooking from "./useUpdateBooking";
 import TotalsBox from "./TotalsBox";
 import {
   getCabinData,
@@ -31,7 +29,9 @@ import FormRow from "../../ui/FormRow";
 import { Link } from "react-router-dom";
 import { IBookingTypes } from "../../types/BookingTypes";
 import { IGuestTypes } from "../../types/GuestTypes";
-import useSettings from "../settings/useSettings";
+import useSettings from "../settings/hooks/useSettings";
+import useUpdateBooking from "./hooks/useUpdateBooking";
+import useCreateBooking from "./hooks/useCreateBooking";
 
 interface IBookingFormProps {
   onCloseModal?: () => void;
@@ -131,7 +131,7 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
   return (
     <>
       <form
-        className="p-3 md:p-5 transition-all"
+        className="p-1 md:p-5 transition-all"
         onSubmit={handleSubmit(onSubmit)}
       >
         <h2 className="font-semibold text-lg mb-3">
@@ -149,7 +149,7 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                className="select-container select-form"
+                className="select-container select-form md:w-[300px]"
                 classNamePrefix="react-select"
                 onChange={onChange}
                 value={value}
@@ -259,7 +259,7 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                className="select-container select-form"
+                className="select-container select-form md:w-[300px]"
                 classNamePrefix="react-select"
                 onChange={onChange}
                 value={value}
@@ -284,7 +284,7 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                className="select-container select-form"
+                className="select-container select-form md:w-[300px]"
                 classNamePrefix="react-select"
                 onChange={onChange}
                 value={value}
@@ -309,7 +309,7 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
             rules={{ required: "Eintrag erforderlich" }}
             render={({ field: { onChange, value } }) => (
               <Select
-                className="select-container select-form"
+                className="select-container select-form md:w-[300px]"
                 classNamePrefix="react-select"
                 onChange={onChange}
                 value={value}
@@ -346,9 +346,9 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
           />
         )}
 
-        <div className="w-[full] flex md:justify-between mt-4">
+        <div className="w-[full] flex flex-col md:flex-row md:justify-between mt-4">
           <Link
-            className="text-sm font-semibold text-indigo-500 hover:text-indigo-300 transition-all flex items-center"
+            className="pb-4 text-sm font-semibold text-indigo-500 hover:text-indigo-300 transition-all flex items-center"
             to="/guests"
           >
             Neuen Gast anlegen
@@ -361,7 +361,7 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
               }}
               variation="inverted"
               size="md"
-              extras="mr-2 rounded-lg"
+              extras="mr-2 rounded-lg w-[48%]"
               content="Zurücksetzen"
               disabled={isWorking}
             />
@@ -370,7 +370,7 @@ const CreateBookingForm: React.FC<IBookingFormProps> = function ({
               onClick={() => null}
               variation="standard"
               size="md"
-              extras="rounded-lg"
+              extras="rounded-lg w-[48%]"
               content={isUpdatingSession ? "Aktualisieren" : "Hinzufügen"}
               disabled={isWorking}
             />

@@ -1,9 +1,9 @@
 import toast from "react-hot-toast";
-import { useAppDispatch, useAppSelector } from "../../store";
-import { logoutThunk, resetUserStates } from "./authSlice";
+import { useAppDispatch, useAppSelector } from "../../../store";
+import { logoutThunk, resetUserStates } from "../authSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { LoadingTypes } from "../../types/GlobalTypes";
+import { LoadingTypes } from "../../../types/GlobalTypes";
 
 export function useLogout() {
   const { logoutLoadingStatus, error } = useAppSelector((state) => state.auth);
