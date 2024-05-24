@@ -32,7 +32,7 @@ Innova Stay is a comprehensive platform for managing short-term rentals with the
 
 - **DarkMode/LightMode**
 
-- **Responsive Design':** The tool is designed to be responsive for small devices. However, currently, the booking calendar is not available in responsive design.
+- **Responsive Design:** The tool is designed to be responsive for small devices. However, currently, the booking calendar is not available in responsive design.
 
 ## Beschreibung
 
