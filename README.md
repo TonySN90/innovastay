@@ -22,7 +22,7 @@ Innova Stay is a comprehensive platform for managing short-term rentals with the
 
 - **Dashboard:** Provides direct overview and easy access to current bookings for quick check-ins/outs. It also offers analytical insights into created bookings, revenues, occupancy rates, and check-ins over a 7, 30, or 90-day period.
 
-**Booking-Calendar:** Graphically displays all past, current, and future bookings over a selected 3-month period. Each booking provides direct access to the following functions with a click: check-in, check-out, details view, and deletion.
+- **Booking-Calendar:** Graphically displays all past, current, and future bookings over a selected 3-month period. Each booking provides direct access to the following functions with a click: check-in, check-out, details view, and deletion.
 
 - **Management of Bookings, Guests, and Properties:** All entries are displayed in a table format and can be sorted, filtered, and searched as needed. Each entry offers functionalities for viewing details, editing, deleting, or duplicating. New bookings can be conveniently created via the calendar or in the booking overview.
 
@@ -31,6 +31,8 @@ Innova Stay is a comprehensive platform for managing short-term rentals with the
 - **Hotel-Settings:** Allows for individual settings for the hotel. Currently, minimum stays and breakfast prices can be adjusted. More options will follow.
 
 - **DarkMode/LightMode**
+
+- **Responsive Design':** The tool is designed to be responsive for small devices. However, currently, the booking calendar is not available in responsive design.
 
 ## Beschreibung
 
@@ -47,6 +49,8 @@ Innova Stay ist eine umfassende Plattform zur Verwaltung von Kurzzeitvermietunge
 - **Hoteleinstellungen:** Ermöglicht individuelle Einstellungen für das Hotel. Derzeit können Mindestübernachtungen und Frühstückspreise angepasst werden. Weitere Optionen folgen.
 
 - **DarkMode/LightMode**
+
+- **Responsives Design** Das Tool ist auch für die Nutzung auf kleinen Endgeräten optimiert. Jedoch steht der Buchungskalender aktuell nicht im responsiven Design zur Verfügung.
 
 ## License
 
